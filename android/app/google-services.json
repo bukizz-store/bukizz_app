@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "87504596017",
+    "project_id": "bukizz1",
+    "storage_bucket": "bukizz1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87504596017:android:c678028905b45d1af1f910",
+        "android_client_info": {
+          "package_name": "com.example.bukizz_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmx20-mEPRqrJqA-CeTB55DHGQgW0Eswo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
