@@ -1,4 +1,5 @@
 
+import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/pages/student_teacher_login.3.dart';
 import 'package:flutter/material.dart';
 
@@ -26,12 +27,9 @@ class HomeScreen extends StatelessWidget {
             const Center(
               child: Text("Ecommerce Content"),
             ),
-
-
-
             // Content for My School tab
             Center(
-              child: Column(
+              child: AppConstants.isLogin ? Text(AppConstants.userData.email) :Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(

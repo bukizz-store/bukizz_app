@@ -1,4 +1,10 @@
+import 'package:bukizz_1/auth/user_details.dart';
+import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/pages/Home_Screen2.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentLogin extends StatefulWidget {
   const StudentLogin({super.key});
@@ -12,15 +18,49 @@ class _StudentLoginState extends State<StudentLogin> {
   final TextEditingController _uniqueIdController = TextEditingController();
   final TextEditingController _schoolCodeController = TextEditingController();
   @override
+
+  void schoolLogin(String uniqueId , String uniquePasswordId , String schoolCode) async
+  {
+
+    try{
+      QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+          .collection('userDetails')
+          .where('email', isEqualTo: AppConstants.userData.email)
+          .get();
+      print("Shivam");
+
+      var tempData = querySnapshot.docs.first.data();
+
+      if(tempData['uniqueId'] == uniqueId)
+        {
+          if(tempData['uniqueIDPassword'] == uniquePasswordId)
+            {
+              if(tempData['schoolCode'] == schoolCode)
+                {
+                  AppConstants.isLogin = true;
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setBool('isLogin', true);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (builder) => HomeScreen()), (route) => false);
+                }
+            }
+        }else{
+        const snackBar = SnackBar(content: Text("This user does not exist !!"));
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+    catch(e)
+    {
+
+    }
+  }
+
   Widget build(BuildContext context) {
     return  Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-
-
-
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
@@ -93,6 +133,7 @@ class _StudentLoginState extends State<StudentLogin> {
                 ElevatedButton(
                   onPressed: (){
                      // school login using unique id
+                    schoolLogin(_uniqueIdController.text , _passwordTextController.text , _schoolCodeController.text);
                   },
                   child: Text("Sign In With School"),
                   style: ElevatedButton.styleFrom(

@@ -1,11 +1,32 @@
+import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/pages/Home_Screen2.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'auth/firebase_auth.dart';
+import 'auth/user_details.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
+  UserDetails? savedUser = await UserDetails.loadFromSharedPreferences();
+  AppConstants.userData = savedUser!;
 
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+      child: MaterialApp(
+        theme: ThemeData.dark().copyWith(
+          primaryColor: const Color(0xFF0A0E21),
+          scaffoldBackgroundColor: const Color(0xFF0A0E21),
+        ),
+        home: savedUser != null ? HomeScreen() : SignInScreen(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,9 +38,11 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF0A0E21),
         scaffoldBackgroundColor: const Color(0xFF0A0E21),
       ),
-
       // Use BottomNavigationScreen as the home screen
-      home: SignInScreen(),
+      home: ChangeNotifierProvider(
+        create: (context) => AuthProvider(),
+        child: SignInScreen(),
+      )
     );
   }
 }
