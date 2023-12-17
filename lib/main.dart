@@ -1,12 +1,11 @@
+import 'package:bukizz_1/auth/firebase_auth.dart';
+import 'package:bukizz_1/auth/user_details.dart';
 import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/pages/Home_Screen2.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'auth/firebase_auth.dart';
-import 'auth/user_details.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +30,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   @override
-
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
       home: ChangeNotifierProvider(
         create: (context) => AuthProvider(),
         child: SignInScreen(),
-      )
+      ),
     );
   }
 }
