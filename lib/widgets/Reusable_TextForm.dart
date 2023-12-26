@@ -18,9 +18,9 @@ TextField ReusableTextField(String text, IconData icon, bool isPasswordType,
       labelStyle: TextStyle(color: Colors.black), // Set the label text color to black
       filled: true,
       floatingLabelBehavior: FloatingLabelBehavior.never,
-      fillColor: Colors.white.withOpacity(0.3),
+      fillColor:  Color(0xFFF9F9F9),
       border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
     ),
     keyboardType: isPasswordType
