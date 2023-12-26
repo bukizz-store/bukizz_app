@@ -1,4 +1,4 @@
-package com.example.bukizz_1
+package com.example.bukizz_frontend
 
 import io.flutter.embedding.android.FlutterActivity
 
