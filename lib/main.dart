@@ -2,6 +2,8 @@
 
 import 'package:bukizz_frontend/screens/Signin_Screen.dart';
 import 'package:bukizz_frontend/screens/Signup_Screen.dart';
+import 'package:bukizz_frontend/screens/Tab_Screen.dart';
+import 'package:bukizz_frontend/screens/ecommerce_screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
 
       // Use BottomNavigationScreen as the home screen
-      home:SignUp(),
+      home:Cart(),
     );
   }
 }

@@ -4,12 +4,14 @@ class ReusableContainer extends StatelessWidget {
   final double width;
   final double height;
   final Function() child;
+  final Color? borderColor;
 
   ReusableContainer({
     Key? key,
     required this.width,
     required this.child,
     required this.height,
+    this.borderColor,
   }) : super(key: key);
 
   @override
@@ -17,7 +19,12 @@ class ReusableContainer extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: child(),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: borderColor ?? Colors.transparent),
+        ),
+        child: child(),
+      ),
     );
   }
 }
