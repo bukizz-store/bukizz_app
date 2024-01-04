@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/font_family.dart';
+import '../../constants/font_family.dart';
 
 class ReusableTextField extends StatefulWidget {
   final String text;

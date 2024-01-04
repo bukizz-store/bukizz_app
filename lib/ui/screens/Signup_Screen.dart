@@ -5,7 +5,7 @@ import '../../auth/firebase_auth.dart';
 import '../../constants/font_family.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/buttons/Reusable_Button.dart';
-import '../../widgets/Reusable_TextForm.dart';
+import '../../widgets/text and textforms/Reusable_TextForm.dart';
 import '../../widgets/reusable_text.dart';
 import '../../widgets/reusable_container.dart';
 import '../../widgets/signup_text_widget.dart';

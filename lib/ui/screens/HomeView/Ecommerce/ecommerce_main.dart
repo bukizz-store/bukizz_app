@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../constants/font_family.dart';
 import '../../../../utils/dimensions.dart';
-import '../../../../widgets/Reusable_Card.dart';
-import '../../../../widgets/Reusable_ColouredBox.dart';
-import '../../../../widgets/Reusable_SliderImage.dart';
-import '../../../../widgets/Reusable_text.dart';
+import '../../../../widgets/images/Reusable_Card.dart';
+import '../../../../widgets/containers/Reusable_ColouredBox.dart';
+import '../../../../widgets/images/Reusable_SliderImage.dart';
+import '../../../../widgets/text and textforms/Reusable_text.dart';
 
 class EcommerceMain extends StatefulWidget {
   const EcommerceMain({Key? key}) : super(key: key);
