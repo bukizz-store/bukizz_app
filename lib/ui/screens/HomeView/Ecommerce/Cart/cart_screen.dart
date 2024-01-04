@@ -1,3 +1,4 @@
+import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../constants/font_family.dart';
@@ -7,6 +8,7 @@ import '../../../../../widgets/signup_text_widget.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 
 class Cart extends StatefulWidget {
+  static const String route = '/cart';
   const Cart({super.key});
 
   @override
@@ -14,6 +16,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
@@ -24,7 +27,7 @@ class _CartState extends State<Cart> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             //handle back button accordingly
-            Navigator.of(context).pop();
+            Navigator.pushNamed(context, HomeScreen.route);
           },
         ),
       ),

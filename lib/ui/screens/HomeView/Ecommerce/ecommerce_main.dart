@@ -8,6 +8,7 @@ import '../../../../widgets/images/Reusable_Card.dart';
 import '../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../widgets/images/Reusable_SliderImage.dart';
 import '../../../../widgets/text and textforms/Reusable_text.dart';
+import 'Cart/cart_screen.dart';
 
 class EcommerceMain extends StatefulWidget {
   const EcommerceMain({Key? key}) : super(key: key);
@@ -272,6 +273,13 @@ class _EcommerceMainState extends State<EcommerceMain> {
     setState(() {
       _selectedIndex = index;
        print(index);
+      if (_selectedIndex == 1) {
+        // If index is 1, navigate to the cart screen
+        Navigator.pushNamed(context, Cart.route);
+      }
+      else{
+        //handle other indexes
+      }
       // Handle navigation to the corresponding screen based on the index
       // You can use Navigator or other navigation methods here.
     });
