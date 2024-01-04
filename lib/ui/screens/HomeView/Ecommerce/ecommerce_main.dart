@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../constants/font_family.dart';
 import '../../../../utils/dimensions.dart';
+import '../../../../widgets/Reusable_text.dart';
 
 class EcommerceMain extends StatefulWidget {
   const EcommerceMain({Key? key}) : super(key: key);
