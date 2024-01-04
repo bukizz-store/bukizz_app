@@ -16,7 +16,6 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
@@ -138,7 +137,7 @@ class _CartState extends State<Cart> {
                                 borderColor: Colors.black,
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Icon(Icons.remove),
                                     ReusableText(
@@ -217,13 +216,13 @@ class _CartState extends State<Cart> {
                                       borderColor: Colors.transparent,
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           //image container
                                           Image(
                                               image: NetworkImage(
-                                                "https://images.unsplash.com/photo-1624555130581-1d9cca783bc0?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                              )),
+                                            "https://images.unsplash.com/photo-1624555130581-1d9cca783bc0?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                                          )),
 
                                           //book roll text hardcoded
                                           Padding(
@@ -246,8 +245,8 @@ class _CartState extends State<Cart> {
                                                 left: dimensions.width24 / 2),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 ReusableText(
                                                   text: '₹ 80',
@@ -260,14 +259,14 @@ class _CartState extends State<Cart> {
                                                 //plus minus button hardcoded
                                                 ReusableColoredBox(
                                                   width:
-                                                  dimensions.width80 / 1.25,
+                                                      dimensions.width80 / 1.25,
                                                   height: dimensions.height24,
                                                   backgroundColor: Colors.white,
                                                   borderColor: Colors.black,
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       Icon(Icons.remove),
                                                       ReusableText(
@@ -312,7 +311,8 @@ class _CartState extends State<Cart> {
                               SizedBox(
                                 width: 8,
                               ),
-                              signUpOption('Delivery in  ', '3-4 Days',context,AutofillHints.addressCity),
+                              signUpOption('Delivery in  ', '3-4 Days', context,
+                                  AutofillHints.addressCity),
                             ],
                           ),
 
@@ -350,7 +350,8 @@ class _CartState extends State<Cart> {
                                 children: [
                                   Row(
                                     children: [
-                                      signUpOption('Delivery at ', "Home",context,AutofillHints.addressCity),
+                                      signUpOption('Delivery at ', "Home",
+                                          context, AutofillHints.addressCity),
                                       SizedBox(
                                         width: dimensions.width80 * 1.4,
                                       ),
@@ -364,7 +365,7 @@ class _CartState extends State<Cart> {
                                   //todo add overflow for address overflow prevention
                                   ReusableText(
                                     text:
-                                    'Flat no. 1884, sector 8, 2nd floor, Huda Sector 8',
+                                        'Flat no. 1884, sector 8, 2nd floor, Huda Sector 8',
                                     fontSize: 12,
                                     height: 0.11,
                                     fontWeight: FontWeight.w400,
@@ -405,7 +406,8 @@ class _CartState extends State<Cart> {
                               SizedBox(
                                 width: 8,
                               ),
-                              signUpOption('Aman Saini  ', '+91-7082524889',context,AutofillHints.addressCity),
+                              signUpOption('Aman Saini  ', '+91-7082524889',
+                                  context, AutofillHints.addressCity),
                             ],
                           ),
 
@@ -443,7 +445,8 @@ class _CartState extends State<Cart> {
                                 children: [
                                   Row(
                                     children: [
-                                      signUpOption('Total Bill ', "Rs.1555",context,AutofillHints.addressCity),
+                                      signUpOption('Total Bill ', "Rs.1555",
+                                          context, AutofillHints.addressCity),
                                       SizedBox(
                                         width: dimensions.width80 * 1.4,
                                       ),
@@ -475,8 +478,6 @@ class _CartState extends State<Cart> {
           ),
         ),
       ),
-
-
       bottomNavigationBar: BottomAppBar(
           elevation: 0.0,
           child: Container(
@@ -484,7 +485,7 @@ class _CartState extends State<Cart> {
             height: 88,
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -498,12 +499,25 @@ class _CartState extends State<Cart> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Image(image:AssetImage('images/gpay.png')),
-                            ReusableText(text: 'PAY USING', fontSize: 10, height: 0.15,fontFamily: FontFamily.roboto,fontWeight: FontWeight.w500,color: Color(0x9903045E),),
+                            Image(image: AssetImage('images/gpay.png')),
+                            ReusableText(
+                              text: 'PAY USING',
+                              fontSize: 10,
+                              height: 0.15,
+                              fontFamily: FontFamily.roboto,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0x9903045E),
+                            ),
                             Icon(Icons.arrow_drop_up),
                           ],
                         ),
-                        ReusableText(text: '      Google Pay UPI', fontSize: 10, height: 0.15,fontWeight: FontWeight.w500,color: Color(0x9903045E),)
+                        ReusableText(
+                          text: '      Google Pay UPI',
+                          fontSize: 10,
+                          height: 0.15,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0x9903045E),
+                        )
                       ],
                     ),
                   ),
@@ -512,18 +526,26 @@ class _CartState extends State<Cart> {
                     width: 216,
                     decoration: ShapeDecoration(
                       color: Color(0xFF03045E),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
                     ),
                     child: Padding(
-                      padding:  EdgeInsets.symmetric(vertical:dimensions.height16,horizontal: dimensions.width16),
+                      padding: EdgeInsets.symmetric(
+                          vertical: dimensions.height16,
+                          horizontal: dimensions.width16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Column(
-
                             children: [
-                              ReusableText(text: '₹1349', fontSize: 14, height: 0.11,fontFamily: FontFamily.roboto,fontWeight:FontWeight.w500,color: Color(0xFFF6FDFE),),
+                              ReusableText(
+                                text: '₹1349',
+                                fontSize: 14,
+                                height: 0.11,
+                                fontFamily: FontFamily.roboto,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFFF6FDFE),
+                              ),
                               // SizedBox(height: 4,),
                               // ReusableText(text: 'TOTAL', fontSize: 12, height: 0.12,fontFamily: FontFamily.roboto,fontWeight:FontWeight.w500,color: Color(0xFFF6FDFE),)
                             ],
@@ -532,7 +554,13 @@ class _CartState extends State<Cart> {
                             children: [
                               Row(
                                 children: [
-                                  ReusableText(text: 'Place Order', fontSize: 16, height: 0.09,fontWeight: FontWeight.w700,color: Color(0xFFF6FDFE),),
+                                  ReusableText(
+                                    text: 'Place Order',
+                                    fontSize: 16,
+                                    height: 0.09,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFFF6FDFE),
+                                  ),
                                   // Icon(Icons.arrow_right),
                                 ],
                               )
@@ -545,8 +573,7 @@ class _CartState extends State<Cart> {
                 ],
               ),
             ),
-          )
-      ),
+          )),
     );
   }
 }
