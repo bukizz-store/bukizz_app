@@ -1,48 +1,53 @@
 import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/pages/Home_Screen2.dart';
+import 'package:bukizz_1/data/providers/header_switch.dart';
+import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
+import 'package:bukizz_1/ui/screens/Signin_Screen.dart';
+import 'package:bukizz_1/utils/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'auth/firebase_auth.dart';
-import 'auth/user_details.dart';
+import 'data/models/user_details.dart';
+import 'constants/strings.dart';
+import 'constants/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  UserDetails? savedUser = await UserDetails.loadFromSharedPreferences();
+  MainUserDetails? savedUser = await MainUserDetails.loadFromSharedPreferences();
   AppConstants.userData = savedUser!;
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
-      child: MaterialApp(
-        theme: ThemeData.dark().copyWith(
-          primaryColor: const Color(0xFF0A0E21),
-          scaffoldBackgroundColor: const Color(0xFF0A0E21),
-        ),
-        home: savedUser != null ? HomeScreen() : SignInScreen(),
-      ),
-    ),
+    MyApp(savedUser: savedUser),
   );
 }
 
-class MyApp extends StatelessWidget {
-  @override
+class MyApp extends StatefulWidget {
+  final savedUser;
+  const MyApp({super.key , required this.savedUser});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        primaryColor: const Color(0xFF0A0E21),
-        scaffoldBackgroundColor: const Color(0xFF0A0E21),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => HeaderSwitchProvider(),),
+        // ChangeNotifierProvider(create: (context) => UserDetails()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightThemeData,
+        title: AppString.appName,
+        initialRoute: widget.savedUser.uid != '' ? HomeScreen.route : SignIn.route,
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
-      // Use BottomNavigationScreen as the home screen
-      home: ChangeNotifierProvider(
-        create: (context) => AuthProvider(),
-        child: SignInScreen(),
-      )
     );
   }
 }
