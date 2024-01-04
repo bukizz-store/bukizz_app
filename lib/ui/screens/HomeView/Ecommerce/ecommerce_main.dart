@@ -271,6 +271,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+       print(index);
       // Handle navigation to the corresponding screen based on the index
       // You can use Navigator or other navigation methods here.
     });
