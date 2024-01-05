@@ -217,14 +217,16 @@ class _SignInState extends State<SignIn> {
                 ReusableElevatedButton(
                   width: dimensions.width327,
                   height: dimensions.height48,
-                  onPressed: () {},
+                  onPressed: () {
+                    authProvider.googleSignUp(context);
+                  },
                   buttonText: 'Sign in with Google',
                   buttonColor: Colors.white,
                   textColor: Color(0xFF121212),
                   fontSize: 14,
                   fontFamily: FontFamily.roboto.name,
                   fontWeight: FontWeight.w400,
-                  imagePath: 'images/google.png',
+                  imagePath: 'assets/google.png',
                 ),
                 SizedBox(
                   height: dimensions.height8,

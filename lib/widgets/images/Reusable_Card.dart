@@ -52,7 +52,7 @@ class ReusableCard extends StatelessWidget {
             Container(
               height: 128,
               decoration: BoxDecoration(
-                image: DecorationImage(image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                image: DecorationImage(image: AssetImage(imageUrl), fit: BoxFit.cover),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(8),
                   topRight: Radius.circular(8),
@@ -60,6 +60,7 @@ class ReusableCard extends StatelessWidget {
                 ),
               ),
             ),
+            // Image.asset(imageUrl),
             const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -84,14 +85,14 @@ class ReusableCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    'Class: $className - $subject',
-                    style: const TextStyle(
-                      color: Color(0xFF03045E),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                  // Text(
+                  //   'Class: $className - $subject',
+                  //   style: const TextStyle(
+                  //     color: Color(0xFF03045E),
+                  //     fontSize: 12,
+                  //     fontWeight: FontWeight.w400,
+                  //   ),
+                  // ),
                 ],
               ),
             ),

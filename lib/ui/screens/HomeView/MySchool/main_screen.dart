@@ -42,10 +42,12 @@ class _MySchoolMainState extends State<MySchoolMain> {
           ElevatedButton(
             onPressed: () {
               // Handle the teacher button click
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => StudentLogin()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => StudentLogin()),
+              authProvider.signOut(context);
+              Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
+              // );
             },
             child: Text("Teacher"),
           ),

@@ -1,8 +1,11 @@
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../constants/font_family.dart';
+import '../../../../data/providers/school_repository.dart';
 import '../../../../utils/dimensions.dart';
 import '../../../../widgets/images/Reusable_Card.dart';
 import '../../../../widgets/containers/Reusable_ColouredBox.dart';
@@ -28,6 +31,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
   @override
   void initState() {
     super.initState();
+    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    schoolData.schoolTemporaryData();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -45,11 +50,11 @@ class _EcommerceMainState extends State<EcommerceMain> {
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
+    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-
         child: SingleChildScrollView(
           child: Padding(
             padding:
@@ -65,8 +70,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                 // Slider
                 CarouselSlider(
                   items: const [
-                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'images/banner1.png'),
-                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'images/banner1.png'),
+                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png'),
+                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png'),
                   ],
                   options: CarouselOptions(
                     viewportFraction: 1,
@@ -160,7 +165,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   height: dimensions.height240,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 2,
+                    itemCount: schoolData.schoolData.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(right: dimensions.width24),
@@ -168,15 +173,16 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           width: 197,
                           height: 189,
                           //example url from web
-                          imageUrl: "https://images.unsplash.com/photo-1624555130581-1d9cca783bc0?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                          title: 'Class 2 - Science & Math Set',
-                          schoolName: 'School 2',
+                          imageUrl: schoolData.schoolData[index].banner,
+                          title: schoolData.schoolData[index].name,
+                          schoolName: schoolData.schoolData[index].name,
                           starCount: 5,
                           borderColor: Color(0xFFE8E8E8),
                           className: 'Class 2',
                           subject: 'Science & Math',
                           onTap: () {
-                            print('Card $index tapped!');
+                            schoolData.setSchoolName(schoolData.schoolData[index].name);
+                            Navigator.pushNamed(context, ProductScreen.route);
                           },
                         ),
                       );

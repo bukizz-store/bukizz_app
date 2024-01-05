@@ -5,7 +5,6 @@ class OrderModel {
   DateTime orderDate;
   double totalAmount;
   List<String> products;
-  int totalPrice;
   
 
   OrderModel({
@@ -14,6 +13,5 @@ class OrderModel {
     required this.orderDate,
     required this.totalAmount,
     required this.products,
-    required this.totalPrice,
   });
 }

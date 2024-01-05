@@ -1,5 +1,6 @@
 import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/providers/header_switch.dart';
+import 'package:bukizz_1/data/providers/school_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
 import 'package:bukizz_1/ui/screens/Signin_Screen.dart';
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => HeaderSwitchProvider(),),
+        ChangeNotifierProvider(create: (_) => SchoolDataProvider()),
         // ChangeNotifierProvider(create: (context) => UserDetails()),
       ],
       child: MaterialApp(
