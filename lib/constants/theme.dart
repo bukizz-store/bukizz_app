@@ -16,7 +16,7 @@ class AppTheme{
       ),
     ),
     colorScheme: const ColorScheme.light(
-      primary: Colors.white,
+      primary: AppColors.primaryColor,
       background: Colors.white,
     ),
     useMaterial3: true,

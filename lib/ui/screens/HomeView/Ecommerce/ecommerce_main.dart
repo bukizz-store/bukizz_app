@@ -70,8 +70,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                 // Slider
                 CarouselSlider(
                   items: const [
-                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png'),
-                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png'),
+                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png',fit: BoxFit.cover),
+                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png',fit: BoxFit.cover),
                   ],
                   options: CarouselOptions(
                     viewportFraction: 1,
@@ -151,7 +151,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             height: 0.10,
                           ),
                           const SizedBox(width: 12),
-                          Icon(Icons.close),
+                          Icon(
+                            Icons.cancel_outlined,
+                           size: 22,
+                          ),
                         ],
                       ),
                     ),
@@ -243,7 +246,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             height: 0.10,
                           ),
                           const SizedBox(width: 12),
-                          Icon(Icons.close),
+                          Icon(Icons.cancel_outlined),
                         ],
                       ),
                     ),

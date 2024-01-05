@@ -381,8 +381,7 @@ class _CartState extends State<Cart> {
                               SizedBox(
                                 width: 8,
                               ),
-                              signUpOption('Delivery in  ', '3-4 Days', context,
-                                  AutofillHints.addressCity),
+                              hyperText('Delivery in  ', '3-4 Days', () { })
                             ],
                           ),
 
@@ -420,8 +419,7 @@ class _CartState extends State<Cart> {
                                 children: [
                                   Row(
                                     children: [
-                                      signUpOption('Delivery at ', "Home",
-                                          context, AutofillHints.addressCity),
+                                      hyperText('Delivery at  ', 'Home', () { }),
                                       SizedBox(
                                         width: dimensions.width80 * 1.4,
                                       ),
@@ -476,8 +474,8 @@ class _CartState extends State<Cart> {
                               SizedBox(
                                 width: 8,
                               ),
-                              signUpOption('Aman Saini  ', '+91-7082524889',
-                                  context, AutofillHints.addressCity),
+                              hyperText('Aman Saini  ', '+91-7082524889', () { })
+
                             ],
                           ),
 
@@ -515,8 +513,8 @@ class _CartState extends State<Cart> {
                                 children: [
                                   Row(
                                     children: [
-                                      signUpOption('Total Bill ', "Rs.1555",
-                                          context, AutofillHints.addressCity),
+                                      hyperText('Total Bill ', "Rs.1555", () { }),
+
                                       SizedBox(
                                         width: dimensions.width80 * 1.4,
                                       ),
