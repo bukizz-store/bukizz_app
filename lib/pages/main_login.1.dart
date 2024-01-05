@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../auth/firebase_auth.dart';
-import 'Home_Screen2.dart';
+import '../ui/screens/HomeView/homeScreen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
