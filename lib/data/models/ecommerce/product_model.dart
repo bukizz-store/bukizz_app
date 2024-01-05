@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ProductModel {
   String productId;
   String name;
@@ -8,6 +10,7 @@ class ProductModel {
   String image;
   String classId;
   String board;
+  String salePrice;
 
   ProductModel({
     required this.productId,
@@ -19,6 +22,7 @@ class ProductModel {
     required this.image,
     required this.classId,
     required this.board,
+    required this.salePrice,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,6 +36,7 @@ class ProductModel {
       'image': image,
       'classId': classId,
       'board': board,
+      'salePrice': salePrice,
     };
   }
 
@@ -46,6 +51,9 @@ class ProductModel {
       image: map['image'] ?? '',
       classId: map['classId'] ?? '',
       board: map['board'] ?? '',
+      salePrice: map['salePrice'] ?? '',
     );
   }
+
+  String toJson() => json.encode(toMap());
 }

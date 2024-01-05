@@ -1,3 +1,4 @@
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
@@ -24,6 +25,10 @@ class RouteGenerator{
       case Cart.route:
         return MaterialPageRoute(
           builder: (_) => Cart(),
+        );
+      case ProductScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => ProductScreen(),
         );
       default:
         return _errorRoute();
