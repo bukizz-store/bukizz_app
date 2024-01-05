@@ -74,6 +74,8 @@ flutter:
   assets:
     - assets/
     - assets/school/
+    - assets/school/booksets/
+    - assets/cart/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

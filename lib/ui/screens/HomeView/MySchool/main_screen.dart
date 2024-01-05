@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../auth/firebase_auth.dart';
 import '../../../../constants/constants.dart';
 import '../../../../pages/student_teacher_login.3.dart';
-import '../../Signin_Screen.dart';
+import '../../Signup and SignIn/Signin_Screen.dart';
 
 class MySchoolMain extends StatefulWidget {
   const MySchoolMain({super.key});

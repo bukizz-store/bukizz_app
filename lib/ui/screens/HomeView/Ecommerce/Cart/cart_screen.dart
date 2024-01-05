@@ -1,6 +1,7 @@
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../constants/colors.dart';
 import '../../../../../constants/font_family.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
@@ -16,12 +17,39 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  // images for list tile
+  List<String> setImages = [
+    'assets/cart/book roll.png',
+    'assets/cart/color box.png',
+    // Add more image paths as needed
+  ];
+
+  //set text
+  List<String> setText = [
+    'Book Roll',
+    'Paint Box',
+  ];
+
+  //price will go accordingly
+  List<double> setPrices = [
+    80.0,
+    100.0,
+  ];
+
+  //cart quantities initialised with 0
+  List<int> setCartQuantities = [
+    0,
+    0,
+  ];
+
+
+  int cartQuantity=0;
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('CART')),
+        title: Text('CART'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -30,7 +58,7 @@ class _CartState extends State<Cart> {
           },
         ),
       ),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
@@ -49,7 +77,7 @@ class _CartState extends State<Cart> {
                   width: dimensions.width342,
                   height: dimensions.height86,
                   backgroundColor: Colors.white,
-                  borderColor: Color(0xFFE8E8E8),
+                  borderColor: AppColors.borderColor,
 
                   //two columns in a row
                   child: Padding(
@@ -76,7 +104,7 @@ class _CartState extends State<Cart> {
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xFF03045E),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 12,
                               ),
 
@@ -84,7 +112,7 @@ class _CartState extends State<Cart> {
                               Row(
                                 children: [
                                   Icon(Icons.school_outlined),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 3,
                                   ),
                                   ReusableText(
@@ -93,31 +121,37 @@ class _CartState extends State<Cart> {
                                     height: 0.11,
                                     fontFamily: FontFamily.roboto,
                                     fontWeight: FontWeight.w400,
-                                    color: Color(0xFF7A7A7A),
+                                    color: AppColors.schoolTextColor,
                                   ),
                                 ],
                               ),
 
-                              SizedBox(
+                              const SizedBox(
                                 height: 12,
                               ),
 
-                              //edit button and its icon hardcoded
-                              Row(
-                                children: [
-                                  ReusableText(
-                                    text: 'Edit',
-                                    fontSize: 12,
-                                    height: 0.11,
-                                    fontFamily: FontFamily.roboto,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xFF7A7A7A),
-                                  ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    size: 15,
-                                  ),
-                                ],
+                              //edit button and its icon
+                              GestureDetector(
+                                child: Row(
+                                  children: [
+                                    ReusableText(
+                                      text: 'Edit',
+                                      fontSize: 12,
+                                      height: 0.11,
+                                      fontFamily: FontFamily.roboto,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF7A7A7A),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      size: 12,
+                                    ),
+                                  ],
+                                ),
+
+                                onTap: (){
+                                  print('Edit button tapped');
+                                },
                               )
                             ],
                           ),
@@ -129,9 +163,10 @@ class _CartState extends State<Cart> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              //plus minus button hardcoded
+                              //plus minus button
+                              //functional
                               ReusableColoredBox(
-                                width: dimensions.width80,
+                                width: dimensions.width80/1.25,
                                 height: dimensions.height24,
                                 backgroundColor: Colors.white,
                                 borderColor: Colors.black,
@@ -139,10 +174,27 @@ class _CartState extends State<Cart> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Icon(Icons.remove),
+                                    GestureDetector(
+                                        child: Icon(Icons.remove),
+                                        onTap:(){
+                                          setState(() {
+                                            if(cartQuantity>0){
+                                              cartQuantity--;
+                                            }
+
+                                          });
+                                        } ,
+                                    ),
                                     ReusableText(
-                                        text: '0', fontSize: 12, height: 0.10),
-                                    Icon(Icons.add),
+                                        text: '$cartQuantity', fontSize: 12, height: 0.10),
+                                    GestureDetector(
+                                        child: Icon(Icons.add),
+                                        onTap: (){
+                                          setState(() {
+                                            cartQuantity++;
+                                          });
+                                        },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -172,6 +224,7 @@ class _CartState extends State<Cart> {
                 ),
 
                 //2nd box
+                //for book covers and pencil box
                 ReusableColoredBox(
                   width: dimensions.width342,
                   height: dimensions.height240,
@@ -219,10 +272,11 @@ class _CartState extends State<Cart> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           //image container
-                                          Image(
-                                              image: NetworkImage(
-                                            "https://images.unsplash.com/photo-1624555130581-1d9cca783bc0?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                          )),
+                                          Container(
+                                            width: dimensions.width169,
+                                            height: dimensions.height98,
+                                            child: Image(image: AssetImage(setImages[index]),),
+                                          ),
 
                                           //book roll text hardcoded
                                           Padding(
@@ -230,12 +284,12 @@ class _CartState extends State<Cart> {
                                                 top: dimensions.height8,
                                                 left: dimensions.width24 / 2),
                                             child: ReusableText(
-                                              text: 'Book Roll',
+                                              text: setText[index],
                                               fontSize: 12,
                                               height: 0.11,
                                               fontFamily: FontFamily.roboto,
                                               fontWeight: FontWeight.w600,
-                                              color: Color(0xFF03045E),
+                                               color:Color(0xFF03045E),
                                             ),
                                           ),
 
@@ -249,31 +303,47 @@ class _CartState extends State<Cart> {
                                                       .spaceBetween,
                                               children: [
                                                 ReusableText(
-                                                  text: '₹ 80',
+                                                  text: '₹ ${setPrices[index]}',
                                                   fontSize: 12,
                                                   height: 0.11,
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: FontFamily.roboto,
                                                   color: Color(0xFF03045E),
                                                 ),
-                                                //plus minus button hardcoded
+
+                                                //plus minus button functional
                                                 ReusableColoredBox(
-                                                  width:
-                                                      dimensions.width80 / 1.25,
+                                                  width: dimensions.width80/1.25,
                                                   height: dimensions.height24,
                                                   backgroundColor: Colors.white,
                                                   borderColor: Colors.black,
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      Icon(Icons.remove),
+                                                      GestureDetector(
+                                                        child: Icon(Icons.remove),
+                                                        onTap:(){
+                                                          setState(() {
+                                                            if(cartQuantity>0){
+                                                              if (setCartQuantities[index] > 0) {
+                                                                setCartQuantities[index]--;
+                                                              }
+                                                            }
+
+                                                          });
+                                                        } ,
+                                                      ),
                                                       ReusableText(
-                                                          text: '0',
-                                                          fontSize: 12,
-                                                          height: 0.10),
-                                                      Icon(Icons.add),
+                                                          text: '${setCartQuantities[index]}', fontSize: 12, height: 0.10),
+                                                      GestureDetector(
+                                                        child: Icon(Icons.add),
+                                                        onTap: (){
+                                                          setState(() {
+                                                            setCartQuantities[index]++;
+                                                          });
+                                                        },
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -478,11 +548,14 @@ class _CartState extends State<Cart> {
           ),
         ),
       ),
+
+
+      //bottom order  button
       bottomNavigationBar: BottomAppBar(
           elevation: 0.0,
           child: Container(
             width: dimensions.screenWidth,
-            height: 88,
+            height: 500,
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -499,7 +572,7 @@ class _CartState extends State<Cart> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Image(image: AssetImage('images/gpay.png')),
+                            Image(image: AssetImage('assets/cart/gpay.png')),
                             ReusableText(
                               text: 'PAY USING',
                               fontSize: 10,
@@ -508,11 +581,17 @@ class _CartState extends State<Cart> {
                               fontWeight: FontWeight.w500,
                               color: Color(0x9903045E),
                             ),
-                            Icon(Icons.arrow_drop_up),
+                            GestureDetector(
+                                child: Icon(Icons.arrow_drop_up),
+                              onTap: (){
+                                  print('arrow button tapped');
+                              },
+
+                            ),
                           ],
                         ),
                         ReusableText(
-                          text: '      Google Pay UPI',
+                          text: '    Google Pay UPI',
                           fontSize: 10,
                           height: 0.15,
                           fontWeight: FontWeight.w500,
@@ -521,52 +600,57 @@ class _CartState extends State<Cart> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 64,
-                    width: 216,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF03045E),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: dimensions.height16,
-                          horizontal: dimensions.width16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              ReusableText(
-                                text: '₹1349',
-                                fontSize: 14,
-                                height: 0.11,
-                                fontFamily: FontFamily.roboto,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFFF6FDFE),
-                              ),
-                              // SizedBox(height: 4,),
-                              // ReusableText(text: 'TOTAL', fontSize: 12, height: 0.12,fontFamily: FontFamily.roboto,fontWeight:FontWeight.w500,color: Color(0xFFF6FDFE),)
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ReusableText(
-                                    text: 'Place Order',
-                                    fontSize: 16,
-                                    height: 0.09,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFFF6FDFE),
-                                  ),
-                                  // Icon(Icons.arrow_right),
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
+                  GestureDetector(
+                    onTap: (){
+                      print('place order button tapped');
+                    },
+                    child: Container(
+                      height: 64,
+                      width: 216,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFF03045E),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: dimensions.height16,
+                            horizontal: dimensions.width16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                ReusableText(
+                                  text: '₹1349',
+                                  fontSize: 14,
+                                  height: 0.11,
+                                  fontFamily: FontFamily.roboto,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFFF6FDFE),
+                                ),
+                                // SizedBox(height: 4,),
+                                // ReusableText(text: 'TOTAL', fontSize: 12, height: 0.12,fontFamily: FontFamily.roboto,fontWeight:FontWeight.w500,color: Color(0xFFF6FDFE),)
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    ReusableText(
+                                      text: 'Place Order',
+                                      fontSize: 16,
+                                      height: 0.09,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFFF6FDFE),
+                                    ),
+                                    // Icon(Icons.arrow_right),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   )

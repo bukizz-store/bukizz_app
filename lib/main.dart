@@ -3,7 +3,7 @@ import 'package:bukizz_1/data/providers/header_switch.dart';
 import 'package:bukizz_1/data/providers/school_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
-import 'package:bukizz_1/ui/screens/Signin_Screen.dart';
+import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz_1/utils/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

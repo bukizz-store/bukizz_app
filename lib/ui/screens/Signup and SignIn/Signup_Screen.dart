@@ -1,14 +1,14 @@
-import 'package:bukizz_1/ui/screens/Signin_Screen.dart';
+import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../auth/firebase_auth.dart';
-import '../../constants/font_family.dart';
-import '../../utils/dimensions.dart';
-import '../../widgets/buttons/Reusable_Button.dart';
-import '../../widgets/containers/Reusable_container.dart';
-import '../../widgets/text and textforms/Reusable_TextForm.dart';
-import '../../widgets/signup_text_widget.dart';
-import '../../widgets/text and textforms/Reusable_text.dart';
+import '../../../auth/firebase_auth.dart';
+import '../../../constants/font_family.dart';
+import '../../../utils/dimensions.dart';
+import '../../../widgets/buttons/Reusable_Button.dart';
+import '../../../widgets/containers/Reusable_container.dart';
+import '../../../widgets/text and textforms/Reusable_TextForm.dart';
+import '../../../widgets/signup_text_widget.dart';
+import '../../../widgets/text and textforms/Reusable_text.dart';
 
 class SignUp extends StatefulWidget {
   static const route = '/signUpRoute';

@@ -1,9 +1,10 @@
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
-import '../../ui/screens/Signin_Screen.dart';
-import '../../ui/screens/Signup_Screen.dart';
+import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
+import '../../ui/screens/Signup and SignIn/Signup_Screen.dart';
 
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -29,6 +30,11 @@ class RouteGenerator{
       case ProductScreen.route:
         return MaterialPageRoute(
           builder: (_) => ProductScreen(),
+        );
+
+      case ProductDescriptionScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => ProductDescriptionScreen(),
         );
       default:
         return _errorRoute();
