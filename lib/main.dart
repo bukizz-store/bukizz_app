@@ -4,6 +4,7 @@ import 'package:bukizz_1/data/providers/school_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
+import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:bukizz_1/utils/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +48,10 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightThemeData,
         title: AppString.appName,
-        initialRoute: widget.savedUser.uid != '' ? HomeScreen.route : SignIn.route,
+        initialRoute: widget.savedUser.uid != '' ? HomeScreen.route: SignIn.route,
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
 }
+//

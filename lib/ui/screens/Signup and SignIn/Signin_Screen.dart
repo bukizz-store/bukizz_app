@@ -51,13 +51,7 @@ class _SignInState extends State<SignIn> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              dimensions.width24,
-              dimensions.height16,
-              dimensions.width24,
-              0,
-            ),
+          child: Padding(padding: EdgeInsets.fromLTRB(dimensions.width24, dimensions.height16, dimensions.width24, 0,),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

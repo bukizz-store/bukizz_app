@@ -180,7 +180,7 @@ class _SignUpState extends State<SignUp> {
                 ),
 
                 termsAndService('By clicking Register, you agree to our',
-                    'Terms, Data Policy.'),
+                    'Terms, Data Policy.',(){}),
               ],
             ),
           ),

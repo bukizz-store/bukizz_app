@@ -36,7 +36,7 @@ Row signUpOption(String text1, String text2 , BuildContext context , String newR
 
 
 
-Center termsAndService(String text1, String text2) {
+Center termsAndService(String text1, String text2,VoidCallback onTap) {
   return Center(
     child: Column(
 
@@ -51,9 +51,7 @@ Center termsAndService(String text1, String text2) {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            print('hello');
-          },
+          onTap: onTap,
           child: Text(
             text2,
             style: TextStyle(
