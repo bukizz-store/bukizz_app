@@ -65,43 +65,58 @@ class _EcommerceMainState extends State<EcommerceMain> {
               // Slider
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Stack(
-                  children: [
-                    CarouselSlider(
-                      items:  [
-                        RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png',  ),
-                        RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png', ),
-                      ],
-                      options: CarouselOptions(
-                        viewportFraction: 1,
-                        aspectRatio: 2.0,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 4),
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currPageValue = index.toDouble();
-                          });
-                        },
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 10.0, // Adjust the position as needed
-                      left: 0.0,
-                      right: 0.0,
-                      child: DotsIndicator(
-                        dotsCount: 2,
-                        position: _currPageValue.toInt(),
-                        decorator: DotsDecorator(
-                          activeColor: Colors.blueAccent,
-                          size: const Size.square(9.0),
-                          activeSize: const Size(18.0, 9.0),
-                          activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        items: [
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png',),
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png',),
+                        ],
+                        options: CarouselOptions(
+
+                          viewportFraction: 1,
+                          aspectRatio: 2.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 4),
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currPageValue = index.toDouble();
+                            });
+                          },
+
                         ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        bottom: 10.0, // Adjust the position as needed
+                        left: 0.0,
+                        right: 0.0,
+                        child: DotsIndicator(
+                          dotsCount: 2,
+                          position: _currPageValue.toInt(),
+                          decorator: DotsDecorator(
+                            activeColor: Colors.blueAccent,
+                            size: const Size.square(9.0),
+                            activeSize: const Size(18.0, 9.0),
+                            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
 
 
               SizedBox(height: dimensions.height16),
@@ -114,13 +129,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, index) {
+
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: dimensions.width29),
                       height: dimensions.height57,
                       child: CircleAvatar(
                         radius: dimensions.height48/2 ,
                         backgroundColor: Color(0xFFCCE8FF),
-                        child: Icon(Icons.book,color: AppColors.primaryColor,),
+                        child: Image.asset('assets/ecommerce home/icons/${index+1}.png')
                       ),
                     );
                   },
@@ -147,14 +163,15 @@ class _EcommerceMainState extends State<EcommerceMain> {
                 ),
               ),
 
-              //  schoolData.schoolData[index].banner,
+              SizedBox(height:dimensions.height16),
 
               // ListView of schools
+              //hardcoded again
               Container(
                 height: dimensions.height151,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: schoolData.schoolData.length,
+                  itemCount: 2,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: (){
@@ -162,18 +179,29 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         Navigator.pushNamed(context, ProductScreen.route);
                       },
                       child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
                         margin: EdgeInsets.all(8),
                         child: Stack(
                           children: [
                             Container(
                               height: dimensions.height151,
-                              child: Image.asset( schoolData.schoolData[index].banner),
+                              child: Image.asset('assets/school/${index+1}.png'),
                             ),
                             Positioned(
                                 bottom: 10,
-                                left: 0,
+                                left: 16,
                                 right: 0,
-                                child: Center(child: ReusableText(text: 'Wisdom World School', fontSize: 14, height: 0.10,fontWeight: FontWeight.w700,color: Color(0xFFF9F9F9),)))
+                                child: ReusableText(text: 'Wisdom World School', fontSize: 14, height: 0.10,fontWeight: FontWeight.w700,color: Colors.black))
                           ],
                         ),
                       ),
@@ -187,41 +215,53 @@ class _EcommerceMainState extends State<EcommerceMain> {
               //2nd slider
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Stack(
-                  children: [
-                    CarouselSlider(
-                      items:  [
-                        RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png',  ),
-                        RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png', ),
-                      ],
-                      options: CarouselOptions(
-                        viewportFraction: 1,
-                        aspectRatio: 2.0,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 4),
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currPageValue = index.toDouble();
-                          });
-                        },
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 10.0, // Adjust the position as needed
-                      left: 0.0,
-                      right: 0.0,
-                      child: DotsIndicator(
-                        dotsCount: 2,
-                        position: _currPageValue.toInt(),
-                        decorator: DotsDecorator(
-                          activeColor: Colors.blueAccent,
-                          size: const Size.square(9.0),
-                          activeSize: const Size(18.0, 9.0),
-                          activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        items:  [
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png',  ),
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png', ),
+                        ],
+                        options: CarouselOptions(
+                          viewportFraction: 1,
+                          aspectRatio: 2.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 4),
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currPageValue = index.toDouble();
+                            });
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        bottom: 10.0, // Adjust the position as needed
+                        left: 0.0,
+                        right: 0.0,
+                        child: DotsIndicator(
+                          dotsCount: 2,
+                          position: _currPageValue.toInt(),
+                          decorator: DotsDecorator(
+                            activeColor: Colors.blueAccent,
+                            size: const Size.square(9.0),
+                            activeSize: const Size(18.0, 9.0),
+                            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
