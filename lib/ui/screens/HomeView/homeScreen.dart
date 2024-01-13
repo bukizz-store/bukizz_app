@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../auth/firebase_auth.dart';
 import '../../../data/providers/header_switch.dart';
-import '../../../widgets/custom_tab/custom_tab.dart';
+import '../../../widgets/custom_tab/custom_tab1.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String route = '/homeScreen';
