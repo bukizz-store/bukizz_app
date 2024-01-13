@@ -4,6 +4,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../constants/colors.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
 import '../../../../utils/dimensions.dart';
@@ -68,190 +69,192 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               children: [
                 // Slider
-                CarouselSlider(
-                  items: const [
-                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png',fit: BoxFit.cover),
-                    RoundedImage(width: 392, height: 192, isNetworkImage: false, assetImage: 'assets/banner1.png',fit: BoxFit.cover),
-                  ],
-                  options: CarouselOptions(
-                    viewportFraction: 1,
-                    aspectRatio: 2.0,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 2),
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currPageValue = index.toDouble();
-                      });
-                    },
-                  ),
-                ),
-
-                // Dots
-                DotsIndicator(
-                  dotsCount: 2,
-                  position: _currPageValue.toInt(),
-                  decorator: DotsDecorator(
-                    activeColor: Colors.blueAccent,
-                    size: const Size.square(9.0),
-                    activeSize: const Size(18.0, 9.0),
-                    activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                  ),
-                ),
-
-                SizedBox(height: dimensions.height24),
-
-                // Featured book set and filters row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ReusableText(
-                      text: 'Featured Book Sets',
-                      fontSize: 16,
-                      height: 0.09,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF03045E),
-                      fontFamily: FontFamily.roboto,
-                    ),
-                    Row(
-                      children: [
-                        ReusableText(
-                          text: 'Filters',
-                          fontSize: 14,
-                          height: 0.09,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF444444),
-                          fontFamily: FontFamily.roboto,
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        items:  [
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png',  ),
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png', ),
+                        ],
+                        options: CarouselOptions(
+                          viewportFraction: 1,
+                          aspectRatio: 2.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 4),
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currPageValue = index.toDouble();
+                            });
+                          },
                         ),
-                        Icon(Icons.arrow_drop_down)
-                      ],
-                    ),
-                  ],
+                      ),
+                      Positioned(
+                        bottom: 10.0, // Adjust the position as needed
+                        left: 0.0,
+                        right: 0.0,
+                        child: DotsIndicator(
+                          dotsCount: 2,
+                          position: _currPageValue.toInt(),
+                          decorator: DotsDecorator(
+                            activeColor: Colors.blueAccent,
+                            size: const Size.square(9.0),
+                            activeSize: const Size(18.0, 9.0),
+                            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+
 
                 SizedBox(height: dimensions.height16),
 
-                // List of selected filters hard coded as of now
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ReusableColoredBox(
-                      width: 182,
-                      height: 28,
-                      backgroundColor: Color(0xFFF6FDFE),
-                      borderColor: Color(0xFF194DAD),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ReusableText(
-                            text: 'Wisdom World School',
-                            color: Color(0xFF194DAD),
-                            fontSize: 14,
-                            fontFamily: FontFamily.roboto,
-                            fontWeight: FontWeight.w400,
-                            height: 0.10,
-                          ),
-                          const SizedBox(width: 12),
-                          Icon(
-                            Icons.cancel_outlined,
-                           size: 22,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
 
-                SizedBox(height: dimensions.height32),
-
-                // ListView
+                //listview of icons
                 Container(
-                  height: dimensions.height240,
+                  height: dimensions.height57,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: schoolData.schoolData.length,
+                    itemCount: 5,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(right: dimensions.width24),
-                        child: ReusableCard(
-                          width: 197,
-                          height: 189,
-                          //example url from web
-                          imageUrl: schoolData.schoolData[index].banner,
-                          title: schoolData.schoolData[index].name,
-                          schoolName: schoolData.schoolData[index].name,
-                          starCount: 5,
-                          borderColor: Color(0xFFE8E8E8),
-                          className: 'Class 2',
-                          subject: 'Science & Math',
-                          onTap: () {
-                            schoolData.setSchoolName(schoolData.schoolData[index].name);
-                            Navigator.pushNamed(context, ProductScreen.route);
-                          },
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: dimensions.width29),
+                        height: dimensions.height57,
+                        child: CircleAvatar(
+                          radius: dimensions.height48/2 ,
+                          backgroundColor: Color(0xFFCCE8FF),
+                          child: Icon(Icons.book,color: AppColors.primaryColor,),
                         ),
                       );
                     },
                   ),
                 ),
 
-                SizedBox(height: dimensions.height36),
+                SizedBox(height: dimensions.height32),
 
-                // Admission application filter
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ReusableText(
-                      text: 'Admission Applications',
-                      fontSize: 16,
-                      height: 0.09,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF03045E),
-                      fontFamily: FontFamily.roboto,
-                    ),
-                    Row(
-                      children: [
-                        ReusableText(
-                          text: 'Filters',
-                          fontSize: 14,
-                          height: 0.09,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF444444),
-                          fontFamily: FontFamily.roboto,
+                //hardcoded text view your school
+                Container(
+                  margin:EdgeInsets.symmetric(horizontal:dimensions.height24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ReusableText(text: 'Pick Your School', fontSize: 20, height: 0,fontWeight: FontWeight.w700,color:  Color(0xFF121212),),
+
+                      Row(
+                        children: [
+                          ReusableText(text: 'View all', fontSize: 14, height: 0,fontWeight: FontWeight.w600,color: Color(0xFF00579E),),
+                          Icon(Icons.arrow_forward,color: Color(0xFF00579E),size: 18,),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+
+                //  schoolData.schoolData[index].banner,
+
+                // ListView of schools
+                Container(
+                  height: dimensions.height151,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: schoolData.schoolData.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: (){
+                          schoolData.setSchoolName(schoolData.schoolData[index].name);
+                          Navigator.pushNamed(context, ProductScreen.route);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(8),
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: dimensions.height151,
+                                child: Image.asset( schoolData.schoolData[index].banner),
+                              ),
+                              Positioned(
+                                  bottom: 10,
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(child: ReusableText(text: 'Wisdom World School', fontSize: 14, height: 0.10,fontWeight: FontWeight.w700,color: Color(0xFFF9F9F9),)))
+                            ],
+                          ),
                         ),
-                        Icon(Icons.arrow_drop_down)
-                      ],
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
 
                 SizedBox(height: dimensions.height16),
 
-                // Filters selected hardcoded as of now
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ReusableColoredBox(
-                      width: 182,
-                      height: 28,
-                      backgroundColor: Color(0xFFF6FDFE),
-                      borderColor: Color(0xFF194DAD),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ReusableText(
-                            text: 'Wisdom World School',
-                            color: Color(0xFF194DAD),
-                            fontSize: 14,
-                            fontFamily: FontFamily.roboto,
-                            fontWeight: FontWeight.w400,
-                            height: 0.10,
-                          ),
-                          const SizedBox(width: 12),
-                          Icon(Icons.cancel_outlined),
+                //2nd slider
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        items:  [
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png',  ),
+                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png', ),
                         ],
+                        options: CarouselOptions(
+                          viewportFraction: 1,
+                          aspectRatio: 2.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 4),
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currPageValue = index.toDouble();
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        bottom: 10.0, // Adjust the position as needed
+                        left: 0.0,
+                        right: 0.0,
+                        child: DotsIndicator(
+                          dotsCount: 2,
+                          position: _currPageValue.toInt(),
+                          decorator: DotsDecorator(
+                            activeColor: Colors.blueAccent,
+                            size: const Size.square(9.0),
+                            activeSize: const Size(18.0, 9.0),
+                            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+
+                SizedBox(height: dimensions.height16),
+
+                //buy stationary text
+                Container(
+                  margin:EdgeInsets.symmetric(horizontal:dimensions.height24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ReusableText(text: 'Buy Stationary', fontSize: 20, height: 0,fontWeight: FontWeight.w700,color:  Color(0xFF121212),),
+
+                      Row(
+                        children: [
+                          ReusableText(text: 'View all', fontSize: 14, height: 0,fontWeight: FontWeight.w600,color: Color(0xFF00579E),),
+                          Icon(Icons.arrow_forward,color: Color(0xFF00579E),size: 18,),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: dimensions.height16),
+
+
+
               ],
             ),
           ),
