@@ -1,4 +1,5 @@
 import 'package:bukizz_1/constants/colors.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_2.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
@@ -52,7 +53,7 @@ class _ProductScreenState extends State<ProductScreen> {
             return GestureDetector(
               onTap: (){
                 print('A grid is tapped');
-                Navigator.pushNamed(context, ProductDescriptionScreen.route);
+                Navigator.pushNamed(context, ProductDescriptionScreen2.route);
               },
               child: ReusableColoredBox(
                 width: 197,

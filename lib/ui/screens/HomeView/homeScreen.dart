@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../auth/firebase_auth.dart';
 import '../../../data/providers/header_switch.dart';
+import '../../../widgets/custom_tab/custom_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String route = '/homeScreen';
@@ -21,22 +22,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-
   late TabController _tabController;
   int currentTab = 0;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.animateTo(0);
-
   }
 
   @override
   Widget build(BuildContext context) {
-    // var headerSwitchProvider = Provider.of<HeaderSwitchProvider>(context, listen: false);
     _tabController.addListener(() {
       setState(() {
         currentTab = _tabController.index;
@@ -44,27 +41,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
     return Scaffold(
       appBar: AppBar(
-
-        bottom: TabBar(
-          tabAlignment: TabAlignment.fill,
-          labelPadding: const EdgeInsets.all(8),
-          indicatorColor: Colors.transparent,
-          indicatorSize: TabBarIndicatorSize.tab,
-          onTap: (val) {
-            setState(() {
-              currentTab = val;
-            });
-          },
-          controller: _tabController,
-          tabs: const [
-            HeaderSwitch(text: "Ecommerce",icon: Icons.shopping_cart,),
-            HeaderSwitch(text: "MySchool",icon: Icons.shopping_cart,),
-          ]
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(48.0),
+          child: CustomTabBar(
+            onIndexChanged: (index) {
+              _tabController.animateTo(index);
+            },
+          ),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children :const [
+        children: const [
           EcommerceMain(),
           MySchoolMain(),
         ],
@@ -72,3 +60,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 }
+

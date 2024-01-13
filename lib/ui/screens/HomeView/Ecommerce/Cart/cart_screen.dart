@@ -325,10 +325,10 @@ class _CartState extends State<Cart> {
                                                         child: Icon(Icons.remove),
                                                         onTap:(){
                                                           setState(() {
-                                                            if(cartQuantity>0){
+
                                                               if (setCartQuantities[index] > 0) {
                                                                 setCartQuantities[index]--;
-                                                              }
+
                                                             }
 
                                                           });

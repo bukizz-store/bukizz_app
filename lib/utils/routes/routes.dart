@@ -1,3 +1,4 @@
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_2.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
@@ -37,10 +38,15 @@ class RouteGenerator{
         return MaterialPageRoute(
           builder: (_) => ProductDescriptionScreen(),
         );
+      case ProductDescriptionScreen2.route:
+        return MaterialPageRoute(
+          builder: (_) => ProductDescriptionScreen2(),
+        );
       case OtpScreen.route:
         return MaterialPageRoute(
           builder: (_) => OtpScreen(),
         );
+
       default:
         return _errorRoute();
     }
