@@ -1,10 +1,15 @@
-
+import 'dart:math';
 
 import 'package:bukizz_1/constants/colors.dart';
+import 'package:bukizz_1/data/models/ecommerce/cart_model.dart';
+import 'package:bukizz_1/data/repository/user_repository.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/cart_provider.dart';
+import '../../../../../data/providers/productModel_provider.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 
@@ -13,25 +18,31 @@ class ProductDescriptionScreen extends StatefulWidget {
   const ProductDescriptionScreen({super.key});
 
   @override
-  State<ProductDescriptionScreen> createState() => _ProductDescriptionScreenState();
+  State<ProductDescriptionScreen> createState() =>
+      _ProductDescriptionScreenState();
 }
 
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   @override
   Widget build(BuildContext context) {
+    var productData = context.read<ProductProvider>();
+    var userDetail = Provider.of<UserRepositoryProvider>(context, listen: false);
     Dimensions dimensions = Dimensions(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('product description'),
       ),
-
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(dimensions.width24, dimensions.height16, dimensions.width24, 0,),
-
+            padding: EdgeInsets.fromLTRB(
+              dimensions.width24,
+              dimensions.height16,
+              dimensions.width24,
+              0,
+            ),
             child: Column(
               children: [
                 ReusableColoredBox(
@@ -42,10 +53,23 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
                     //here we can use listview for difrent images
                     child: Image(
-                      image: AssetImage('assets/school/booksets/class1 bookset.png'),
+                      image: AssetImage(
+                          'assets/school/booksets/class1 bookset.png'),
                       fit: BoxFit.cover,
-                    )
-                )
+                    )),
+                SizedBox(
+                  height: dimensions.height16,
+                ),
+                Row(
+                  children: [
+                    ReusableText(
+                        text: productData.productDetail.name,
+                        fontSize: 16,
+                        height: 0.09,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: FontFamily.roboto),
+                  ],
+                ),
               ],
             ),
           ),
@@ -64,8 +88,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 children: [
                   //add to cart
                   GestureDetector(
-                    onTap: (){
-                      print('add to cart button clicked');
+                    onTap: () {
+                      var cartProvider = context.read<CartProvider>();
+                      cartProvider.addProductInCart(productData.productDetail.productId , context);
                     },
                     child: Container(
                       height: 64,
@@ -78,13 +103,14 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       child: Row(
                         children: [
                           Icon(Icons.shopping_cart),
-                          ReusableText(text: 'Add to Cart', fontSize: 16, height: 0.10),
+                          ReusableText(
+                              text: 'Add to Cart', fontSize: 16, height: 0.10),
                         ],
                       ),
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       print('place order button tapped');
                     },
                     child: Container(
@@ -105,7 +131,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             Column(
                               children: [
                                 ReusableText(
-                                  text: '₹1349',
+                                  text:
+                                      '₹ ${productData.productDetail.price.toString()}',
                                   fontSize: 14,
                                   height: 0.11,
                                   fontFamily: FontFamily.roboto,

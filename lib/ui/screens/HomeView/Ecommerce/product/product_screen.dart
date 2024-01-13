@@ -5,6 +5,7 @@ import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../data/providers/productModel_provider.dart';
 import '../../../../../data/providers/school_repository.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     var schoolData = context.read<SchoolDataProvider>();
-
+    var productData = context.read<ProductProvider>();
     List<String> schoolImages = [
       'assets/school/booksets/class1 bookset.png',
       'assets/school/booksets/class2 bookset.png',
@@ -51,7 +52,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
             return GestureDetector(
               onTap: (){
-                print('A grid is tapped');
+                productData.setProductDetail(product);
                 Navigator.pushNamed(context, ProductDescriptionScreen.route);
               },
               child: ReusableColoredBox(

@@ -2,33 +2,30 @@
 import 'dart:convert';
 
 class CartModel{
-  String cartId;
-  String userId;
   double totalAmount;
-  List<String> products;
+  Map<String , int> productsId;
+  String address;
+
 
   CartModel({
-    required this.cartId,
-    required this.userId,
     required this.totalAmount,
-    required this.products,
+    required this.productsId,
+    required this.address,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'cartId': cartId,
-      'userId': userId,
       'totalAmount': totalAmount,
-      'products': products,
+      'products': productsId,
+      'address': address,
     };
   }
 
   factory CartModel.fromMap(Map<String, dynamic> map) {
     return CartModel(
-      cartId: map['cartId'] ?? '',
-      userId: map['userId'] ?? '',
       totalAmount: map['totalAmount'] ?? 0.0,
-      products: List<String>.from(map['products'] ?? []),
+      productsId: map['products'] ?? {},
+      address: map['address'] ?? '',
     );
   }
 

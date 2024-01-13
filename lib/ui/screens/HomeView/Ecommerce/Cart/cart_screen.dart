@@ -1,8 +1,11 @@
+import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/cart_provider.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../widgets/signup_text_widget.dart';
@@ -19,8 +22,8 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   // images for list tile
   List<String> setImages = [
-    'assets/cart/book roll.png',
-    'assets/cart/color box.png',
+    "assets/cart/book roll.png",
+    "assets/cart/color box.png",
     // Add more image paths as needed
   ];
 
@@ -41,6 +44,16 @@ class _CartState extends State<Cart> {
     0,
     0,
   ];
+
+  List<ProductModel> cartItem = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var cartData = context.read<CartProvider>();
+  }
+
 
 
   int cartQuantity=0;
@@ -570,7 +583,7 @@ class _CartState extends State<Cart> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Image(image: AssetImage('assets/cart/gpay.png')),
+                            // const Image(image: AssetImage("assets/cart/gpay.png")),
                             ReusableText(
                               text: 'PAY USING',
                               fontSize: 10,
