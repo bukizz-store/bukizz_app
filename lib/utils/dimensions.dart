@@ -62,6 +62,8 @@ class Dimensions {
 
   double get height98 => screenHeight / 8.29;
 
+  double get height105 => screenHeight / 7.73;
+
   double get height138 => screenHeight / 5.89;
 
   double get height151 => screenHeight / 5.38;

@@ -1,4 +1,5 @@
 import 'package:bukizz_1/constants/colors.dart';
+
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz_1/widgets/custom_tab/custom_tab2.dart';
@@ -10,6 +11,7 @@ import '../../../../../data/providers/productModel_provider.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../MySchool/main_screen.dart';
 import '../ecommerce_main.dart';
+import 'book_description.dart';
 
 
 class ProductScreen extends StatefulWidget {
@@ -55,8 +57,8 @@ class _ProductScreenState extends State<ProductScreen>
       body: TabBarView(
         controller: tabController,
         children: const [
-          // Your content for the first tab
-          Center(child: Text('Books')),
+
+          Books(),
           // Your content for the second tab
           Center(child: Text('Forms')),
           // Your content for the third tab
