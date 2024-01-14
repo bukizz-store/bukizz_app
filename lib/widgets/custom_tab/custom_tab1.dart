@@ -1,3 +1,4 @@
+import 'package:bukizz_1/constants/font_family.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   index==0?Icon(Icons.shopping_cart):Icon(Icons.school),
-                  ReusableText(text: index==0?'Ecommerce':'MySchool', fontSize: 16, height: 0.11,fontWeight: FontWeight.w700,color:currentIndex == index?Color(0xFFF9F9F9):Color(0xFF444444))
+                  ReusableText(text: index==0?'Ecommerce':'MySchool', fontSize: 16, height: 0.11,fontWeight: FontWeight.w700,color:currentIndex == index?Color(0xFFF9F9F9):Color(0xFF444444),fontFamily: FontFamily.roboto,)
                 ],
               )
           ),

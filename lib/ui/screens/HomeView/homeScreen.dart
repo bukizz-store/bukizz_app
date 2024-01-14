@@ -41,15 +41,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(48.0),
-          child: CustomTabBar(
-            onIndexChanged: (index) {
-              _tabController.animateTo(index);
-            },
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 24), // Adjust the padding as needed
+            child: CustomTabBar(
+              onIndexChanged: (index) {
+                _tabController.animateTo(index);
+              },
+            ),
           ),
         ),
       ),
+
       body: TabBarView(
         controller: _tabController,
         children: const [
