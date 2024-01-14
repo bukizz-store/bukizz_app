@@ -41,7 +41,25 @@ class _CustomTabBarState extends State<CustomTabBar> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  index==0?Icon(Icons.shopping_cart):Icon(Icons.school),
+                  index==0?
+                  Container(
+                    width: 22,
+                    height: 20,
+                    color: Colors.red,
+                    child: Image.asset(
+                      'assets/ecommerce home/tab icons/tab1.png',
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                      :Container(
+                    width: 22,
+                    height: 20,
+                    color: Colors.red,
+                    child: Image.asset(
+                      'assets/ecommerce home/tab icons/tab2.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   ReusableText(text: index==0?'Ecommerce':'MySchool', fontSize: 16, height: 0.11,fontWeight: FontWeight.w700,color:currentIndex == index?Color(0xFFF9F9F9):Color(0xFF444444),fontFamily: FontFamily.roboto,)
                 ],
               )
