@@ -1,4 +1,5 @@
 import 'package:bukizz_1/constants/colors.dart';
+import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
@@ -27,6 +28,7 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     var schoolData = context.read<SchoolDataProvider>();
     var productData = context.read<ProductProvider>();
+    var productView = context.watch<ProductViewRepository>();
     List<String> schoolImages = [
       'assets/school/booksets/class1 bookset.png',
       'assets/school/booksets/class2 bookset.png',
@@ -38,7 +40,7 @@ class _ProductScreenState extends State<ProductScreen> {
       appBar: AppBar(
         title: Text(schoolData.schoolName),
       ),
-      body: GridView.builder(
+      body: productView.getIsProductAdded ? GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             // Set the number of columns in the grid
@@ -46,9 +48,9 @@ class _ProductScreenState extends State<ProductScreen> {
             // Set the horizontal spacing between columns
             mainAxisSpacing: 16.0, // Set the vertical spacing between rows
           ),
-          itemCount: schoolData.selectedSchool.products.length,
+          itemCount: schoolData.selectedSchool.productsId.length,
           itemBuilder: (context, index) {
-            var product = schoolData.selectedSchool.products[index];
+            var product = productView.productData[index];
 
             return GestureDetector(
               onTap: (){
@@ -104,7 +106,9 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
             );
           }
-      ),
+      ): const Center(
+        child: CircularProgressIndicator(),
+    )
     );
   }
 }

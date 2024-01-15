@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../models/ecommerce/product_model.dart';
+import '../models/ecommerce/review_model.dart';
 import '../models/ecommerce/school_model.dart';
 
 class SchoolDataProvider extends ChangeNotifier {
@@ -43,41 +44,9 @@ class SchoolDataProvider extends ChangeNotifier {
       logo: 'sample_logo.png',
       banner: 'assets/school/vsec.jpg',
       aboutUs: 'This is a sample school for testing purposes.',
-      products: [
-        ProductModel(
-          productId: '123',
-          name: 'Class 1st',
-          description: 'This is a sample product for testing purposes.',
-          price: 500,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 2nd',
-          description: 'This is a sample product for testing purposes.',
-          price: 400,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 3rd',
-          description: 'This is a sample product for testing purposes.',
-          price: 300,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),
+      productsId: [
+        'bookset_1_1',
+        'bookset_1_2',
       ],
     );
 
@@ -95,41 +64,9 @@ class SchoolDataProvider extends ChangeNotifier {
       logo: 'sample_logo.png',
       banner: 'assets/school/vsec.jpg',
       aboutUs: 'This is a sample school for testing purposes.',
-      products: [
-        ProductModel(
-          productId: '123',
-          name: 'Class 1st',
-          description: 'This is a sample product for testing purposes.',
-          price: 450,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 2nd',
-          description: 'This is a sample product for testing purposes.',
-          price: 600,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 3rd',
-          description: 'This is a sample product for testing purposes.',
-          price: 700,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),
+      productsId: [
+        'bookset_1_1',
+        'bookset_1_2',
       ],
     );
 

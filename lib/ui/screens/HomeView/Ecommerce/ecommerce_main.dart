@@ -1,3 +1,5 @@
+import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
+import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -53,14 +55,12 @@ class _EcommerceMainState extends State<EcommerceMain> {
     _height = dimensions.pageViewContainer;
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
     return Scaffold(
-
       //container of screen size
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
-
             children: [
               // Slider
               Padding(
@@ -80,11 +80,20 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     children: [
                       CarouselSlider(
                         items: [
-                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png',),
-                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner1.png',),
+                          RoundedImage(
+                            width: dimensions.screenWidth,
+                            height: 192,
+                            isNetworkImage: false,
+                            assetImage: 'assets/ecommerce home/banner1.png',
+                          ),
+                          RoundedImage(
+                            width: dimensions.screenWidth,
+                            height: 192,
+                            isNetworkImage: false,
+                            assetImage: 'assets/ecommerce home/banner1.png',
+                          ),
                         ],
                         options: CarouselOptions(
-
                           viewportFraction: 1,
                           aspectRatio: 2.0,
                           autoPlay: true,
@@ -94,7 +103,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               _currPageValue = index.toDouble();
                             });
                           },
-
                         ),
                       ),
                       Positioned(
@@ -108,7 +116,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             activeColor: Colors.blueAccent,
                             size: const Size.square(9.0),
                             activeSize: const Size(18.0, 9.0),
-                            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                            activeShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)),
                           ),
                         ),
                       ),
@@ -117,10 +126,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                 ),
               ),
 
-
-
               SizedBox(height: dimensions.height16),
-
 
               //listview of icons
               Container(
@@ -129,15 +135,15 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, index) {
-
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: dimensions.width29),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: dimensions.width29),
                       height: dimensions.height57,
                       child: CircleAvatar(
-                        radius: dimensions.height48/2 ,
-                        backgroundColor: Color(0xFFCCE8FF),
-                        child: Image.asset('assets/ecommerce home/icons/${index+1}.png')
-                      ),
+                          radius: dimensions.height48 / 2,
+                          backgroundColor: Color(0xFFCCE8FF),
+                          child: Image.asset(
+                              'assets/ecommerce home/icons/${index + 1}.png')),
                     );
                   },
                 ),
@@ -147,23 +153,38 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               //hardcoded text view your school
               Container(
-                margin:EdgeInsets.symmetric(horizontal:dimensions.height24),
+                margin: EdgeInsets.symmetric(horizontal: dimensions.height24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ReusableText(text: 'Pick Your School', fontSize: 20, height: 0,fontWeight: FontWeight.w700,color:  Color(0xFF121212),),
-
+                    ReusableText(
+                      text: 'Pick Your School',
+                      fontSize: 20,
+                      height: 0,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF121212),
+                    ),
                     Row(
                       children: [
-                        ReusableText(text: 'View all', fontSize: 14, height: 0,fontWeight: FontWeight.w600,color: Color(0xFF00579E),),
-                        Icon(Icons.arrow_forward,color: Color(0xFF00579E),size: 18,),
+                        ReusableText(
+                          text: 'View all',
+                          fontSize: 14,
+                          height: 0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF00579E),
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Color(0xFF00579E),
+                          size: 18,
+                        ),
                       ],
                     )
                   ],
                 ),
               ),
 
-              SizedBox(height:dimensions.height16),
+              SizedBox(height: dimensions.height16),
 
               // ListView of schools
               //hardcoded again
@@ -174,8 +195,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemCount: 2,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        schoolData.setSchoolName(schoolData.schoolData[index].name);
+                      onTap: () {
+                        schoolData
+                            .setSchoolName(schoolData.schoolData[index].name);
+                        context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
                         Navigator.pushNamed(context, ProductScreen.route);
                       },
                       child: Container(
@@ -195,13 +218,19 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           children: [
                             Container(
                               height: dimensions.height151,
-                              child: Image.asset('assets/school/${index+1}.png'),
+                              child:
+                                  Image.asset('assets/school/${index + 1}.png'),
                             ),
                             Positioned(
                                 bottom: 10,
                                 left: 16,
                                 right: 0,
-                                child: ReusableText(text: 'Wisdom World School', fontSize: 14, height: 0.10,fontWeight: FontWeight.w700,color: Colors.black))
+                                child: ReusableText(
+                                    text: 'Wisdom World School',
+                                    fontSize: 14,
+                                    height: 0.10,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black))
                           ],
                         ),
                       ),
@@ -229,9 +258,19 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   child: Stack(
                     children: [
                       CarouselSlider(
-                        items:  [
-                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png',  ),
-                          RoundedImage(width: dimensions.screenWidth, height: 192, isNetworkImage: false, assetImage: 'assets/ecommerce home/banner2.png', ),
+                        items: [
+                          RoundedImage(
+                            width: dimensions.screenWidth,
+                            height: 192,
+                            isNetworkImage: false,
+                            assetImage: 'assets/ecommerce home/banner2.png',
+                          ),
+                          RoundedImage(
+                            width: dimensions.screenWidth,
+                            height: 192,
+                            isNetworkImage: false,
+                            assetImage: 'assets/ecommerce home/banner2.png',
+                          ),
                         ],
                         options: CarouselOptions(
                           viewportFraction: 1,
@@ -256,7 +295,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             activeColor: Colors.blueAccent,
                             size: const Size.square(9.0),
                             activeSize: const Size(18.0, 9.0),
-                            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                            activeShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)),
                           ),
                         ),
                       ),
@@ -269,16 +309,35 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               //buy stationary text
               Container(
-                margin:EdgeInsets.symmetric(horizontal:dimensions.height24),
+                margin: EdgeInsets.symmetric(horizontal: dimensions.height24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ReusableText(text: 'Buy Stationary', fontSize: 20, height: 0,fontWeight: FontWeight.w700,color:  Color(0xFF121212),),
-
+                    ReusableText(
+                      text: 'Buy Stationary',
+                      fontSize: 20,
+                      height: 0,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF121212),
+                    ),
                     Row(
                       children: [
-                        ReusableText(text: 'View all', fontSize: 14, height: 0,fontWeight: FontWeight.w600,color: Color(0xFF00579E),),
-                        Icon(Icons.arrow_forward,color: Color(0xFF00579E),size: 18,),
+                        InkWell(
+                            onTap: () {
+                              // ProductModel.sendRandomProductData();
+                            },
+                            child: ReusableText(
+                              text: 'View all',
+                              fontSize: 14,
+                              height: 0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF00579E),
+                            )),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Color(0xFF00579E),
+                          size: 18,
+                        ),
                       ],
                     )
                   ],
@@ -286,9 +345,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
               ),
 
               SizedBox(height: dimensions.height16),
-
-
-
             ],
           ),
         ),
@@ -321,8 +377,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
       if (_selectedIndex == 1) {
         // If index is 1, navigate to the cart screen
         Navigator.pushNamed(context, Cart.route);
-      }
-      else{
+      } else {
         //handle other indexes
       }
       // Handle navigation to the corresponding screen based on the index
@@ -330,4 +385,3 @@ class _EcommerceMainState extends State<EcommerceMain> {
     });
   }
 }
-
