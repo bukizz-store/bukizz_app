@@ -4,6 +4,9 @@ import 'package:bukizz_1/widgets/buttons/cart_button.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../data/providers/cart_provider.dart';
 
 List<String>text=
 [
@@ -49,6 +52,15 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   int cart_val=2;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var cartData = context.read<CartProvider>();
+    cartData.loadCartData();
+  }
+
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
@@ -88,7 +100,7 @@ class _CartState extends State<Cart> {
                         ),
 
                         SizedBox(height: dimensions.height8,),
-                        Flexible(child: ReusableText(text: '2nd floor 1884 sector 8...', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,overflow: TextOverflow.ellipsis,)),
+                        Flexible(child: ReusableText(text: '2nd floor 1884 sector 8...', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,)),
                       ],
                     ),
                     InkWell(
@@ -117,7 +129,7 @@ class _CartState extends State<Cart> {
             //repeated cart products
             Column(
               children: List.generate(
-                2,
+                    2,
                     (index) =>
                     Container(
                       height: dimensions.height192,
@@ -160,6 +172,8 @@ class _CartState extends State<Cart> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: dimensions.height16,),
+
+                                    //book names
                                     SizedBox(
                                       width: dimensions.width120*2,
                                       child:  Text(
@@ -172,9 +186,10 @@ class _CartState extends State<Cart> {
                                         ),
                                       ),
                                     ),
+                                    //stars for review
                                     Row(
                                       children: List.generate(
-                                        cart_val,
+                                         5 ,
                                             (index) => const Icon(
                                           Icons.star,
                                           size: 16,
@@ -216,8 +231,9 @@ class _CartState extends State<Cart> {
                                 InkWell(
                                   onTap: (){
                                     setState(() {
-                                      if(cart_val>0)
-                                        cart_val--;
+                                       if (cart_val>0){
+                                         cart_val--;
+                                       }
                                     });
                                   },
                                   child: ReusableColoredBox(
@@ -268,67 +284,76 @@ class _CartState extends State<Cart> {
             ),
 
 
+
+
+
             SizedBox(height: dimensions.height8*23.85,),
 
-
-            InkWell(
-              onTap: (){
-                print('buy now button tapped');
-              },
-              child: Container(
-                height: dimensions.height8*9,
-                width:dimensions.screenWidth,
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height16*0.75),
-                  child:  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //price column
-                      const Column(
-                        children: [
-                          Text(
-                            '2160',
-                            style: TextStyle(
-                              color: Color(0xFFB7B7B7),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              decoration: TextDecoration.lineThrough,
-                            ),
+            Container(
+              height: dimensions.height8 * 9,
+              width: dimensions.screenWidth,
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width24, vertical: dimensions.height16 * 0.75),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Price column
+                    const Column(
+                      children: [
+                        Text(
+                          '2160',
+                          style: TextStyle(
+                            color: Color(0xFFB7B7B7),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            decoration: TextDecoration.lineThrough,
                           ),
-                          Text(
-                            '1680',
-                            style: TextStyle(
-                              color: Color(0xFF121212),
-                              fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.none,
-                              fontSize: 16,
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: dimensions.height8*6,
+                        ),
+                        Text(
+                          '1680',
+                          style: TextStyle(
+                            color: Color(0xFF121212),
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.none,
+                            fontSize: 16,
+                          ),
+                        )
+                      ],
+                    ),
+                    InkWell(
+                      onTap: (){
+                        print('buy button is tapped');
+                      },
+                      child: Container(
+                        height: dimensions.height8 * 6,
                         width: dimensions.width146,
-
-
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           color: Color(0xFF058FFF),
-
                         ),
-
-                        child: Center(child: ReusableText(text: 'Buy Now', fontSize: 16, height: 0.11,fontWeight: FontWeight.w700,color: Colors.white,)),
-                      )
-                    ],
-                  ),
+                        child: Center(
+                          child: ReusableText(
+                            text: 'Buy Now',
+                            fontSize: 16,
+                            height: 0.11,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             )
 
+
           ],
         ),
       ),
+
+
     );
   }
 }
@@ -386,12 +411,7 @@ class _CartState extends State<Cart> {
 //   List<ProductModel> cartItem = [];
 //
 //   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     var cartData = context.read<CartProvider>();
-//     cartData.loadCartData();
-//   }
+
 //
 //   int cartQuantity=0;
 //   @override
