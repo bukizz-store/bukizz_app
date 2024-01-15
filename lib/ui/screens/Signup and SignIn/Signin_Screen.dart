@@ -37,15 +37,12 @@ class _SignInState extends State<SignIn> {
     Dimensions dimensions = Dimensions(context);
     var authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
+
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         // title: Text('Sign In'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            // Navigator.of(context).pop();
-          },
-        ),
+
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

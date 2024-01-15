@@ -52,15 +52,15 @@ class _CartState extends State<Cart> {
     // TODO: implement initState
     super.initState();
     var cartData = context.read<CartProvider>();
+    cartData.loadCartData();
   }
-
-
 
   int cartQuantity=0;
   @override
   Widget build(BuildContext context) {
+    var cartData = context.watch<CartProvider>();
     Dimensions dimensions = Dimensions(context);
-    return Scaffold(
+    return cartData.isCartLoaded ?  Scaffold(
       appBar: AppBar(
         title: Text('CART'),
         leading: IconButton(
@@ -120,7 +120,6 @@ class _CartState extends State<Cart> {
                               const SizedBox(
                                 height: 12,
                               ),
-
                               //school and its icon
                               Row(
                                 children: [
@@ -669,6 +668,8 @@ class _CartState extends State<Cart> {
               ),
             ),
           )),
+    ) : const Center(
+      child: CircularProgressIndicator(),
     );
   }
 }

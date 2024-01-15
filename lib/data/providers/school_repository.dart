@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/ecommerce/product_model.dart';
+import '../models/ecommerce/review_model.dart';
 import '../models/ecommerce/school_model.dart';
 
 class SchoolDataProvider extends ChangeNotifier {
@@ -13,6 +15,15 @@ class SchoolDataProvider extends ChangeNotifier {
   SchoolModel get schoolDetails => schoolData[schoolIndex];
 
   late SchoolModel selectedSchool;
+
+  bool isSchoolDataLoaded = false;
+
+  bool get getIsSchoolDataLoaded => isSchoolDataLoaded;
+
+  setIsSchoolDataLoaded(bool value){
+    isSchoolDataLoaded = value;
+    notifyListeners();
+  }
 
   void setSchoolName(String name) {
     schoolName = name;
@@ -43,41 +54,9 @@ class SchoolDataProvider extends ChangeNotifier {
       logo: 'sample_logo.png',
       banner: 'assets/school/vsec.jpg',
       aboutUs: 'This is a sample school for testing purposes.',
-      products: [
-        ProductModel(
-          productId: '123',
-          name: 'Class 1st',
-          description: 'This is a sample product for testing purposes.',
-          price: 500,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 2nd',
-          description: 'This is a sample product for testing purposes.',
-          price: 400,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 3rd',
-          description: 'This is a sample product for testing purposes.',
-          price: 300,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),
+      productsId: [
+        'bookset_1_1',
+        'bookset_1_2',
       ],
     );
 
@@ -95,46 +74,53 @@ class SchoolDataProvider extends ChangeNotifier {
       logo: 'sample_logo.png',
       banner: 'assets/school/vsec.jpg',
       aboutUs: 'This is a sample school for testing purposes.',
-      products: [
-        ProductModel(
-          productId: '123',
-          name: 'Class 1st',
-          description: 'This is a sample product for testing purposes.',
-          price: 450,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 2nd',
-          description: 'This is a sample product for testing purposes.',
-          price: 600,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),ProductModel(
-          productId: '123',
-          name: 'Class 3rd',
-          description: 'This is a sample product for testing purposes.',
-          price: 700,
-          stockQuantity: 10,
-          categoryId: '123',
-          image: 'sample_image.png',
-          classId: '123',
-          board: 'Sample Board',
-          salePrice: '123.45',
-        ),
+      productsId: [
+        'bookset_1_1',
+        'bookset_1_2',
       ],
     );
 
     addSchoolData(temporarySchool);
     addSchoolData(temporarySchool1);
+    notifyListeners();
+  }
+
+  void pushRandomData(){
+    SchoolModel temporarySchool1 = SchoolModel(
+      schoolId: '123',
+      name: 'Dr. VSEC Sharda Nagar',
+      address: '123 Main Street',
+      city: 'Sample City',
+      state: 'Sample State',
+      board: 'CBSE',
+      pincode: '123456',
+      contactNumber: '9876543210',
+      email: 'sample@email.com',
+      website: 'www.sampleschool.com',
+      logo: 'sample_logo.png',
+      banner: 'assets/school/vsec.jpg',
+      aboutUs: 'This is a sample school for testing purposes.',
+      productsId: [
+        'bookset_1_1',
+        'bookset_1_2',
+      ],
+    );
+
+    FirebaseFirestore.instance.collection('schools').add(temporarySchool1.toMap()).then((value) => {
+      print('School added successfully')
+    }).catchError((error) => {
+      print('Failed to add school: $error')
+    });
+  }
+
+  void loadData() async {
+    setIsSchoolDataLoaded(false);
+    await FirebaseFirestore.instance
+        .collection('schools')
+        .get()
+        .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList());
+
+    setIsSchoolDataLoaded(true);
     notifyListeners();
   }
 

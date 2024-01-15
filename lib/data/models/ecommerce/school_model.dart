@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchoolModel{
   String schoolId;
@@ -16,7 +17,7 @@ class SchoolModel{
   String logo;
   String banner;
   String aboutUs;
-  List<ProductModel> products;
+  List<String> productsId;
 
   SchoolModel({
     required this.schoolId,
@@ -32,7 +33,7 @@ class SchoolModel{
     required this.logo,
     required this.banner,
     required this.aboutUs,
-    required this.products,
+    required this.productsId,
   });
 
   Map<String, dynamic> toMap() {
@@ -50,7 +51,7 @@ class SchoolModel{
       'logo': logo,
       'banner': banner,
       'aboutUs': aboutUs,
-      'products': products.map((x) => x.toMap()).toList(),
+      'products': productsId,
     };
   }
 
@@ -69,11 +70,12 @@ class SchoolModel{
       logo: map['logo'] ?? '',
       banner: map['banner'] ?? '',
       aboutUs: map['aboutUs'] ?? '',
-      products: List<ProductModel>.from(map['products']?.map((x) => ProductModel.fromMap(x))),
+      productsId: map['products'] ?? [],
     );
   }
 
   String toJson() => json.encode(toMap());
+
 
 
 }

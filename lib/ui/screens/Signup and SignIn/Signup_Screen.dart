@@ -32,15 +32,9 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            //handle on press
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(SignIn.route, (route) => false);
-          },
-        ),
+
       ),
+      backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

@@ -1,6 +1,8 @@
 
 import 'dart:convert';
 
+import '../../../constants/constants.dart';
+
 class CartModel{
   double totalAmount;
   Map<String , int> productsId;
@@ -17,7 +19,7 @@ class CartModel{
     return {
       'totalAmount': totalAmount,
       'products': productsId,
-      'address': address,
+      'address': address ?? AppConstants.userData.address,
     };
   }
 
@@ -28,6 +30,9 @@ class CartModel{
       address: map['address'] ?? '',
     );
   }
+
+  //Create function to load string data from shared prefereances and then convert it to map and then use it in checkout screen.
+  factory CartModel.fromJson(Map<String, dynamic> map) => CartModel.fromMap(map);
 
   String toJson() => json.encode(toMap());
 }
