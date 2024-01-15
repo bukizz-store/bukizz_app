@@ -17,11 +17,9 @@ class CustomTabBar2 extends StatefulWidget {
   _CustomTabBar2State createState() => _CustomTabBar2State();
 }
 
-
 class _CustomTabBar2State extends State<CustomTabBar2> {
   int currentIndex = 0;
-  List<String>emojiText=
-  [
+  List<String> emojiText = [
     "Books",
     "Forms",
     "Uniform",
@@ -29,36 +27,54 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    Dimensions dimensions=Dimensions(context);
-    return Row(
+  void initState() {
+    super.initState();
 
+    // Add a listener to the TabController to update currentIndex when tabs are swiped
+    widget.tabController.addListener(() {
+      setState(() {
+        currentIndex = widget.tabController.index;
+        widget.onIndexChanged?.call(currentIndex);
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Dimensions dimensions = Dimensions(context);
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(
         4,
             (index) => InkWell(
-              onTap: () {
-                setState(() {
-                  currentIndex = index;
-                  widget.onIndexChanged?.call(currentIndex);
-                });
-              },
+          onTap: () {
+            setState(() {
+              currentIndex = index;
+              widget.onIndexChanged?.call(currentIndex);
+              widget.tabController.animateTo(index); // Animate to the selected tab
+            });
+          },
           child: Column(
             children: [
               CircleAvatar(
-                  radius: dimensions.height48/2 ,
-                  child: Image.asset('assets/tab icons/${index+1}.png')
+                radius: dimensions.height48 / 2,
+                child: Image.asset('assets/tab icons/${index + 1}.png'),
               ),
               SizedBox(height: 8,),
-              ReusableText(text: emojiText[index], fontSize: 14, height: 0.10,fontFamily: FontFamily.roboto,fontWeight: FontWeight.w700,color: Color(0xFF444444),),
-
+              ReusableText(
+                text: emojiText[index],
+                fontSize: 14,
+                height: 0.10,
+                fontFamily: FontFamily.roboto,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF444444),
+              ),
               SizedBox(height: dimensions.height16,),
               Container(
                 child: currentIndex == index
                     ? Image.asset('assets/tab icons/marker.png')
                     : null,
               )
-
             ],
           ),
         ),
@@ -66,5 +82,6 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
     );
   }
 }
+
 
 
