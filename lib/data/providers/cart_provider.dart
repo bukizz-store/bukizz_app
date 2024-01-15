@@ -61,7 +61,7 @@ class CartProvider extends ChangeNotifier {
   Future<void> storeCartData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('cartData', jsonEncode(cartData.toMap()));
-
+    print(prefs.getString('cartData'));
   }
 
   void loadCartData(BuildContext context) async{
@@ -70,7 +70,7 @@ class CartProvider extends ChangeNotifier {
     try{
       if(prefs.containsKey('cartData')) {
 
-        print(prefs.getString('cartData'));
+        // print(prefs.getString('cartData'));
         String? cartDataString = prefs.getString('cartData');
         if (cartDataString != '' && cartDataString != null) {
           print("Shivam");
@@ -81,7 +81,9 @@ class CartProvider extends ChangeNotifier {
             productsId: productsIdMap,
             address: map['address'],
           );
+          print(cartData.toMap().toString());
           cartData.productsId.forEach((key, value) {
+            print(key);
             context.read<CartViewRepository>().getCartProduct(key);
           });
         } else {
