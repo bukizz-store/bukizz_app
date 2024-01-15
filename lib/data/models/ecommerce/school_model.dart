@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchoolModel{
   String schoolId;
@@ -74,6 +75,7 @@ class SchoolModel{
   }
 
   String toJson() => json.encode(toMap());
+
 
 
 }

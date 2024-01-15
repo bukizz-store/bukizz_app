@@ -1,5 +1,5 @@
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';

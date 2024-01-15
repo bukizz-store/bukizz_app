@@ -1,6 +1,7 @@
 import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
+// import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,14 @@ class EcommerceMain extends StatefulWidget {
 }
 
 class _EcommerceMainState extends State<EcommerceMain> {
+  List<String> emojiText = [
+    "Books",
+    "Forms",
+    "Uniform",
+    "Stationary",
+    "Extras",
+  ];
+
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
   double _scaleFactor = 0.8;
@@ -35,7 +44,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
   void initState() {
     super.initState();
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    schoolData.schoolTemporaryData();
+    schoolData.loadData();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -70,7 +79,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
+                        spreadRadius: 5,
                         blurRadius: 5,
                         offset: Offset(0, 3),
                       ),
@@ -98,6 +107,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           aspectRatio: 2.0,
                           autoPlay: true,
                           autoPlayInterval: Duration(seconds: 4),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 400),
                           onPageChanged: (index, reason) {
                             setState(() {
                               _currPageValue = index.toDouble();
@@ -130,20 +141,36 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               //listview of icons
               Container(
-                height: dimensions.height57,
+                height: 65,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    return Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: dimensions.width29),
-                      height: dimensions.height57,
-                      child: CircleAvatar(
-                          radius: dimensions.height48 / 2,
-                          backgroundColor: Color(0xFFCCE8FF),
-                          child: Image.asset(
-                              'assets/ecommerce home/icons/${index + 1}.png')),
+                    return Padding(
+                      padding: EdgeInsets.only(left: 29),
+                      child: Container(
+                        height: 65,
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                                radius: dimensions.height48 / 2,
+                                backgroundColor: Color(0xFFCCE8FF),
+                                child: Image.asset(
+                                    'assets/ecommerce home/icons/${index + 1}.png')),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            ReusableText(
+                              text: emojiText[index],
+                              fontSize: 14,
+                              height: 0.10,
+                              fontFamily: FontFamily.roboto,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF444444),
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -151,7 +178,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               SizedBox(height: dimensions.height32),
 
-              //hardcoded text view your school
+              //hardcoded text pick  your school
               Container(
                 margin: EdgeInsets.symmetric(horizontal: dimensions.height24),
                 child: Row(
@@ -190,50 +217,65 @@ class _EcommerceMainState extends State<EcommerceMain> {
               //hardcoded again
               Container(
                 height: dimensions.height151,
+                width: dimensions.width195,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 2,
+                  itemCount: schoolData.schoolData.length,
                   itemBuilder: (context, index) {
-                    return GestureDetector(
+                    return InkWell(
                       onTap: () {
                         schoolData
                             .setSchoolName(schoolData.schoolData[index].name);
-                        context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
+                        context.read<ProductViewRepository>().getProductData(
+                            schoolData.schoolDetails.productsId);
                         Navigator.pushNamed(context, ProductScreen.route);
                       },
                       child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.all(8),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: dimensions.height151,
-                              child:
-                                  Image.asset('assets/school/${index + 1}.png'),
-                            ),
-                            Positioned(
-                                bottom: 10,
-                                left: 16,
-                                right: 0,
-                                child: ReusableText(
-                                    text: 'Wisdom World School',
-                                    fontSize: 14,
-                                    height: 0.10,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black))
-                          ],
-                        ),
-                      ),
+                          height: dimensions.height151,
+                          width: dimensions.width169,
+                          decoration: BoxDecoration(
+                            // color: Colors.green,
+                            borderRadius: BorderRadius.circular(12),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.grey.withOpacity(0.5),
+                            //     // spreadRadius: 2,
+                            //     // blurRadius: 5,
+                            //     // offset: Offset(0, 3),
+                            //   ),
+                            // ],
+                          ),
+                          // margin: EdgeInsets.all(8),
+                          padding: EdgeInsets.all(8),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                schoolData.schoolData[index].banner,
+                                fit: BoxFit.fill,
+                                // color: Colors.black.withOpacity(0.1),
+                              ),
+                              Container(
+                                height: dimensions.height151,
+                                width: dimensions.width169,
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(12),
+                                )
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    schoolData.schoolData[index].name,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                    ),),
+                                ],
+                              )
+                            ],
+                          )),
                     );
                   },
                 ),
@@ -325,6 +367,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         InkWell(
                             onTap: () {
                               // ProductModel.sendRandomProductData();
+                              // schoolData.pushRandomData();
                             },
                             child: ReusableText(
                               text: 'View all',
@@ -345,6 +388,42 @@ class _EcommerceMainState extends State<EcommerceMain> {
               ),
 
               SizedBox(height: dimensions.height16),
+              Container(
+                height: dimensions.height151,
+                width: dimensions.width195,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 2,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        schoolData
+                            .setSchoolName(schoolData.schoolData[index].name);
+                        Navigator.pushNamed(context, ProductScreen.route);
+                      },
+                      child: Container(
+                          height: dimensions.height151,
+                          width: dimensions.width169,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          margin: EdgeInsets.all(8),
+                          child: Image.asset(
+                            'assets/stationary/${index + 1}.png',
+                            fit: BoxFit.cover,
+                          )),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -359,6 +438,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
             icon: Icon(Icons.shopping_cart),
             label: 'Cart',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.category),
+          //   label: 'Category',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',

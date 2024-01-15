@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/ecommerce/product_model.dart';
@@ -14,6 +15,15 @@ class SchoolDataProvider extends ChangeNotifier {
   SchoolModel get schoolDetails => schoolData[schoolIndex];
 
   late SchoolModel selectedSchool;
+
+  bool isSchoolDataLoaded = false;
+
+  bool get getIsSchoolDataLoaded => isSchoolDataLoaded;
+
+  setIsSchoolDataLoaded(bool value){
+    isSchoolDataLoaded = value;
+    notifyListeners();
+  }
 
   void setSchoolName(String name) {
     schoolName = name;
@@ -72,6 +82,45 @@ class SchoolDataProvider extends ChangeNotifier {
 
     addSchoolData(temporarySchool);
     addSchoolData(temporarySchool1);
+    notifyListeners();
+  }
+
+  void pushRandomData(){
+    SchoolModel temporarySchool1 = SchoolModel(
+      schoolId: '123',
+      name: 'Dr. VSEC Sharda Nagar',
+      address: '123 Main Street',
+      city: 'Sample City',
+      state: 'Sample State',
+      board: 'CBSE',
+      pincode: '123456',
+      contactNumber: '9876543210',
+      email: 'sample@email.com',
+      website: 'www.sampleschool.com',
+      logo: 'sample_logo.png',
+      banner: 'assets/school/vsec.jpg',
+      aboutUs: 'This is a sample school for testing purposes.',
+      productsId: [
+        'bookset_1_1',
+        'bookset_1_2',
+      ],
+    );
+
+    FirebaseFirestore.instance.collection('schools').add(temporarySchool1.toMap()).then((value) => {
+      print('School added successfully')
+    }).catchError((error) => {
+      print('Failed to add school: $error')
+    });
+  }
+
+  void loadData() async {
+    setIsSchoolDataLoaded(false);
+    await FirebaseFirestore.instance
+        .collection('schools')
+        .get()
+        .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList());
+
+    setIsSchoolDataLoaded(true);
     notifyListeners();
   }
 

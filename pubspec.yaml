@@ -76,10 +76,14 @@ flutter:
   assets:
     - assets/
     - assets/school/
+    - assets/stationary/
+    - assets/tab icons/
     - assets/school/booksets/
+    - assets/school/perticular bookset/
     - assets/cart/
     - assets/ecommerce home/
     - assets/ecommerce home/icons/
+    - assets/ecommerce home/tab icons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
