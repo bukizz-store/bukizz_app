@@ -25,7 +25,7 @@ class Books extends StatelessWidget {
           itemBuilder: (context, index) {
 
 
-            return GestureDetector(
+            return InkWell(
               onTap: (){
                 Navigator.pushNamed(context, ProductDescriptionScreen.route);
               },

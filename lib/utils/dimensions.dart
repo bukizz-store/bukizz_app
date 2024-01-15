@@ -18,7 +18,11 @@ class Dimensions {
 
   double get width29 => screenWidth / 12.94;
 
+  double get width65 => screenWidth / 5.77;
+
   double get width80 => screenWidth / 4.69;
+
+  double get width83 => screenWidth / 4.52;
 
   double get width120 => screenWidth / 3.125;
 
@@ -27,6 +31,8 @@ class Dimensions {
   double get width169 => screenWidth / 2.22;
 
   double get width195 => screenHeight / 1.9203;
+
+  double get width244 => screenHeight / 1.536;
 
   double get width327 => screenWidth / 1.147;
 
@@ -57,6 +63,7 @@ class Dimensions {
 
   double get height57 => screenHeight / 14.57;
 
+  double get height83 => screenHeight / 9.78;
 
   double get height86 => screenHeight / 9.45;
 
@@ -72,7 +79,7 @@ class Dimensions {
 
   double get height172 => screenHeight / 4.720;
 
-
+  double get height192 => screenHeight / 4.23;
 
   double get height240 => screenHeight / 3.39;
 
