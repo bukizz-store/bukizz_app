@@ -51,7 +51,7 @@ class SchoolModel{
       'logo': logo,
       'banner': banner,
       'aboutUs': aboutUs,
-      'products': productsId,
+      'productsId': productsId,
     };
   }
 
@@ -70,12 +70,9 @@ class SchoolModel{
       logo: map['logo'] ?? '',
       banner: map['banner'] ?? '',
       aboutUs: map['aboutUs'] ?? '',
-      productsId: map['products'] ?? [],
+      productsId: map['productsId'] ?? [],
     );
   }
 
   String toJson() => json.encode(toMap());
-
-
-
 }

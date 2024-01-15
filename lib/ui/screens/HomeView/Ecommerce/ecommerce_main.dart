@@ -138,7 +138,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
               ),
 
               SizedBox(height: dimensions.height16),
-
               //listview of icons
               Container(
                 height: 65,
@@ -233,6 +232,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       child: Container(
                           height: dimensions.height151,
                           width: dimensions.width169,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             // color: Colors.green,
                             borderRadius: BorderRadius.circular(12),
@@ -249,16 +249,19 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           padding: EdgeInsets.all(8),
                           child: Stack(
                             children: [
-                              Image.asset(
+                              Image.network(
                                 schoolData.schoolData[index].banner,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.low,
+                                height: dimensions.height151,
+                                width: dimensions.width195,
                                 // color: Colors.black.withOpacity(0.1),
                               ),
                               Container(
                                 height: dimensions.height151,
                                 width: dimensions.width169,
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.4),
+                                  color: Colors.black.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(12),
                                 )
                               ),
