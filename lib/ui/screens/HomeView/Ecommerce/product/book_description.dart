@@ -27,14 +27,14 @@ class _BooksState extends State<Books> {
     Dimensions dimensions = Dimensions(context);
     return productView.getIsProductAdded ?  Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24,vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height24/2),
         child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               // Set the number of columns in the grid
-              crossAxisSpacing: 12.0,
+              crossAxisSpacing: dimensions.width24/3,
               // Set the horizontal spacing between column
-              mainAxisSpacing: 12.0, // Set the vertical spacing between rows
+              mainAxisSpacing: dimensions.height8, // Set the vertical spacing between rows
             ),
             itemCount: schoolData.selectedSchool.productsId.length,
             itemBuilder: (context, index) {
