@@ -1,7 +1,7 @@
 import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
-// import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+// import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -223,10 +223,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        schoolData
-                            .setSchoolName(schoolData.schoolData[index].name);
-                        context.read<ProductViewRepository>().getProductData(
-                            schoolData.schoolDetails.productsId);
+                        schoolData.setSchoolName(schoolData.schoolData[index].name,);
+                        context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
                         Navigator.pushNamed(context, ProductScreen.route);
                       },
                       child: Container(
@@ -370,7 +368,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         InkWell(
                             onTap: () {
                               // ProductModel.sendRandomProductData();
-                              // schoolData.pushRandomData();
+                              schoolData.pushRandomData();
                             },
                             child: ReusableText(
                               text: 'View all',

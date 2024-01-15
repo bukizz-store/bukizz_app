@@ -42,7 +42,6 @@ class _ProductScreenState extends State<ProductScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: CustomTabBar2(
@@ -57,7 +56,6 @@ class _ProductScreenState extends State<ProductScreen>
       body: TabBarView(
         controller: tabController,
         children: const [
-
           Books(),
           // Your content for the second tab
           Center(child: Text('Forms')),

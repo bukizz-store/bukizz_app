@@ -29,6 +29,7 @@ class SchoolDataProvider extends ChangeNotifier {
     schoolName = name;
     schoolIndex = schoolData.indexWhere((element) => element.name == name);
     selectedSchool = schoolData[schoolIndex];
+    print(schoolIndex);
     notifyListeners();
   }
 
@@ -86,9 +87,9 @@ class SchoolDataProvider extends ChangeNotifier {
   }
 
   void pushRandomData(){
-    SchoolModel temporarySchool1 = SchoolModel(
+    SchoolModel temporarySchool = SchoolModel(
       schoolId: '123',
-      name: 'Dr. VSEC Sharda Nagar',
+      name: 'Dr. VSEC Awadhpuri',
       address: '123 Main Street',
       city: 'Sample City',
       state: 'Sample State',
@@ -98,7 +99,7 @@ class SchoolDataProvider extends ChangeNotifier {
       email: 'sample@email.com',
       website: 'www.sampleschool.com',
       logo: 'sample_logo.png',
-      banner: 'assets/school/vsec.jpg',
+      banner: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/school_image%2Fschool_2.jpg?alt=media&token=65174ee6-abdf-4aa1-bc82-6cad020845f4',
       aboutUs: 'This is a sample school for testing purposes.',
       productsId: [
         'bookset_1_1',
@@ -106,7 +107,7 @@ class SchoolDataProvider extends ChangeNotifier {
       ],
     );
 
-    FirebaseFirestore.instance.collection('schools').add(temporarySchool1.toMap()).then((value) => {
+    FirebaseFirestore.instance.collection('schools').add(temporarySchool.toMap()).then((value) => {
       print('School added successfully')
     }).catchError((error) => {
       print('Failed to add school: $error')

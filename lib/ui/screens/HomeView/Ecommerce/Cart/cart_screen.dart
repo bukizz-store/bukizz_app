@@ -1,4 +1,6 @@
+import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/constants/font_family.dart';
+import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/buttons/cart_button.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
@@ -8,19 +10,16 @@ import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/cart_provider.dart';
 
-List<String>text=
-[
+List<String> text = [
   'English Book Set - Wisdom World School - Class 1st',
   'Roll Paper',
 ];
 
-List<String>images=
-[
+List<String> images = [
   'assets/school/perticular bookset/book.png',
   'assets/cart/book roll.png',
 ];
-List<int>CartQuantity=
-[
+List<int> CartQuantity = [
   0,
   0,
 ];
@@ -37,12 +36,7 @@ List<Pair> prices = [
   Pair(160, 80),
 ];
 
-
-
-
-
 class Cart extends StatefulWidget {
-
   static const String route = '/cart';
   const Cart({super.key});
 
@@ -51,60 +45,84 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  int cart_val=2;
+  int cart_val = 2;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var cartData = context.read<CartProvider>();
-    cartData.loadCartData();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    Dimensions dimensions=Dimensions(context);
-
-
-
+    Dimensions dimensions = Dimensions(context);
+    var cartData = context.watch<CartViewRepository>();
+    var cartProvider = context.watch<CartProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cart'),
       ),
-
-      body: SingleChildScrollView(
+      body: cartProvider.isCartLoaded ? SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: dimensions.height24/2,),
+            SizedBox(
+              height: dimensions.height24 / 2,
+            ),
 
             //1st container with address info
             Container(
-              height: dimensions.height32*2,
+              height: dimensions.height40 * 2,
               width: dimensions.screenWidth,
               color: Colors.white,
               child: Padding(
-                padding: EdgeInsets.only(top: dimensions.height24/2,),
+                padding: EdgeInsets.symmetric(
+                  vertical: dimensions.height24 / 2,
+                  horizontal: dimensions.width24,
+                ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Column(
-
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            ReusableText(text: 'Deliver to: ', fontSize: 16, height: 0,color: Color(0xFF282828),fontWeight: FontWeight.w400,fontFamily: FontFamily.roboto,),
-                            ReusableText(text: 'Aman Saini, 136118', fontSize: 16, height: 0,color: Color(0xFF121212),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,),
+                            ReusableText(
+                              text: 'Deliver to: ',
+                              fontSize: 16,
+                              height: 0,
+                              color: Color(0xFF282828),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: FontFamily.roboto,
+                            ),
+                            ReusableText(
+                              text: AppConstants.userData.address,
+                              fontSize: 16,
+                              height: 0,
+                              color: Color(0xFF121212),
+                              fontWeight: FontWeight.w600,
+                              fontFamily: FontFamily.roboto,
+                            ),
                           ],
                         ),
-
-                        SizedBox(height: dimensions.height8,),
-                        Flexible(child: ReusableText(text: '2nd floor 1884 sector 8...', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,)),
+                        SizedBox(
+                          height: dimensions.height8,
+                        ),
+                        Flexible(
+                            child: ReusableText(
+                          text: AppConstants.userData.alternateAddress!= '' ? AppConstants.userData.alternateAddress : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
+                          fontSize: 14,
+                          height: 0,
+                          color: Color(0xFF7A7A7A),
+                          fontWeight: FontWeight.w600,
+                          fontFamily: FontFamily.roboto,
+                        )),
                       ],
                     ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         print('change button is tapped');
                       },
                       child: Container(
@@ -112,11 +130,19 @@ class _CartState extends State<Cart> {
                         height: dimensions.height36,
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
+                            side: BorderSide(
+                                width: 0.50, color: Color(0xFFD6D6D6)),
                             borderRadius: BorderRadius.circular(6),
                           ),
                         ),
-                        child: Center(child: ReusableText(text: 'Change',fontSize:14,height:0,color: Color(0xFF00579E),fontWeight: FontWeight.w600,)),
+                        child: Center(
+                            child: ReusableText(
+                          text: 'Change',
+                          fontSize: 14,
+                          height: 0,
+                          color: Color(0xFF00579E),
+                          fontWeight: FontWeight.w600,
+                        )),
                       ),
                     ),
                   ],
@@ -124,255 +150,263 @@ class _CartState extends State<Cart> {
               ),
             ),
 
-            SizedBox(height: dimensions.height24/2,),
+            SizedBox(
+              height: dimensions.height24 / 2,
+            ),
 
             //repeated cart products
             Column(
               children: List.generate(
-                    2,
-                    (index) =>
-                    Container(
-                      height: dimensions.height192,
-                      width: dimensions.screenWidth,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: dimensions.width24,
-                          vertical: dimensions.height8,
-                        ),
-                        child: Column(
+                cartData.products.length,
+                (index) => Container(
+                  // height: dimensions.height192,
+                  width: dimensions.screenWidth,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: dimensions.width24,
+                      vertical: dimensions.height8,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: dimensions.width83,
-                                      height: dimensions.height83,
-                                      child: Image.asset(images[index]),
-                                    ),
-                                    SizedBox(height: dimensions.height8),
-                                    ReusableQuantityButton(
-                                      quantity: CartQuantity[index],
-                                      height: 32,
-                                      width: 83,
-                                      onChanged: (newQuantity) {
-                                        setState(() {
-                                          CartQuantity[index] = newQuantity;
-                                        });
-                                      },
-                                    ),
-                                  ],
+                                Container(
+                                  width: dimensions.width83,
+                                  height: dimensions.height83,
+                                  child: Image.network(cartData.products[index].image)
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: dimensions.height16,),
-
-                                    //book names
-                                    SizedBox(
-                                      width: dimensions.width120*2,
-                                      child:  Text(
-                                        text[index],
-                                        style: const TextStyle(
-                                          color: Color(0xFF121212),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          height: 0,
-                                        ),
-                                      ),
-                                    ),
-                                    //stars for review
-                                    Row(
-                                      children: List.generate(
-                                         5 ,
-                                            (index) => const Icon(
-                                          Icons.star,
-                                          size: 16,
-                                          color: Color(0xFF058FFF),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: dimensions.height32,),
-                                    RichText(
-                                      text:  TextSpan(
-                                        text: prices[index].originalPrice.toString(),
-                                        style: const TextStyle(
-                                          color: Color(0xFFB7B7B7),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          decoration: TextDecoration.lineThrough,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: ' ${prices[index].discountedPrice}',
-                                            style: const TextStyle(
-                                              color: Color(0xFF121212),
-                                              fontWeight: FontWeight.w700,
-                                              decoration: TextDecoration.none,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                SizedBox(height: dimensions.height8),
+                                ReusableQuantityButton(
+                                  quantity: cartProvider.getCartData.productsId[cartData.products[index].productId] ?? 0,
+                                  height: 32,
+                                  width: 83,
+                                  onChanged: (newQuantity) {
+                                    // setState(() {
+                                    //   CartQuantity[index] = newQuantity;
+                                    // });
+                                    cartProvider.addProductInCart(cartData.products[index].productId, context);
+                                  },
                                 ),
                               ],
                             ),
-                            SizedBox(height: dimensions.height36/4,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                       if (cart_val>0){
-                                         cart_val--;
-                                       }
-                                    });
-                                  },
-                                  child: ReusableColoredBox(
-                                      width: dimensions.width146,
-                                      height: dimensions.height36,
-                                      backgroundColor: Colors.transparent,
-                                      borderColor: Color(0xFFD6D6D6),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ReusableText(text: 'Remove', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,),
-                                          Icon(Icons.delete_outline,color: Color(0xFF7A7A7A) ,)
-                                        ],
-                                      )
+                                SizedBox(
+                                  height: dimensions.height16,
+                                ),
+
+                                //book names
+                                SizedBox(
+                                  width: dimensions.width120 * 2,
+                                  child: Text(
+                                    cartData.products[index].name,
+                                    style: const TextStyle(
+                                      color: Color(0xFF121212),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      height: 0,
+                                    ),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: (){
-                                    print('Buy now button pressed');
-                                  },
-                                  child: ReusableColoredBox(
-                                      width: dimensions.width146,
-                                      height: dimensions.height36,
-                                      backgroundColor: Colors.transparent,
-                                      borderColor: Color(0xFFD6D6D6),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ReusableText(text: 'Buy Now', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,),
-                                          Icon(Icons.arrow_forward,color: Color(0xFF7A7A7A),size: 20,)
-                                        ],
-                                      )),
+                                //stars for review
+                                Row(
+                                  children: List.generate(
+                                    5,
+                                    (index) => const Icon(
+                                      Icons.star,
+                                      size: 16,
+                                      color: Color(0xFF058FFF),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: dimensions.height32,
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text:
+                                        cartData.products[index].price.toString(),
+                                    style: const TextStyle(
+                                      color: Color(0xFFB7B7B7),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            ' ${cartData.products[index].salePrice}',
+                                        style: const TextStyle(
+                                          color: Color(0xFF121212),
+                                          fontWeight: FontWeight.w700,
+                                          decoration: TextDecoration.none,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: dimensions.height8,),
-                            // const Divider(
-                            //   height: 1.0,
-                            //   color: Color(0xFFD6D6D6),
-                            // ),
                           ],
-
                         ),
-                      ),
-                    ),
-              ),
-
-            ),
-
-
-
-
-
-            SizedBox(height: dimensions.height8*23.85,),
-
-            Container(
-              height: dimensions.height8 * 9,
-              width: dimensions.screenWidth,
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24, vertical: dimensions.height16 * 0.75),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Price column
-                    const Column(
-                      children: [
-                        Text(
-                          '2160',
-                          style: TextStyle(
-                            color: Color(0xFFB7B7B7),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            decoration: TextDecoration.lineThrough,
-                          ),
+                        SizedBox(
+                          height: dimensions.height36 / 4,
                         ),
-                        Text(
-                          '1680',
-                          style: TextStyle(
-                            color: Color(0xFF121212),
-                            fontWeight: FontWeight.w700,
-                            decoration: TextDecoration.none,
-                            fontSize: 16,
-                          ),
-                        )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  if (cart_val > 0) {
+                                    cart_val--;
+                                  }
+                                });
+                              },
+                              child: ReusableColoredBox(
+                                  width: dimensions.width146,
+                                  height: dimensions.height36,
+                                  backgroundColor: Colors.transparent,
+                                  borderColor: Color(0xFFD6D6D6),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ReusableText(
+                                        text: 'Remove',
+                                        fontSize: 14,
+                                        height: 0,
+                                        color: Color(0xFF7A7A7A),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      Icon(
+                                        Icons.delete_outline,
+                                        color: Color(0xFF7A7A7A),
+                                      )
+                                    ],
+                                  )),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                print('Buy now button pressed');
+                              },
+                              child: ReusableColoredBox(
+                                  width: dimensions.width146,
+                                  height: dimensions.height36,
+                                  backgroundColor: Colors.transparent,
+                                  borderColor: Color(0xFFD6D6D6),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ReusableText(
+                                        text: 'Buy Now',
+                                        fontSize: 14,
+                                        height: 0,
+                                        color: Color(0xFF7A7A7A),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        color: Color(0xFF7A7A7A),
+                                        size: 20,
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: dimensions.height16,
+                        ),
+                        const Divider(
+                          height: 1.0,
+                          color: Color(0xFFD6D6D6),
+                        ),
                       ],
                     ),
-                    InkWell(
-                      onTap: (){
-                        print('buy button is tapped');
-                      },
-                      child: Container(
-                        height: dimensions.height8 * 6,
-                        width: dimensions.width146,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Color(0xFF058FFF),
-                        ),
-                        child: Center(
-                          child: ReusableText(
-                            text: 'Buy Now',
-                            fontSize: 16,
-                            height: 0.11,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
               ),
-            )
+            ),
+
+            SizedBox(
+              height: dimensions.height8 * 23.85,
+            ),
 
 
           ],
         ),
+      ) : const Center(child: CircularProgressIndicator(),),
+      bottomNavigationBar: Container(
+        height: dimensions.height8 * 9,
+        width: dimensions.screenWidth,
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 24,
+              ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Column(
+                children: [
+                  Text(
+                    '2160',
+                    style: TextStyle(
+                      color: Color(0xFFB7B7B7),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+                  Text(
+                    '₹1680',
+                    style: TextStyle(
+                      color: Color(0xFF121212),
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.none,
+                      fontSize: 16,
+                    ),
+                  )
+                ],
+              ),
+              InkWell(
+                onTap: () {
+                  print('buy button is tapped');
+                },
+                child: Container(
+                  height: dimensions.height8 * 6,
+                  width: dimensions.width146,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Color(0xFF058FFF),
+                  ),
+                  child: Center(
+                    child: ReusableText(
+                      text: 'Buy Now',
+                      fontSize: 16,
+                      height: 0.11,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-
-
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // class Cart extends StatefulWidget {
 //   static const String route = '/cart';

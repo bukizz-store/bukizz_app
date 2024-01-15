@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../auth/firebase_auth.dart';
+import '../../../data/providers/cart_provider.dart';
 import '../../../data/providers/header_switch.dart';
 import '../../../widgets/custom_tab/custom_tab1.dart';
 
@@ -30,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.animateTo(0);
+    var cartData = context.read<CartProvider>();
+    cartData.loadCartData(context);
   }
 
   @override

@@ -17,7 +17,7 @@ class SchoolModel{
   String logo;
   String banner;
   String aboutUs;
-  List<String> productsId;
+  List<dynamic> productsId;
 
   SchoolModel({
     required this.schoolId,

@@ -33,7 +33,6 @@ class _ProductScreenState extends State<ProductScreen> {
       'assets/school/booksets/class1 bookset.png',
       'assets/school/booksets/class2 bookset.png',
       'assets/school/booksets/class3 bookset.png',
-      // Add more image paths as needed
     ];
 
     return Scaffold(
@@ -51,7 +50,6 @@ class _ProductScreenState extends State<ProductScreen> {
           itemCount: schoolData.selectedSchool.productsId.length,
           itemBuilder: (context, index) {
             var product = productView.productData[index];
-
             return GestureDetector(
               onTap: (){
                 productData.setProductDetail(product);

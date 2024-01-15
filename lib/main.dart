@@ -3,6 +3,7 @@ import 'package:bukizz_1/data/providers/cart_provider.dart';
 import 'package:bukizz_1/data/providers/header_switch.dart';
 import 'package:bukizz_1/data/providers/productModel_provider.dart';
 import 'package:bukizz_1/data/providers/school_repository.dart';
+import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/data/repository/user_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
@@ -49,8 +50,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => UserRepositoryProvider()),
-        ChangeNotifierProvider(create: (_) => ProductViewRepository())
-        // ChangeNotifierProvider(create: (context) => UserDetails()),
+        ChangeNotifierProvider(create: (_) => ProductViewRepository()),
+        ChangeNotifierProvider(create: (context) => CartViewRepository()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

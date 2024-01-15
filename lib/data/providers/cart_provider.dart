@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/data/repository/cart_view_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/ecommerce/cart_model.dart';
+import '../models/ecommerce/product_model.dart';
 
 class CartProvider extends ChangeNotifier {
   CartModel cartData  = CartModel(
@@ -25,13 +29,15 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addProductInCart(String productId , BuildContext context) {
+  void addProductInCart(String productId , BuildContext context) async{
     cartData.productsId[productId] = (cartData.productsId[productId] ?? 0) + 1;
     SnackBar snackBar = const SnackBar(
       content: Text('Product added to cart'),
       duration: Duration(seconds: 2),
     );
-    storeCartData();
+
+    context.read<CartViewRepository>().getCartProduct(productId);
+    await storeCartData();
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     notifyListeners();
   }
@@ -52,25 +58,32 @@ class CartProvider extends ChangeNotifier {
   }
 
   //Create function store this cart data in shared prefereances and then use it in checkout screen.
-  void storeCartData() async{
+  Future<void> storeCartData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('cartData', jsonEncode(cartData.toJson()));
+    await prefs.setString('cartData', jsonEncode(cartData.toMap()));
+
   }
 
-  void loadCartData() async{
+  void loadCartData(BuildContext context) async{
     setCartLoaded(false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try{
       if(prefs.containsKey('cartData')) {
+
+        print(prefs.getString('cartData'));
         String? cartDataString = prefs.getString('cartData');
-        if (cartDataString != null) {
-          Map<String, dynamic> map = jsonDecode(cartDataString).cast<String, dynamic>();
-          Map<String , int> productsIdMap = Map<String , int>.from(map['productsId']);
+        if (cartDataString != '' && cartDataString != null) {
+          print("Shivam");
+          Map<String, dynamic> map = jsonDecode(cartDataString);
+          Map<String , int> productsIdMap = Map<String , int>.from(map['products']);
           cartData = CartModel(
             totalAmount: map['totalAmount'],
             productsId: productsIdMap,
             address: map['address'],
           );
+          cartData.productsId.forEach((key, value) {
+            context.read<CartViewRepository>().getCartProduct(key);
+          });
         } else {
           cartData = CartModel(
             totalAmount: 0.0,

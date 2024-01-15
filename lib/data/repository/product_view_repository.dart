@@ -16,7 +16,8 @@ class ProductViewRepository extends ChangeNotifier {
 
   List<ProductModel> productData = [];
 
-  Future<void> getProductData(List<String> productId) async {
+  Future<void> getProductData(List<dynamic> productId) async {
+    print(productId.toString());
     //Create a method to fetch the product data from firebase whch is stored in products collection where productId is equals to the productId list which is coming from school model nd store it in productData list.
     setProductLoaded(false);
     productData = await FirebaseFirestore.instance

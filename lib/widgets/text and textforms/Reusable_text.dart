@@ -30,6 +30,8 @@ class ReusableText extends StatelessWidget {
       onTap: onTap,
       child: Text(
         text,
+        overflow: TextOverflow.ellipsis,
+        softWrap: true,
         style: TextStyle(
           color: color,
           fontSize: fontSize,
