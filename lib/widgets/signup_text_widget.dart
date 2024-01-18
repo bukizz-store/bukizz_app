@@ -23,7 +23,7 @@ Row signUpOption(String text1, String text2 , BuildContext context , String newR
         child: Text(
           text2,
           style: TextStyle(
-            color: Color(0xFF03045E),
+            color: Color(0xFF058FFF),
             fontWeight: FontWeight.w500,
             fontSize: 16,
             fontFamily: FontFamily.roboto.name,
@@ -55,7 +55,7 @@ Center termsAndService(String text1, String text2,VoidCallback onTap) {
           child: Text(
             text2,
             style: TextStyle(
-              color: Color(0xFF03045E),
+              color: Color(0xFF058FFF),
               fontWeight: FontWeight.w500,
               fontSize: 16,
               fontFamily: FontFamily.roboto.name,
@@ -86,7 +86,7 @@ Center hyperText(String text1, String text2,VoidCallback onTap) {
           child: Text(
             text2,
             style: TextStyle(
-              color: Color(0xFF03045E),
+              color: Color(0xFF058FFF),
               fontWeight: FontWeight.w500,
               fontSize: 16,
               fontFamily: FontFamily.roboto.name,

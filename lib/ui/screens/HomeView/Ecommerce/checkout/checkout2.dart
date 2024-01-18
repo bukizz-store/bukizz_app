@@ -38,7 +38,7 @@ class _Checkout2State extends State<Checkout2> {
               height: dimensions.height8*11.5,
               color: Colors.white,
               child:Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*2),
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.5),
                 child: Row(
                   children: [
                     CustomCircleAvatar(
@@ -46,7 +46,7 @@ class _Checkout2State extends State<Checkout2> {
                       backgroundColor:Color(0xFF058FFF),
                       borderColor: Colors.black38,
                       borderWidth: 0.10,
-                      child: ReusableText(text: '1', fontSize: 16,color: Colors.white,),
+                      child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
                     ),
                     Container(
                       width: 90.0,
@@ -56,9 +56,9 @@ class _Checkout2State extends State<Checkout2> {
                     CustomCircleAvatar(
                       radius: dimensions.height8*2,
                       backgroundColor:Color(0xFF058FFF),
-                      borderColor: Colors.black38,
-                      borderWidth: 0.10,
-                      child: ReusableText(text: '2', fontSize: 16,color: Colors.white,),
+                      borderColor: Colors.black,
+                      borderWidth: 0.5,
+                      child: ReusableText(text: '2', fontSize: 16,color: Colors.white),
                     ),
                     Container(
                       width: 90.0,
@@ -78,8 +78,7 @@ class _Checkout2State extends State<Checkout2> {
             ),
 
             SizedBox(height: dimensions.height8*1.5,),
-
-            //add new address container
+            //add new address
             Container(
               width: dimensions.screenWidth,
               height: dimensions.height48,
@@ -102,13 +101,13 @@ class _Checkout2State extends State<Checkout2> {
 
             SizedBox(height: dimensions.height8*1.5,),
 
-            //container to select address
+            //address selection
             Container(
               width: dimensions.screenWidth,
-              height: dimensions.height8*11.5,
+              height: dimensions.height8*12,
               color: Colors.white,
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height8*2),
+                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24/3,vertical: dimensions.height8*1.5),
                   child:Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -117,7 +116,7 @@ class _Checkout2State extends State<Checkout2> {
                           groupValue: selectedAddress,
                           onChanged: (value) {
                             setState(() {
-                              selectedAddress = value!;
+                              selectedAddress = value;
                             });
                           },
                         ),
@@ -126,13 +125,11 @@ class _Checkout2State extends State<Checkout2> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //deliver to : name
-                            SizedBox(
-                              width: dimensions.width24*8,
+                            Flexible(
                               child: Row(
                                 children: [
-                                  //todo add overflow
-                                  ReusableText(text: 'Deliver to: ', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w400,),
-                                  ReusableText(text: 'Aman Saini, 136118', fontSize: 16,color:Color(0xFF121212),fontWeight: FontWeight.w700,),
+                                  ReusableText(text: 'Deliver to: ', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w400,overflow: TextOverflow.ellipsis,),
+                                  ReusableText(text: 'Aman Saini, 136118', fontSize: 16,color:Color(0xFF121212),fontWeight: FontWeight.w700,overflow: TextOverflow.clip,),
                                 ],
                               ),
                             ),
@@ -188,8 +185,8 @@ class _Checkout2State extends State<Checkout2> {
                       color: Colors.white,
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: dimensions.width24,
-                          vertical: dimensions.height8,
+                          horizontal: dimensions.width24/1.5,
+                          vertical: dimensions.height8/2,
                         ),
                         child: Column(
                           children: [
@@ -364,7 +361,12 @@ class _Checkout2State extends State<Checkout2> {
                         InkWell(
                           onTap: (){
                             //apply coupon logic here
-                            print('Apply coupon button pressed');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Invalid coupon. Please try again.'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
                           },
                           child: Container(
                             width: dimensions.width16*3.4,

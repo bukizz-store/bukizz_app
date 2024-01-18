@@ -4,6 +4,7 @@ import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/productModel_provider.dart';
@@ -68,11 +69,9 @@ class _BooksState extends State<Books> {
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12),
                         ),
-                        child: Image(
-                          image: AssetImage('assets/school/booksets/${index + 1}.png'),
-                          fit: BoxFit.fill,
-                          height: dimensions.height105,
-                          width: dimensions.width169,
+                        child: SvgPicture.asset(
+                          'assets/school/booksets/${index + 1}.svg',
+                          color: Colors.redAccent,
                         ),
                       ),
                       SizedBox(height: dimensions.height24 / 5),
