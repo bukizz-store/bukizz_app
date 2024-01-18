@@ -42,7 +42,7 @@ class _Checkout1State extends State<Checkout1> {
                       backgroundColor:Color(0xFF058FFF),
                       borderColor: Colors.black38,
                       borderWidth: 0.10,
-                      child: ReusableText(text: '1', fontSize: 16,color: Colors.white,),
+                      child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
                     ),
                     Container(
                       width: 90.0,
