@@ -462,7 +462,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
         // If index is 1, navigate to the cart screen
         Navigator.pushNamed(context, Cart.route);
       } else {
-        //handle other indexes
+
       }
       // Handle navigation to the corresponding screen based on the index
       // You can use Navigator or other navigation methods here.
