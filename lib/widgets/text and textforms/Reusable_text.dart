@@ -8,7 +8,7 @@ class ReusableText extends StatelessWidget {
   final double fontSize;
   final FontFamily fontFamily;
   final FontWeight fontWeight;
-  final double height;
+  final double ?height;
   final double letterSpacing;
   final VoidCallback? onTap;
 
@@ -19,7 +19,7 @@ class ReusableText extends StatelessWidget {
     required this.fontSize,
     this.fontFamily = FontFamily.defaultFamily,
     this.fontWeight = FontWeight.w700,
-    required this.height,
+    this.height=0.11,
     this.letterSpacing = -0.72,
     this.onTap,
   }) : super(key: key);

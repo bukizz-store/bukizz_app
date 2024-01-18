@@ -268,7 +268,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 children: [
                                   Text(
                                     schoolData.schoolData[index].name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
