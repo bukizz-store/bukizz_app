@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../constants/font_family.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
+import '../../../../../widgets/text and textforms/expandable_text_widget.dart';
 
 
 String bookDescription = "The foundation of your English studies, these official textbooks delve deep into prescribed poems, stories, plays, and grammar concepts, ensuring thorough understanding and exam preparedness. Supplementary Readers: Expand your horizons with captivating novels, captivating short stories, and thought-provoking essays that fuel your imagination and broaden your literary perspective. Practice Papers & Sample Questions: Hone your skills and build confidence with targeted practice exercises and model question papers that mirror the CBSE exam format. Study Guides & Explanations: Get instant access to clear explanations, insightful interpretations, and valuable learning tips that unlock the meaning behind every text and grammar rule. Interactive Activities & Quizzes";
