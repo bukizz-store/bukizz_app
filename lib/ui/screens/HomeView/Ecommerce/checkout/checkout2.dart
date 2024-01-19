@@ -8,6 +8,7 @@ import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import '../Cart/cart_screen.dart';
+import 'checkout3.dart';
 
 class Checkout2 extends StatefulWidget {
   const Checkout2({super.key});
@@ -486,7 +487,21 @@ class _Checkout2State extends State<Checkout2> {
               ),
               InkWell(
                 onTap: (){
-                  print('buy button is tapped');
+                  if (selectedAddress == null) {
+                    // Show a Snackbar if no address is selected
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please select an address first.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    // Navigate to the next screen or perform other actions
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Checkout3()),
+                    );
+                  }
                 },
                 child: Container(
                   height: dimensions.height8 * 6,

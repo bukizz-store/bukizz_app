@@ -71,6 +71,7 @@ class _BooksState extends State<Books> {
                         ),
                         child: SvgPicture.asset(
                           'assets/school/booksets/${index + 1}.svg',
+                          fit: BoxFit.fitWidth,
                           color: Colors.redAccent,
                         ),
                       ),
