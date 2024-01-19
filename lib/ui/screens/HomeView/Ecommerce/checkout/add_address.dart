@@ -43,7 +43,7 @@ class _AddAddressState extends State<AddAddress> {
               height: dimensions.height8*11.5,
               color: Colors.white,
               child:Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.8),
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.5),
                 child: Row(
                   children: [
                     CustomCircleAvatar(
@@ -180,7 +180,6 @@ class _AddAddressState extends State<AddAddress> {
       ),
     );
   }
-
   void onUseMyLocationTap() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -188,7 +187,7 @@ class _AddAddressState extends State<AddAddress> {
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      print('location not enabled');
+      print('Location services are not enabled');
       return;
     }
 
@@ -200,12 +199,12 @@ class _AddAddressState extends State<AddAddress> {
 
       if (permission == LocationPermission.denied) {
         // Handle case when permission is not granted by showing a message or UI
+        print('Location permission denied');
         return;
       }
     }
 
-    if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
+    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
       // Get current position
       Position position = await Geolocator.getCurrentPosition();
 
@@ -225,5 +224,5 @@ class _AddAddressState extends State<AddAddress> {
     }
   }
 
-
 }
+
