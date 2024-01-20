@@ -14,41 +14,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../auth/firebase_auth.dart';
 import '../../../data/providers/cart_provider.dart';
 import '../../../data/providers/header_switch.dart';
+import '../../../data/providers/school_repository.dart';
 import '../../../widgets/custom_tab/custom_tab1.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String route = '/homeScreen';
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
-  int currentTab = 0;
+
+
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.animateTo(0);
-    var cartData = context.read<CartProvider>();
-    cartData.loadCartData(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    _tabController.addListener(() {
-      setState(() {
-        currentTab = _tabController.index;
-      });
-    });
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(38.0),
           child: Padding(
-            padding: EdgeInsets.only(bottom: 25), // Adjust the padding as needed
+            padding: EdgeInsets.only(bottom: 25),
             child: CustomTabBar(
               onIndexChanged: (index) {
                 _tabController.animateTo(index);
@@ -57,9 +52,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
       ),
-
       body: TabBarView(
         controller: _tabController,
+        physics: NeverScrollableScrollPhysics(), // Disable swiping
         children: const [
           EcommerceMain(),
           MySchoolMain(),
@@ -68,4 +63,3 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 }
-

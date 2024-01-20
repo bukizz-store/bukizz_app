@@ -1,0 +1,27 @@
+<svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1018_8105)">
+<rect width="57" height="57" rx="28.5" fill="#00AF11"/>
+<g filter="url(#filter0_f_1018_8105)">
+<circle cx="17" cy="45" r="27" fill="white" fill-opacity="0.5"/>
+</g>
+<path d="M36 20H22C20.9 20 20 20.9 20 22V36C20 37.1 20.9 38 22 38H36C37.1 38 38 37.1 38 36V22C38 20.9 37.1 20 36 20ZM24 24H26V26H24V24ZM24 28H26V30H24V28ZM24 32H26V34H24V32ZM34 34H28V32H34V34ZM34 30H28V28H34V30ZM34 26H28V24H34V26Z" fill="white"/>
+<g filter="url(#filter1_f_1018_8105)">
+<rect x="-7.30176" y="-50" width="8" height="67.8758" transform="rotate(32.7288 -7.30176 -50)" fill="#FAFAFA"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_1018_8105" x="-42" y="-14" width="118" height="118" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="16" result="effect1_foregroundBlur_1018_8105"/>
+</filter>
+<filter id="filter1_f_1018_8105" x="-56" y="-62" width="67.4277" height="85.4253" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_1018_8105"/>
+</filter>
+<clipPath id="clip0_1018_8105">
+<rect width="57" height="57" rx="28.5" fill="white"/>
+</clipPath>
+</defs>
+</svg>

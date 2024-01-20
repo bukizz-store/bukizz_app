@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RoundedImage extends StatelessWidget {
   const RoundedImage({
@@ -8,7 +9,7 @@ class RoundedImage extends StatelessWidget {
     this.imageUrl,
     this.applyImageRadius = true,
     this.border,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor = Colors.transparent,
     this.fit = BoxFit.fill,
     this.isNetworkImage = false,
     this.onPressed,
@@ -41,11 +42,17 @@ class RoundedImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: ClipRRect(
-          borderRadius:
-          applyImageRadius ? BorderRadius.circular(borderRadius) : BorderRadius.zero,
-          child: Image(
-            image: isNetworkImage ? NetworkImage(imageUrl!) : AssetImage(assetImage!) as ImageProvider,
+          borderRadius: applyImageRadius
+              ? BorderRadius.circular(borderRadius)
+              : BorderRadius.zero,
+          child: isNetworkImage
+              ? Image.network(
+            imageUrl!,
             fit: fit ?? BoxFit.contain,
+          )
+              : SvgPicture.asset(
+            assetImage!,
+            fit: fit ?? BoxFit.cover,
           ),
         ),
       ),
