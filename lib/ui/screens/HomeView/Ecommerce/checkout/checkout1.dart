@@ -1,3 +1,4 @@
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/checkout2.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
@@ -83,7 +84,10 @@ class _Checkout1State extends State<Checkout1> {
                 padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
                 child: InkWell(
                   onTap: (){
-                    print('add new address tapped');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddAddress()),
+                    );
                   },
                   child: Row(
                     children: [
@@ -173,11 +177,22 @@ class _Checkout1State extends State<Checkout1> {
 
       bottomNavigationBar: InkWell(
         onTap: (){
-          Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Checkout2()),
-        );
-       },
+          if (selectedAddress == null) {
+            // Show a Snackbar if no address is selected
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please select an address first.'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          } else {
+            // Navigate to the next screen or perform other actions
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Checkout2()),
+            );
+          }
+        },
         child: Container(
           height: dimensions.height8 * 9,
           width: dimensions.screenWidth,

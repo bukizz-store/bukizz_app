@@ -8,6 +8,7 @@ import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import '../Cart/cart_screen.dart';
+import 'checkout3.dart';
 
 class Checkout2 extends StatefulWidget {
   const Checkout2({super.key});
@@ -73,28 +74,6 @@ class _Checkout2State extends State<Checkout2> {
                       child: ReusableText(text: '3', fontSize: 16,color: Color(0xFF058FFF),),
                     ),
                   ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: dimensions.height8*1.5,),
-            //add new address
-            Container(
-              width: dimensions.screenWidth,
-              height: dimensions.height48,
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
-                child: InkWell(
-                  onTap: (){
-                    print('add new address tapped');
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.add,color:Color(0xFF00589E),),
-                      ReusableText(text: 'Add New Address', fontSize: 14,color: Color(0xFF00589E),)
-                    ],
-                  ),
                 ),
               ),
             ),
@@ -177,7 +156,7 @@ class _Checkout2State extends State<Checkout2> {
             //cart products
             Column(
               children: List.generate(
-                2,
+                cart_val,
                     (index) =>
                     Container(
                       height: dimensions.height192,
@@ -194,6 +173,7 @@ class _Checkout2State extends State<Checkout2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                //image and cart button
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,6 +196,7 @@ class _Checkout2State extends State<Checkout2> {
                                     ),
                                   ],
                                 ),
+                                //bookset name review and pricing
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -273,49 +254,29 @@ class _Checkout2State extends State<Checkout2> {
                               ],
                             ),
                             SizedBox(height: dimensions.height36/4,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                      if (cart_val>0){
-                                        cart_val--;
-                                      }
-                                    });
-                                  },
-                                  child: ReusableColoredBox(
-                                      width: dimensions.width146,
-                                      height: dimensions.height36,
-                                      backgroundColor: Colors.transparent,
-                                      borderColor: Color(0xFFD6D6D6),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ReusableText(text: 'Remove', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,),
-                                          Icon(Icons.delete_outline,color: Color(0xFF7A7A7A) ,)
-                                        ],
-                                      )
-                                  ),
+                            Container(
+                              width: dimensions.width342,
+                              height: dimensions.height40,
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    cart_val--;
+                                  });
+                                },
+                                child: ReusableColoredBox(
+                                    width: dimensions.width146,
+                                    height: dimensions.height36,
+                                    backgroundColor: Colors.transparent,
+                                    borderColor: Color(0xFFD6D6D6),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        ReusableText(text: 'Remove', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,),
+                                        Icon(Icons.delete_outline,color: Color(0xFF7A7A7A) ,)
+                                      ],
+                                    )
                                 ),
-                                InkWell(
-                                  onTap: (){
-                                    print('Buy now button pressed');
-                                  },
-                                  child: ReusableColoredBox(
-                                      width: dimensions.width146,
-                                      height: dimensions.height36,
-                                      backgroundColor: Colors.transparent,
-                                      borderColor: Color(0xFFD6D6D6),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ReusableText(text: 'Buy Now', fontSize: 14, height: 0,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,),
-                                          Icon(Icons.arrow_forward,color: Color(0xFF7A7A7A),size: 20,)
-                                        ],
-                                      )),
-                                ),
-                              ],
+                              ),
                             ),
                             SizedBox(height: dimensions.height8,),
                             // const Divider(
@@ -389,6 +350,7 @@ class _Checkout2State extends State<Checkout2> {
 
             SizedBox(height: dimensions.height8*1.5,),
 
+            //price distribution container
             Container(
               width: dimensions.screenWidth,
               height: dimensions.height29*6.3,
@@ -452,6 +414,7 @@ class _Checkout2State extends State<Checkout2> {
           ],
         ),
       ),
+
       bottomNavigationBar: Container(
         height: dimensions.height8 * 9,
         width: dimensions.screenWidth,
@@ -486,7 +449,21 @@ class _Checkout2State extends State<Checkout2> {
               ),
               InkWell(
                 onTap: (){
-                  print('buy button is tapped');
+                  if (selectedAddress == null) {
+                    // Show a Snackbar if no address is selected
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please select an address first.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    // Navigate to the next screen or perform other actions
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Checkout3()),
+                    );
+                  }
                 },
                 child: Container(
                   height: dimensions.height8 * 6,
