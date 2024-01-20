@@ -1,3 +1,5 @@
+import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/checkout2.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
@@ -7,6 +9,7 @@ import '../../../../../widgets/circle/custom circleAvatar.dart';
 
 
 class Checkout1 extends StatefulWidget {
+  static const route = '/checkout1';
   const Checkout1({super.key});
 
   @override
@@ -22,7 +25,6 @@ class _Checkout1State extends State<Checkout1> {
       appBar: AppBar(
         title: Text('Select Delivery Address'),
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -83,7 +85,10 @@ class _Checkout1State extends State<Checkout1> {
                 padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
                 child: InkWell(
                   onTap: (){
-                    print('add new address tapped');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddAddress()),
+                    );
                   },
                   child: Row(
                     children: [
@@ -108,11 +113,12 @@ class _Checkout1State extends State<Checkout1> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Radio<String>(
-                      value: '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana',
+                      value: AppConstants.userData.address,
                       groupValue: selectedAddress,
                       onChanged: (value) {
                         setState(() {
                           selectedAddress = value;
+                          print(selectedAddress);
                         });
                       },
                     ),
@@ -125,7 +131,7 @@ class _Checkout1State extends State<Checkout1> {
                           child: Row(
                             children: [
                               ReusableText(text: 'Deliver to: ', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w400,overflow: TextOverflow.ellipsis,),
-                              ReusableText(text: 'Aman Saini, 136118', fontSize: 16,color:Color(0xFF121212),fontWeight: FontWeight.w700,overflow: TextOverflow.clip,),
+                              ReusableText(text: AppConstants.userData.name, fontSize: 16,color:Color(0xFF121212),fontWeight: FontWeight.w700,overflow: TextOverflow.clip,),
                             ],
                           ),
                         ),
@@ -134,8 +140,8 @@ class _Checkout1State extends State<Checkout1> {
                         // address with overflow
                         SizedBox(
                           width: dimensions.width24*9.5,
-                          child: const Text(
-                            '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana',
+                          child: Text(
+                            AppConstants.userData.address,
                             style: TextStyle(
                               color: Color(0xFF7A7A7A),
                               fontSize: 14,
@@ -173,11 +179,22 @@ class _Checkout1State extends State<Checkout1> {
 
       bottomNavigationBar: InkWell(
         onTap: (){
-          Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Checkout2()),
-        );
-       },
+          if (selectedAddress == null) {
+            // Show a Snackbar if no address is selected
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please select an address first.'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          } else {
+            // Navigate to the next screen or perform other actions
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Checkout2()),
+            );
+          }
+        },
         child: Container(
           height: dimensions.height8 * 9,
           width: dimensions.screenWidth,

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/cart_provider.dart';
+import '../checkout/checkout1.dart';
 
 List<String> text = [
   'English Book Set - Wisdom World School - Class 1st',
@@ -59,25 +60,30 @@ class _CartState extends State<Cart> {
   double salePrice = 0;
 
   void getTotalPrice() {
-totalPrice = 0;
-salePrice = 0;
+    totalPrice = 0;
+    salePrice = 0;
 
     var cart = context.read<CartViewRepository>();
     cart.cartData.forEach((key, value) {
       value.forEach((key, value) {
-        totalPrice += cart.products.where((element) => element.productId == key).first.price * value;
+        totalPrice += cart.products
+                .where((element) => element.productId == key)
+                .first
+                .price *
+            value;
         // print(totalPrice);
       });
     });
     cart.cartData.forEach((key, value) {
       value.forEach((key, value) {
-        salePrice += cart.products.where((element) => element.productId == key).first.salePrice * value;
+        salePrice += cart.products
+                .where((element) => element.productId == key)
+                .first
+                .salePrice *
+            value;
         print(salePrice);
       });
     });
-    //
-    // print(totalPrice);
-    // print(salePrice);
   }
 
   // bool load = false;
@@ -89,117 +95,124 @@ salePrice = 0;
     // var cartData = context.watch<CartViewRepository>();
     getTotalPrice();
     var cartProvider = context.watch<CartProvider>();
-    return Consumer<CartViewRepository>(builder: (context , cartViewData , child){
+    return Consumer<CartViewRepository>(
+        builder: (context, cartViewData, child) {
       // Map<String, Map<String, int>> cartTempData = cartViewData.cartData;
+
       return Scaffold(
         appBar: AppBar(
           title: const Text('Cart'),
         ),
         body: cartProvider.isCartLoadedProvider
             ? SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: dimensions.height24 / 2,
-              ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: dimensions.height24 / 2,
+                    ),
 
-              //1st container with address info
-              Container(
-                height: dimensions.height40 * 2,
-                width: dimensions.screenWidth,
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: dimensions.height24 / 2,
-                    horizontal: dimensions.width24,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              ReusableText(
-                                text: 'Deliver to: ',
-                                fontSize: 16,
-                                height: 0,
-                                color: Color(0xFF282828),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: FontFamily.roboto,
-                              ),
-                              ReusableText(
-                                text: AppConstants.userData.address,
-                                fontSize: 16,
-                                height: 0,
-                                color: Color(0xFF121212),
-                                fontWeight: FontWeight.w600,
-                                fontFamily: FontFamily.roboto,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: dimensions.height8,
-                          ),
-                          Flexible(
-                              child: ReusableText(
-                                text: AppConstants.userData.alternateAddress !=
-                                    ''
-                                    ? AppConstants.userData.alternateAddress
-                                    : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
-                                fontSize: 14,
-                                height: 0,
-                                color: Color(0xFF7A7A7A),
-                                fontWeight: FontWeight.w600,
-                                fontFamily: FontFamily.roboto,
-                              )),
-                        ],
-                      ),
-                      InkWell(
-                        onTap: () {
-                          print('change button is tapped');
-                        },
-                        child: Container(
-                          width: dimensions.width65,
-                          height: dimensions.height36,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 0.50, color: Color(0xFFD6D6D6)),
-                              borderRadius: BorderRadius.circular(6),
+                    //1st container with address info
+                    Container(
+                      height: dimensions.height40 * 2,
+                      width: dimensions.screenWidth,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: dimensions.height24 / 2,
+                          horizontal: dimensions.width24,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    ReusableText(
+                                      text: 'Deliver to: ',
+                                      fontSize: 16,
+                                      height: 0,
+                                      color: Color(0xFF282828),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: FontFamily.roboto,
+                                    ),
+                                    ReusableText(
+                                      text: AppConstants.userData.name,
+                                      fontSize: 16,
+                                      height: 0,
+                                      color: Color(0xFF121212),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: FontFamily.roboto,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: dimensions.height8,
+                                ),
+                                Flexible(
+                                    child: Container(
+                                      width: dimensions.width24 * 9.5,
+                                      child: ReusableText(
+                                                                        text: AppConstants
+                                                .userData.address !=
+                                            ''
+                                        ? AppConstants.userData.address
+                                        : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
+                                                                        fontSize: 14,
+                                                                        height: 0,
+                                                                        color: Color(0xFF7A7A7A),
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontFamily: FontFamily.roboto,
+                                        overflow: TextOverflow.ellipsis,
+                                                                      ),
+                                    )),
+                              ],
                             ),
-                          ),
-                          child: Center(
-                              child: ReusableText(
-                                text: 'Change',
-                                fontSize: 14,
-                                height: 0,
-                                color: Color(0xFF00579E),
-                                fontWeight: FontWeight.w600,
-                              )),
+                            InkWell(
+                              onTap: () {
+                                print('change button is tapped');
+                              },
+                              child: Container(
+                                width: dimensions.width65,
+                                height: dimensions.height36,
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        width: 0.50, color: Color(0xFFD6D6D6)),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                ),
+                                child: Center(
+                                    child: ReusableText(
+                                  text: 'Change',
+                                  fontSize: 14,
+                                  height: 0,
+                                  color: Color(0xFF00579E),
+                                  fontWeight: FontWeight.w600,
+                                )),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+
+                    SizedBox(
+                      height: dimensions.height24 / 2,
+                    ),
+
+                    //repeated cart products
+                    Column(children: _cartItems(dimensions, cartViewData)),
+
+                    SizedBox(height: dimensions.height8 * 23.85),
+                  ],
                 ),
-              ),
-
-              SizedBox(
-                height: dimensions.height24 / 2,
-              ),
-
-              //repeated cart products
-              Column(children: _cartItems(dimensions , cartViewData)),
-
-              SizedBox(height: dimensions.height8 * 23.85),
-            ],
-          ),
-        )
+              )
             : const Center(
-          child: CircularProgressIndicator(),
-        ),
+                child: CircularProgressIndicator(),
+              ),
         bottomNavigationBar: Container(
           height: dimensions.height8 * 9,
           width: dimensions.screenWidth,
@@ -235,7 +248,15 @@ salePrice = 0;
                 ),
                 InkWell(
                   onTap: () {
-                    print('buy button is tapped');
+                    // print('buy button is tapped');
+                    context
+                        .read<CartViewRepository>()
+                        .setTotalPrice(totalPrice.toInt());
+                    context
+                        .read<CartViewRepository>()
+                        .setSalePrice(salePrice.toInt());
+
+                    Navigator.pushNamed(context, Checkout1.route);
                   },
                   child: Container(
                     height: dimensions.height8 * 6,
@@ -261,12 +282,11 @@ salePrice = 0;
         ),
       );
     });
-
   }
 
-  List<Widget> _cartItems( dimensions , CartViewRepository cartData) {
+  List<Widget> _cartItems(dimensions, CartViewRepository cartData) {
     List<Widget> items = [];
-    try{
+    try {
       cartData.getCartData.forEach((SchoolName, productData) {
         productData.forEach((product, quantity) {
           items.add(Container(
@@ -291,7 +311,11 @@ salePrice = 0;
                           Container(
                               width: dimensions.width83,
                               height: dimensions.height83,
-                              child: Image.network(cartData.products.where((element) => element.productId == product).first.image)),
+                              child: Image.network(cartData.products
+                                  .where(
+                                      (element) => element.productId == product)
+                                  .first
+                                  .image)),
                           SizedBox(height: dimensions.height8),
                           ReusableQuantityButton(
                             quantity: quantity,
@@ -333,7 +357,7 @@ salePrice = 0;
                           Row(
                             children: List.generate(
                               5,
-                                  (index) => const Icon(
+                              (index) => const Icon(
                                 Icons.star,
                                 size: 16,
                                 color: Color(0xFF058FFF),
@@ -345,7 +369,12 @@ salePrice = 0;
                           ),
                           RichText(
                             text: TextSpan(
-                              text: cartData.products.where((element) => element.productId == product).first.price.toString(),
+                              text: cartData.products
+                                  .where(
+                                      (element) => element.productId == product)
+                                  .first
+                                  .price
+                                  .toString(),
                               style: const TextStyle(
                                 color: Color(0xFFB7B7B7),
                                 fontWeight: FontWeight.w500,
@@ -354,7 +383,8 @@ salePrice = 0;
                               ),
                               children: [
                                 TextSpan(
-                                  text: ' ${cartData.products.where((element) => element.productId == product).first.salePrice}',
+                                  text:
+                                      ' ${cartData.products.where((element) => element.productId == product).first.salePrice}',
                                   style: const TextStyle(
                                     color: Color(0xFF121212),
                                     fontWeight: FontWeight.w700,
@@ -378,10 +408,10 @@ salePrice = 0;
                       InkWell(
                         onTap: () {
                           print('Remove button pressed');
-                          cartData.removeCartData(SchoolName, product);
+                          cartData.removeCartData(SchoolName, product );
+                          context.read<CartProvider>().removeCartData(SchoolName,product);
                           getTotalPrice();
-                          setState(() {
-                          });
+                          setState(() {});
                         },
                         child: ReusableColoredBox(
                             width: dimensions.width146,
@@ -447,14 +477,9 @@ salePrice = 0;
           ));
         });
       });
-    }
-    catch(e){
+    } catch (e) {
       print(e);
     }
-
-    // setState(() {
-    // load = true;
-    // });
 
     return items.isNotEmpty ? items : [Container()];
   }

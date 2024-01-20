@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
 import '../models/ecommerce/product_model.dart';
 import '../providers/cart_provider.dart';
@@ -11,6 +13,31 @@ class CartViewRepository extends ChangeNotifier {
 
   setIsCartLoaded(bool value) {
     isCartLoadedViewProvider = value;
+    notifyListeners();
+  }
+
+  int totalPrice = 0;
+  int salePrice = 0;
+
+  int get getTotalPrice => totalPrice;
+  int get getSalePrice => salePrice;
+
+  void setTotalPrice(int value){
+    totalPrice = value;
+    notifyListeners();
+  }
+
+  void setSalePrice(int value){
+    salePrice = value;
+    notifyListeners();
+  }
+
+  int cart_val = 0;
+
+  int get getCartVal => cart_val;
+
+  void setCartVal(int value){
+    cart_val = value;
     notifyListeners();
   }
 
@@ -43,10 +70,17 @@ class CartViewRepository extends ChangeNotifier {
     cartData.putIfAbsent(schoolName, () => {});
     cartData[schoolName]![productModel.productId] = (cartData[schoolName]![productModel.productId] ?? 0) + quantity;
     addProduct(productModel);
+    int length = 0;
+
+    cartData.forEach((key, value) {
+      length = length + value.length;
+    });
+
+    setCartVal(length);
     notifyListeners();
   }
 
-  void removeCartData(String schoolName , String productId){
+  void removeCartData(String schoolName , String productId ){
 
     if(cartData[schoolName]!.length == 1){
       // products.removeWhere((element) => element.productId == productId);
@@ -57,11 +91,19 @@ class CartViewRepository extends ChangeNotifier {
       cartData[schoolName]!.remove(productId);
     }
 
+    int length = 0;
+
+    cartData.forEach((key, value) {
+      length = length + value.length;
+    });
+
+    setCartVal(length);
+
     // products.removeWhere((element) => element.productId == productId);
     // cartData[schoolName]!.remove(productId);
 
-    products.map((e) => print(e.toString()));
-    print(cartData);
+    // products.map((e) => print(e.toString()));
+    // print(cartData);
     notifyListeners();
   }
 
@@ -73,24 +115,6 @@ class CartViewRepository extends ChangeNotifier {
       products.removeWhere((element) => element.productId == productId);
       cartData[schoolName]!.remove(productId);
     }
-    notifyListeners();
-  }
-
-  int _totalPrice = 0;
-
-  int get totalPrice => _totalPrice;
-
-  void setTotalPrice(int value){
-    _totalPrice = value;
-    notifyListeners();
-  }
-
-  int _totalSalePrice = 0;
-
-  int get totalSalePrice => _totalSalePrice;
-
-  void setTotalSalePrice(int value){
-    _totalSalePrice = value;
     notifyListeners();
   }
 

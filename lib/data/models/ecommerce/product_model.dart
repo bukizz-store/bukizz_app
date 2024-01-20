@@ -75,7 +75,9 @@ class ProductModel {
       classId: 'CLA1',
       board: 'CBSE',
       salePrice: 3700,
-      reviewIdList: [],
+      reviewIdList: [
+
+      ],
     );
   }
 

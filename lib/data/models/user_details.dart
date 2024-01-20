@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,11 +12,11 @@ class MainUserDetails {
   String password;
   String address;
   String uid;
-  DateTime dob;
+  String dob;
   String mobile;
   String alternateAddress;
-  List<String> studentsUID;
-  List<String> orderID;
+  List<dynamic> studentsUID;
+  List<dynamic> orderID;
 
   MainUserDetails({
     required this.name,
@@ -61,7 +62,7 @@ class MainUserDetails {
       password: map['password'] ?? '',
       address: map['address'] ?? '',
       uid: map['uid'] ?? '',
-      dob: map['dob'] ?? '',
+      dob: map['dob'] ?? DateTime.now().toIso8601String(),
       mobile: map['mobile'] ?? '',
       alternateAddress: map['alternateAddress'] ?? '',
       studentsUID: map['studentsUID'] ?? [],
@@ -70,7 +71,7 @@ class MainUserDetails {
   }
 
   // Method to push user data to Firebase with an empty string for name, class, and section
-  Future<void> pushToFirebase() async {
+  Future<void> pushToFirebase(UserCredential authResult) async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await FirebaseFirestore.instance
@@ -80,22 +81,25 @@ class MainUserDetails {
 
       if (querySnapshot.docs.isEmpty) {
         // If no document with the same email exists, add a new document
-        await FirebaseFirestore.instance.collection('userDetails').add(toMap());
+        await FirebaseFirestore.instance.collection('userDetails').doc(authResult.user!.uid).set(toMap());
       } else {
         // If a document with the same email exists, you may choose to handle this case accordingly
         print('User with email $email already exists in Firestore');
       }
 
-      AppConstants.userData = MainUserDetails.fromMap(toMap());
-      print(AppConstants.userData);
+    // AppConstants.userData = MainUserDetails.fromMap(toMap());
+    print(toMap());
+
     } catch (e) {
       print('Error pushing user data to Firebase: $e');
     }
+
   }
 
   // Save user details to shared preferences
   Future<void> saveToSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userData', AppConstants.userData.toMap().toString());
     prefs.setString('uid', uid);
     prefs.setString('email', email);
     prefs.setString('password', password);
@@ -106,22 +110,15 @@ class MainUserDetails {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email') ?? '';
     String? password = prefs.getString('password') ?? '';
+    String? userData = prefs.getString('userData') ?? '';
     String? uid = prefs.getString('uid') ?? '';
     bool? isLogin = prefs.getBool('isLogin');
 
-    AppConstants.isLogin = isLogin ?? false;
-    return MainUserDetails(
-      name: '',
-      email: email,
-      password: password,
-      address: '',
-      uid: uid,
-      dob: DateTime.now(),
-      mobile: '',
-      alternateAddress: '',
-      orderID: [],
-      studentsUID: [],
-    );
+    if (userData != '') {
+      Map<String, dynamic> map = json.decode(userData);
+      AppConstants.isLogin = isLogin ?? false;
+      return MainUserDetails.fromMap(map);
+    }
   }
 
   // Create a UserDetails instance from QuerySnapshot data
@@ -133,7 +130,7 @@ class MainUserDetails {
       password: snapshot['password'] ?? '',
       address: snapshot['address'] ?? '',
       uid: snapshot['uid'] ?? '',
-      dob: snapshot['dob'] ?? '',
+      dob: snapshot['dob'] ?? DateTime.now().toIso8601String(),
       mobile: snapshot['mobile'] ?? '',
       alternateAddress: snapshot['alternateAddress'] ?? '',
       studentsUID: snapshot['studentsUID'] ?? [],

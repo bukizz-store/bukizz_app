@@ -19,6 +19,7 @@ import 'auth/firebase_auth.dart';
 import 'data/models/user_details.dart';
 import 'constants/strings.dart';
 import 'constants/theme.dart';
+import 'data/repository/order_view_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +56,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => UserRepositoryProvider()),
         ChangeNotifierProvider(create: (_) => ProductViewRepository()),
-        ChangeNotifierProvider(create: (context) => CartViewRepository()),
+        ChangeNotifierProvider(create: (_) => CartViewRepository()),
+        ChangeNotifierProvider(create: (_) => OrderViewRespository()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
