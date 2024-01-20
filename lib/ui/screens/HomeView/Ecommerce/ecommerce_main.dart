@@ -370,7 +370,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       children: [
                         InkWell(
                             onTap: () {
-                              ProductModel.sendRandomProductData();
+                              // ProductModel.sendRandomProductData();
                               // schoolData.pushRandomData();
                             },
                             child: ReusableText(

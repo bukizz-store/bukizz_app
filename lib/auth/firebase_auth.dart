@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/models/user_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
@@ -27,13 +28,16 @@ class AuthProvider extends ChangeNotifier {
         password: password,
       );
 
+      print(authResult.user!.uid);
+
+
       MainUserDetails userDetails = MainUserDetails(
         name: '',
         email: email,
         password: MainUserDetails.hashPassword(password),
         address: '',
         uid: authResult.user!.uid,
-        dob: DateTime.now(),
+        dob: DateTime.now().toIso8601String(),
         mobile: '',
         alternateAddress: '',
         studentsUID: [],
@@ -41,11 +45,22 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (authResult != null) {
+        QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance
+            .collection('userDetails')
+            .where('email', isEqualTo: email)
+            .get();
+
+        userDetails = MainUserDetails.fromMap(querySnapshot.docs.first.data());
+
+        AppConstants.userData = userDetails;
+
+        print(userDetails);
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreen.route, (route) => false);
 
         // // Push user data to Firebase
-        await userDetails.pushToFirebase();
+        await userDetails.pushToFirebase(authResult);
 
         await userDetails.saveToSharedPreferences();
       }
@@ -85,7 +100,7 @@ class AuthProvider extends ChangeNotifier {
         password: '',
         address: '',
         uid: result.user!.uid,
-        dob: DateTime.now(),
+        dob: DateTime.now().toIso8601String(),
         mobile: '',
         alternateAddress: '',
         studentsUID: [],
@@ -96,7 +111,7 @@ class AuthProvider extends ChangeNotifier {
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreen.route, (route) => false);
         // // Push user data to Firebase
-        await userDetails.pushToFirebase();
+        await userDetails.pushToFirebase(result);
 
         await userDetails.saveToSharedPreferences();
       }
@@ -140,7 +155,7 @@ class AuthProvider extends ChangeNotifier {
             password: hashPassword(password),
             address: "",
             uid: authResult.user!.uid,
-            dob: DateTime.now(),
+            dob: DateTime.now().toIso8601String(),
             mobile: "",
             alternateAddress: "",
             studentsUID: [],
@@ -150,7 +165,7 @@ class AuthProvider extends ChangeNotifier {
           String userId = authResult.user!.uid;
 
           // // Push user data to Firebase
-          await userDetails.pushToFirebase();
+          await userDetails.pushToFirebase(authResult);
 
           // Save user details to shared preferences
           await userDetails.saveToSharedPreferences();

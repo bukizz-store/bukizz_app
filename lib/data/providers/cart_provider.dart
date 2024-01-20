@@ -29,53 +29,6 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void setCartData(String schoolName , int quantity , String productId){
-  //   cartData[schoolName] = CartValue(productId: productId , quantity: quantity);
-  //   // print(cartData.toString());
-  //   cartData.forEach((key, value){
-  //     // print(key);
-  //     // print(value.productId);
-  //     // print(value.quantity);
-  //   });
-  //   notifyListeners();
-  // }
-
-
-//   void addProductInCart(String schoolName , int quantity , String productId, BuildContext context) async{
-//     setCartLoaded(false);
-//
-//     if(cartData.containsKey(schoolName)){
-//       // cartData.productsId[productId] = (cartData.productsId[productId]! + 1);
-//       if(cartData[schoolName]!.containsKey(productId))
-//         {
-// cartData[schoolName]! [productId] = (cartData[schoolName]! [productId]! + quantity);
-//         }
-//       else{
-//         cartData[schoolName]! [productId] = quantity;
-//       }
-//       // cartData[schoolName]![productId] = (cartData[schoolName]![productId]! + 1);
-//     }
-//     else{
-//       // cartData.productsId[productId] = 1;
-//       cartData[schoolName] = {productId : quantity};
-//       // context.read<CartViewRepository>().getCartProduct(productId);
-//     }
-//
-//     print(cartData);
-//     // cartData.productsId[productId] = (cartData.productsId[productId] ?? 0) + 1;
-//     SnackBar snackBar = const SnackBar(
-//       content: Text('Product added to cart'),
-//       duration: Duration(seconds: 2),
-//     );
-//
-//
-//
-//     // await storeCartData();
-//     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//     setCartLoaded(true);
-//     notifyListeners();
-//   }
-
   void addProductInCart(String schoolName, int quantity, String productId, BuildContext context) async {
     setCartLoaded(false);
 
@@ -84,11 +37,12 @@ class CartProvider extends ChangeNotifier {
 
     // print(cartData);
     context.read<CartViewRepository>().getCartProduct(productId, schoolName , quantity);
+
     await storeCartData();
 
-    final snackBar = SnackBar(
-      content: const Text('Product added to cart'),
-      duration: const Duration(seconds: 2),
+    const snackBar = SnackBar(
+      content: Text('Product added to cart'),
+      duration: Duration(seconds: 2),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -96,24 +50,24 @@ class CartProvider extends ChangeNotifier {
     setCartLoaded(true);
     notifyListeners();
   }
+
   void removeCartData(String schoolName, String productId) async{
-    if (cartData.containsKey(schoolName)) {
-      if (cartData[schoolName]!.containsKey(productId)) {
-        // Decrease the quantity by 1
-        cartData[schoolName]![productId] = (cartData[schoolName]![productId]! - 1);
 
-        // If the quantity becomes 0, remove the product from the cart
-        if (cartData[schoolName]![productId] == 0) {
-          cartData[schoolName]!.remove(productId);
-        }
-      }
 
-      await storeCartData();
-      // If the product is not in the cart, you might want to handle this case
-
-      // Notify listeners after updating the cart data
-      notifyListeners();
+    if(cartData[schoolName]!.length == 1){
+      // products.removeWhere((element) => element.productId == productId);
+      cartData.remove(schoolName);
     }
+    else{
+      // products.removeWhere((element) => element.productId == productId);
+      cartData[schoolName]!.remove(productId);
+    }
+
+    await storeCartData();
+    // If the product is not in the cart, you might want to handle this case
+
+    // Notify listeners after updating the cart data
+    notifyListeners();
   }
 
   //Create function store this cart data in shared prefereances and then use it in checkout screen.

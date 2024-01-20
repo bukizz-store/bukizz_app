@@ -1,11 +1,15 @@
 
+import 'package:bukizz_1/data/repository/order_view_repository.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
+import '../../homeScreen.dart';
 
 class Checkout3 extends StatefulWidget {
   const Checkout3({super.key});
@@ -18,10 +22,12 @@ class _Checkout3State extends State<Checkout3> {
   String selectedUpiProvider = "";
   bool drop_down=false;
   bool upi=true;
+
   @override
   Widget build(BuildContext context) {
-
     Dimensions dimensions=Dimensions(context);
+    var orderData = context.read<OrderViewRespository>();
+    var cartData = context.watch<CartViewRepository>();
     return Scaffold(
       appBar: AppBar(
         title: Text('Payments'),
@@ -114,7 +120,7 @@ class _Checkout3State extends State<Checkout3> {
                           ),
                         ),
                         ReusableText(
-                          text: '₹1,720',
+                          text: '₹${cartData.getSalePrice + 40}',
                           fontSize: 20,
                           color: Color(0xFF121212),
                           fontWeight: FontWeight.w700,
@@ -141,8 +147,8 @@ class _Checkout3State extends State<Checkout3> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ReusableText(text: 'Price (2 items)', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
-                          ReusableText(text: '₹2,080', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                          ReusableText(text: 'Price (${cartData.cart_val} items)', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
+                          ReusableText(text: '₹${cartData.getSalePrice}', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*2.5,),
@@ -150,7 +156,7 @@ class _Checkout3State extends State<Checkout3> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ReusableText(text: 'Discount', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
-                          ReusableText(text: '-₹400', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                          ReusableText(text: '-₹${cartData.getTotalPrice - cartData.getSalePrice}', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*2.5,),
@@ -172,7 +178,7 @@ class _Checkout3State extends State<Checkout3> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ReusableText(text: 'Total Amount', fontSize: 14,color: Color(0xFF282828),fontWeight: FontWeight.w700,fontFamily: FontFamily.roboto,),
-                          ReusableText(text: '₹1720', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                          ReusableText(text: '₹${cartData.getSalePrice + 40}', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*1.5,),
@@ -182,7 +188,7 @@ class _Checkout3State extends State<Checkout3> {
                         color: Color(0xFFD6D6D6),
                       ),
                       SizedBox(height: dimensions.height8*1.5,),
-                      ReusableText(text: 'You will save ₹400 on this order', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,)
+                      ReusableText(text: 'You will save ₹${cartData.getTotalPrice - cartData.getSalePrice} on this order', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,)
                     ],
                   ),
                 ),
@@ -218,7 +224,7 @@ class _Checkout3State extends State<Checkout3> {
            if(upi)
              Container(
                width: dimensions.screenWidth,
-               height: dimensions.height8 * 26,
+               height: dimensions.height10 * 30,
                color: Colors.white,
                margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
                child: Column(
@@ -247,20 +253,25 @@ class _Checkout3State extends State<Checkout3> {
                    ),
                    if(selectedUpiProvider=='google_pay')
                     SizedBox(height: dimensions.height8*1.5,),
-
                    if(selectedUpiProvider=='google_pay')
                      Center(
-                       child: Container(
-                         alignment: Alignment.center,
-                         width: dimensions.width24*12.38,
-                         height: dimensions.height48,
-                         decoration: ShapeDecoration(
-                           color: Color(0xFF058FFF),
-                           shape: RoundedRectangleBorder(
-                             borderRadius: BorderRadius.circular(100),
+                       child: InkWell(
+                         onTap: (){
+                           orderData.pushOrderDataToFirebase(context);
+                           Navigator.pushNamed(context, HomeScreen.route);
+                         },
+                         child: Container(
+                           alignment: Alignment.center,
+                           width: dimensions.width24*12.38,
+                           height: dimensions.height48,
+                           decoration: ShapeDecoration(
+                             color: Color(0xFF058FFF),
+                             shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(100),
+                             ),
                            ),
+                           child: ReusableText(text: 'Pay ₹${cartData.salePrice + 40}', fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white,),
                          ),
-                         child: ReusableText(text: 'Pay ₹1,720', fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white,),
                        ),
                      ),
 
@@ -288,17 +299,23 @@ class _Checkout3State extends State<Checkout3> {
 
                    if(selectedUpiProvider=='phone_pay')
                      Center(
-                       child: Container(
-                         alignment: Alignment.center,
-                         width: dimensions.width24*12.38,
-                         height: dimensions.height48,
-                         decoration: ShapeDecoration(
-                           color: Color(0xFF058FFF),
-                           shape: RoundedRectangleBorder(
-                             borderRadius: BorderRadius.circular(100),
+                       child: InkWell(
+                         onTap: (){
+                           orderData.pushOrderDataToFirebase(context);
+                           Navigator.pushNamed(context, HomeScreen.route);
+                         },
+                         child: Container(
+                           alignment: Alignment.center,
+                           width: dimensions.width24*12.38,
+                           height: dimensions.height48,
+                           decoration: ShapeDecoration(
+                             color: Color(0xFF058FFF),
+                             shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(100),
+                             ),
                            ),
+                           child: ReusableText(text: 'Pay ₹${cartData.salePrice + 40}', fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white,),
                          ),
-                         child: ReusableText(text: 'Pay ₹1,720', fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white,),
                        ),
                      ),
                    Row(
@@ -326,17 +343,23 @@ class _Checkout3State extends State<Checkout3> {
 
                    if(selectedUpiProvider=='paytm')
                      Center(
-                       child: Container(
-                         alignment: Alignment.center,
-                         width: dimensions.width24*12.38,
-                         height: dimensions.height48,
-                         decoration: ShapeDecoration(
-                           color: Color(0xFF058FFF),
-                           shape: RoundedRectangleBorder(
-                             borderRadius: BorderRadius.circular(100),
+                       child: InkWell(
+                         onTap: (){
+                           orderData.pushOrderDataToFirebase(context);
+                           Navigator.pushNamed(context, HomeScreen.route);
+                         },
+                         child: Container(
+                           alignment: Alignment.center,
+                           width: dimensions.width24*12.38,
+                           height: dimensions.height48,
+                           decoration: ShapeDecoration(
+                             color: Color(0xFF058FFF),
+                             shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(100),
+                             ),
                            ),
+                           child: ReusableText(text: 'Pay ₹${cartData.salePrice + 40}', fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white,),
                          ),
-                         child: ReusableText(text: 'Pay ₹1,720', fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white,),
                        ),
                      ),
 
