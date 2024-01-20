@@ -32,7 +32,7 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
       decoration: InputDecoration(
         prefixIcon: Icon(
           widget.icon,
-          color: Color(0xFFB8B8B8),
+          color: Color(0xFF058FFF),
         ),
         labelText: widget.text,
         labelStyle: TextStyle(

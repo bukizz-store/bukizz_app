@@ -8,8 +8,9 @@ class ReusableText extends StatelessWidget {
   final double fontSize;
   final FontFamily fontFamily;
   final FontWeight fontWeight;
-  final double height;
+  final double? height;
   final double letterSpacing;
+  final TextOverflow overflow;
   final VoidCallback? onTap;
 
   ReusableText({
@@ -19,8 +20,9 @@ class ReusableText extends StatelessWidget {
     required this.fontSize,
     this.fontFamily = FontFamily.defaultFamily,
     this.fontWeight = FontWeight.w700,
-    required this.height,
+    this.height = 0.11,
     this.letterSpacing = -0.72,
+    this.overflow = TextOverflow.ellipsis, // Default overflow
     this.onTap,
   }) : super(key: key);
 
@@ -30,7 +32,7 @@ class ReusableText extends StatelessWidget {
       onTap: onTap,
       child: Text(
         text,
-        overflow: TextOverflow.ellipsis,
+        overflow: overflow,
         softWrap: true,
         style: TextStyle(
           color: color,

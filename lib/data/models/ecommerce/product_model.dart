@@ -13,7 +13,7 @@ class ProductModel {
   String image;
   String classId;
   String board;
-  String salePrice;
+  int salePrice;
   List<dynamic> reviewIdList;
 
   ProductModel({
@@ -57,7 +57,7 @@ class ProductModel {
       image: map['image'] ?? '',
       classId: map['classId'] ?? '',
       board: map['board'] ?? '',
-      salePrice: map['salePrice'] ?? '',
+      salePrice: map['salePrice'] ?? 0,
       reviewIdList: map['reviewIdList'] ?? []
     );
   }
@@ -65,16 +65,16 @@ class ProductModel {
   //function to send random product data to firebase
   static ProductModel randomProductData() {
     return ProductModel(
-      productId: 'bookset_1_2',
-      name: 'Class 2nd',
-      description: 'This is a sample product for testing purposes.',
-      price: 600,
-      stockQuantity: 10,
-      categoryId: 'bookset',
-      image: 'https://www.tiwariacademy.com/app/uploads/2021/05/NCERT-Books-Class-2.png',
-      classId: '2',
+      productId: 'BSCL1',
+      name: 'Class 1st',
+      description: 'All the books for Class 1 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
+      price: 3750,
+      stockQuantity: 90,
+      categoryId: 'BK',
+      image: 'https://lh3.googleusercontent.com/d/1sDnxyoQk-fYp--UfZb5ciImfrNFSnLeM',
+      classId: 'CLA1',
       board: 'CBSE',
-      salePrice: '580',
+      salePrice: 3700,
       reviewIdList: [],
     );
   }

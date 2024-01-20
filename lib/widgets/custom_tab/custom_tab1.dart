@@ -1,6 +1,7 @@
 import 'package:bukizz_1/constants/font_family.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomTabBar extends StatefulWidget {
   final ValueChanged<int>? onIndexChanged;
@@ -45,20 +46,13 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   Container(
                     width: 22,
                     height: 20,
-                    color: Colors.red,
-                    child: Image.asset(
-                      'assets/ecommerce home/tab icons/tab1.png',
-                      fit: BoxFit.cover,
-                    ),
+                    child: SvgPicture.asset('assets/ecommerce home/tab icons/1.svg'),
                   )
                       :Container(
                     width: 22,
                     height: 20,
-                    color: Colors.red,
-                    child: Image.asset(
-                      'assets/ecommerce home/tab icons/tab2.png',
-                      fit: BoxFit.cover,
-                    ),
+                    child: SvgPicture.asset('assets/ecommerce home/tab icons/2.svg'),
+
                   ),
                   ReusableText(text: index==0?'Ecommerce':'MySchool', fontSize: 16, height: 0.11,fontWeight: FontWeight.w700,color:currentIndex == index?Color(0xFFF9F9F9):Color(0xFF444444),fontFamily: FontFamily.roboto,)
                 ],

@@ -20,7 +20,7 @@ class ReusableElevatedButton extends StatelessWidget {
     required this.height,
     required this.onPressed,
     required this.buttonText,
-    this.buttonColor = const Color(0xFF03045E),
+    this.buttonColor = const Color(0xFF058FFF),
     this.textColor = Colors.white,
     this.fontSize = 16,
     this.fontFamily = 'Open Sans',

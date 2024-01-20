@@ -5,6 +5,7 @@ import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../constants/colors.dart';
@@ -43,8 +44,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
   @override
   void initState() {
     super.initState();
-    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    schoolData.loadData();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -63,6 +62,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    schoolData.loadData(context);
     return Scaffold(
       //container of screen size
       body: Container(
@@ -91,15 +91,16 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         items: [
                           RoundedImage(
                             width: dimensions.screenWidth,
-                            height: 192,
+                            height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner1.png',
+                            assetImage: 'assets/ecommerce home/banner1.svg',
+
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
                             height: 192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner1.png',
+                            assetImage: 'assets/ecommerce home/banner1.svg',
                           ),
                         ],
                         options: CarouselOptions(
@@ -154,8 +155,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             CircleAvatar(
                                 radius: dimensions.height48 / 2,
                                 backgroundColor: Color(0xFFCCE8FF),
-                                child: Image.asset(
-                                    'assets/ecommerce home/icons/${index + 1}.png')),
+                                child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',fit: BoxFit.cover,)
+                            ),
                             SizedBox(
                               height: 8,
                             ),
@@ -213,7 +214,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
 
               // ListView of schools
-              //hardcoded again
               Container(
                 height: dimensions.height151,
                 width: dimensions.width195,
@@ -221,62 +221,65 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   scrollDirection: Axis.horizontal,
                   itemCount: schoolData.schoolData.length,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        schoolData.setSchoolName(schoolData.schoolData[index].name,);
-                        context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
-                        Navigator.pushNamed(context, ProductScreen.route);
-                      },
-                      child: Container(
-                          height: dimensions.height151,
-                          width: dimensions.width169,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            // color: Colors.green,
-                            borderRadius: BorderRadius.circular(12),
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //     color: Colors.grey.withOpacity(0.5),
-                            //     // spreadRadius: 2,
-                            //     // blurRadius: 5,
-                            //     // offset: Offset(0, 3),
-                            //   ),
-                            // ],
-                          ),
-                          // margin: EdgeInsets.all(8),
-                          padding: EdgeInsets.all(8),
-                          child: Stack(
-                            children: [
-                              Image.network(
-                                schoolData.schoolData[index].banner,
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.low,
-                                height: dimensions.height151,
-                                width: dimensions.width195,
-                                // color: Colors.black.withOpacity(0.1),
-                              ),
-                              Container(
-                                height: dimensions.height151,
-                                width: dimensions.width169,
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.2),
+                    return Padding(
+                      padding:EdgeInsets.symmetric(horizontal: dimensions.width16*0.8,vertical: dimensions.height8),
+                      child: InkWell(
+                        onTap: () {
+                          schoolData.setSchoolName(schoolData.schoolData[index].name, schoolData.schoolData[index].schoolId);
+                          context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
+                          Navigator.pushNamed(context, ProductScreen.route);
+                        },
+                        //
+                        child: Stack(
+                          children: [
+
+                            Container(
+                              height: dimensions.height151,
+                              width: dimensions.width169,
+                              decoration: ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: const Alignment(-0.00, -1.00),
+                                  end: const Alignment(0, 1),
+                                  colors: [Colors.black.withOpacity(0), Colors.black],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 0.50,
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                    color: Color(0xFFD6D6D6),
+                                  ),
                                   borderRadius: BorderRadius.circular(12),
-                                )
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    schoolData.schoolData[index].name,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                    ),),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x4C00579E),
+                                    blurRadius: 12,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
                                 ],
-                              )
-                            ],
-                          )),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  schoolData.schoolData[index].banner,
+                                  fit: BoxFit.cover,
+                                  filterQuality: FilterQuality.low,
+                                  height: dimensions.height151,
+                                  width: dimensions.width195,
+                                ),
+                              ),
+                            ),
+
+                            Positioned(
+                             left: dimensions.width16/2,
+                             right: 0,
+                             bottom: dimensions.height8*2.5,
+                             child: ReusableText(text: schoolData.schoolData[index].name, fontSize: 14,color: Color(0xFFF9F9F9),fontWeight: FontWeight.w700,)
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -306,13 +309,13 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             width: dimensions.screenWidth,
                             height: 192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.png',
+                            assetImage: 'assets/ecommerce home/banner2.svg',
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
                             height: 192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.png',
+                            assetImage: 'assets/ecommerce home/banner2.svg',
                           ),
                         ],
                         options: CarouselOptions(
@@ -367,8 +370,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       children: [
                         InkWell(
                             onTap: () {
-                              // ProductModel.sendRandomProductData();
-                              schoolData.pushRandomData();
+                              ProductModel.sendRandomProductData();
+                              // schoolData.pushRandomData();
                             },
                             child: ReusableText(
                               text: 'View all',
@@ -399,14 +402,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     return GestureDetector(
                       onTap: () {
                         schoolData
-                            .setSchoolName(schoolData.schoolData[index].name);
+                            .setSchoolName(schoolData.schoolData[index].name, schoolData.schoolData[index].schoolId);
                         Navigator.pushNamed(context, ProductScreen.route);
                       },
                       child: Container(
                           height: dimensions.height151,
                           width: dimensions.width169,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
