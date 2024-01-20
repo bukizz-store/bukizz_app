@@ -32,7 +32,9 @@ class CartViewRepository extends ChangeNotifier {
   // }
 
   void addProduct(ProductModel productModel) {
+    if(!products.contains(productModel)){
     products.add(productModel);
+    }
     notifyListeners();
   }
 
@@ -94,14 +96,14 @@ class CartViewRepository extends ChangeNotifier {
 
   void getCartProduct(String productId , String schoolName , int quantity) async {
     setIsCartLoaded(false);
-    if (products.any((element) => element.productId != productId)) {
+    // if (products.any((element) => element.productId != productId)) {
       ProductModel product = await FirebaseFirestore.instance
           .collection('products')
           .where('productId', isEqualTo: productId)
           .get()
           .then((value) => ProductModel.fromMap(value.docs.first.data()));
       addCartData(product, schoolName, quantity);
-    }
+    // }
     setIsCartLoaded(true);
     notifyListeners();
   }

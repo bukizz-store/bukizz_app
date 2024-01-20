@@ -143,15 +143,11 @@ class CartProvider extends ChangeNotifier {
                map.map((key, value) => MapEntry(key, Map<String , int>.from(value)));
             cartData = productsIdMap;
             // print(cartData.toMap().toString());
-
-
             productsIdMap.forEach((schoolName, productData) {
               productData.forEach((productId, quantity) {
                 context.read<CartViewRepository>().getCartProduct( productId ,schoolName,  quantity);
               });
             });
-
-
           }
 
           notifyListeners();

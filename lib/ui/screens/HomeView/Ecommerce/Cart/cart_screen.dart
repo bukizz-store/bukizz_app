@@ -51,7 +51,7 @@ class _CartState extends State<Cart> {
   @override
   void initState() {
     // TODO: implement initState
-    getTotalPrice();
+
     super.initState();
   }
 
@@ -59,6 +59,9 @@ class _CartState extends State<Cart> {
   double salePrice = 0;
 
   void getTotalPrice() {
+totalPrice = 0;
+salePrice = 0;
+
     var cart = context.read<CartViewRepository>();
     cart.cartData.forEach((key, value) {
       value.forEach((key, value) {
@@ -84,6 +87,7 @@ class _CartState extends State<Cart> {
     Dimensions dimensions = Dimensions(context);
     print('CartUpdated');
     // var cartData = context.watch<CartViewRepository>();
+    getTotalPrice();
     var cartProvider = context.watch<CartProvider>();
     return Consumer<CartViewRepository>(builder: (context , cartViewData , child){
       // Map<String, Map<String, int>> cartTempData = cartViewData.cartData;
@@ -262,10 +266,6 @@ class _CartState extends State<Cart> {
 
   List<Widget> _cartItems( dimensions , CartViewRepository cartData) {
     List<Widget> items = [];
-    // setState(() {
-    //   load = false;
-    // });
-    // var cart = context.watch<CartViewRepository>();
     try{
       cartData.getCartData.forEach((SchoolName, productData) {
         productData.forEach((product, quantity) {
