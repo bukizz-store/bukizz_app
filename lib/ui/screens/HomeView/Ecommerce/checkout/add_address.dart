@@ -16,8 +16,10 @@ class AddAddress extends StatefulWidget {
 }
 
 class _AddAddressState extends State<AddAddress> {
+  bool showAlternatePhoneField = false;
   TextEditingController nameController=TextEditingController();
   TextEditingController phoneController=TextEditingController();
+  TextEditingController alternatePhoneController=TextEditingController();
   TextEditingController pinCodeController=TextEditingController();
   TextEditingController stateController=TextEditingController();
   TextEditingController cityController=TextEditingController();
@@ -138,6 +140,34 @@ class _AddAddressState extends State<AddAddress> {
                       ],
                     ),
                     SizedBox(height: dimensions.height8*2,),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          showAlternatePhoneField = !showAlternatePhoneField;
+                        });
+                      },
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(showAlternatePhoneField?Icons.remove:Icons.add,color: Color(0xFF00579E)),
+                            ReusableText(text: showAlternatePhoneField?'Dont Add Alternate Phone':'Add Alternate Phone',fontSize: 14,color: Color(0xFF00579E),fontWeight: FontWeight.w500,)
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (showAlternatePhoneField)
+                      SizedBox(
+                        height: dimensions.height8 * 2,
+                      ),
+
+                    if (showAlternatePhoneField)
+                      CustomTextForm(
+                        width: dimensions.width342,
+                        height: dimensions.height8 * 5.5,
+                        hintText: 'Alternate Phone',
+                        controller: alternatePhoneController,
+                      ),
+                    SizedBox(height: dimensions.height8*2,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -178,8 +208,30 @@ class _AddAddressState extends State<AddAddress> {
           ],
         ),
       ),
+      bottomNavigationBar: InkWell(
+        onTap: (){
+          //Save Address logic here
+        },
+        child: Container(
+          height: dimensions.height8 * 9,
+          width: dimensions.screenWidth,
+          color: Colors.white,
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height8*1.5),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Color(0xFF058FFF),
+
+                ),
+                child: Center(child: ReusableText(text: 'Save Address',fontSize:16,fontWeight: FontWeight.w700,color: Colors.white,)),
+              )
+          ),
+        ),
+      ),
     );
   }
+
   void onUseMyLocationTap() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -214,15 +266,22 @@ class _AddAddressState extends State<AddAddress> {
         position.longitude,
       );
 
+      // Extract relevant address components
+      String colony = placemarks.first.subLocality ?? ''; // Colony name
+      String street = placemarks.first.thoroughfare ?? ''; // Street name
+      String sector = placemarks.first.subAdministrativeArea ?? ''; // Sector name
+
+      // Construct the full address excluding house number/house name
+      String fullAddress = '$colony, $street, $sector';
+
       setState(() {
         pinCodeController.text = placemarks.first.postalCode ?? '';
         stateController.text = placemarks.first.administrativeArea ?? '';
         cityController.text = placemarks.first.locality ?? '';
         buildingnameController.text = placemarks.first.name ?? '';
-        addressController.text = placemarks.first.thoroughfare ?? '';
+        addressController.text = fullAddress;
       });
     }
   }
-
 }
 

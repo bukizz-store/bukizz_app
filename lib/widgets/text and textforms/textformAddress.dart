@@ -23,7 +23,7 @@ class CustomTextForm extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical:dimensions.height8,horizontal: dimensions.height8),
+          contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8*2),
           hintText: hintText,
           hintStyle: TextStyle(color: Color(0xFF7A7A7A)),
           border: OutlineInputBorder(

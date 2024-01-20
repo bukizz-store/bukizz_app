@@ -78,6 +78,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/checkout/
     - assets/school/
     - assets/stationary/
     - assets/tab icons/

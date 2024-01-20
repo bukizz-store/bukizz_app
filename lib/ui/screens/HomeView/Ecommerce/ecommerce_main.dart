@@ -434,7 +434,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        items: const <BottomNavigationBarItem> [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -443,18 +443,25 @@ class _EcommerceMainState extends State<EcommerceMain> {
             icon: Icon(Icons.shopping_cart),
             label: 'Cart',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.category),
-          //   label: 'Category',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notification',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            label: 'Categories',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
+        unselectedItemColor: Color(0x19023E8A),
+        selectedItemColor: Color(0xFF058FFF),
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
+
     );
   }
 
@@ -462,14 +469,20 @@ class _EcommerceMainState extends State<EcommerceMain> {
     setState(() {
       _selectedIndex = index;
       print(index);
+
       if (_selectedIndex == 1) {
         // If index is 1, navigate to the cart screen
         Navigator.pushNamed(context, Cart.route);
+      } else if (_selectedIndex == 2) {
+        // Handle navigation for "Notification" tab
+        // Navigator.pushNamed(context, NotificationScreen.route);
+      } else if (_selectedIndex == 3) {
+        // Handle navigation for "Categories" tab
+        // Navigator.pushNamed(context, CategoriesScreen.route);
       } else {
-        //handle other indexes
+        // Handle other indexes or any default behavior
       }
-      // Handle navigation to the corresponding screen based on the index
-      // You can use Navigator or other navigation methods here.
     });
   }
+
 }

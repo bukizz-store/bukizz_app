@@ -35,7 +35,7 @@ class _Checkout1State extends State<Checkout1> {
               height: dimensions.height8*11.5,
               color: Colors.white,
               child:Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.8),
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.5),
                 child: Row(
                   children: [
                     CustomCircleAvatar(
