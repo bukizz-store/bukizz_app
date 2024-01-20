@@ -1,13 +1,15 @@
 import 'package:bukizz_1/data/providers/cart_provider.dart';
+import 'package:bukizz_1/data/providers/school_repository.dart';
+import 'package:bukizz_1/data/repository/cart_view_repository.dart';
+import 'package:bukizz_1/data/repository/product_view_repository.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
-import'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../constants/font_family.dart';
-import '../../../../../data/providers/productModel_provider.dart';
+import '../../../../../data/providers/product_provider.dart';
 import '../../../../../utils/dimensions.dart';
-
-
 
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
@@ -19,8 +21,8 @@ import '../../../../../widgets/review widget/review.dart';
 import '../../../../../widgets/text and textforms/expandable_text_widget.dart';
 import '../checkout/checkout1.dart';
 
-
-String bookDescription = "The foundation of your English studies, these official textbooks delve deep into prescribed poems, stories, plays, and grammar concepts, ensuring thorough understanding and exam preparedness. Supplementary Readers: Expand your horizons with captivating novels, captivating short stories, and thought-provoking essays that fuel your imagination and broaden your literary perspective. Practice Papers & Sample Questions: Hone your skills and build confidence with targeted practice exercises and model question papers that mirror the CBSE exam format. Study Guides & Explanations: Get instant access to clear explanations, insightful interpretations, and valuable learning tips that unlock the meaning behind every text and grammar rule. Interactive Activities & Quizzes";
+String bookDescription =
+    "The foundation of your English studies, these official textbooks delve deep into prescribed poems, stories, plays, and grammar concepts, ensuring thorough understanding and exam preparedness. Supplementary Readers: Expand your horizons with captivating novels, captivating short stories, and thought-provoking essays that fuel your imagination and broaden your literary perspective. Practice Papers & Sample Questions: Hone your skills and build confidence with targeted practice exercises and model question papers that mirror the CBSE exam format. Study Guides & Explanations: Get instant access to clear explanations, insightful interpretations, and valuable learning tips that unlock the meaning behind every text and grammar rule. Interactive Activities & Quizzes";
 List<String> setText = [
   'Book Roll',
   'Paint Box',
@@ -48,54 +50,58 @@ class ProductDescriptionScreen extends StatefulWidget {
   const ProductDescriptionScreen({super.key});
 
   @override
-  State<ProductDescriptionScreen> createState() => _ProductDescriptionScreenState();
+  State<ProductDescriptionScreen> createState() =>
+      _ProductDescriptionScreenState();
 }
 
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   @override
   Widget build(BuildContext context) {
-    var productData = context.read<ProductProvider>();
-    Dimensions dimensions=Dimensions(context);
+    var productView = context.read<ProductViewRepository>();
+    var schoolData = context.read<SchoolDataProvider>();
+    Dimensions dimensions = Dimensions(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wisdom World School'),
-
+        title: Text(schoolData.selectedSchool.name),
       ),
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             //image for pageview container
             Container(
               width: dimensions.screenWidth,
-              height: dimensions.height16*13.75,
-
+              height: dimensions.height16 * 13.75,
               child: PageView(
                 scrollDirection: Axis.horizontal,
                 children: [
                   Container(
-
-                    child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
+                    // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
+                    child: Image.network(productView.selectedProduct.image),
                   ),
-                  Container(
-                    child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
-                  ),
+                  // Container(
+                  //   child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
+                  // ),
                 ],
               ),
             ),
 
             //book description container
             Container(
-              height: dimensions.height8*13,
+              height: dimensions.height8 * 13,
               color: Colors.white,
-              child:  Padding(
-                padding: EdgeInsets.symmetric(horizontal:dimensions.width24,vertical: dimensions.height8 ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: dimensions.width24,
+                    vertical: dimensions.height8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: 345,
                       child: Text(
-                        'English Book Set - Wisdom World School - Class 1st',
+                        productView.selectedProduct.name == ''
+                            ? 'English Book Set - Wisdom World School - Class 1st'
+                            : productView.selectedProduct.name,
                         style: TextStyle(
                           color: Color(0xFF121212),
                           fontSize: 20,
@@ -105,29 +111,43 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: dimensions.height24/2,),
+                    SizedBox(
+                      height: dimensions.height24 / 2,
+                    ),
                     Row(
                       children: [
                         //discount text
-                        ReusableText(text: '20% Off', fontSize: 16,color: Color(0xFF058FFF),fontWeight: FontWeight.w700, height: 0.11, ),
-                        SizedBox(width: dimensions.width24/4,),
+                        ReusableText(
+                          text: '20% Off',
+                          fontSize: 16,
+                          color: Color(0xFF058FFF),
+                          fontWeight: FontWeight.w700,
+                          height: 0.11,
+                        ),
+                        SizedBox(
+                          width: dimensions.width24 / 4,
+                        ),
                         //listing price
-                        const Text(
-                          '1200',
+                        Text(
+                          productView.selectedProduct.price.floor().toString(),
                           style: TextStyle(
-                            color:  Color(0xFF7A7A7A),
+                            color: Color(0xFF7A7A7A),
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
                             decoration: TextDecoration.lineThrough,
                           ),
                         ),
 
-                        SizedBox(width: dimensions.width24/4,),
+                        SizedBox(
+                          width: dimensions.width24 / 4,
+                        ),
                         //discounted price
-                        const Text(
-                          '800',
+                        Text(
+                          productView.selectedProduct.salePrice == ''
+                              ? 800.toString()
+                              : productView.selectedProduct.salePrice.toString(),
                           style: TextStyle(
-                            color:  Color(0xFF121212),
+                            color: Color(0xFF121212),
                             fontWeight: FontWeight.w700,
                             fontSize: 16,
                           ),
@@ -139,34 +159,40 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               ),
             ),
 
-            SizedBox(height: dimensions.height24/3,),
+            SizedBox(
+              height: dimensions.height24 / 3,
+            ),
             //expandable text
-            ExpandableTextWidget(text: bookDescription),
-            SizedBox(height: dimensions.height24/3,),
+            ExpandableTextWidget(text: productView.selectedProduct.description),
+            SizedBox(
+              height: dimensions.height24 / 3,
+            ),
 
             // accesories
             ReusableColoredBox(
               width: dimensions.screenWidth,
-              height: dimensions.height8*27,
+              height: dimensions.height8 * 27,
               backgroundColor: Colors.white,
               borderColor: Color(0xFFE8E8E8),
-
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height16),
+                padding: EdgeInsets.symmetric(
+                    horizontal: dimensions.width24,
+                    vertical: dimensions.height16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //complete your set with -> text
-
                     ReusableText(
                       text: 'Complete your set',
                       fontSize: 18,
                       height: 0.09,
                       fontFamily: FontFamily.roboto,
                       fontWeight: FontWeight.w700,
-                      color:Color(0xFF121212),
+                      color: Color(0xFF121212),
                     ),
-                    SizedBox(height: dimensions.height16,),
+                    SizedBox(
+                      height: dimensions.height16,
+                    ),
                     Container(
                       height: dimensions.height151,
                       child: ListView.builder(
@@ -187,7 +213,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                   Container(
                                     width: dimensions.width169,
                                     height: dimensions.height86,
-                                    child: Image(image: AssetImage(setImages[index])),
+                                    child: Image(
+                                        image: AssetImage(setImages[index])),
                                   ),
 
                                   // Book roll text hardcoded
@@ -212,7 +239,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                       left: dimensions.width24 / 2,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         ReusableText(
                                           text: '₹ ${setPrices[index]}',
@@ -230,20 +258,25 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                           backgroundColor: Colors.white,
                                           borderColor: Colors.black,
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               GestureDetector(
                                                 child: Icon(Icons.remove),
                                                 onTap: () {
                                                   setState(() {
-                                                    if (setCartQuantities[index] > 0) {
-                                                      setCartQuantities[index]--;
+                                                    if (setCartQuantities[
+                                                            index] >
+                                                        0) {
+                                                      setCartQuantities[
+                                                          index]--;
                                                     }
                                                   });
                                                 },
                                               ),
                                               ReusableText(
-                                                text: '${setCartQuantities[index]}',
+                                                text:
+                                                    '${setCartQuantities[index]}',
                                                 fontSize: 12,
                                                 height: 0.10,
                                               ),
@@ -273,7 +306,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               ),
             ),
 
-            SizedBox(height: dimensions.height24/3,),
+            SizedBox(
+              height: dimensions.height24 / 3,
+            ),
 
             ReviewListWidget(),
           ],
@@ -292,7 +327,16 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  context.read<CartProvider>().addProductInCart(productData.productDetail.productId, context);
+                  // context.read<CartProvider>().addProductInCart(
+                  //     productView.selectedProduct.productId, context);
+                  context.read<CartProvider>().addProductInCart(schoolData.selectedSchool.name, 1, productView.selectedProduct.productId, context);
+                  // context.read<CartViewRepository>().setCartData(
+                  //     schoolData.schoolName,
+                  //     context
+                  //         .read<CartProvider>()
+                  //         .getCartData
+                  //         .productsId[productView.selectedProduct.productId]!,
+                  //     productView.selectedProduct.productId);
                 },
                 child: Container(
                   height: dimensions.height8 * 6,
@@ -313,7 +357,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF00579E),
                       ),
-                      Icon(Icons.shopping_cart,color: Color(0xFF00579E),),
+                      Icon(
+                        Icons.shopping_cart,
+                        color: Color(0xFF00579E),
+                      ),
                     ],
                   ),
                 ),
@@ -325,7 +372,6 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     context,
                     MaterialPageRoute(builder: (context) => Checkout1()),
                   );
-
                 },
                 child: Container(
                   height: dimensions.height8 * 6,
@@ -352,5 +398,3 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     );
   }
 }
-
-

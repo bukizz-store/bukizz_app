@@ -7,11 +7,11 @@ import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../data/providers/productModel_provider.dart';
+import '../../../../../data/providers/product_provider.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../MySchool/main_screen.dart';
 import '../ecommerce_main.dart';
-import 'book_description.dart';
+import 'books_view.dart';
 
 
 class ProductScreen extends StatefulWidget {

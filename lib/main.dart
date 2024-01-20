@@ -1,7 +1,7 @@
 import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/providers/cart_provider.dart';
 import 'package:bukizz_1/data/providers/header_switch.dart';
-import 'package:bukizz_1/data/providers/productModel_provider.dart';
+import 'package:bukizz_1/data/providers/product_provider.dart';
 import 'package:bukizz_1/data/providers/school_repository.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
@@ -26,6 +26,8 @@ void main() async {
   MainUserDetails? savedUser = await MainUserDetails.loadFromSharedPreferences();
   AppConstants.userData = savedUser!;
 
+
+
   runApp(
     MyApp(savedUser: savedUser),
   );
@@ -40,6 +42,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

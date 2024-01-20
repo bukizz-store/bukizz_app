@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:bukizz_1/data/providers/cart_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/ecommerce/product_model.dart';
 import '../models/ecommerce/review_model.dart';
+import 'package:provider/provider.dart';
 import '../models/ecommerce/school_model.dart';
 
 class SchoolDataProvider extends ChangeNotifier {
@@ -25,9 +28,9 @@ class SchoolDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSchoolName(String name) {
+  void setSchoolName(String name , String schoolId) {
     schoolName = name;
-    schoolIndex = schoolData.indexWhere((element) => element.name == name);
+    schoolIndex = schoolData.indexWhere((element) => element.schoolId == schoolId);
     selectedSchool = schoolData[schoolIndex];
     print(schoolIndex);
     notifyListeners();
@@ -88,19 +91,19 @@ class SchoolDataProvider extends ChangeNotifier {
 
   void pushRandomData(){
     SchoolModel temporarySchool = SchoolModel(
-      schoolId: '123',
-      name: 'Dr. VSEC Awadhpuri',
-      address: '123 Main Street',
-      city: 'Sample City',
-      state: 'Sample State',
+      schoolId: 'SCHGDP',
+      name: 'Gyan Deep Public School',
+      address: 'Sector-5, Near Sheetla Mata Mandir',
+      city: 'Gurugram',
+      state: 'Haryana',
       board: 'CBSE',
-      pincode: '123456',
-      contactNumber: '9876543210',
-      email: 'sample@email.com',
-      website: 'www.sampleschool.com',
+      pincode: '122001',
+      contactNumber: '1247886777',
+      email: 'gyan@gmail.com',
+      website: 'gyandeep.com',
       logo: 'sample_logo.png',
       banner: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/school_image%2Fschool_2.jpg?alt=media&token=65174ee6-abdf-4aa1-bc82-6cad020845f4',
-      aboutUs: 'This is a sample school for testing purposes.',
+      aboutUs: 'School Number 1 in Region.',
       productsId: [
         'bookset_1_1',
         'bookset_1_2',
@@ -114,14 +117,19 @@ class SchoolDataProvider extends ChangeNotifier {
     });
   }
 
-  void loadData() async {
-    setIsSchoolDataLoaded(false);
+  void loadData(BuildContext context) async {
+    await Future.delayed(Duration.zero, () {
+      setIsSchoolDataLoaded(false);
+    });
+    context.read<CartProvider>().loadCartData(context);
     await FirebaseFirestore.instance
         .collection('schools')
         .get()
         .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList());
 
-    setIsSchoolDataLoaded(true);
+    await Future.delayed(Duration.zero, () {
+      setIsSchoolDataLoaded(true);
+    });
     notifyListeners();
   }
 

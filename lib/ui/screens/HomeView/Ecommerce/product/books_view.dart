@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../data/providers/productModel_provider.dart';
+import '../../../../../data/providers/product_provider.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../../../../data/repository/product_view_repository.dart';
 
@@ -23,7 +23,7 @@ class _BooksState extends State<Books> {
   @override
   Widget build(BuildContext context) {
     var productView = context.watch<ProductViewRepository>();
-    var productData = context.read<ProductProvider>();
+    // var productData = context.read<ProductProvider>();
     var schoolData = context.read<SchoolDataProvider>();
     Dimensions dimensions = Dimensions(context);
     return productView.getIsProductAdded ?  Scaffold(
@@ -43,7 +43,8 @@ class _BooksState extends State<Books> {
               return GestureDetector(
                 onTap: (){
                   // print("Shivam");
-                  productData.setProductDetail(product);
+                  // productData.setProductDetail(product);
+                  productView.setProductDetail(productView.productData[index]);
                   Navigator.of(context).pushNamed(ProductDescriptionScreen.route);
                 },
                 child: Container(

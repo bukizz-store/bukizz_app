@@ -44,8 +44,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
   @override
   void initState() {
     super.initState();
-    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    schoolData.loadData();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -64,6 +62,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    schoolData.loadData(context);
     return Scaffold(
       //container of screen size
       body: Container(
@@ -226,7 +225,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       padding:EdgeInsets.symmetric(horizontal: dimensions.width16*0.8,vertical: dimensions.height8),
                       child: InkWell(
                         onTap: () {
-                          schoolData.setSchoolName(schoolData.schoolData[index].name,);
+                          schoolData.setSchoolName(schoolData.schoolData[index].name, schoolData.schoolData[index].schoolId);
                           context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
                           Navigator.pushNamed(context, ProductScreen.route);
                         },
@@ -371,8 +370,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       children: [
                         InkWell(
                             onTap: () {
-                              // ProductModel.sendRandomProductData();
-                              schoolData.pushRandomData();
+                              ProductModel.sendRandomProductData();
+                              // schoolData.pushRandomData();
                             },
                             child: ReusableText(
                               text: 'View all',
@@ -403,7 +402,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     return GestureDetector(
                       onTap: () {
                         schoolData
-                            .setSchoolName(schoolData.schoolData[index].name);
+                            .setSchoolName(schoolData.schoolData[index].name, schoolData.schoolData[index].schoolId);
                         Navigator.pushNamed(context, ProductScreen.route);
                       },
                       child: Container(

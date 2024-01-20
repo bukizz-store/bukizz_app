@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../auth/firebase_auth.dart';
 import '../../../data/providers/cart_provider.dart';
 import '../../../data/providers/header_switch.dart';
+import '../../../data/providers/school_repository.dart';
 import '../../../widgets/custom_tab/custom_tab1.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,6 +26,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
+
+
 
   @override
   void initState() {
