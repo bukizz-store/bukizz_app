@@ -433,7 +433,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        items: const <BottomNavigationBarItem> [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -442,15 +442,21 @@ class _EcommerceMainState extends State<EcommerceMain> {
             icon: Icon(Icons.shopping_cart),
             label: 'Cart',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.category),
-          //   label: 'Category',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notification',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            label: 'Categories',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
+        unselectedItemColor: Color(0x19023E8A),
+        selectedItemColor: Color(0xFF058FFF),
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
