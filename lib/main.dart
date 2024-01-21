@@ -25,9 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   MainUserDetails? savedUser = await MainUserDetails.loadFromSharedPreferences();
-  AppConstants.userData = savedUser!;
-
-
+  // AppConstants.userData = savedUser!;
 
   runApp(
     MyApp(savedUser: savedUser),
@@ -63,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightThemeData,
         title: AppString.appName,
-        initialRoute: widget.savedUser.uid != '' ? HomeScreen.route: SignIn.route,
+        initialRoute: (widget.savedUser.uid != '' && widget.savedUser.uid != null) ? HomeScreen.route: SignIn.route,
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );

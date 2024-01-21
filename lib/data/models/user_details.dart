@@ -70,6 +70,38 @@ class MainUserDetails {
     );
   }
 
+
+  // Convert class object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'email': email,
+      'password': password,
+      'address': address,
+      'uid': uid,
+      'dob': dob,
+      'mobile': mobile,
+      'alternateAddress': alternateAddress,
+      'studentsUID': studentsUID,
+      'orderID': orderID,
+    };
+  }
+
+  // Create class object from JSON
+  factory MainUserDetails.fromJson(Map<String, dynamic> json) {
+    return MainUserDetails(
+      name: json['name'],
+      email: json['email'],
+      password: json['password'],
+      address: json['address'],
+      uid: json['uid'],
+      dob: json['dob'],
+      mobile: json['mobile'],
+      alternateAddress: json['alternateAddress'],
+      studentsUID: List<dynamic>.from(json['studentsUID']),
+      orderID: List<dynamic>.from(json['orderID']),
+    );
+  }
   // Method to push user data to Firebase with an empty string for name, class, and section
   Future<void> pushToFirebase(UserCredential authResult) async {
     try {
@@ -82,6 +114,7 @@ class MainUserDetails {
       if (querySnapshot.docs.isEmpty) {
         // If no document with the same email exists, add a new document
         await FirebaseFirestore.instance.collection('userDetails').doc(authResult.user!.uid).set(toMap());
+        AppConstants.userData =  MainUserDetails.fromMap(toMap());
       } else {
         // If a document with the same email exists, you may choose to handle this case accordingly
         print('User with email $email already exists in Firestore');
@@ -99,7 +132,8 @@ class MainUserDetails {
   // Save user details to shared preferences
   Future<void> saveToSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userData', AppConstants.userData.toMap().toString());
+    prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
+
     prefs.setString('uid', uid);
     prefs.setString('email', email);
     prefs.setString('password', password);
@@ -114,11 +148,17 @@ class MainUserDetails {
     String? uid = prefs.getString('uid') ?? '';
     bool? isLogin = prefs.getBool('isLogin');
 
+    print(userData);
+
     if (userData != '') {
-      Map<String, dynamic> map = json.decode(userData);
+      Map<String, dynamic> map = jsonDecode(userData);
+      print(map);
       AppConstants.isLogin = isLogin ?? false;
+      AppConstants.userData = MainUserDetails.fromMap(map);
       return MainUserDetails.fromMap(map);
     }
+
+    return MainUserDetails(name: '', email: '', password: '', address: '', uid: '', dob: '', mobile: '', alternateAddress: '');
   }
 
   // Create a UserDetails instance from QuerySnapshot data
