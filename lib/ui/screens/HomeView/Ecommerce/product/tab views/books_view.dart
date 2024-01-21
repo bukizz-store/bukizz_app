@@ -1,4 +1,3 @@
-import 'package:bukizz_1/constants/colors.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
@@ -7,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../data/providers/product_provider.dart';
-import '../../../../../data/providers/school_repository.dart';
-import '../../../../../data/repository/product_view_repository.dart';
+import '../../../../../../data/providers/product_provider.dart';
+import '../../../../../../data/providers/school_repository.dart';
+import '../../../../../../data/repository/product_view_repository.dart';
 
 
 class Books extends StatefulWidget {

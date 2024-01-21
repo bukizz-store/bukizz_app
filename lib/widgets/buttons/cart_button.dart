@@ -18,16 +18,20 @@ class ReusableQuantityButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return ReusableColoredBox(
+    return Container(
       width: width,
       height: height,
-      backgroundColor: Colors.white,
-      borderColor: Color(0xFFD6D6D6),
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
+          borderRadius: BorderRadius.circular(6),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            child: Icon(Icons.remove),
+            child: Icon(Icons.remove,color:  Color(0xFF00579E),),
             onTap: () {
               if (onChanged != null) {
                 if(quantity>0)
@@ -39,9 +43,10 @@ class ReusableQuantityButton extends StatelessWidget {
             text: '$quantity',
             fontSize: 12,
             height: 0.10,
+            color: Color(0xFF00579E),
           ),
           GestureDetector(
-            child: Icon(Icons.add),
+            child: Icon(Icons.add,color: Color(0xFF00579E),),
             onTap: () {
               if (onChanged != null) {
                 onChanged!(quantity + 1);

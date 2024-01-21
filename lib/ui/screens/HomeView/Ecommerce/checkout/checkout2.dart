@@ -6,6 +6,7 @@ import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../constants/constants.dart';
 import '../../../../../data/providers/cart_provider.dart';
 import '../../../../../widgets/buttons/cart_button.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
@@ -126,11 +127,12 @@ class _Checkout2State extends State<Checkout2> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Radio<String>(
-                            value: '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana',
+                            value: AppConstants.userData.address,
                             groupValue: selectedAddress,
                             onChanged: (value) {
                               setState(() {
                                 selectedAddress = value;
+                                print(selectedAddress);
                               });
                             },
                           ),
@@ -143,24 +145,27 @@ class _Checkout2State extends State<Checkout2> {
                                 child: Row(
                                   children: [
                                     ReusableText(text: 'Deliver to: ', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w400,overflow: TextOverflow.ellipsis,),
-                                    ReusableText(text: 'Aman Saini, 136118', fontSize: 16,color:Color(0xFF121212),fontWeight: FontWeight.w700,overflow: TextOverflow.clip,),
+                                    ReusableText(text: AppConstants.userData.name, fontSize: 16,color:Color(0xFF121212),fontWeight: FontWeight.w700,overflow: TextOverflow.clip,),
                                   ],
                                 ),
                               ),
 
                               SizedBox(height: dimensions.height8*2,),
                               // address with overflow
-                              SizedBox(
-                                width: dimensions.width24*9.5,
-                                child: const Text(
-                                  '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana',
-                                  style: TextStyle(
-                                      color: Color(0xFF7A7A7A),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      height: 0,
-                                      overflow: TextOverflow.ellipsis
-                                  ),
+                              Container(
+                                width: dimensions.width24 * 9.5,
+                                child: ReusableText(
+                                  text: AppConstants
+                                      .userData.address !=
+                                      ''
+                                      ? AppConstants.userData.address
+                                      : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
+                                  fontSize: 14,
+                                  height: 0,
+                                  color: Color(0xFF7A7A7A),
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: FontFamily.roboto,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               )
                             ],

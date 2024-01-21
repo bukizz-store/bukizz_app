@@ -2,6 +2,7 @@ import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 // import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Slider
+              // Slider 1
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Container(
@@ -191,21 +192,26 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF121212),
                     ),
-                    Row(
-                      children: [
-                        ReusableText(
-                          text: 'View all',
-                          fontSize: 14,
-                          height: 0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF00579E),
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Color(0xFF00579E),
-                          size: 18,
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, ViewAll.route);
+                      },
+                      child: Row(
+                        children: [
+                          ReusableText(
+                            text: 'View all',
+                            fontSize: 14,
+                            height: 0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF00579E),
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Color(0xFF00579E),
+                            size: 18,
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),

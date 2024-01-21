@@ -295,7 +295,7 @@ class _CartState extends State<Cart> {
             color: Colors.white,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: dimensions.width24,
+                horizontal: dimensions.width24/2,
                 vertical: dimensions.height8,
               ),
               child: Column(
@@ -349,10 +349,13 @@ class _CartState extends State<Cart> {
                                 color: Color(0xFF121212),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 0,
+                                height: 1.2, // Adjust the line height as needed
                               ),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis, // Add ellipsis (...) for overflow
                             ),
                           ),
+
                           //stars for review
                           Row(
                             children: List.generate(
