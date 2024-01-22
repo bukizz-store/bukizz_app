@@ -19,6 +19,7 @@ import 'auth/firebase_auth.dart';
 import 'data/models/user_details.dart';
 import 'constants/strings.dart';
 import 'constants/theme.dart';
+import 'data/providers/bottom_nav_bar_provider.dart';
 import 'data/repository/order_view_repository.dart';
 
 void main() async {
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProductViewRepository()),
         ChangeNotifierProvider(create: (_) => CartViewRepository()),
         ChangeNotifierProvider(create: (_) => OrderViewRespository()),
+        ChangeNotifierProvider(create: (_) => BottomNavigationBarProvider(),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
