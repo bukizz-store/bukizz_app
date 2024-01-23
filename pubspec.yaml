@@ -51,6 +51,7 @@ dependencies:
   geolocator: ^10.1.0
   uuid: ^4.3.3
   curved_navigation_bar: ^1.0.3
+  lottie: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

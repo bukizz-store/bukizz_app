@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/pages/student_teacher_login.3.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_main.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/MySchool/main_screen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';

@@ -1,4 +1,4 @@
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_main.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
@@ -20,9 +20,9 @@ class _EmptyCartState extends State<EmptyCart> {
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Cart'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Cart'),
+      // ),
 
       body: Column(
         children: [
@@ -48,7 +48,7 @@ class _EmptyCartState extends State<EmptyCart> {
           ),
            ElevatedButton(
               onPressed: (){
-                Navigator.pushReplacementNamed(context,Cart.route);
+                Navigator.pushReplacementNamed(context,HomeScreen.route);
               },
                style: ElevatedButton.styleFrom(
                  backgroundColor: Colors.transparent,

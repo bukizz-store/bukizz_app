@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../../../data/providers/product_provider.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../MySchool/main_screen.dart';
-import '../ecommerce_main.dart';
+import '../ecommerce_home.dart';
 import 'tab views/books_view.dart';
 
 

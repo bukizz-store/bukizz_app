@@ -1,4 +1,4 @@
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_main.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/profile_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -24,20 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Builder(
-        builder: (BuildContext context) {
-          return Navigator(
-            onGenerateRoute: (RouteSettings settings) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (BuildContext context) {
-                  return _buildCurrentScreen(context);
-                },
-              );
-            },
-          );
-        },
-      ),
+      body: _buildCurrentScreen(context),
       bottomNavigationBar: Consumer<BottomNavigationBarProvider>(
         builder: (context, provider, child) {
           return CurvedNavigationBar(
@@ -73,10 +60,9 @@ class _MainScreenState extends State<MainScreen> {
       case 3:
         return CategoryScreen();
       case 4:
-        return EmptyCart();
+        return ProfileScreen();
       default:
         return Container();
     }
   }
 }
-

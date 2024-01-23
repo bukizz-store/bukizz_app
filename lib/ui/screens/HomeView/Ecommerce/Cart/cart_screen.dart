@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/cart_provider.dart';
 import '../checkout/checkout1.dart';
+import 'empty_cart_screen.dart';
 
 List<String> text = [
   'English Book Set - Wisdom World School - Class 1st',
@@ -99,10 +100,14 @@ class _CartState extends State<Cart> {
         builder: (context, cartViewData, child) {
       // Map<String, Map<String, int>> cartTempData = cartViewData.cartData;
 
+      if (cartViewData.getCartData.isEmpty) {
+        return EmptyCart();
+      }
+
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Cart'),
-        ),
+        // appBar: AppBar(
+        //   title: const Text('Cart'),
+        // ),
         body: cartProvider.isCartLoadedProvider
             ? SingleChildScrollView(
                 child: Column(
