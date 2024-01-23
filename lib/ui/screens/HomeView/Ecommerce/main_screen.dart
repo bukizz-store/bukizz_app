@@ -1,4 +1,5 @@
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/profile_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
       case 3:
         return CategoryScreen();
       case 4:
-        return ProfileScreen();
+        return OnboardingScreen();
       default:
         return Container();
     }
