@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         controller: _tabController,
         physics: NeverScrollableScrollPhysics(), // Disable swiping
         children: const [
-          MainScreen(),
+          EcommerceMain(),
           MySchoolMain(),
         ],
       ),

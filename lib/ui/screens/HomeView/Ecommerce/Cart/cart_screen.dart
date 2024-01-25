@@ -2,6 +2,7 @@ import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/constants/font_family.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/buttons/cart_button.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
@@ -9,6 +10,7 @@ import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/providers/cart_provider.dart';
 import '../checkout/checkout1.dart';
 import 'empty_cart_screen.dart';
@@ -91,6 +93,7 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
     Dimensions dimensions = Dimensions(context);
     print('CartUpdated');
     // var cartData = context.watch<CartViewRepository>();
@@ -105,9 +108,16 @@ class _CartState extends State<Cart> {
       }
 
       return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('Cart'),
-        // ),
+        appBar: AppBar(
+          title: const Text('Cart'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushNamed(context, MainScreen.route);
+              provider.selectedIndex = 0;
+            },
+          ),
+        ),
         body: cartProvider.isCartLoadedProvider
             ? SingleChildScrollView(
                 child: Column(
