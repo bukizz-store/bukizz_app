@@ -3,9 +3,11 @@ import 'package:bukizz_1/data/providers/cart_provider.dart';
 import 'package:bukizz_1/data/providers/header_switch.dart';
 import 'package:bukizz_1/data/providers/product_provider.dart';
 import 'package:bukizz_1/data/providers/school_repository.dart';
+import 'package:bukizz_1/data/providers/stationary_provider.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/data/repository/user_repository.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
@@ -19,6 +21,7 @@ import 'auth/firebase_auth.dart';
 import 'data/models/user_details.dart';
 import 'constants/strings.dart';
 import 'constants/theme.dart';
+import 'data/providers/bottom_nav_bar_provider.dart';
 import 'data/repository/order_view_repository.dart';
 
 void main() async {
@@ -56,12 +59,14 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProductViewRepository()),
         ChangeNotifierProvider(create: (_) => CartViewRepository()),
         ChangeNotifierProvider(create: (_) => OrderViewRespository()),
+        ChangeNotifierProvider(create: (_) => BottomNavigationBarProvider(),),
+        ChangeNotifierProvider(create: (_) => StationaryProvider(),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightThemeData,
         title: AppString.appName,
-        initialRoute: (widget.savedUser.uid != '' && widget.savedUser.uid != null) ? HomeScreen.route: SignIn.route,
+        initialRoute: (widget.savedUser.uid != '' && widget.savedUser.uid != null) ? HomeScreen.route: OnboardingScreen.route,
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );

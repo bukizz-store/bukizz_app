@@ -1,8 +1,11 @@
 import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
+import 'package:bukizz_1/data/providers/bottom_nav_bar_provider.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 // import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -71,7 +74,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Slider
+              // Slider 1
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Container(
@@ -191,21 +194,26 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF121212),
                     ),
-                    Row(
-                      children: [
-                        ReusableText(
-                          text: 'View all',
-                          fontSize: 14,
-                          height: 0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF00579E),
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Color(0xFF00579E),
-                          size: 18,
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, ViewAll.route);
+                      },
+                      child: Row(
+                        children: [
+                          ReusableText(
+                            text: 'View all',
+                            fontSize: 14,
+                            height: 0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF00579E),
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Color(0xFF00579E),
+                            size: 18,
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -432,49 +440,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notification',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        unselectedItemColor: Color(0x19023E8A),
-        selectedItemColor: Color(0xFF058FFF),
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
+
     );
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      print(index);
-      if (_selectedIndex == 1) {
-        // If index is 1, navigate to the cart screen
-        Navigator.pushNamed(context, Cart.route);
-      } else {
 
-      }
-      // Handle navigation to the corresponding screen based on the index
-      // You can use Navigator or other navigation methods here.
-    });
-  }
 }

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/cart_provider.dart';
 import '../checkout/checkout1.dart';
+import 'empty_cart_screen.dart';
 
 List<String> text = [
   'English Book Set - Wisdom World School - Class 1st',
@@ -99,10 +100,14 @@ class _CartState extends State<Cart> {
         builder: (context, cartViewData, child) {
       // Map<String, Map<String, int>> cartTempData = cartViewData.cartData;
 
+      if (cartViewData.getCartData.isEmpty) {
+        return EmptyCart();
+      }
+
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Cart'),
-        ),
+        // appBar: AppBar(
+        //   title: const Text('Cart'),
+        // ),
         body: cartProvider.isCartLoadedProvider
             ? SingleChildScrollView(
                 child: Column(
@@ -295,7 +300,7 @@ class _CartState extends State<Cart> {
             color: Colors.white,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: dimensions.width24,
+                horizontal: dimensions.width24/2,
                 vertical: dimensions.height8,
               ),
               child: Column(
@@ -321,6 +326,8 @@ class _CartState extends State<Cart> {
                             quantity: quantity,
                             height: 32,
                             width: 83,
+                            productId: product,
+                            schoolName: SchoolName,
                             onChanged: (newQuantity) {
                               // setState(() {
                               //   CartQuantity[index] = newQuantity;
@@ -339,7 +346,6 @@ class _CartState extends State<Cart> {
                           SizedBox(
                             height: dimensions.height16,
                           ),
-
                           //book names
                           SizedBox(
                             width: dimensions.width120 * 2,
@@ -349,10 +355,13 @@ class _CartState extends State<Cart> {
                                 color: Color(0xFF121212),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 0,
+                                height: 1.2, // Adjust the line height as needed
                               ),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis, // Add ellipsis (...) for overflow
                             ),
                           ),
+
                           //stars for review
                           Row(
                             children: List.generate(
@@ -409,7 +418,7 @@ class _CartState extends State<Cart> {
                         onTap: () {
                           print('Remove button pressed');
                           cartData.removeCartData(SchoolName, product );
-                          context.read<CartProvider>().removeCartData(SchoolName,product);
+                          context.read<CartProvider>().removeCartData(SchoolName,product , context);
                           getTotalPrice();
                           setState(() {});
                         },

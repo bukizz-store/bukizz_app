@@ -5,6 +5,7 @@ import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../constants/font_family.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 
 
@@ -138,17 +139,20 @@ class _Checkout1State extends State<Checkout1> {
 
                         SizedBox(height: dimensions.height8*2,),
                         // address with overflow
-                        SizedBox(
-                          width: dimensions.width24*9.5,
-                          child: Text(
-                            AppConstants.userData.address,
-                            style: TextStyle(
-                              color: Color(0xFF7A7A7A),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              height: 0,
-                              overflow: TextOverflow.ellipsis
-                            ),
+                        Container(
+                          width: dimensions.width24 * 9.5,
+                          child: ReusableText(
+                            text: AppConstants
+                                .userData.address !=
+                                ''
+                                ? AppConstants.userData.address
+                                : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
+                            fontSize: 14,
+                            height: 0,
+                            color: Color(0xFF7A7A7A),
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamily.roboto,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         )
                       ],

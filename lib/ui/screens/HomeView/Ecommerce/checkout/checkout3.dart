@@ -43,7 +43,7 @@ class _Checkout3State extends State<Checkout3> {
               height: dimensions.height8*11.5,
               color: Colors.white,
               child:Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.8),
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.5),
                 child: Row(
                   children: [
                     CustomCircleAvatar(
@@ -227,6 +227,7 @@ class _Checkout3State extends State<Checkout3> {
                height: dimensions.height10 * 30,
                color: Colors.white,
                margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
+               padding:EdgeInsets.only(right: dimensions.width16),
                child: Column(
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
@@ -234,21 +235,27 @@ class _Checkout3State extends State<Checkout3> {
                    // UPI Provider Selection
                    Row(
                      children: [
-                       Radio(
-                         value: 'google_pay',
-                         groupValue: selectedUpiProvider,
-                         onChanged: (value) {
-                           setState(() {
-                             selectedUpiProvider = value.toString();
-                           });
-                         },
+                       Row(
+                         children: [
+                           Radio(
+                             value: 'google_pay',
+                             groupValue: selectedUpiProvider,
+                             onChanged: (value) {
+                               setState(() {
+                                 selectedUpiProvider = value.toString();
+                               });
+                             },
+                           ),
+                           ReusableText(
+                             text: 'Google Pay',
+                             fontSize: 16,
+                             color:Color(0xFF282828),
+                             fontWeight: FontWeight.w500,
+                           ),
+                         ],
+                         
                        ),
-                       ReusableText(
-                         text: 'Google Pay',
-                         fontSize: 16,
-                         color:Color(0xFF282828),
-                         fontWeight: FontWeight.w500,
-                       ),
+                       SvgPicture.asset('assets/payment/gpay.svg')
                      ],
                    ),
                    if(selectedUpiProvider=='google_pay')
@@ -277,21 +284,26 @@ class _Checkout3State extends State<Checkout3> {
 
                    Row(
                      children: [
-                       Radio(
-                         value: 'phone_pay',
-                         groupValue: selectedUpiProvider,
-                         onChanged: (value) {
-                           setState(() {
-                             selectedUpiProvider = value.toString();
-                           });
-                         },
-                       ),
-                       ReusableText(
-                         text: 'Phone Pay',
-                         fontSize: 16,
-                         color: Color(0xFF282828),
-                         fontWeight: FontWeight.w500,
-                       ),
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'phone_pay',
+                            groupValue: selectedUpiProvider,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedUpiProvider = value.toString();
+                              });
+                            },
+                          ),
+                          ReusableText(
+                            text: 'Phone Pay',
+                            fontSize: 16,
+                            color: Color(0xFF282828),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      ),
+                       SvgPicture.asset('assets/payment/phonepe.svg')
                      ],
                    ),
                    if(selectedUpiProvider=='phone_pay')
@@ -319,21 +331,32 @@ class _Checkout3State extends State<Checkout3> {
                        ),
                      ),
                    Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
-                       Radio(
-                         value: 'paytm',
-                         groupValue: selectedUpiProvider,
-                         onChanged: (value) {
-                           setState(() {
-                             selectedUpiProvider = value.toString();
-                           });
-                         },
+                       Row(
+
+                         children: [
+                           Radio(
+                             value: 'paytm',
+                             groupValue: selectedUpiProvider,
+                             onChanged: (value) {
+                               setState(() {
+                                 selectedUpiProvider = value.toString();
+                               });
+                             },
+                           ),
+                           ReusableText(
+                             text: 'Paytm',
+                             fontSize: 16,
+                             color: Color(0xFF282828),
+                             fontWeight: FontWeight.w500,
+                           ),
+                         ],
                        ),
-                       ReusableText(
-                         text: 'Paytm',
-                         fontSize: 16,
-                         color: Color(0xFF282828),
-                         fontWeight: FontWeight.w500,
+                       SvgPicture.asset(
+                         'assets/payment/paytm.svg',
+                         height: 24, // Set the height as needed
+                         width: 24, // Set the width as needed
                        ),
                      ],
                    ),

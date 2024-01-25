@@ -1,10 +1,14 @@
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/checkout1.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
 import '../../ui/screens/Signup and SignIn/Signup_Screen.dart';
 
@@ -39,6 +43,11 @@ class RouteGenerator{
           builder: (_) => ProductDescriptionScreen(),
         );
 
+      case ViewAll.route:
+        return MaterialPageRoute(
+          builder: (_) => ViewAll(),
+        );
+
       case Checkout1.route:
         return MaterialPageRoute(
           builder: (_) => Checkout1(),
@@ -46,6 +55,15 @@ class RouteGenerator{
       case OtpScreen.route:
         return MaterialPageRoute(
           builder: (_) => OtpScreen(),
+        );
+
+      case MainScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => MainScreen(),
+        );
+      case OnboardingScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => OnboardingScreen(),
         );
       default:
         return _errorRoute();

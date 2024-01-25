@@ -51,9 +51,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeCartData(String schoolName, String productId) async{
-
-
+  void removeCartData(String schoolName, String productId , BuildContext context) async{
     if(cartData[schoolName]!.length == 1){
       // products.removeWhere((element) => element.productId == productId);
       cartData.remove(schoolName);
@@ -63,10 +61,36 @@ class CartProvider extends ChangeNotifier {
       cartData[schoolName]!.remove(productId);
     }
 
+    const snackBar = SnackBar(
+      content: Text('Product removed from cart'),
+      duration: Duration(seconds: 2),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
     await storeCartData();
     // If the product is not in the cart, you might want to handle this case
 
     // Notify listeners after updating the cart data
+    notifyListeners();
+  }
+
+  void removeSingleCartData(String schoolName , String productId , BuildContext context , int quantity) async{
+    // print(schoolName + " " + productId);
+    if(cartData[schoolName]![productId]! > 1){
+      cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
+
+      // cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
+    }
+    else{
+      // products.removeWhere((element) => element.productId == productId);
+      cartData[schoolName]!.remove(productId);
+    }
+
+    context.read<CartViewRepository>().removeSingleCartData(schoolName, productId);
+    await storeCartData();
+
+    print(cartData);
     notifyListeners();
   }
 
