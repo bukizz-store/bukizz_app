@@ -59,6 +59,7 @@ class _EmptyCartState extends State<EmptyCart> {
                ),
             ],
           ),
+
         ),
       ),
     );
