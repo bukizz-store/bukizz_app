@@ -1,6 +1,8 @@
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../data/providers/cart_provider.dart';
 import '../containers/Reusable_ColouredBox.dart';
 import '../text and textforms/Reusable_text.dart';
 
@@ -9,10 +11,14 @@ class ReusableQuantityButton extends StatelessWidget {
   final ValueChanged<int>? onChanged;
   final double height;
   final double width;
+  final String productId;
+  final String schoolName;
 
   ReusableQuantityButton({
     required this.quantity,
     this.onChanged, required this.height, required this.width,
+    required this.schoolName,
+required this.productId
   });
 
   @override
@@ -34,8 +40,9 @@ class ReusableQuantityButton extends StatelessWidget {
             child: Icon(Icons.remove,color:  Color(0xFF00579E),),
             onTap: () {
               if (onChanged != null) {
-                if(quantity>0)
-                onChanged!(quantity - 1);
+                // if(quantity>0)
+                // onChanged!(quantity - 1);
+                context.read<CartProvider>().removeSingleCartData(schoolName ,productId, context , 1);
               }
             },
           ),
@@ -49,7 +56,8 @@ class ReusableQuantityButton extends StatelessWidget {
             child: Icon(Icons.add,color: Color(0xFF00579E),),
             onTap: () {
               if (onChanged != null) {
-                onChanged!(quantity + 1);
+              //   onChanged!(quantity + 1);
+                context.read<CartProvider>().addProductInCart(schoolName, 1, productId, context);
               }
             },
           ),

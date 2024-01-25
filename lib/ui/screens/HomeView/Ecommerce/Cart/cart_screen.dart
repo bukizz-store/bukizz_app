@@ -326,6 +326,8 @@ class _CartState extends State<Cart> {
                             quantity: quantity,
                             height: 32,
                             width: 83,
+                            productId: product,
+                            schoolName: SchoolName,
                             onChanged: (newQuantity) {
                               // setState(() {
                               //   CartQuantity[index] = newQuantity;
@@ -344,7 +346,6 @@ class _CartState extends State<Cart> {
                           SizedBox(
                             height: dimensions.height16,
                           ),
-
                           //book names
                           SizedBox(
                             width: dimensions.width120 * 2,
@@ -417,7 +418,7 @@ class _CartState extends State<Cart> {
                         onTap: () {
                           print('Remove button pressed');
                           cartData.removeCartData(SchoolName, product );
-                          context.read<CartProvider>().removeCartData(SchoolName,product);
+                          context.read<CartProvider>().removeCartData(SchoolName,product , context);
                           getTotalPrice();
                           setState(() {});
                         },

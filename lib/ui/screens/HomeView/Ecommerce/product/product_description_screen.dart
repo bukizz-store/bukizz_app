@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../constants/font_family.dart';
 import '../../../../../data/providers/product_provider.dart';
+import '../../../../../data/providers/stationary_provider.dart';
 import '../../../../../utils/dimensions.dart';
 
 import 'package:bukizz_1/utils/dimensions.dart';
@@ -59,6 +60,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   Widget build(BuildContext context) {
     var productView = context.read<ProductViewRepository>();
     var schoolData = context.read<SchoolDataProvider>();
+    var stationaryData = context.read<StationaryProvider>();
     Dimensions dimensions = Dimensions(context);
     return Scaffold(
       appBar: AppBar(
@@ -197,7 +199,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       height: dimensions.height151,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 2,
+                        itemCount: stationaryData.stationaryListItems.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: EdgeInsets.only(right: dimensions.width16),
@@ -214,7 +216,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                     width: dimensions.width169,
                                     height: dimensions.height86,
                                     child: Image(
-                                        image: AssetImage(setImages[index])),
+                                        image: NetworkImage(stationaryData.stationaryListItems[index].image)),
                                   ),
 
                                   // Book roll text hardcoded
@@ -224,7 +226,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                       left: dimensions.width24 / 2,
                                     ),
                                     child: ReusableText(
-                                      text: setText[index],
+                                      text: stationaryData.stationaryListItems[index].name,
                                       fontSize: 12,
                                       height: 0.11,
                                       fontFamily: FontFamily.roboto,
@@ -243,7 +245,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         ReusableText(
-                                          text: '₹ ${setPrices[index]}',
+                                          text: '₹ ${stationaryData.stationaryListItems[index].price}',
                                           fontSize: 12,
                                           height: 0.11,
                                           fontWeight: FontWeight.w500,
@@ -264,28 +266,31 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                               GestureDetector(
                                                 child: Icon(Icons.remove),
                                                 onTap: () {
-                                                  setState(() {
-                                                    if (setCartQuantities[
-                                                            index] >
-                                                        0) {
-                                                      setCartQuantities[
-                                                          index]--;
-                                                    }
-                                                  });
+                                                  // setState(() {
+                                                  //   if (setCartQuantities[
+                                                  //           index] >
+                                                  //       0) {
+                                                  //     setCartQuantities[
+                                                  //         index]--;
+                                                  //   }
+                                                  // });
+                                                  context.read<CartProvider>().removeSingleCartData("all" ,stationaryData.stationaryListItems[index].productId, context , 1);
                                                 },
                                               ),
                                               ReusableText(
                                                 text:
-                                                    '${setCartQuantities[index]}',
+                                                    '${1}',
                                                 fontSize: 12,
                                                 height: 0.10,
                                               ),
                                               GestureDetector(
                                                 child: Icon(Icons.add),
                                                 onTap: () {
-                                                  setState(() {
-                                                    setCartQuantities[index]++;
-                                                  });
+                                                  // setState(() {
+                                                  //   setCartQuantities[index]++;
+                                                  // });
+                                                  context.read<CartProvider>().addProductInCart("all", 1, stationaryData.stationaryListItems[index].productId, context);
+
                                                 },
                                               ),
                                             ],

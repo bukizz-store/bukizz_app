@@ -81,7 +81,6 @@ class CartViewRepository extends ChangeNotifier {
   }
 
   void removeCartData(String schoolName , String productId ){
-
     if(cartData[schoolName]!.length == 1){
       // products.removeWhere((element) => element.productId == productId);
       cartData.remove(schoolName);
@@ -98,23 +97,22 @@ class CartViewRepository extends ChangeNotifier {
     });
 
     setCartVal(length);
-
-    // products.removeWhere((element) => element.productId == productId);
-    // cartData[schoolName]!.remove(productId);
-
-    // products.map((e) => print(e.toString()));
-    // print(cartData);
     notifyListeners();
   }
 
   void removeSingleCartData(String schoolName , String productId){
+    // print(schoolName + " " + productId);
     if(cartData[schoolName]![productId]! > 1){
       cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
+
+      // cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
     }
     else{
       products.removeWhere((element) => element.productId == productId);
       cartData[schoolName]!.remove(productId);
     }
+
+    // print(cartData);
     notifyListeners();
   }
 

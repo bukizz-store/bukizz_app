@@ -58,8 +58,8 @@ class _Checkout2State extends State<Checkout2> {
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
-    getTotalPrice();
     return Consumer<CartViewRepository>(builder: (context , cartData , child){
+      getTotalPrice();
       return Scaffold(
         appBar: AppBar(
           title: Text('Order summary'),
@@ -439,6 +439,8 @@ class _Checkout2State extends State<Checkout2> {
                             quantity: quantity,
                             height: 32,
                             width: 83,
+                            productId: productId,
+                            schoolName: schoolName,
                             onChanged: (newQuantity) {
                               // setState(() {
                               //   CartQuantity[index] = newQuantity;
@@ -516,7 +518,7 @@ class _Checkout2State extends State<Checkout2> {
                     child: InkWell(
                       onTap: (){
                         cartData.removeCartData(schoolName, productId );
-                        context.read<CartProvider>().removeCartData(schoolName,productId);
+                        context.read<CartProvider>().removeCartData(schoolName,productId , context);
                         getTotalPrice();
                         setState(() {});
                       },

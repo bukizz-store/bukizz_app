@@ -30,24 +30,25 @@ class _AboutSchoolState extends State<AboutSchool> {
             Container(
               width: dimensions.screenWidth,
               height: dimensions.height24*9.4,
-              color: Colors.white,
-              child: Image.network(
-                //todo shivam bhai dekh lena
-                schoolData.schoolData[1].banner,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.low,
-                height: dimensions.height151,
-                width: dimensions.width195,
+              margin: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                image: DecorationImage(
+                  image: NetworkImage(schoolData.schoolData[1].banner),
+                  filterQuality: FilterQuality.low,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            SizedBox(height: dimensions.height8*1.5,),
+            SizedBox(height: dimensions.height8*3,),
             //about us
             Container(
               width: dimensions.width342,
-              height: dimensions.height8*20.2,
+              // height: dimensions.height8*20.2,
               margin: EdgeInsets.only(left: dimensions.width24),
               child:  Column(
-                mainAxisSize: MainAxisSize.min,
+                // mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -79,10 +80,13 @@ class _AboutSchoolState extends State<AboutSchool> {
               ),
             ),
 
+            SizedBox(height: dimensions.height8*3,),
+
+
             //our inspiration
             Container(
               width: dimensions.width342,
-              height: dimensions.height8*43.25,
+              // height: dimensions.height8*43.25,
               margin: EdgeInsets.only(left: dimensions.width24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -115,6 +119,7 @@ class _AboutSchoolState extends State<AboutSchool> {
                       ),
                     ),
                   ),
+                  SizedBox(height: dimensions.height8*1.5,),
                   Container(
                     width: dimensions.width342,
                     height: dimensions.height32*4,
@@ -131,11 +136,14 @@ class _AboutSchoolState extends State<AboutSchool> {
               ),
             ),
 
+            SizedBox(height: dimensions.height8*3,),
+
+
 
             //mission
             Container(
               width: dimensions.width342,
-              height: dimensions.height8*25,
+              // height: dimensions.height8*25,
               margin: EdgeInsets.only(left: dimensions.width24),
               child: const Column(
                 mainAxisSize: MainAxisSize.min,

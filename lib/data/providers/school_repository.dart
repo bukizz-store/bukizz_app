@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bukizz_1/data/providers/cart_provider.dart';
+import 'package:bukizz_1/data/providers/stationary_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -122,6 +123,7 @@ class SchoolDataProvider extends ChangeNotifier {
       setIsSchoolDataLoaded(false);
     });
     context.read<CartProvider>().loadCartData(context);
+    context.read<StationaryProvider>().fetchStationaryItems();
     await FirebaseFirestore.instance
         .collection('schools')
         .get()
