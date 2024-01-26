@@ -5,14 +5,16 @@ class ReusableElevatedButton extends StatelessWidget {
   final double height;
   final VoidCallback onPressed;
   final String buttonText;
-  final Color buttonColor;
+  final Color ?buttonColor;
   final Color textColor;
   final double fontSize;
   final String fontFamily;
   final FontWeight fontWeight;
   final double letterSpacing;
   final IconData? iconData;
-  final String? imagePath; // Optional asset image path
+  final String? imagePath;
+  final Color borderColor;
+  // Optional asset image path
 
   const ReusableElevatedButton({
     Key? key,
@@ -27,7 +29,9 @@ class ReusableElevatedButton extends StatelessWidget {
     this.fontWeight = FontWeight.w700,
     this.letterSpacing = 0.30,
     this.iconData,
-    this.imagePath, // Include the optional asset image path in the constructor
+    this.imagePath,
+    this.borderColor=Colors.white,
+    // Include the optional asset image path in the constructor
   }) : super(key: key);
 
   @override
@@ -40,7 +44,7 @@ class ReusableElevatedButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor,
           shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1, color: Color(0xFFE8E8E8)),
+            side: BorderSide(width: 1, color:borderColor),
             borderRadius: BorderRadius.circular(40),
           ),
         ),

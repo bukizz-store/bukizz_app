@@ -7,6 +7,7 @@ import 'package:bukizz_1/data/providers/stationary_provider.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/data/repository/user_repository.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/pages/main_login.1.dart';
@@ -37,6 +38,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   final savedUser;
+
   const MyApp({super.key , required this.savedUser});
 
   @override
@@ -66,7 +68,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightThemeData,
         title: AppString.appName,
-        initialRoute: (widget.savedUser.uid != '' && widget.savedUser.uid != null) ? HomeScreen.route: OnboardingScreen.route,
+        initialRoute: (widget.savedUser.uid != '' && widget.savedUser.uid != null) ? MainScreen.route: OnboardingScreen.route,
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
