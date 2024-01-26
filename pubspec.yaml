@@ -48,6 +48,7 @@ dependencies:
   flutter_svg: ^2.0.9
   geocoding: ^2.1.1
   geolocator: ^10.1.0
+  url_launcher: ^6.2.4
   uuid: ^4.3.3
   curved_navigation_bar: ^1.0.3
 dev_dependencies:

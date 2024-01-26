@@ -5,6 +5,11 @@ import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/manua
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/add_review.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/know_more.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/order.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +80,27 @@ class RouteGenerator{
       case LocationScreen.route:
         return MaterialPageRoute(
           builder: (_) => const LocationScreen(),
+        );
+      case OrderScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const OrderScreen(),
+        );
+      case KnowMoreScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const KnowMoreScreen(),
+        );
+      case RatingsScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const RatingsScreen(),
+        );
+
+      case ReviewScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const ReviewScreen(),
+        );
+      case ContactUsScreen.route:
+        return MaterialPageRoute(
+          builder: (_) =>  ContactUsScreen(),
         );
       default:
         return _errorRoute();
