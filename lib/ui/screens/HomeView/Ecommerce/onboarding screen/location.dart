@@ -43,9 +43,9 @@ class _LocationScreenState extends State<LocationScreen> {
                 ),
               ),
             ),
-            SizedBox(height: dimensions.height10*5.3,),
+            SizedBox(height: dimensions.height10*2,),
             SvgPicture.asset('assets/location.svg'),
-            SizedBox(height: dimensions.height10*2.5,),
+            SizedBox(height: dimensions.height10,),
             ReusableElevatedButton(
                 width: dimensions.width342,
                 height: dimensions.height10*5.4,

@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
       case 3:
         return CategoryScreen();
       case 4:
-        return ProfileScreen();
+        return LocationScreen();
       default:
         return Container();
     }
