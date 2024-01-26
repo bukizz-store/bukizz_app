@@ -147,14 +147,14 @@ class MainUserDetails {
     String? password = prefs.getString('password') ?? '';
     String? userData = prefs.getString('userData') ?? '';
     String? uid = prefs.getString('uid') ?? '';
-    bool? isLogin = prefs.getBool('isLogin');
+    bool? isLogin = prefs.getBool('isLogin') ?? false;
 
     print(userData);
 
     if (userData != '') {
       Map<String, dynamic> map = jsonDecode(userData);
       print(map);
-      AppConstants.isLogin = isLogin ?? false;
+      AppConstants.isLogin = isLogin;
       AppConstants.userData = MainUserDetails.fromMap(map);
       return MainUserDetails.fromMap(map);
     }

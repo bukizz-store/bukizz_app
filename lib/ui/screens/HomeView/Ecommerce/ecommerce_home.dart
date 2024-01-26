@@ -65,7 +65,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    schoolData.loadData(context);
+    // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
       body: Container(

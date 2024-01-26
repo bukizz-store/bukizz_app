@@ -1,21 +1,6 @@
-
-import 'dart:math';
-
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/pages/student_teacher_login.3.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/MySchool/main_screen.dart';
-import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
-import 'package:bukizz_1/widgets/header_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../auth/firebase_auth.dart';
-import '../../../data/providers/cart_provider.dart';
-import '../../../data/providers/header_switch.dart';
-import '../../../data/providers/school_repository.dart';
 import '../../../widgets/custom_tab/custom_tab1.dart';
 
 class HomeScreen extends StatefulWidget {

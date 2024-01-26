@@ -5,6 +5,9 @@ import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/buttons/Reusable_Button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../data/providers/school_repository.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String route = '/onboardingscreen';
@@ -38,7 +41,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
   }
 
   navigateToNext() {
-    Future.delayed(const Duration(seconds: 3), () async {
+    Future.delayed(const Duration(seconds: 4), () async {
       await checkCurrentUser();
     });
   }
@@ -54,7 +57,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-
+    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    schoolData.loadData(context);
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
