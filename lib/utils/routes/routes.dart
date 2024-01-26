@@ -1,5 +1,6 @@
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/checkout1.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
@@ -69,6 +70,10 @@ class RouteGenerator{
       case SelectLocation.route:
         return MaterialPageRoute(
           builder: (_) => SelectLocation(),
+        );
+      case LocationScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => LocationScreen(),
         );
       default:
         return _errorRoute();
