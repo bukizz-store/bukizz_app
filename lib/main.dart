@@ -4,6 +4,7 @@ import 'package:bukizz_1/data/providers/header_switch.dart';
 import 'package:bukizz_1/data/providers/product_provider.dart';
 import 'package:bukizz_1/data/providers/school_repository.dart';
 import 'package:bukizz_1/data/providers/stationary_provider.dart';
+import 'package:bukizz_1/data/repository/auth_view_repository.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/data/repository/user_repository.dart';
@@ -63,6 +64,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => OrderViewRespository()),
         ChangeNotifierProvider(create: (_) => BottomNavigationBarProvider(),),
         ChangeNotifierProvider(create: (_) => StationaryProvider(),),
+        ChangeNotifierProvider(create: (_) => AuthView())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

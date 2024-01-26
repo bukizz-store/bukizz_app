@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../data/models/user_details.dart';
 
 enum userType{
@@ -11,5 +13,16 @@ enum status{
 class AppConstants{
   static late MainUserDetails userData ;
   static bool isLogin =false;
+
+  static buildShowDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
 }
 

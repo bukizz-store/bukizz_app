@@ -1,17 +1,14 @@
 import 'dart:convert';
-
 import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/models/user_details.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../data/repository/user_repository.dart';
-import '../ui/screens/HomeView/homeScreen.dart';
 import '../ui/screens/Signup and SignIn/Signin_Screen.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -56,13 +53,14 @@ class AuthProvider extends ChangeNotifier {
         AppConstants.userData = userDetails;
 
         print(userDetails);
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.route, (route) => false);
 
         // // Push user data to Firebase
         await userDetails.pushToFirebase(authResult);
 
         await userDetails.saveToSharedPreferences();
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, LocationScreen.route, (route) => false);
       }
       else {
         const snackBar = SnackBar(
@@ -71,8 +69,6 @@ class AuthProvider extends ChangeNotifier {
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
-
-
       notifyListeners();
     } catch (e) {
       print("Error signing in: $e");
@@ -101,19 +97,28 @@ class AuthProvider extends ChangeNotifier {
         address: '',
         uid: result.user!.uid,
         dob: DateTime.now().toIso8601String(),
-        mobile: result.user!.phoneNumber!,
+        mobile: result.user!.phoneNumber ?? '',
         alternateAddress: '',
         studentsUID: [],
         orderID: [],
       );
 
       if (result.user!.uid.isNotEmpty) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.route, (route) => false);
         // // Push user data to Firebase
         await userDetails.pushToFirebase(result);
 
+        QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+            .collection('userDetails')
+            .where('email', isEqualTo: result.user!.email)
+            .get();
+
+        userDetails = MainUserDetails.fromMap(querySnapshot.docs.first.data());
+
+        AppConstants.userData = userDetails;
         await userDetails.saveToSharedPreferences();
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, LocationScreen.route, (route) => false);
       }
       else {
         const snackBar = SnackBar(
@@ -172,7 +177,7 @@ class AuthProvider extends ChangeNotifier {
 
           // Navigate to the home screen
           Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreen.route, (route) => false);
+              context, LocationScreen.route, (route) => false);
 
           notifyListeners();
         }

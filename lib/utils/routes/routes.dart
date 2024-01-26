@@ -8,6 +8,7 @@ import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
+import '../../ui/screens/HomeView/Ecommerce/onboarding screen/location.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
@@ -70,6 +71,12 @@ class RouteGenerator{
         return MaterialPageRoute(
           builder: (_) => SelectLocation(),
         );
+
+      case LocationScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const LocationScreen(),
+        );
+
       default:
         return _errorRoute();
     }

@@ -1,3 +1,4 @@
+import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +148,7 @@ class _SignInState extends State<SignIn> {
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () async{
+                    AppConstants.buildShowDialog(context);
                     String email = _emailTextController.text.trim();
                     String password = _passwordTextController.text.trim();
                     await authProvider.signInWithEmailAndPassword(email, password , context);
@@ -241,6 +243,8 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
+
+
 }
 
 
