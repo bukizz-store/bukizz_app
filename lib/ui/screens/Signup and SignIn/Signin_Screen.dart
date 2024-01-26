@@ -1,4 +1,5 @@
 import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _SignInState extends State<SignIn> {
     //  sign-in logic here
 
     Navigator.pushNamedAndRemoveUntil(
-        context, HomeScreen.route, (route) => false);
+        context, LocationScreen.route, (route) => false);
   }
 
   @override

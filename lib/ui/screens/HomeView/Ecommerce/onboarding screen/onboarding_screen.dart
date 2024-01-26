@@ -25,7 +25,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
     super.initState();
     animationController = AnimationController(vsync: this, duration: Duration(seconds: 3))
       ..addListener(() {
-        // print(animation.value);
         setState(() {});
       })
       ..forward();
@@ -35,10 +34,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
         .animate(CurvedAnimation(
         parent: animationController, curve: Interval(intervalStart, intervalEnd, curve: Curves.easeOutQuart)));
 
+    navigateToNext();
   }
 
   navigateToNext() {
-    Future.delayed(const Duration(seconds: 4), () async {
+    Future.delayed(const Duration(seconds: 3), () async {
       await checkCurrentUser();
     });
   }
@@ -46,9 +46,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
 
   Future<void> checkCurrentUser() async {
     if (AppConstants.isLogin && AppConstants.userData.uid != '') {
-      Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.route, (Route<dynamic> route) => false);
-    } else {
       Navigator.pushNamedAndRemoveUntil(
           context, HomeScreen.route, (Route<dynamic> route) => false);
     }
@@ -117,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
               ],
             )
           ),
-          Positioned(
+          AppConstants.userData.uid == "" ?  Positioned(
             left: dimensions.width10*4,
             right:dimensions.width10*4,
             top: animation.value*5+dimensions.height10*50,
@@ -129,7 +126,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
               },
               buttonText: 'Get Started',
             )
-          )
+          ): Container()
         ],
       )
     );

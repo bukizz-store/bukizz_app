@@ -44,34 +44,31 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: dimensions.height10*5.3,),
-              SvgPicture.asset('assets/location.svg'),
-              SizedBox(height: dimensions.height10*2.5,),
-              ReusableElevatedButton(
-                  width: dimensions.width342,
-                  height: dimensions.height10*5.4,
-                  onPressed: () {
-                    getLocation();
-                  },
-                  buttonText: 'Enable Device Loaction'
-              ),
-              SizedBox(height: dimensions.height10*1.6,),
-              ReusableElevatedButton(
-                  width: dimensions.width342,
-                  height: dimensions.height10*5.4,
-                  onPressed: (){
-                    Navigator.pushNamed(context, SelectLocation.route);
-                  },
-                  buttonText: 'Enter Your Location Manually',
-                  buttonColor:Color(0xFFE0EFFF),
-                  textColor: Color(0xFF058FFF),
-                  borderColor: Color(0xFF058FFF),
-              ),
-            ],
-          ),
+            SizedBox(height: dimensions.height10*2,),
+            SvgPicture.asset('assets/location.svg'),
+            SizedBox(height: dimensions.height10,),
+            ReusableElevatedButton(
+                width: dimensions.width342,
+                height: dimensions.height10*5.4,
+                onPressed: getLocation,
+                buttonText: 'Enable Device Loaction'
+            ),
+            SizedBox(height: dimensions.height10*1.6,),
+            ReusableElevatedButton(
+                width: dimensions.width342,
+                height: dimensions.height10*5.4,
+                onPressed: (){
+                  Navigator.pushNamed(context, SelectLocation.route);
+                },
+                buttonText: 'Enter Your Location Manually',
+                buttonColor:Color(0xFFE0EFFF),
+                textColor: Color(0xFF058FFF),
+                borderColor: Color(0xFF058FFF),
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
   void getLocation() async {
     bool serviceEnabled;

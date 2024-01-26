@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightThemeData,
         title: AppString.appName,
-        initialRoute: (widget.savedUser.uid != '' && widget.savedUser.uid != null) ? MainScreen.route: OnboardingScreen.route,
+        initialRoute: OnboardingScreen.route,
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );

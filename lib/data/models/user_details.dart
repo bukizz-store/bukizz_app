@@ -137,6 +137,7 @@ class MainUserDetails {
     prefs.setString('uid', uid);
     prefs.setString('email', email);
     prefs.setString('password', password);
+    prefs.setBool('isLogin', true);
   }
 
   // Load user details from shared preferences
