@@ -158,21 +158,19 @@ class _CartState extends State<Cart> {
                                 ),
                                 Flexible(
                                     child: Container(
-                                      width: dimensions.width24 * 9.5,
-                                      child: ReusableText(
-                                                                        text: AppConstants
-                                                .userData.address !=
-                                            ''
+                                  width: dimensions.width24 * 9.5,
+                                  child: ReusableText(
+                                    text: AppConstants.userData.address != ''
                                         ? AppConstants.userData.address
                                         : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
-                                                                        fontSize: 14,
-                                                                        height: 0,
-                                                                        color: Color(0xFF7A7A7A),
-                                                                        fontWeight: FontWeight.w600,
-                                                                        fontFamily: FontFamily.roboto,
-                                        overflow: TextOverflow.ellipsis,
-                                                                      ),
-                                    )),
+                                    fontSize: 14,
+                                    height: 0,
+                                    color: Color(0xFF7A7A7A),
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: FontFamily.roboto,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )),
                               ],
                             ),
                             InkWell(
@@ -300,7 +298,7 @@ class _CartState extends State<Cart> {
             color: Colors.white,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: dimensions.width24/2,
+                horizontal: dimensions.width24 / 2,
                 vertical: dimensions.height8,
               ),
               child: Column(
@@ -358,7 +356,8 @@ class _CartState extends State<Cart> {
                                 height: 1.2, // Adjust the line height as needed
                               ),
                               maxLines: 3,
-                              overflow: TextOverflow.ellipsis, // Add ellipsis (...) for overflow
+                              overflow: TextOverflow
+                                  .ellipsis, // Add ellipsis (...) for overflow
                             ),
                           ),
 
@@ -417,8 +416,10 @@ class _CartState extends State<Cart> {
                       InkWell(
                         onTap: () {
                           print('Remove button pressed');
-                          cartData.removeCartData(SchoolName, product );
-                          context.read<CartProvider>().removeCartData(SchoolName,product , context);
+                          cartData.removeCartData(SchoolName, product);
+                          context
+                              .read<CartProvider>()
+                              .removeCartData(SchoolName, product, context);
                           getTotalPrice();
                           setState(() {});
                         },

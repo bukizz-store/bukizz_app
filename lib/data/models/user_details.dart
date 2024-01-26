@@ -114,7 +114,7 @@ class MainUserDetails {
       if (querySnapshot.docs.isEmpty) {
         // If no document with the same email exists, add a new document
         await FirebaseFirestore.instance.collection('userDetails').doc(authResult.user!.uid).set(toMap());
-        AppConstants.userData =  MainUserDetails.fromMap(toMap());
+        AppConstants.userData = MainUserDetails.fromMap(toMap());
       } else {
         // If a document with the same email exists, you may choose to handle this case accordingly
         print('User with email $email already exists in Firestore');

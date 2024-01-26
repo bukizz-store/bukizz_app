@@ -101,13 +101,13 @@ class AuthProvider extends ChangeNotifier {
         address: '',
         uid: result.user!.uid,
         dob: DateTime.now().toIso8601String(),
-        mobile: '',
+        mobile: result.user!.phoneNumber!,
         alternateAddress: '',
         studentsUID: [],
         orderID: [],
       );
 
-      if (result != null) {
+      if (result.user!.uid.isNotEmpty) {
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreen.route, (route) => false);
         // // Push user data to Firebase
@@ -194,14 +194,23 @@ class AuthProvider extends ChangeNotifier {
     Future<void> signOut(BuildContext context) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.clear();
+      AppConstants.userData = MainUserDetails(
+        name: '',
+        email: '',
+        password: '',
+        address: '',
+        uid: '',
+        dob: DateTime.now().toIso8601String(),
+        mobile: '',
+        alternateAddress: '',
+        studentsUID: [],
+        orderID: [],
+      );
       await _auth.signOut().then((value) =>
       {
         Navigator.pushNamedAndRemoveUntil(
             context, SignIn.route, (route) => false)
       });
-
-
-
       notifyListeners();
     }
   }

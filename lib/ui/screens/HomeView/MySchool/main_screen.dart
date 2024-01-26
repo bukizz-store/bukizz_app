@@ -1,3 +1,5 @@
+import 'package:bukizz_1/data/providers/cart_provider.dart';
+import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,6 +47,8 @@ class _MySchoolMainState extends State<MySchoolMain> {
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(builder: (context) => StudentLogin()),
+              context.read<CartViewRepository>().cartData = {};
+              context.read<CartProvider>().cartData ={};
               authProvider.signOut(context);
               Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
               // );
