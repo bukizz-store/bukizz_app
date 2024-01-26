@@ -1,4 +1,5 @@
 import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
@@ -50,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
   Future<void> checkCurrentUser() async {
     if (AppConstants.isLogin && AppConstants.userData.uid != '') {
       Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.route, (Route<dynamic> route) => false);
+          context, MainScreen.route, (Route<dynamic> route) => false);
     }
   }
 
@@ -118,7 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
               ],
             )
           ),
-          AppConstants.userData.uid == "" ?  Positioned(
+          !AppConstants.isLogin ?  Positioned(
             left: dimensions.width10*4,
             right:dimensions.width10*4,
             top: animation.value*5+dimensions.height10*50,
