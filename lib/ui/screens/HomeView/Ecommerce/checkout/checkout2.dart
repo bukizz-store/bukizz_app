@@ -164,7 +164,6 @@ class _Checkout2State extends State<Checkout2> {
                                   height: 0,
                                   color: Color(0xFF7A7A7A),
                                   fontWeight: FontWeight.w600,
-                                  fontFamily: FontFamily.roboto,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               )
@@ -245,7 +244,7 @@ class _Checkout2State extends State<Checkout2> {
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                               ),
-                              child: Center(child: ReusableText(text: 'Apply', fontSize: 14,color: Color(0xFF00579E),fontWeight: FontWeight.w400,fontFamily: FontFamily.roboto,)),
+                              child: Center(child: ReusableText(text: 'Apply', fontSize: 14,color: Color(0xFF00579E),fontWeight: FontWeight.w400,)),
                             ),
                           )
                         ],
@@ -267,29 +266,29 @@ class _Checkout2State extends State<Checkout2> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ReusableText(text: 'Price Detailes', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w700,fontFamily: FontFamily.roboto,),
+                      ReusableText(text: 'Price Detailes', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w700,),
                       SizedBox(height: dimensions.height8*3,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ReusableText(text: 'Price (${cartData.cart_val} items) ', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
-                          ReusableText(text: totalPrice.toString(), fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                          ReusableText(text: 'Price (${cartData.cart_val} items) ', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,),
+                          ReusableText(text: totalPrice.toString(), fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*2.5,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ReusableText(text: 'Discount', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
-                          ReusableText(text: '-₹${totalPrice -salePrice}', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                          ReusableText(text: 'Discount', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,),
+                          ReusableText(text: '-₹${totalPrice -salePrice}', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w500,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*2.5,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ReusableText(text: 'Delivery Charges', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
-                          ReusableText(text: '₹40', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                          ReusableText(text: 'Delivery Charges', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,),
+                          ReusableText(text: '₹40', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*1.5,),
@@ -302,8 +301,8 @@ class _Checkout2State extends State<Checkout2> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ReusableText(text: 'Total Amount', fontSize: 14,color: Color(0xFF282828),fontWeight: FontWeight.w700,fontFamily: FontFamily.roboto,),
-                          ReusableText(text: '₹${salePrice +40}', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                          ReusableText(text: 'Total Amount', fontSize: 14,color: Color(0xFF282828),fontWeight: FontWeight.w700,),
+                          ReusableText(text: '₹${salePrice +40}', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*1.5,),
@@ -313,7 +312,7 @@ class _Checkout2State extends State<Checkout2> {
                         color: Color(0xFFD6D6D6),
                       ),
                       SizedBox(height: dimensions.height8*1.5,),
-                      ReusableText(text: 'You will save ₹${totalPrice -salePrice} on this order', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,)
+                      ReusableText(text: 'You will save ₹${totalPrice -salePrice} on this order', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w600,)
                     ],
                   ),
                 ),

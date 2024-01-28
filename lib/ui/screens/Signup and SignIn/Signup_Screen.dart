@@ -77,10 +77,7 @@ class _SignUpState extends State<SignUp> {
                       height: 0.09,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFFA6A6A6),
-                      fontFamily: FontFamily.roboto,
 
-                      //done
-                      //todo add font family
                     );
                   },
                 ),
@@ -91,7 +88,6 @@ class _SignUpState extends State<SignUp> {
                   fontSize: 14,
                   height: 0.10,
                   color: Color(0xFF121212),
-                  fontFamily: FontFamily.roboto,
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
@@ -112,7 +108,6 @@ class _SignUpState extends State<SignUp> {
                   fontSize: 14,
                   height: 0.10,
                   color: Color(0xFF121212),
-                  fontFamily: FontFamily.roboto,
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
@@ -132,7 +127,6 @@ class _SignUpState extends State<SignUp> {
                   fontSize: 14,
                   height: 0.10,
                   color: Color(0xFF121212),
-                  fontFamily: FontFamily.roboto,
                   fontWeight: FontWeight.w500,
                 ),
 
@@ -159,7 +153,7 @@ class _SignUpState extends State<SignUp> {
                     await authProvider.signUpWithEmailAndPassword(name : name, email: email, password : password , context: context);
                   },
                   buttonText: 'Register',
-                  fontFamily: FontFamily.roboto.name,
+                  fontFamily: FontFamily.nunito.name,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),

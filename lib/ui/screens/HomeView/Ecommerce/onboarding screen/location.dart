@@ -47,6 +47,7 @@ class _LocationScreenState extends State<LocationScreen> {
             SizedBox(height: dimensions.height10*2,),
             SvgPicture.asset('assets/location.svg'),
             SizedBox(height: dimensions.height10,),
+
             ReusableElevatedButton(
                 width: dimensions.width342,
                 height: dimensions.height10*5.4,
@@ -68,7 +69,8 @@ class _LocationScreenState extends State<LocationScreen> {
           ],
         ),
       ),
-    ));
+    )
+  );
   }
   void getLocation() async {
     bool serviceEnabled;

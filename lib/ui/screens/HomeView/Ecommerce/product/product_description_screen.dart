@@ -188,7 +188,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       text: 'Complete your set',
                       fontSize: 18,
                       height: 0.09,
-                      fontFamily: FontFamily.roboto,
+
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF121212),
                     ),
@@ -229,7 +229,6 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                       text: stationaryData.stationaryListItems[index].name,
                                       fontSize: 12,
                                       height: 0.11,
-                                      fontFamily: FontFamily.roboto,
                                       fontWeight: FontWeight.w600,
                                       color: Color(0xFF03045E),
                                     ),
@@ -249,7 +248,6 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                           fontSize: 12,
                                           height: 0.11,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: FontFamily.roboto,
                                           color: Color(0xFF03045E),
                                         ),
 

@@ -124,7 +124,6 @@ class _OtpScreenState extends State<OtpScreen> {
 
               },
               buttonText: 'Continue',
-              fontFamily: FontFamily.roboto.name,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),

@@ -31,7 +31,7 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
             ),
             Container(
                 width: dimensions.screenWidth,
-                height: dimensions.screenHeight,
+                height: dimensions.height10*42,
                 color: Colors.white,
                 child:Padding(
                   padding: EdgeInsets.symmetric(horizontal:dimensions.height8,vertical: dimensions.width24/2),
@@ -55,9 +55,24 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: dimensions.width10*7.6,
-                              height: dimensions.height10*7.6,
-                              child: SvgPicture.asset('assets/school/booksets/1.svg',fit: BoxFit.cover,color: Colors.red,),
+                              width: dimensions.width10 * 7.6,
+                              height: dimensions.height10 * 7.6,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  dimensions.width10 ,
+                                ),
+
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  dimensions.width10 * 7.6 / 8,
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/school/booksets/1.svg',
+                                  fit: BoxFit.cover,
+                                  color: Colors.red,
+                                ),
+                              ),
                             ),
                             SizedBox(width: dimensions.width16,),
                             SizedBox(
@@ -121,21 +136,21 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ReusableText(text: 'Discount', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
-                                  ReusableText(text: '-₹400', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                                  ReusableText(text: 'Discount', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,),
+                                  ReusableText(text: '-₹400', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w500)
                                 ],
                               ),
                               SizedBox(height: dimensions.height8*2.5,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ReusableText(text: 'Delivery Charges', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,),
-                                  ReusableText(text: '₹40', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                                  ReusableText(text: 'Delivery Charges', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,),
+                                  ReusableText(text: '₹40', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,)
                                 ],
                               ),
                               SizedBox(height: dimensions.height8*1.5,),
                               Container(
-                                width: dimensions.width24*14,
+                                width: dimensions.screenWidth,
                                 height: 1,
                                 color: Color(0xFFD6D6D6),
                               ),
@@ -143,25 +158,25 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ReusableText(text: 'Total Amount', fontSize: 14,color: Color(0xFF282828),fontWeight: FontWeight.w700,fontFamily: FontFamily.roboto,),
-                                  ReusableText(text: '₹500', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,fontFamily: FontFamily.roboto,)
+                                  ReusableText(text: 'Total Amount', fontSize: 14,color: Color(0xFF282828),fontWeight: FontWeight.w700,),
+                                  ReusableText(text: '₹500', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,)
                                 ],
                               ),
                               SizedBox(height: dimensions.height8*1.5,),
                               Container(
-                                width: dimensions.width24*14,
+                                width: dimensions.screenWidth,
                                 height: 1,
                                 color: Color(0xFFD6D6D6),
                               ),
                               SizedBox(height: dimensions.height8*1.5,),
-                              ReusableText(text: 'You will save ₹40 on this order', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w600,fontFamily: FontFamily.roboto,)
+                              ReusableText(text: 'You will save ₹40 on this order', fontSize: 12,color: Color(0xFF038B10),fontWeight: FontWeight.w600,)
                             ],
                           ),
                         ),
 
                         SizedBox(height: dimensions.height8*3,),
                         Container(
-                          width: dimensions.width24*14,
+                          width: dimensions.screenWidth,
                           height: 1,
                           color: Color(0xFFD6D6D6),
                         ),

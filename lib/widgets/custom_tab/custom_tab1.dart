@@ -22,7 +22,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(
         2,
-            (index) => InkWell(
+            (index) => GestureDetector(
           onTap: () {
             setState(() {
               currentIndex = index;
@@ -54,7 +54,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
                     child: SvgPicture.asset('assets/ecommerce home/tab icons/2.svg'),
 
                   ),
-                  ReusableText(text: index==0?'Ecommerce':'MySchool', fontSize: 16, height: 0.11,fontWeight: FontWeight.w700,color:currentIndex == index?Color(0xFFF9F9F9):Color(0xFF444444),fontFamily: FontFamily.roboto,)
+                  ReusableText(text: index==0?'Ecommerce':'MySchool', fontSize: 16, height: 0.11,fontWeight: FontWeight.w700,color:currentIndex == index?Color(0xFFF9F9F9):Color(0xFF444444),)
                 ],
               )
           ),

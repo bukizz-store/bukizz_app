@@ -31,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: Consumer<BottomNavigationBarProvider>(
         builder: (context, provider, child) {
           return BottomNavigationBar(
+
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
@@ -53,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
                 label: 'Profile',
               ),
             ],
-            unselectedItemColor: Color(0x19023E8A),
+            unselectedItemColor: Color(0xFFA6A6A6),
             selectedItemColor: Color(0xFF058FFF),
             currentIndex: _selectedIndex,
             onTap: _onItemTapped, // Add this line

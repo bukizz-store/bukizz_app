@@ -27,7 +27,7 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
       cursorColor: Color(0xFF121212),
       style: TextStyle(
         color: Color(0xFF121212),
-        fontFamily: FontFamily.roboto.name
+        fontFamily: FontFamily.nunito.name
       ),
       decoration: InputDecoration(
         prefixIcon: Icon(
@@ -37,7 +37,7 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
         labelText: widget.text,
         labelStyle: TextStyle(
           color: Color(0xFFB8B8B8),
-          fontFamily: FontFamily.roboto.name,
+          fontFamily: FontFamily.nunito.name,
         ),
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,

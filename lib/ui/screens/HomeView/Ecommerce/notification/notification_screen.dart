@@ -59,9 +59,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: [
                        Container(
-                         width: dimensions.width10*7.6,
-                         height: dimensions.height10*7.6,
-                         child: SvgPicture.asset('assets/school/booksets/1.svg',fit: BoxFit.cover,color: Colors.red,),
+                         width: dimensions.width10 * 7.6,
+                         height: dimensions.height10 * 7.6,
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(
+                             dimensions.width10 ,
+                           ),
+
+                         ),
+                         child: ClipRRect(
+                           borderRadius: BorderRadius.circular(
+                             dimensions.width10 ,
+                           ),
+                           child: SvgPicture.asset(
+                             'assets/school/booksets/1.svg',
+                             fit: BoxFit.cover,
+                             color: Colors.red,
+                           ),
+                         ),
                        ),
                        SizedBox(width: dimensions.width16,),
                        SizedBox(
@@ -131,8 +146,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
              color: Colors.black38,
            ),
            Container(
+             padding: EdgeInsets.symmetric(vertical: dimensions.height16/3),
              width: dimensions.screenWidth,
-             height: dimensions.height10*6,
+             height: dimensions.height10*7,
              color: Colors.white,
              child: Padding(
                padding:EdgeInsets.symmetric(horizontal: dimensions.width10,vertical: dimensions.height10*2),
@@ -143,6 +159,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: dimensions.height10/2,),
                         ReusableText(text: 'Book sets upto 50% Off', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF444444),),
                         SizedBox(height: dimensions.height10,),
                         ReusableText(text: '1 day ago', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF7A7A7A),),

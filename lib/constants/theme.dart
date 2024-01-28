@@ -6,6 +6,7 @@ class AppTheme{
   static ThemeData lightThemeData = ThemeData(
     hintColor: Colors.black,
     scaffoldBackgroundColor:Color(0xFFE0EFFF),
+    splashColor: Colors.transparent,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
@@ -20,5 +21,8 @@ class AppTheme{
       background: Colors.white,
     ),
     useMaterial3: true,
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Colors.white,
+    ),
   );
 }

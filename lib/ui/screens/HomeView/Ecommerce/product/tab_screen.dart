@@ -56,7 +56,7 @@ class _ProductScreenState extends State<ProductScreen>
         ),
       ),
       body: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
+        // physics: NeverScrollableScrollPhysics(),
         controller: tabController,
         children: const [
           Books(),
