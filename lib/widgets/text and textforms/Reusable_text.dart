@@ -18,7 +18,7 @@ class ReusableText extends StatelessWidget {
     required this.text,
     this.color = Colors.black,
     required this.fontSize,
-    this.fontFamily = FontFamily.defaultFamily,
+    this.fontFamily = FontFamily.nunito,
     this.fontWeight = FontWeight.w700,
     this.height = 0.11,
     this.letterSpacing = -0.72,

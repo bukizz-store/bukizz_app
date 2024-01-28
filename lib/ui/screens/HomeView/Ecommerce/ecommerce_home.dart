@@ -76,7 +76,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
             children: [
               // Slider 1
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width120/10,vertical: dimensions.height24/2),
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -103,7 +103,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             width: dimensions.screenWidth,
                             height: 192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner1.svg',
+                            assetImage: 'assets/ecommerce home/banner2.svg',
                           ),
                         ],
                         options: CarouselOptions(
@@ -436,6 +436,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   },
                 ),
               ),
+              SizedBox(height: dimensions.height36),
             ],
           ),
         ),

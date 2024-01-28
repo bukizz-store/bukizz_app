@@ -9,4 +9,5 @@ class FontFamily {
   static const FontFamily defaultFamily = FontFamily('Default');
   static const FontFamily roboto = FontFamily('Roboto');
   static const FontFamily openSans = FontFamily('OpenSans');
+  static const FontFamily nunito = FontFamily('Nunito');
 }
