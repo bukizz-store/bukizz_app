@@ -12,7 +12,7 @@ enum status{
 
 class AppConstants{
   static late MainUserDetails userData ;
-  static bool isLogin =false;
+  static bool isLogin = false;
 
   static buildShowDialog(BuildContext context) {
     return showDialog(

@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/school_repository.dart';
+import '../main_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String route = '/onboardingscreen';
@@ -20,8 +21,6 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController animationController;
-
-
 
   @override
   void initState() {
@@ -48,9 +47,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
 
 
   Future<void> checkCurrentUser() async {
-    if (AppConstants.isLogin && AppConstants.userData.uid != '') {
+    if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
       Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.route, (Route<dynamic> route) => false);
+          context, MainScreen.route, (Route<dynamic> route) => false);
     }
   }
 
@@ -118,7 +117,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
               ],
             )
           ),
-          AppConstants.userData.uid == "" ?  Positioned(
+          !AppConstants.isLogin ?  Positioned(
             left: dimensions.width10*4,
             right:dimensions.width10*4,
             top: animation.value*5+dimensions.height10*50,
