@@ -3,6 +3,7 @@ import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/locat
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
@@ -12,6 +13,7 @@ import '../../../widgets/containers/Reusable_container.dart';
 import '../../../widgets/text and textforms/Reusable_TextForm.dart';
 import '../../../widgets/signup_text_widget.dart';
 import '../../../widgets/text and textforms/Reusable_text.dart';
+import '../HomeView/Ecommerce/main_screen.dart';
 import 'Signup_Screen.dart';
 
 class SignIn extends StatefulWidget {
@@ -25,13 +27,21 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
+  Future<void> signIn(BuildContext context) async {
 
-  Future<void> signIn() async {
-    //  sign-in logic here
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
-    Navigator.pushNamedAndRemoveUntil(
-        context, LocationScreen.route, (route) => false);
+    if (serviceEnabled) {
+      // If location is enabled, navigate to the main screen
+      Navigator.pushNamedAndRemoveUntil(
+          context, MainScreen.route, (route) => false);
+    } else {
+      // If location is not enabled, navigate to the location screen
+      Navigator.pushNamedAndRemoveUntil(
+          context, LocationScreen.route, (route) => false);
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
