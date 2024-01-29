@@ -232,6 +232,7 @@ class _SelectLocationState extends State<SelectLocation> {
         state = placemarks.first.administrativeArea ?? '';
         city = placemarks.first.locality ?? '';
       });
+      Navigator.pushNamedAndRemoveUntil(context, MainScreen.route, (route) => false);
     }
   }
 }

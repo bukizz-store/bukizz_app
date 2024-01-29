@@ -36,6 +36,12 @@ class _EcommerceMainState extends State<EcommerceMain> {
     "Stationary",
     "Extras",
   ];
+  List<String>stationaryText=[
+    'School Bags',
+    'Min. 50% Off',
+    '18 Notebook Set',
+    '@ Rs. 200/-'
+  ];
 
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
@@ -386,21 +392,68 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               SizedBox(height: dimensions.height16),
               Container(
-                width: dimensions.width10*14.6,
-                height: dimensions.height16*10,
-                color: Colors.white,
+                height: dimensions.height10*17,
+                width: dimensions.screenWidth,
                 child: ListView.builder(
-                    itemCount: 4,
+                    itemCount: 2,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context,index){
-                      return Column(
-                        children: [
-                          Container(
-                            width: dimensions.width10*14.6,
-                            height: dimensions.height10*10.4,
-                            child: SvgPicture.asset('assets/stationary/1.svg'),
-                          )
-                        ],
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                        child: GestureDetector(
+                          onTap: (){
+                            print('stationary button tapped');
+                          },
+                          child: Container(
+                            width: dimensions.width146,
+                            height: dimensions.height10*15,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0.50,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Color(0xFFD6D6D6),
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x2600579E),
+                                  blurRadius: 12,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: dimensions.width146,
+                                  height: dimensions.height10*10.4,
+                                  child: ClipRRect(
+                                      borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+                                    child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ReusableText(text: stationaryText[2*index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
+                                      SizedBox(height: dimensions.height10*2,),
+                                      ReusableText(text: stationaryText[2*index+1], fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       );
                     }
                 ),

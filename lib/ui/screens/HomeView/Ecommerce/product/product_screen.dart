@@ -1,6 +1,7 @@
 import 'package:bukizz_1/constants/colors.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
+import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _ProductScreenState extends State<ProductScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    Dimensions dimensions=Dimensions(context);
     var schoolData = context.read<SchoolDataProvider>();
     var productData = context.read<ProductProvider>();
     var productView = context.watch<ProductViewRepository>();
@@ -56,8 +58,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 Navigator.pushNamed(context, ProductDescriptionScreen.route);
               },
               child: ReusableColoredBox(
-                width: 197,
-                height: 220,
+                width: dimensions.width10*19.7,
+                height: dimensions.height10*22.0,
                 backgroundColor: Colors.white,
                 borderColor: Color(0xFFE8E8E8),
                 child: Padding(
