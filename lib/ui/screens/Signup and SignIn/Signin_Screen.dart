@@ -225,6 +225,7 @@ class _SignInState extends State<SignIn> {
                   fontFamily: FontFamily.nunito.name,
                   fontWeight: FontWeight.w400,
                   imagePath: 'assets/google.png',
+                  borderColor: Colors.black38,
                 ),
                 SizedBox(
                   height: dimensions.height8,
@@ -240,6 +241,7 @@ class _SignInState extends State<SignIn> {
                   fontSize: 14,
                   fontFamily: FontFamily.nunito.name,
                   fontWeight: FontWeight.w400,
+                  borderColor: Colors.black38,
                 ),
               ],
             ),
