@@ -1,3 +1,4 @@
+import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,28 +32,32 @@ class RoundedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Dimensions dimensions=Dimensions(context);
     return GestureDetector(
       onTap: onPressed,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          border: border,
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        child: ClipRRect(
-          borderRadius: applyImageRadius
-              ? BorderRadius.circular(borderRadius)
-              : BorderRadius.zero,
-          child: isNetworkImage
-              ? Image.network(
-            imageUrl!,
-            fit: fit ?? BoxFit.contain,
-          )
-              : SvgPicture.asset(
-            assetImage!,
-            fit: fit ?? BoxFit.cover,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal:dimensions.width24/3 ),
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            border: border,
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          child: ClipRRect(
+            borderRadius: applyImageRadius
+                ? BorderRadius.circular(borderRadius)
+                : BorderRadius.zero,
+            child: isNetworkImage
+                ? Image.network(
+              imageUrl!,
+              fit: fit ?? BoxFit.contain,
+            )
+                : SvgPicture.asset(
+              assetImage!,
+              fit: fit ?? BoxFit.cover,
+            ),
           ),
         ),
       ),

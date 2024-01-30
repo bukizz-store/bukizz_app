@@ -19,6 +19,7 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  int itemCount=2;
   @override
   Widget build(BuildContext context) {
     BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
@@ -36,10 +37,10 @@ class _OrderScreenState extends State<OrderScreen> {
             ),
             Container(
               width: dimensions.screenWidth,
-              height: dimensions.screenHeight,
+              height: dimensions.height10*23*itemCount,
               color: Colors.white,
               child:ListView.builder(
-                  itemCount: 2,
+                  itemCount: itemCount,
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder:(context,index){
@@ -65,10 +66,26 @@ class _OrderScreenState extends State<OrderScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  width: dimensions.width10*7.6,
-                                  height: dimensions.height10*7.6,
-                                  child: SvgPicture.asset('assets/school/booksets/${index+1}.svg',fit: BoxFit.cover,color: Colors.red,),
+                                  width: dimensions.width10 * 7.6,
+                                  height: dimensions.height10 * 7.6,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      dimensions.width10 ,
+                                    ),
+
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                      dimensions.width10 ,
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'assets/school/booksets/${index + 1}.svg',
+                                      fit: BoxFit.cover,
+                                      color: Colors.red,
+                                    ),
+                                  ),
                                 ),
+
                                 SizedBox(width: dimensions.width16,),
                                 SizedBox(
                                   width: dimensions.width10*25.2,

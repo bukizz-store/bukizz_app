@@ -69,7 +69,6 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
                 text: emojiText[index],
                 fontSize: 14,
                 height: 0.10,
-                fontFamily: FontFamily.roboto,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF444444),
               ),

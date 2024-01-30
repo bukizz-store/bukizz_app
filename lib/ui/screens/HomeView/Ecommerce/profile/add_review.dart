@@ -158,11 +158,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+      bottomNavigationBar:Padding(
+        padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
         child: ReusableElevatedButton(
-          width: dimensions.width10*30,
-          height: dimensions.height8*5,
+          width: dimensions.width10*25,
+          height: dimensions.height8*6,
           onPressed: (){},
           buttonText: 'Submit Reviews',
         ),

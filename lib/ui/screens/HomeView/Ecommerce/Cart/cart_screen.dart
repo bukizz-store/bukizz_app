@@ -81,6 +81,7 @@ class _CartState extends State<Cart> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
@@ -91,7 +92,6 @@ class _CartState extends State<Cart> {
                                       height: 0,
                                       color: Color(0xFF282828),
                                       fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamily.roboto,
                                     ),
                                     ReusableText(
                                       text: AppConstants.userData.name,
@@ -99,13 +99,12 @@ class _CartState extends State<Cart> {
                                       height: 0,
                                       color: Color(0xFF121212),
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: FontFamily.roboto,
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: dimensions.height8,
-                                ),
+                                // SizedBox(
+                                //   height: dimensions.height8/2,
+                                // ),
                                 Flexible(
                                     child: Container(
                                   width: dimensions.width24 * 9.5,
@@ -115,7 +114,6 @@ class _CartState extends State<Cart> {
                                     height: 0,
                                     color: Color(0xFF7A7A7A),
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: FontFamily.roboto,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 )),

@@ -50,6 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               margin: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
               child: Column(
                 children: [
+                  //order contact us
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -168,6 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: dimensions.height24,),
 
+                  //address
                   Container(
                     width: dimensions.screenWidth,
                     height: dimensions.height8*12,
@@ -175,7 +177,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: dimensions.width24/3,vertical: dimensions.height8*1.5),
                         child:Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           crossAxisAlignment: CrossAxisAlignment.start,
+
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -194,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       height: 0,
                                       color: Color(0xFF7A7A7A),
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: FontFamily.roboto,
+                                      fontFamily: FontFamily.nunito,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   )
@@ -228,37 +232,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   SizedBox(height: dimensions.height24*6,),
 
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, SignIn.route);
-                      provider.selectedIndex=0;
-                    },
-                    style: OutlinedButton.styleFrom(
-                        shape: const RoundedRectangleBorder(
-                          side: BorderSide(color: Color(0xFF00579E), ),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: dimensions.width10*10)
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.logout,color: Color(0xFF00579E),),
-                        SizedBox(width: dimensions.width10,),
-                        ReusableText(
-                          text: 'Log Out',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF00579E),
-                        ),
-                      ],
-                    ),
-                  ),
+
 
                 ],
               ),
             )
           ],
         ),
-      )
+      ),
+      bottomNavigationBar:  Padding(
+        padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
+        child: OutlinedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, SignIn.route);
+            provider.selectedIndex=0;
+          },
+          style: OutlinedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                side: BorderSide(color: Color(0xFF00579E), ),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: dimensions.width10*10)
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.logout,color: Color(0xFF00579E),),
+              SizedBox(width: dimensions.width10,),
+              ReusableText(
+                text: 'Log Out',
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF00579E),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

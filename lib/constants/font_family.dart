@@ -7,6 +7,7 @@ class FontFamily {
 
   // define more font families as needed
   static const FontFamily defaultFamily = FontFamily('Default');
-  static const FontFamily roboto = FontFamily('Roboto');
+  // static const FontFamily roboto = FontFamily('Roboto');
   static const FontFamily openSans = FontFamily('OpenSans');
+  static const FontFamily nunito = FontFamily('Nunito');
 }

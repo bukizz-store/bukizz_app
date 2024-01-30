@@ -36,6 +36,12 @@ class _EcommerceMainState extends State<EcommerceMain> {
     "Stationary",
     "Extras",
   ];
+  List<String>stationaryText=[
+    'School Bags',
+    'Min. 50% Off',
+    '18 Notebook Set',
+    '@ Rs. 200/-'
+  ];
 
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
@@ -76,18 +82,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
             children: [
               // Slider 1
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width120/15,vertical: dimensions.height24/2),
                 child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
+
                   child: Stack(
                     children: [
                       CarouselSlider(
@@ -101,9 +98,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
-                            height: 192,
+                            height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner1.svg',
+                            assetImage: 'assets/ecommerce home/banner2.svg',
                           ),
                         ],
                         options: CarouselOptions(
@@ -128,13 +125,15 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           dotsCount: 2,
                           position: _currPageValue.toInt(),
                           decorator: DotsDecorator(
-                            activeColor: Colors.blueAccent,
-                            size: const Size.square(9.0),
-                            activeSize: const Size(18.0, 9.0),
-                            activeShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0)),
+                            activeColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            size: const Size.square(4.5),
+                            activeSize: const Size.square(9.0),
                           ),
                         ),
+
                       ),
                     ],
                   ),
@@ -144,7 +143,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
               //listview of icons
               Container(
-                height: 65,
+                height: dimensions.height10*6.5,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
@@ -167,7 +166,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               text: emojiText[index],
                               fontSize: 14,
                               height: 0.10,
-                              fontFamily: FontFamily.roboto,
+                              fontFamily: FontFamily.nunito,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF444444),
                             )
@@ -297,31 +296,21 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               //2nd slider
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.symmetric(horizontal: dimensions.width10),
                 child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
                   child: Stack(
                     children: [
                       CarouselSlider(
                         items: [
                           RoundedImage(
                             width: dimensions.screenWidth,
-                            height: 192,
+                            height: dimensions.height192,
                             isNetworkImage: false,
                             assetImage: 'assets/ecommerce home/banner2.svg',
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
-                            height: 192,
+                            height: dimensions.height192,
                             isNetworkImage: false,
                             assetImage: 'assets/ecommerce home/banner2.svg',
                           ),
@@ -339,20 +328,22 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         ),
                       ),
                       Positioned(
-                        bottom: 10.0, // Adjust the position as needed
+                        bottom: dimensions.height10, // Adjust the position as needed
                         left: 0.0,
                         right: 0.0,
                         child: DotsIndicator(
                           dotsCount: 2,
                           position: _currPageValue.toInt(),
                           decorator: DotsDecorator(
-                            activeColor: Colors.blueAccent,
-                            size: const Size.square(9.0),
-                            activeSize: const Size(18.0, 9.0),
-                            activeShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0)),
+                            activeColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0), // Adjust radius to make it circular
+                            ),
+                            size: const Size.square(4.50),
+                            activeSize: const Size.square(9.0), // Make active dot circular
                           ),
                         ),
+
                       ),
                     ],
                   ),
@@ -402,41 +393,73 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
               SizedBox(height: dimensions.height16),
               Container(
-                height: dimensions.height151,
-                width: dimensions.width195,
+                height: dimensions.height10*17,
+                width: dimensions.screenWidth,
                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        schoolData
-                            .setSchoolName(schoolData.schoolData[index].name, schoolData.schoolData[index].schoolId);
-                        Navigator.pushNamed(context, ProductScreen.route);
-                      },
-                      child: Container(
-                          height: dimensions.height151,
-                          width: dimensions.width169,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: Offset(0, 3),
+                    itemCount: 2,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context,index){
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                        child: GestureDetector(
+                          onTap: (){
+                            print('stationary button tapped');
+                          },
+                          child: Container(
+                            width: dimensions.width146,
+                            height: dimensions.height10*15,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0.50,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Color(0xFFD6D6D6),
+                                ),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            ],
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x2600579E),
+                                  blurRadius: 12,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: dimensions.width146,
+                                  height: dimensions.height10*10.4,
+                                  child: ClipRRect(
+                                      borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+                                    child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ReusableText(text: stationaryText[2*index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
+                                      SizedBox(height: dimensions.height10*2,),
+                                      ReusableText(text: stationaryText[2*index+1], fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                          margin: EdgeInsets.all(8),
-                          child: Image.asset(
-                            'assets/stationary/${index + 1}.png',
-                            fit: BoxFit.cover,
-                          )),
-                    );
-                  },
+                        ),
+                      );
+                    }
                 ),
               ),
+              SizedBox(height: dimensions.height36),
             ],
           ),
         ),
