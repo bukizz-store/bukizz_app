@@ -68,15 +68,14 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
-
   fonts:
-    - family: Roboto
+    - family: Nunito
       fonts:
-        - asset: fonts/Roboto/Roboto-Regular.ttf
-        - asset: fonts/Roboto/Roboto-Italic.ttf
-          style: italic
-        - asset: fonts/Roboto/Roboto-Bold.ttf
-          weight: 700
+        - asset: fonts/Nunito/Nunito-Regular.ttf
+        - asset: fonts/Nunito/Nunito-Bold.ttf
+        - asset: fonts/Nunito/Nunito-Italic.ttf
+        - asset: fonts/Nunito/Nunito-BoldItalic.ttf
+
 
   assets:
     - assets/

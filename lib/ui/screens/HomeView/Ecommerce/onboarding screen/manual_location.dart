@@ -127,6 +127,7 @@ class _SelectLocationState extends State<SelectLocation> {
                         ),
                         // SizedBox(width: dimensions.width10/2,),
                         Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
                               width: dimensions.width10 * 25.6,
@@ -168,16 +169,15 @@ class _SelectLocationState extends State<SelectLocation> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: dimensions.height16 / 2,
-              ),
               Container(
-                height: dimensions.height10 * 45,
+                height: dimensions.height10*48,
                 child: ListView.builder(
                   itemCount: foundedCities.length,
                   itemBuilder: (context, index) {
                     final city = foundedCities[index];
                     return CheckboxListTile(
+                      activeColor: Color(0xFF058FFF),
+                      // checkColor: Color(0xFF00579E),
                       title: Text(city),
                       value: selectedCities.contains(city),
                       onChanged: (bool? value) {
@@ -210,6 +210,18 @@ class _SelectLocationState extends State<SelectLocation> {
                   buttonText: 'Save Locations'),
             ],
           ),
+        ),
+
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.width24),
+        child: ReusableElevatedButton(
+            width: dimensions.width342,
+            height: dimensions.height10*5.4,
+            onPressed: (){
+              Navigator.pushNamed(context, MainScreen.route);
+            },
+            buttonText: 'Enable Device Loaction'
         ),
       ),
     );

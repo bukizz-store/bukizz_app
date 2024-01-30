@@ -24,37 +24,50 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  initState() {
-    super.initState();
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildCurrentScreen(context),
       bottomNavigationBar: Consumer<BottomNavigationBarProvider>(
         builder: (context, provider, child) {
-          return CurvedNavigationBar(
-            backgroundColor: Color(0xFF39A7FF),
-            items: const [
-              Icon(Icons.home),
-              Icon(Icons.shopping_cart),
-              Icon(Icons.notifications),
-              Icon(Icons.category),
-              Icon(Icons.person),
+          return BottomNavigationBar(
+
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart),
+                label: 'Cart',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                label: 'Notification',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.category),
+                label: 'Categories',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
             ],
-            index: provider.selectedIndex,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-              provider.selectedIndex = index;
-            },
+            unselectedItemColor: Color(0xFFA6A6A6),
+            selectedItemColor: Color(0xFF058FFF),
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped, // Add this line
           );
         },
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   Widget _buildCurrentScreen(BuildContext context) {
@@ -74,3 +87,4 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 }
+

@@ -20,8 +20,13 @@ class _RatingsScreenState extends State<RatingsScreen> {
     setState(() {
       _rating = rating;
     });
-    Navigator.pushNamed(context, ReviewScreen.route);
+
+
+    Future.delayed(Duration(milliseconds: 250), () {
+      Navigator.pushNamed(context, ReviewScreen.route);
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +45,19 @@ class _RatingsScreenState extends State<RatingsScreen> {
             alignment: Alignment.center,
             width: dimensions.width10 * 15,
             height: dimensions.height10 * 15,
-            child: SvgPicture.asset(
-              'assets/school/booksets/1.svg',
-              fit: BoxFit.cover,
-              color: Colors.red,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(dimensions.width10),
+              // color: Colors.red
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                dimensions.width10 * 7.6 / 8,
+              ),
+              child: SvgPicture.asset(
+                'assets/school/booksets/1.svg',
+                fit: BoxFit.cover,
+                color: Colors.red,
+              ),
             ),
           ),
           SizedBox(height: dimensions.height10*2),
@@ -75,7 +89,7 @@ class _RatingsScreenState extends State<RatingsScreen> {
                     (index) => IconButton(
                   iconSize: dimensions.height10 * 3, // Adjust the size of the star icon
                   icon: Icon(
-                    index < _rating ? Icons.star : Icons.star_border,
+                    Icons.star,
                     color: index < _rating ? Color(0xFF058FFF) : Color(0xFFD6D6D6),
                     size: 50,
                   ),

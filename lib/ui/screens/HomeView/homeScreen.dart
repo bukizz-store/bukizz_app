@@ -1,5 +1,6 @@
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
 import 'package:bukizz_1/ui/screens/HomeView/MySchool/main_screen.dart';
+import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import '../../../widgets/custom_tab/custom_tab1.dart';
 
@@ -23,13 +24,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Dimensions dimensions=Dimensions(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(38.0),
+          preferredSize: Size.fromHeight(dimensions.height36),
           child: Padding(
-            padding: EdgeInsets.only(bottom: 25),
+            padding: EdgeInsets.only(bottom: dimensions.height16,),
             child: CustomTabBar(
               onIndexChanged: (index) {
                 _tabController.animateTo(index);

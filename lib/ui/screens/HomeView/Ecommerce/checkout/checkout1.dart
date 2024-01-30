@@ -147,7 +147,6 @@ class _Checkout1State extends State<Checkout1> {
                             height: 0,
                             color: Color(0xFF7A7A7A),
                             fontWeight: FontWeight.w600,
-                            fontFamily: FontFamily.roboto,
                             overflow: TextOverflow.ellipsis,
                           ),
                         )
