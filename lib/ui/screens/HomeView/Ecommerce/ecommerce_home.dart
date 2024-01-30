@@ -118,7 +118,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         ),
                       ),
                       Positioned(
-                        bottom: 10.0, // Adjust the position as needed
+                        bottom: dimensions.height10, // Adjust the position as needed
                         left: 0.0,
                         right: 0.0,
                         child: DotsIndicator(
@@ -149,9 +149,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.only(left: 29),
+                      padding: EdgeInsets.only(left: dimensions.width24),
                       child: Container(
-                        height: 65,
+                        height: dimensions.height10*6.5,
                         child: Column(
                           children: [
                             CircleAvatar(
@@ -160,7 +160,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',fit: BoxFit.cover,)
                             ),
                             SizedBox(
-                              height: 8,
+                              height: dimensions.height8,
                             ),
                             ReusableText(
                               text: emojiText[index],
