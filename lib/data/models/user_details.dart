@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,11 +11,11 @@ class MainUserDetails {
   String name;
   String email;
   String password;
-  String address;
+  Address address;
   String uid;
   String dob;
   String mobile;
-  String alternateAddress;
+  Address alternateAddress;
   List<dynamic> studentsUID;
   List<dynamic> orderID;
 
@@ -37,11 +38,11 @@ class MainUserDetails {
       'name': name,
       'email': email,
       'password': password,
-      'address': address,
+      'address': address.toMap(),
       'uid': uid,
       'dob': dob,
       'mobile': mobile,
-      'alternateAddress': alternateAddress,
+      'alternateAddress': alternateAddress.toMap(),
       'studentsUID': studentsUID,
       'orderID': orderID,
     };
@@ -60,11 +61,11 @@ class MainUserDetails {
       name: map['name'] ?? '', // Use an empty string if 'name' is null
       email: map['email'] ?? '',
       password: map['password'] ?? '',
-      address: map['address'] ?? '',
+      address: Address.fromMap(map['address']),
       uid: map['uid'] ?? '',
       dob: map['dob'] ?? DateTime.now().toIso8601String(),
       mobile: map['mobile'] ?? '',
-      alternateAddress: map['alternateAddress'] ?? '',
+      alternateAddress: Address.fromMap(map['alternateAddress']),
       studentsUID: map['studentsUID'] ?? [],
       orderID: map['orderID'] ?? [],
     );
@@ -77,11 +78,11 @@ class MainUserDetails {
       'name': name,
       'email': email,
       'password': password,
-      'address': address,
+      'address': address.toJson(),
       'uid': uid,
       'dob': dob,
       'mobile': mobile,
-      'alternateAddress': alternateAddress,
+      'alternateAddress': alternateAddress.toJson(),
       'studentsUID': studentsUID,
       'orderID': orderID,
     };
@@ -93,11 +94,11 @@ class MainUserDetails {
       name: json['name'],
       email: json['email'],
       password: json['password'],
-      address: json['address'],
+      address: Address.fromJson(json['address']),
       uid: json['uid'],
       dob: json['dob'],
       mobile: json['mobile'],
-      alternateAddress: json['alternateAddress'],
+      alternateAddress: Address.fromJson(json['alternateAddress']),
       studentsUID: List<dynamic>.from(json['studentsUID']),
       orderID: List<dynamic>.from(json['orderID']),
     );
@@ -113,15 +114,15 @@ class MainUserDetails {
 
       if (querySnapshot.docs.isEmpty) {
         // If no document with the same email exists, add a new document
-        await FirebaseFirestore.instance.collection('userDetails').doc(authResult.user!.uid).set(toMap());
-        AppConstants.userData = MainUserDetails.fromMap(toMap());
+        await FirebaseFirestore.instance.collection('userDetails').doc(uid).set(toMap());
       } else {
         // If a document with the same email exists, you may choose to handle this case accordingly
         print('User with email $email already exists in Firestore');
       }
+      AppConstants.userData = MainUserDetails.fromMap(toMap());
 
     // AppConstants.userData = MainUserDetails.fromMap(toMap());
-    print(toMap());
+    // print(toMap());
 
     } catch (e) {
       print('Error pushing user data to Firebase: $e');
@@ -147,19 +148,21 @@ class MainUserDetails {
     String? password = prefs.getString('password') ?? '';
     String? userData = prefs.getString('userData') ?? '';
     String? uid = prefs.getString('uid') ?? '';
+    AppConstants.locationSet = prefs.getStringList('locationSet') ?? [];
+
+    // print(AppConstants.locationSet);
     bool? isLogin = prefs.getBool('isLogin') ?? false;
 
     print(userData);
 
     if (userData != '') {
       Map<String, dynamic> map = jsonDecode(userData);
-      print(map);
       AppConstants.isLogin = isLogin;
       AppConstants.userData = MainUserDetails.fromMap(map);
       return MainUserDetails.fromMap(map);
     }
 
-    return MainUserDetails(name: '', email: '', password: '', address: '', uid: '', dob: '', mobile: '', alternateAddress: '');
+    return MainUserDetails(name: '', email: '', password: '', uid: '', dob: '', mobile: '', address: Address(name: '', houseNo: '', street: '', city: '', state: '', pinCode: '', phone: '', email: ''), alternateAddress: Address(name: '', houseNo: '', street: '', city: '', state: '', pinCode: '', phone: '', email: ''));
   }
 
   // Create a UserDetails instance from QuerySnapshot data
@@ -169,11 +172,11 @@ class MainUserDetails {
       name: snapshot['name'] ?? '',
       email: snapshot['email'] ?? '',
       password: snapshot['password'] ?? '',
-      address: snapshot['address'] ?? '',
+      address: Address.fromMap(snapshot['address']),
       uid: snapshot['uid'] ?? '',
       dob: snapshot['dob'] ?? DateTime.now().toIso8601String(),
       mobile: snapshot['mobile'] ?? '',
-      alternateAddress: snapshot['alternateAddress'] ?? '',
+      alternateAddress: Address.fromMap(snapshot['alternateAddress']),
       studentsUID: snapshot['studentsUID'] ?? [],
       orderID: snapshot['orderID'] ?? [],
     );

@@ -114,7 +114,7 @@ class _Checkout1State extends State<Checkout1> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Radio<String>(
-                      value: AppConstants.userData.address,
+                      value: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
                       groupValue: selectedAddress,
                       onChanged: (value) {
                         setState(() {
@@ -142,11 +142,7 @@ class _Checkout1State extends State<Checkout1> {
                         Container(
                           width: dimensions.width24 * 9.5,
                           child: ReusableText(
-                            text: AppConstants
-                                .userData.address !=
-                                ''
-                                ? AppConstants.userData.address
-                                : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
+                            text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
                             fontSize: 14,
                             height: 0,
                             color: Color(0xFF7A7A7A),

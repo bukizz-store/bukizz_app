@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/providers/cart_provider.dart';
 import 'package:bukizz_1/data/providers/stationary_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
-import '../models/ecommerce/product_model.dart';
+import '../models/ecommerce/products/product_model.dart';
 import '../models/ecommerce/review_model.dart';
 import 'package:provider/provider.dart';
 import '../models/ecommerce/school_model.dart';
@@ -122,11 +123,15 @@ class SchoolDataProvider extends ChangeNotifier {
     await Future.delayed(Duration.zero, () {
       setIsSchoolDataLoaded(false);
     });
-    context.read<CartProvider>().loadCartData(context);
     context.read<StationaryProvider>().fetchStationaryItems();
-    await FirebaseFirestore.instance
-        .collection('schools')
-        .get()
+    context.read<CartProvider>().loadCartData(context);
+
+    //Function for fetching schoolData from firebase which have the city same as the AppConstant.locationSet list have
+
+    AppConstants.locationSet.isNotEmpty ? await FirebaseFirestore.instance
+        .collection('schools').where('city', whereIn: AppConstants.locationSet).get()
+        .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList()) : await FirebaseFirestore.instance
+        .collection('schools').get()
         .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList());
 
     await Future.delayed(Duration.zero, () {

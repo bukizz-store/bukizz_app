@@ -189,11 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Container(
                                     width: dimensions.width24 * 9.5,
                                     child: ReusableText(
-                                      text: AppConstants
-                                          .userData.address !=
-                                          ''
-                                          ? AppConstants.userData.address
-                                          : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
+                                      text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
                                       fontSize: 14,
                                       height: 0,
                                       color: Color(0xFF7A7A7A),

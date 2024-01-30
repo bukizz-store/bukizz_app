@@ -1,3 +1,4 @@
+import 'package:bukizz_1/constants/colors.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +7,9 @@ import 'package:flutter/material.dart';
 class ExpandableTextWidget extends StatefulWidget {
   final String text;
   final int minLines;
+  final String title;
 
-  ExpandableTextWidget({required this.text, this.minLines = 4});
+  ExpandableTextWidget({required this.text, this.minLines = 4 , this.title = ''});
 
   @override
   _ExpandableTextWidgetState createState() => _ExpandableTextWidgetState();
@@ -26,6 +28,15 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Text(
+              widget.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: AppColors.black,
+              ),
+            ),
+            const SizedBox(height: 8),
             Text(
               widget.text,
               maxLines: isExpanded ? null : widget.minLines,

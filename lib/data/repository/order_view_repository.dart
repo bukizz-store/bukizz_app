@@ -1,4 +1,5 @@
 import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz_1/data/models/ecommerce/order_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -13,20 +14,17 @@ class OrderViewRespository extends ChangeNotifier {
     totalAmount: 0,
     saleAmount: 0,
     cartData: {},
-    address: '',
+    address: AppConstants.userData.address,
   );
 
-  String _userAddress = AppConstants.userData.address;
+  Address _userAddress = AppConstants.userData.address;
 
-  String get getUserAddress => _userAddress;
+  Address get getUserAddress => _userAddress;
 
-  void setUserAddress(String address){
+  void setUserAddress(Address address){
     _userAddress = address;
     notifyListeners();
   }
-
-
-
 
   var uuid = Uuid();
 

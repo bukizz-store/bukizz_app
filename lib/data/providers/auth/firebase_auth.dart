@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz_1/data/models/user_details.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
@@ -19,29 +20,47 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signInWithEmailAndPassword(String email, String password,
       BuildContext context) async {
     try {
-      print(MainUserDetails.hashPassword(password));
+      print("hash Password ${MainUserDetails.hashPassword(password)}");
       UserCredential authResult = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      print(authResult.user!.uid);
+      print("uid ${authResult.user!.uid}");
 
 
       MainUserDetails userDetails = MainUserDetails(
         name: '',
         email: email,
         password: MainUserDetails.hashPassword(password),
-        address: '',
         uid: authResult.user!.uid,
         dob: DateTime.now().toIso8601String(),
         mobile: '',
-        alternateAddress: '',
         studentsUID: [],
         orderID: [],
+        address: Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        ),
+        alternateAddress: Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        ),
       );
 
-      if (authResult != null) {
+      if (authResult.user!.uid.isNotEmpty) {
         QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await FirebaseFirestore.instance
             .collection('userDetails')
@@ -94,11 +113,29 @@ class AuthProvider extends ChangeNotifier {
         name: result.user!.displayName!,
         email: result.user!.email!,
         password: '',
-        address: '',
+        address: Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        ),
         uid: result.user!.uid,
         dob: DateTime.now().toIso8601String(),
         mobile: result.user!.phoneNumber ?? '',
-        alternateAddress: '',
+        alternateAddress: Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        ),
         studentsUID: [],
         orderID: [],
       );
@@ -131,83 +168,126 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-    Future<void> signUpWithEmailAndPassword({
-      required String name,
-      required String email,
-      required String password,
-      required BuildContext context,
-    }) async {
-      try {
-        // Create a UserDetails instance
+  Future<void> signUpWithEmailAndPassword({
+    required String name,
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      // Hash the password using SHA-256
+      String hashPassword(String password) {
+        var bytes = utf8.encode(password);
+        var digest = sha256.convert(bytes);
+        return digest.toString();
+      }
 
-        // Hash the password using SHA-256
-        String hashPassword(String password) {
-          var bytes = utf8.encode(password);
-          var digest = sha256.convert(bytes);
-          return digest.toString();
-        }
+      // Create a Firebase user using email and password
+      UserCredential authResult = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-        // Create a Firebase user using email and password
-        UserCredential authResult = await _auth.createUserWithEmailAndPassword(
+      if (authResult.user != null && authResult.user!.uid.isNotEmpty) {
+        Address address = Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: authResult.user!.phoneNumber ?? "",
           email: email,
-          password: password,
+          name: name,
         );
 
-        if (authResult != null) {
-          MainUserDetails userDetails = MainUserDetails(
-            name: name,
-            email: email,
-            password: hashPassword(password),
-            address: "",
-            uid: authResult.user!.uid,
-            dob: DateTime.now().toIso8601String(),
-            mobile: "",
-            alternateAddress: "",
-            studentsUID: [],
-            orderID: [],
-          );
-          // Get the user ID from the authentication result
-          String userId = authResult.user!.uid;
+        Address alternateAddress = Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        );
 
-          // // Push user data to Firebase
+        print(authResult.user!.uid);
+
+        MainUserDetails userDetails = MainUserDetails(
+          name: name,
+          email: email,
+          password: hashPassword(password),
+          address: address,
+          uid: authResult.user!.uid,
+          dob: DateTime.now().toIso8601String(),
+          mobile: authResult.user!.phoneNumber ?? "",
+          alternateAddress: alternateAddress,
+          studentsUID: [],
+          orderID: [],
+        );
+
+        try {
+          // Push user data to Firebase
           await userDetails.pushToFirebase(authResult);
-
           // Save user details to shared preferences
           await userDetails.saveToSharedPreferences();
-
-          // Navigate to the home screen
-          Navigator.pushNamedAndRemoveUntil(
-              context, LocationScreen.route, (route) => false);
-
-          notifyListeners();
+        } catch (e) {
+          print("Error due to $e");
         }
-        else {
-          const snackBar = SnackBar(
-            content: Text("Failed to SignUP"),
-          );
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      } catch (e) {
-        print("Error signing up: $e");
+        // Navigate to the home screen
+        Navigator.pushNamedAndRemoveUntil(
+            context, LocationScreen.route, (route) => false);
+
+        notifyListeners();
+      } else {
         const snackBar = SnackBar(
-          content: Text("Failed to Sign Up"),
+          content: Text("Failed to SignUP"),
         );
+        Navigator.of(context).pop();
+
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
+    } catch (e) {
+      print("Error signing up: $e");
+      const snackBar = SnackBar(
+        content: Text("Failed to Sign Up"),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.of(context).pop();
     }
-    Future<void> signOut(BuildContext context) async {
+  }
+
+  Future<void> signOut(BuildContext context) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.clear();
       AppConstants.userData = MainUserDetails(
         name: '',
         email: '',
         password: '',
-        address: '',
+        address: Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        ),
         uid: '',
         dob: DateTime.now().toIso8601String(),
         mobile: '',
-        alternateAddress: '',
+        alternateAddress: Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        ),
         studentsUID: [],
         orderID: [],
       );

@@ -13,6 +13,7 @@ enum status{
 class AppConstants{
   static late MainUserDetails userData ;
   static bool isLogin = false;
+  static List<String> locationSet = [];
 
   static buildShowDialog(BuildContext context) {
     return showDialog(

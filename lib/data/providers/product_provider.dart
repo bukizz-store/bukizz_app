@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
-import '../models/ecommerce/product_model.dart';
+import '../models/ecommerce/products/product_model.dart';
 
 class ProductProvider extends ChangeNotifier{
   List<ProductModel> productData = [];
