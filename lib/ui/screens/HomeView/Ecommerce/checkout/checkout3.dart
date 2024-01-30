@@ -19,8 +19,8 @@ class Checkout3 extends StatefulWidget {
 }
 
 class _Checkout3State extends State<Checkout3> {
-  String selectedUpiProvider = "";
-  bool drop_down=false;
+  String selectedUpiProvider = "google_pay";
+  bool drop_down=true;
   bool upi=true;
 
   @override
@@ -196,6 +196,7 @@ class _Checkout3State extends State<Checkout3> {
 
             SizedBox(height: dimensions.height8*1.5,),
 
+           //upi
            Container(
              height: dimensions.height24*2,
              margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
@@ -224,7 +225,7 @@ class _Checkout3State extends State<Checkout3> {
            if(upi)
              Container(
                width: dimensions.screenWidth,
-               height: dimensions.height10 * 30,
+               height: dimensions.height10 * 23,
                color: Colors.white,
                margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
                padding:EdgeInsets.only(right: dimensions.width16),
@@ -234,6 +235,7 @@ class _Checkout3State extends State<Checkout3> {
 
                    // UPI Provider Selection
                    Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        Row(
                          children: [
@@ -255,7 +257,7 @@ class _Checkout3State extends State<Checkout3> {
                          ],
                          
                        ),
-                       SvgPicture.asset('assets/payment/gpay.svg')
+                       Image.asset('assets/payment/gpay.jpg')
                      ],
                    ),
                    if(selectedUpiProvider=='google_pay')
@@ -283,6 +285,7 @@ class _Checkout3State extends State<Checkout3> {
                      ),
 
                    Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                       Row(
                         children: [
@@ -296,14 +299,14 @@ class _Checkout3State extends State<Checkout3> {
                             },
                           ),
                           ReusableText(
-                            text: 'Phone Pay',
+                            text: 'Phone Pe',
                             fontSize: 16,
                             color: Color(0xFF282828),
                             fontWeight: FontWeight.w500,
                           ),
                         ],
                       ),
-                       SvgPicture.asset('assets/payment/phonepe.svg')
+                       Image.asset('assets/payment/phonepe.jpg')
                      ],
                    ),
                    if(selectedUpiProvider=='phone_pay')
@@ -353,11 +356,7 @@ class _Checkout3State extends State<Checkout3> {
                            ),
                          ],
                        ),
-                       SvgPicture.asset(
-                         'assets/payment/paytm.svg',
-                         height: 24, // Set the height as needed
-                         width: 24, // Set the width as needed
-                       ),
+                       Image.asset('assets/payment/paytm.jpg')
                      ],
                    ),
 

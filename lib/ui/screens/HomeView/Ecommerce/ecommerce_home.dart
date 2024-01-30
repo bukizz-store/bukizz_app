@@ -395,64 +395,63 @@ class _EcommerceMainState extends State<EcommerceMain> {
               Container(
                 height: dimensions.height10*17,
                 width: dimensions.screenWidth,
+                // color: Colors.red,
                 child: ListView.builder(
                     itemCount: 2,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context,index){
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
-                        child: GestureDetector(
-                          onTap: (){
-                            print('stationary button tapped');
-                          },
-                          child: Container(
-                            width: dimensions.width146,
-                            height: dimensions.height10*15,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  strokeAlign: BorderSide.strokeAlignOutside,
-                                  color: Color(0xFFD6D6D6),
-                                ),
-                                borderRadius: BorderRadius.circular(12),
+                      return GestureDetector(
+                        onTap: (){
+                          print('stationary button tapped');
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height10/2),
+                          width: dimensions.width146,
+                          height: dimensions.height10,
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                width: 0.50,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                                color: Color(0xFFD6D6D6),
                               ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x2600579E),
-                                  blurRadius: 12,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
+                              borderRadius: BorderRadius.circular(12),
                             ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x2600579E),
+                                blurRadius: 12,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
 
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: dimensions.width146,
-                                  height: dimensions.height10*10.4,
-                                  child: ClipRRect(
-                                      borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
-                                    child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
-                                  ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: dimensions.width146,
+                                height: dimensions.height10*9,
+                                child: ClipRRect(
+                                    borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+                                  child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      ReusableText(text: stationaryText[2*index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
-                                      SizedBox(height: dimensions.height10*2,),
-                                      ReusableText(text: stationaryText[2*index+1], fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ReusableText(text: stationaryText[2*index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
+                                    SizedBox(height: dimensions.height10*2,),
+                                    ReusableText(text: stationaryText[2*index+1], fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       );

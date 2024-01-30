@@ -443,8 +443,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
             width: dimensions.screenWidth,
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
+              padding:  EdgeInsets.symmetric(
+                horizontal: dimensions.width24,
+                vertical: dimensions.height10
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -488,7 +489,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             fontWeight: FontWeight.w700,
                             color: Color(0xFF00579E),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.shopping_cart,
                             color: Color(0xFF00579E),
                           ),

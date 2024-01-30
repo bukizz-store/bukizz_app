@@ -119,7 +119,7 @@ class _CartState extends State<Cart> {
                                 )),
                               ],
                             ),
-                            InkWell(
+                            GestureDetector(
                               onTap: () {
                                 print('change button is tapped');
                               },

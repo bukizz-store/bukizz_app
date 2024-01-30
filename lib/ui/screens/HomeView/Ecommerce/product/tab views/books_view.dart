@@ -1,6 +1,7 @@
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz_1/widgets/containers/class_number.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +21,7 @@ class Books extends StatefulWidget {
 
 class _BooksState extends State<Books> {
   @override
+
   Widget build(BuildContext context) {
     var productView = context.watch<ProductViewRepository>();
     // var productData = context.read<ProductProvider>();
@@ -32,9 +34,11 @@ class _BooksState extends State<Books> {
             gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               // Set the number of columns in the grid
-              crossAxisSpacing: dimensions.width24/3,
+              crossAxisSpacing: dimensions.width24/1.5,
               // Set the horizontal spacing between column
-              mainAxisSpacing: dimensions.height8, // Set the vertical spacing between rows
+              mainAxisSpacing: dimensions.height8*2, // Set the vertical spacing between rows
+
+              mainAxisExtent: dimensions.height10*17
             ),
             itemCount: schoolData.selectedSchool.productsId.length,
             itemBuilder: (context, index) {
@@ -62,24 +66,24 @@ class _BooksState extends State<Books> {
                         color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/school/booksets/${product.classId.substring(3,product.classId.length)}.svg',
-                          fit: BoxFit.fitWidth,
-                          color: Colors.redAccent,
-                        ),
-                        // child: ,
+
+                      CustomClassContainer(
+                          width: dimensions.width169,
+                          height: dimensions.height10*10.5,
+                          classNumber: suffix(int.parse(product.classId.substring(3))),
+                          classTextLeft: dimensions.width10*5.5, //margin to text->class
+                          classTextRight:  dimensions.width10*5.5,
+                          classTextTop: dimensions.height10*2.84,
+                          classNumberLeft: dimensions.width10*4.3, //margin to class No.
+                          classNumberRight: dimensions.width10*4.3,
+                          classNumberTop: dimensions.height10*5.3
                       ),
                       SizedBox(height: dimensions.height24 / 5),
                       Padding(

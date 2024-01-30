@@ -3,6 +3,7 @@ import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/order_view_repository.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_TextForm.dart';
+import 'package:bukizz_1/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,9 +29,15 @@ class _Checkout2State extends State<Checkout2> {
 
   String? selectedAddress;
   TextEditingController couponController=TextEditingController();
+  String defaultAddress = "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}";
 
   double totalPrice = 0;
   double salePrice = 0;
+  @override
+  void initState() {
+    super.initState();
+    selectedAddress = defaultAddress;
+  }
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
@@ -48,43 +55,41 @@ class _Checkout2State extends State<Checkout2> {
                 width: dimensions.screenWidth,
                 height: dimensions.height8*11.5,
                 color: Colors.white,
-                child:Padding(
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.5),
-                  child: Row(
-                    children: [
-                      CustomCircleAvatar(
-                        radius: dimensions.height8*2,
-                        backgroundColor:Color(0xFF058FFF),
-                        borderColor: Colors.black38,
-                        borderWidth: 0.10,
-                        child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
-                      ),
-                      Container(
-                        width: 90.0,
-                        height: 1.0,
-                        color: Color(0xFFA5A5A5),
-                      ),
-                      CustomCircleAvatar(
-                        radius: dimensions.height8*2,
-                        backgroundColor:Color(0xFF058FFF),
-                        borderColor: Colors.black,
-                        borderWidth: 0.5,
-                        child: ReusableText(text: '2', fontSize: 16,color: Colors.white),
-                      ),
-                      Container(
-                        width: 90.0,
-                        height: 1.0,
-                        color: Color(0xFFA5A5A5),
-                      ),
-                      CustomCircleAvatar(
-                        radius: dimensions.height8*2,
-                        backgroundColor:Colors.transparent,
-                        borderColor: Colors.black,
-                        borderWidth: 0.5,
-                        child: ReusableText(text: '3', fontSize: 16,color: Color(0xFF058FFF),),
-                      ),
-                    ],
-                  ),
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomCircleAvatar(
+                      radius: dimensions.height8*2,
+                      backgroundColor:Color(0xFF058FFF),
+                      borderColor: Colors.black38,
+                      borderWidth: 0.10,
+                      child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
+                    ),
+                    Container(
+                      width: dimensions.width10*10,
+                      height: 1.0,
+                      color: Color(0xFFA5A5A5),
+                    ),
+                    CustomCircleAvatar(
+                      radius: dimensions.height8*2,
+                      backgroundColor:Color(0xFF058FFF),
+                      borderColor: Colors.black,
+                      borderWidth: 0.5,
+                      child: ReusableText(text: '2', fontSize: 16,color: Colors.white),
+                    ),
+                    Container(
+                      width: dimensions.width10*10,
+                      height: 1.0,
+                      color: Color(0xFFA5A5A5),
+                    ),
+                    CustomCircleAvatar(
+                      radius: dimensions.height8*2,
+                      backgroundColor:Colors.transparent,
+                      borderColor: Colors.black,
+                      borderWidth: 0.5,
+                      child: ReusableText(text: '3', fontSize: 16,color: Color(0xFF058FFF),),
+                    ),
+                  ],
                 ),
               ),
 
@@ -102,11 +107,11 @@ class _Checkout2State extends State<Checkout2> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Radio<String>(
-                            value: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                            value: defaultAddress,
                             groupValue: selectedAddress,
                             onChanged: (value) {
                               setState(() {
-                                selectedAddress = value;
+                                selectedAddress = value!;
                                 print(selectedAddress);
                               });
                             },
@@ -161,7 +166,7 @@ class _Checkout2State extends State<Checkout2> {
                 ),
               ),
 
-              SizedBox(height: dimensions.height8*1.5,),
+              SizedBox(height: dimensions.height8,),
 
               //cart products
               Column(
@@ -172,58 +177,74 @@ class _Checkout2State extends State<Checkout2> {
               SizedBox(height: dimensions.height8*1.5,),
 
               //apply coupon container
-              Container(
-                width: dimensions.screenWidth,
-                height: dimensions.height8 * 11.5,
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24, vertical: dimensions.height8 * 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ReusableText(
-                        text: 'Apply Coupon',
-                        fontSize: 16,
-                        color: Color(0xFF282828),
-                        fontWeight: FontWeight.w700,
-                      ),
-                      SizedBox(height: dimensions.height8*2), // Add some spacing
-                      Row(
-                        children: [
-                          Container(
-                              width:dimensions.width24*11,
-                              height: dimensions.height36,
-                              child: ReusableTextField('Coupon Code', Icons.local_offer, false, couponController)
-                          ),
-                          SizedBox(width: dimensions.width16/2), // Add some spacing between TextField and the button if needed
-                          InkWell(
-                            onTap: (){
-                              //apply coupon logic here
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Invalid coupon. Please try again.'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              width: dimensions.width16*3.4,
-                              height: dimensions.height36,
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                              ),
-                              child: Center(child: ReusableText(text: 'Apply', fontSize: 14,color: Color(0xFF00579E),fontWeight: FontWeight.w400,)),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+
+               Container(
+                 width: dimensions.screenWidth,
+                 height: dimensions.height10*10.3,
+                 color: Colors.white,
+                 padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.width10*2),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     ReusableText(text: 'Apply Coupon', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w700,),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       crossAxisAlignment: CrossAxisAlignment.center,
+                       children: [
+                         Container(
+                           width: dimensions.width10*22.5,
+                           height: dimensions.height40,
+                           child: TextField(
+                             controller: couponController,
+                             decoration: InputDecoration(
+                               prefixIcon:  Padding(
+                                 padding: EdgeInsets.only(left: dimensions.height8 * 2),
+                                 child: const Icon(
+                                   Icons.local_offer,
+                                   color: Color(0xFF058FFF),
+                                 ),
+                               ),
+                               contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
+                               hintText: 'Coupon code',
+                               hintStyle: TextStyle(color: Color(0xFF7A7A7A)),
+                               border: const OutlineInputBorder(
+                                 borderSide: BorderSide(color: Colors.black38),
+                               ),
+                               focusedBorder: const OutlineInputBorder(
+                                 borderSide: BorderSide(color: Color(0xFF7A7A7A)),
+                               ),
+                             ),
+                           ),
+                         ),
+                         OutlinedButton(
+                           onPressed: () {
+                               //apply coupon logic here
+                               ScaffoldMessenger.of(context).showSnackBar(
+                                 const SnackBar(
+                                   content: Text('Invalid coupon. Please try again.'),
+                                   duration: Duration(seconds: 2),
+                                 ),
+                               );
+                           },
+                           style: OutlinedButton.styleFrom(
+                               shape: const RoundedRectangleBorder(
+                                 side: BorderSide(color: Color(0xFF00579E), ),
+                               ),
+                               padding: EdgeInsets.symmetric(horizontal: dimensions.width10*2,vertical: dimensions.height10)
+                           ),
+                           child: ReusableText(
+                             text: 'Apply',
+                             fontSize: 14,
+                             fontWeight: FontWeight.w600,
+                             color: Color(0xFF00579E),
+                           ),
+                         ),
+                       ],
+                     )
+                   ],
+                 ),
+               ),
 
               SizedBox(height: dimensions.height8*1.5,),
 
@@ -297,12 +318,13 @@ class _Checkout2State extends State<Checkout2> {
           width: dimensions.screenWidth,
           color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: dimensions.width24,),
+            padding: EdgeInsets.only(bottom: dimensions.width24/2,left: dimensions.width24,right: dimensions.width24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Price column
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       (totalPrice+ 40).toString(),

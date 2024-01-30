@@ -36,43 +36,41 @@ class _Checkout1State extends State<Checkout1> {
               width: dimensions.screenWidth,
               height: dimensions.height8*11.5,
               color: Colors.white,
-              child:Padding(
-                padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.5),
-                child: Row(
-                  children: [
-                    CustomCircleAvatar(
-                      radius: dimensions.height8*2,
-                      backgroundColor:Color(0xFF058FFF),
-                      borderColor: Colors.black38,
-                      borderWidth: 0.10,
-                      child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
-                    ),
-                    Container(
-                      width: 90.0,
-                      height: 1.0,
-                      color: Color(0xFFA5A5A5),
-                    ),
-                    CustomCircleAvatar(
-                      radius: dimensions.height8*2,
-                      backgroundColor:Colors.transparent,
-                      borderColor: Colors.black,
-                      borderWidth: 0.5,
-                      child: ReusableText(text: '2', fontSize: 16,color: Color(0xFF058FFF),),
-                    ),
-                    Container(
-                      width: 90.0,
-                      height: 1.0,
-                      color: Color(0xFFA5A5A5),
-                    ),
-                    CustomCircleAvatar(
-                      radius: dimensions.height8*2,
-                      backgroundColor:Colors.transparent,
-                      borderColor: Colors.black,
-                      borderWidth: 0.5,
-                      child: ReusableText(text: '3', fontSize: 16,color: Color(0xFF058FFF),),
-                    ),
-                  ],
-                ),
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomCircleAvatar(
+                    radius: dimensions.height8*2,
+                    backgroundColor:Color(0xFF058FFF),
+                    borderColor: Colors.black38,
+                    borderWidth: 0.10,
+                    child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
+                  ),
+                  Container(
+                    width: dimensions.width10*10,
+                    height: 1.0,
+                    color: Color(0xFFA5A5A5),
+                  ),
+                  CustomCircleAvatar(
+                    radius: dimensions.height8*2,
+                    backgroundColor:Colors.transparent,
+                    borderColor: Colors.black,
+                    borderWidth: 0.5,
+                    child: ReusableText(text: '2', fontSize: 16,color: Color(0xFF058FFF),),
+                  ),
+                  Container(
+                    width: dimensions.width10*10,
+                    height: 1.0,
+                    color: Color(0xFFA5A5A5),
+                  ),
+                  CustomCircleAvatar(
+                    radius: dimensions.height8*2,
+                    backgroundColor:Colors.transparent,
+                    borderColor: Colors.black,
+                    borderWidth: 0.5,
+                    child: ReusableText(text: '3', fontSize: 16,color: Color(0xFF058FFF),),
+                  ),
+                ],
               ),
             ),
 
@@ -93,7 +91,7 @@ class _Checkout1State extends State<Checkout1> {
                   },
                   child: Row(
                     children: [
-                      Icon(Icons.add,color:Color(0xFF00589E),),
+                      const Icon(Icons.add,color:Color(0xFF00589E),),
                       ReusableText(text: 'Add New Address', fontSize: 14,color: Color(0xFF00589E),)
                     ],
                   ),
@@ -197,9 +195,9 @@ class _Checkout1State extends State<Checkout1> {
         child: Container(
           height: dimensions.height8 * 9,
           width: dimensions.screenWidth,
-          color: Colors.white,
+          // color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height8*1.5),
+            padding: EdgeInsets.only(bottom: dimensions.width24,left: dimensions.width24,right: dimensions.width24),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
