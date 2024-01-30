@@ -1,4 +1,15 @@
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/order.dart';
+import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
+import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../constants/constants.dart';
+import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/bottom_nav_bar_provider.dart';
+import '../main_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -8,12 +19,246 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController _nameController=TextEditingController();
+  TextEditingController _emailController=TextEditingController();
+  TextEditingController _phoneController=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
+    Dimensions dimensions=Dimensions(context);
     return Scaffold(
-      body: Center(
-        child: Text('Profile'),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Profile'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, MainScreen.route);
+            provider.selectedIndex = 0;
+          },
+        ),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: dimensions.height16,
+              color: Color(0xFFE0F0FF),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, OrderScreen.route);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                            side: BorderSide(color: Color(0xFF00579E), ),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: dimensions.width10*2)
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.local_shipping,color: Color(0xFF00579E),),
+                            SizedBox(width: dimensions.width10,),
+                            ReusableText(
+                              text: 'Your Orders',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF00579E),
+                            ),
+                          ],
+                        ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, ContactUsScreen.route);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                            side: BorderSide(color: Color(0xFF00579E), ),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: dimensions.width10*3)
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.support_agent,color: Color(0xFF00579E),),
+                            SizedBox(width: dimensions.width10,),
+                            ReusableText(
+                              text: 'Contact Us',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF00579E),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: dimensions.height24,),
+
+                  //full name
+                  Container(
+                    width: dimensions.width342,
+                    height: dimensions.height24*2,
+                    child: TextField(
+                      controller: _nameController,
+                      decoration:InputDecoration(
+                        labelText: 'Full Name *',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(color: Color(0xFF7A7A7A)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(color: Colors.black38),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: dimensions.height24,),
+                  //phone no
+                  Container(
+                    width: dimensions.width342,
+                    height: dimensions.height24*2,
+                    child: TextField(
+                      controller: _phoneController,
+                      decoration:InputDecoration(
+                        labelText: 'Phone Number *',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(color: Color(0xFF7A7A7A)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(color: Colors.black38),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: dimensions.height24,),
+                  //email
+                  Container(
+                    width: dimensions.width342,
+                    height: dimensions.height24*2,
+                    child: TextField(
+                      controller: _emailController,
+                      decoration:InputDecoration(
+                        labelText: 'Email Address *',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(color: Color(0xFF7A7A7A)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(color: Colors.black38),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: dimensions.height24,),
+
+                  Container(
+                    width: dimensions.screenWidth,
+                    height: dimensions.height8*12,
+                    color: Colors.white,
+                    child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: dimensions.width24/3,vertical: dimensions.height8*1.5),
+                        child:Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //Address
+                                  ReusableText(text: 'Address', fontSize: 16),
+
+                                  SizedBox(height: dimensions.height8*2,),
+                                  // address with overflow
+                                  Container(
+                                    width: dimensions.width24 * 9.5,
+                                    child: ReusableText(
+                                      text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                                      fontSize: 14,
+                                      height: 0,
+                                      color: Color(0xFF7A7A7A),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: FontFamily.roboto,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: dimensions.width16/3,),
+                              GestureDetector(
+                                onTap: (){
+                                  print('change button tapped');
+                                },
+                                child: Padding(
+                                  padding:  EdgeInsets.only(top: dimensions.height8),
+                                  child: Container(
+                                    width: dimensions.width16*4,
+                                    height: dimensions.height8*4.5,
+
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                    ),
+                                    child: Center(child: ReusableText(text: 'Edit', fontSize: 14,color: Color(0xFF00579E),fontWeight: FontWeight.w600,),),
+                                  ),
+                                ),
+                              ),
+                            ]
+                        )
+                    ),
+                  ),
+
+                  SizedBox(height: dimensions.height24*6,),
+
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, SignIn.route);
+                      provider.selectedIndex=0;
+                    },
+                    style: OutlinedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                          side: BorderSide(color: Color(0xFF00579E), ),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: dimensions.width10*10)
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.logout,color: Color(0xFF00579E),),
+                        SizedBox(width: dimensions.width10,),
+                        ReusableText(
+                          text: 'Log Out',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF00579E),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            )
+          ],
+        ),
+      )
     );
   }
 }

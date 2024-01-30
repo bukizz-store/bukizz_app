@@ -1,7 +1,9 @@
+import 'package:bukizz_1/constants/colors.dart';
 import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/constants/font_family.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/buttons/cart_button.dart';
 import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
@@ -9,35 +11,11 @@ import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../data/models/ecommerce/products/product_model.dart';
+import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/providers/cart_provider.dart';
 import '../checkout/checkout1.dart';
 import 'empty_cart_screen.dart';
-
-List<String> text = [
-  'English Book Set - Wisdom World School - Class 1st',
-  'Roll Paper',
-];
-
-List<String> images = [
-  'assets/school/perticular bookset/book.png',
-  'assets/cart/book roll.png',
-];
-List<int> CartQuantity = [
-  0,
-  0,
-];
-
-class Pair {
-  int originalPrice;
-  int discountedPrice;
-
-  Pair(this.originalPrice, this.discountedPrice);
-}
-
-List<Pair> prices = [
-  Pair(2000, 1600),
-  Pair(160, 80),
-];
 
 class Cart extends StatefulWidget {
   static const String route = '/cart';
@@ -48,53 +26,18 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  int cart_val = 2;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
 
   double totalPrice = 0;
   double salePrice = 0;
-
-  void getTotalPrice() {
-    totalPrice = 0;
-    salePrice = 0;
-
-    var cart = context.read<CartViewRepository>();
-    cart.cartData.forEach((key, value) {
-      value.forEach((key, value) {
-        totalPrice += cart.products
-                .where((element) => element.productId == key)
-                .first
-                .price *
-            value;
-        // print(totalPrice);
-      });
-    });
-    cart.cartData.forEach((key, value) {
-      value.forEach((key, value) {
-        salePrice += cart.products
-                .where((element) => element.productId == key)
-                .first
-                .salePrice *
-            value;
-        print(salePrice);
-      });
-    });
-  }
 
   // bool load = false;
 
   @override
   Widget build(BuildContext context) {
+    BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
     Dimensions dimensions = Dimensions(context);
     print('CartUpdated');
     // var cartData = context.watch<CartViewRepository>();
-    getTotalPrice();
     var cartProvider = context.watch<CartProvider>();
     return Consumer<CartViewRepository>(
         builder: (context, cartViewData, child) {
@@ -105,9 +48,16 @@ class _CartState extends State<Cart> {
       }
 
       return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('Cart'),
-        // ),
+        appBar: AppBar(
+          title: const Text('Cart'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushNamed(context, MainScreen.route);
+              provider.selectedIndex = 0;
+            },
+          ),
+        ),
         body: cartProvider.isCartLoadedProvider
             ? SingleChildScrollView(
                 child: Column(
@@ -117,7 +67,7 @@ class _CartState extends State<Cart> {
                     ),
 
                     //1st container with address info
-                    Container(
+                   (AppConstants.userData.address!= '' || AppConstants.userData.address != null) ?  Container(
                       height: dimensions.height40 * 2,
                       width: dimensions.screenWidth,
                       color: Colors.white,
@@ -158,21 +108,17 @@ class _CartState extends State<Cart> {
                                 ),
                                 Flexible(
                                     child: Container(
-                                      width: dimensions.width24 * 9.5,
-                                      child: ReusableText(
-                                                                        text: AppConstants
-                                                .userData.address !=
-                                            ''
-                                        ? AppConstants.userData.address
-                                        : '2nd floor 1884 sector 8, Sector 8, Kurukshetra, Haryana 136118',
-                                                                        fontSize: 14,
-                                                                        height: 0,
-                                                                        color: Color(0xFF7A7A7A),
-                                                                        fontWeight: FontWeight.w600,
-                                                                        fontFamily: FontFamily.roboto,
-                                        overflow: TextOverflow.ellipsis,
-                                                                      ),
-                                    )),
+                                  width: dimensions.width24 * 9.5,
+                                  child: ReusableText(
+                                    text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                                    fontSize: 14,
+                                    height: 0,
+                                    color: Color(0xFF7A7A7A),
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: FontFamily.roboto,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )),
                               ],
                             ),
                             InkWell(
@@ -202,7 +148,7 @@ class _CartState extends State<Cart> {
                           ],
                         ),
                       ),
-                    ),
+                    ): Container(),
 
                     SizedBox(
                       height: dimensions.height24 / 2,
@@ -289,201 +235,244 @@ class _CartState extends State<Cart> {
     });
   }
 
+  String setProductName(String school , int set , int stream , ProductModel product){
+    String streamName =  product.stream.isNotEmpty ?  "- ${product.stream[stream].name}" ?? '' : '';
+    String setName =  product.set.isNotEmpty ?  "(${product.set[set].name})" ?? '' : '';
+    return "$school - ${product.name}$streamName $setName";
+  }
+
+  int setTotalSalePrice(ProductModel product , int set , int stream){
+    int totalSalePrice = product.salePrice;
+    product.set.isNotEmpty ? totalSalePrice += int.parse(product.set[set].price): 0;
+    product.stream.isNotEmpty ? totalSalePrice += int.parse(product.stream[stream].price ?? "0"): 0;
+    return totalSalePrice;
+  }
+
+  int setTotalPrice(ProductModel product , int set , int stream){
+    int totalPrice = product.price.floor();
+    product.set.isNotEmpty ? totalPrice += int.parse(product.set[set].price): 0;
+    product.stream.isNotEmpty ? totalPrice += int.parse(product.stream[stream].price ?? "0"): 0;
+    return totalPrice;
+  }
+
   List<Widget> _cartItems(dimensions, CartViewRepository cartData) {
     List<Widget> items = [];
+    totalPrice = 0;
+    salePrice = 0;
     try {
       cartData.getCartData.forEach((SchoolName, productData) {
-        productData.forEach((product, quantity) {
-          items.add(Container(
-            // height: dimensions.height192,
-            width: dimensions.screenWidth,
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: dimensions.width24/2,
-                vertical: dimensions.height8,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        productData.forEach((product, setData) {
+          setData.forEach((set, streamData) {
+            streamData.forEach((stream, quantity) {
+              ProductModel productModel = cartData.products.where((element) => element.productId == product).first;
+              String productName = setProductName(SchoolName, set, stream, productModel);
+              int totalSalePrice = setTotalSalePrice(productModel, set, stream);
+              int price = setTotalPrice(productModel, set, stream);
+              totalPrice += price;
+              salePrice += totalSalePrice;
+              items.add(Container(
+                // height: dimensions.height192,
+                width: dimensions.screenWidth,
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: dimensions.width24 / 2,
+                    vertical: dimensions.height8,
+                  ),
+                  child: Column(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                              width: dimensions.width83,
-                              height: dimensions.height83,
-                              child: Image.network(cartData.products
-                                  .where(
-                                      (element) => element.productId == product)
-                                  .first
-                                  .image)),
-                          SizedBox(height: dimensions.height8),
-                          ReusableQuantityButton(
-                            quantity: quantity,
-                            height: 32,
-                            width: 83,
-                            productId: product,
-                            schoolName: SchoolName,
-                            onChanged: (newQuantity) {
-                              // setState(() {
-                              //   CartQuantity[index] = newQuantity;
-                              // });
-                              // cartProvider.addProductInCart(
-                              //     cartData
-                              //         .products[index].productId,
-                              //     context);
-                            },
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: dimensions.height16,
-                          ),
-                          //book names
-                          SizedBox(
-                            width: dimensions.width120 * 2,
-                            child: Text(
-                              "${cartData.products.where((element) => element.productId == product).first.name} - ${SchoolName}",
-                              style: const TextStyle(
-                                color: Color(0xFF121212),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2, // Adjust the line height as needed
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  width: dimensions.width83,
+                                  height: dimensions.height83,
+                                  child: Image.network(cartData.products
+                                      .where(
+                                          (element) => element.productId == product)
+                                      .first
+                                      .image)),
+                              SizedBox(height: dimensions.height8),
+                              ReusableQuantityButton(
+                                quantity: quantity,
+                                height: 32,
+                                width: 83,
+                                productId: product,
+                                schoolName: SchoolName,
+                                set: set,
+                                stream: stream,
+                                onChanged: (newQuantity) {
+                                  // setState(() {
+                                  //   CartQuantity[index] = newQuantity;
+                                  // });
+                                  // cartProvider.addProductInCart(
+                                  //     cartData
+                                  //         .products[index].productId,
+                                  //     context);
+                                },
                               ),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis, // Add ellipsis (...) for overflow
-                            ),
+                            ],
                           ),
-
-                          //stars for review
-                          Row(
-                            children: List.generate(
-                              5,
-                              (index) => const Icon(
-                                Icons.star,
-                                size: 16,
-                                color: Color(0xFF058FFF),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: dimensions.height16,
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: dimensions.height32,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: cartData.products
-                                  .where(
-                                      (element) => element.productId == product)
-                                  .first
-                                  .price
-                                  .toString(),
-                              style: const TextStyle(
-                                color: Color(0xFFB7B7B7),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      ' ${cartData.products.where((element) => element.productId == product).first.salePrice}',
+                              //book names
+                              SizedBox(
+                                width: dimensions.width120 * 2,
+                                child: Text(
+                                 productName,
                                   style: const TextStyle(
                                     color: Color(0xFF121212),
-                                    fontWeight: FontWeight.w700,
-                                    decoration: TextDecoration.none,
                                     fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.2, // Adjust the line height as needed
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow
+                                      .ellipsis, // Add ellipsis (...) for overflow
+                                ),
+                              ),
+
+                              //stars for review
+                              Row(
+                                children: List.generate(
+                                  5,
+                                      (index) => const Icon(
+                                    Icons.star,
+                                    size: 16,
+                                    color: Color(0xFF058FFF),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(
+                                height: dimensions.height32,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "${((price - totalSalePrice)/price *100).round().toString()}% off ",
+                                  style: TextStyle(
+                                    color: AppColors.productButtonSelectedBorder,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text:price.toString(),
+
+                                      style: const TextStyle(
+                                        color: Color(0xFFB7B7B7),
+                                        fontWeight: FontWeight.w400,
+                                        decoration: TextDecoration.lineThrough,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+
+                                    TextSpan(
+                                      text:
+                                      " ₹${totalSalePrice.toString()}",
+                                      style: const TextStyle(
+                                        color: Color(0xFF121212),
+                                        fontWeight: FontWeight.w700,
+                                        decoration: TextDecoration.none,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: dimensions.height36 / 4,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              print('Remove button pressed');
+                              cartData.removeCartData(SchoolName, product , set , stream);
+                              context
+                                  .read<CartProvider>()
+                                  .removeCartData(SchoolName, product,set , stream, context);
+                              // getTotalPrice();
+                              setState(() {});
+                            },
+                            child: ReusableColoredBox(
+                                width: dimensions.width146,
+                                height: dimensions.height36,
+                                backgroundColor: Colors.transparent,
+                                borderColor: Color(0xFFD6D6D6),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ReusableText(
+                                      text: 'Remove',
+                                      fontSize: 14,
+                                      height: 0,
+                                      color: Color(0xFF7A7A7A),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    Icon(
+                                      Icons.delete_outline,
+                                      color: Color(0xFF7A7A7A),
+                                    )
+                                  ],
+                                )),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              print('Buy now button pressed');
+                            },
+                            child: ReusableColoredBox(
+                                width: dimensions.width146,
+                                height: dimensions.height36,
+                                backgroundColor: Colors.transparent,
+                                borderColor: Color(0xFFD6D6D6),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ReusableText(
+                                      text: 'Buy Now',
+                                      fontSize: 14,
+                                      height: 0,
+                                      color: Color(0xFF7A7A7A),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Color(0xFF7A7A7A),
+                                      size: 20,
+                                    )
+                                  ],
+                                )),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: dimensions.height16,
+                      ),
+                      const Divider(
+                        height: 1.0,
+                        color: Color(0xFFD6D6D6),
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: dimensions.height36 / 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          print('Remove button pressed');
-                          cartData.removeCartData(SchoolName, product );
-                          context.read<CartProvider>().removeCartData(SchoolName,product , context);
-                          getTotalPrice();
-                          setState(() {});
-                        },
-                        child: ReusableColoredBox(
-                            width: dimensions.width146,
-                            height: dimensions.height36,
-                            backgroundColor: Colors.transparent,
-                            borderColor: Color(0xFFD6D6D6),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ReusableText(
-                                  text: 'Remove',
-                                  fontSize: 14,
-                                  height: 0,
-                                  color: Color(0xFF7A7A7A),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                Icon(
-                                  Icons.delete_outline,
-                                  color: Color(0xFF7A7A7A),
-                                )
-                              ],
-                            )),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          print('Buy now button pressed');
-                        },
-                        child: ReusableColoredBox(
-                            width: dimensions.width146,
-                            height: dimensions.height36,
-                            backgroundColor: Colors.transparent,
-                            borderColor: Color(0xFFD6D6D6),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ReusableText(
-                                  text: 'Buy Now',
-                                  fontSize: 14,
-                                  height: 0,
-                                  color: Color(0xFF7A7A7A),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: Color(0xFF7A7A7A),
-                                  size: 20,
-                                )
-                              ],
-                            )),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: dimensions.height16,
-                  ),
-                  const Divider(
-                    height: 1.0,
-                    color: Color(0xFFD6D6D6),
-                  ),
-                ],
-              ),
-            ),
-          ));
+                ),
+              ));
+            });
+          });
         });
       });
     } catch (e) {

@@ -1,4 +1,4 @@
-import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
+import 'package:bukizz_1/data/models/ecommerce/stationary/stationary_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -13,11 +13,11 @@ class StationaryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<ProductModel> _stationaryListItems = [];
+  List<StationaryModel> _stationaryListItems = [];
 
-  List<ProductModel> get stationaryListItems => _stationaryListItems;
+  List<StationaryModel> get stationaryListItems => _stationaryListItems;
 
-  set stationaryListItems(List<ProductModel> value) {
+  set stationaryListItems(List<StationaryModel> value) {
     _stationaryListItems = value;
     notifyListeners();
   }
@@ -29,9 +29,9 @@ class StationaryProvider extends ChangeNotifier {
         .where('categoryId', isEqualTo: 'ST')
         .get()
         .then((value) {
-      List<ProductModel> stationaryList = [];
+      List<StationaryModel> stationaryList = [];
       value.docs.forEach((element) {
-        stationaryList.add(ProductModel.fromMap(element.data()));
+        stationaryList.add(StationaryModel.fromMap(element.data()));
       });
       stationaryListItems = stationaryList;
     });

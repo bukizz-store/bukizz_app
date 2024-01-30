@@ -1,22 +1,19 @@
 import 'dart:convert';
-
-import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import '../models/ecommerce/cart_model.dart';
-import '../models/ecommerce/product_model.dart';
+import '../models/ecommerce/products/product_model.dart';
 
 class CartProvider extends ChangeNotifier {
-  // Map<SchoolName , Map<productId , quantity>>
+  // Map<SchoolName , Map<productId , Map<set , Map<stream , quantity>>>>
 
-  Map<String , Map<String , int>> cartData = {};
+  Map<String , Map<String , Map<int , Map<int , int>>>> cartData = {};
 
-  Map<String , Map<String , int>> get getCartData => cartData;
+  Map<String , Map<String , Map<int , Map<int , int>>>> get getCartData => cartData;
 
   // CartModel get getCartData => cartData;
 
@@ -29,14 +26,18 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addProductInCart(String schoolName, int quantity, String productId, BuildContext context) async {
+  void addProductInCart(String schoolName,int set , int stream , int quantity, String productId, BuildContext context) async {
     setCartLoaded(false);
 
     cartData.putIfAbsent(schoolName, () => {});
-    cartData[schoolName]![productId] = (cartData[schoolName]![productId] ?? 0) + quantity;
+    // cartData[schoolName]![productId] = (cartData[schoolName]![productId] ?? 0) + quantity;
+    cartData[schoolName]!.putIfAbsent(productId, () => {});
+    cartData[schoolName]![productId]!.putIfAbsent(set, () => {});
+    cartData[schoolName]![productId]![set]!.putIfAbsent(stream, () => 0);
+    cartData[schoolName]![productId]![set]![stream] = (cartData[schoolName]![productId]![set]![stream] ?? 0) + quantity;
 
-    // print(cartData);
-    context.read<CartViewRepository>().getCartProduct(productId, schoolName , quantity);
+    print(cartData);
+    context.read<CartViewRepository>().getCartProduct(productId, schoolName ,set , stream ,  quantity);
 
     await storeCartData();
 
@@ -51,14 +52,19 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeCartData(String schoolName, String productId , BuildContext context) async{
-    if(cartData[schoolName]!.length == 1){
-      // products.removeWhere((element) => element.productId == productId);
-      cartData.remove(schoolName);
+  void removeCartData(String schoolName, String productId , int set , int stream, BuildContext context) async{
+
+    if(cartData[schoolName]![productId]![set]!.length == 1){
+      cartData[schoolName]![productId]!.remove(set);
+      if(cartData[schoolName]![productId]!.isEmpty){
+        cartData[schoolName]!.remove(productId);
+        if(cartData[schoolName]!.isEmpty){
+          cartData.remove(schoolName);
+        }
+      }
     }
     else{
-      // products.removeWhere((element) => element.productId == productId);
-      cartData[schoolName]!.remove(productId);
+      cartData[schoolName]![productId]![set]!.remove(stream);
     }
 
     const snackBar = SnackBar(
@@ -75,22 +81,24 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSingleCartData(String schoolName , String productId , BuildContext context , int quantity) async{
-    // print(schoolName + " " + productId);
-    if(cartData[schoolName]![productId]! > 1){
-      cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
+  void removeSingleCartData(String schoolName , String productId , BuildContext context ,int set , int stream, int quantity) async{
 
-      // cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
+    if(cartData[schoolName]![productId]![set]![stream]! > 1){
+      cartData[schoolName]![productId]![set]![stream] = cartData[schoolName]![productId]![set]![stream]! - 1;
     }
     else{
-      // products.removeWhere((element) => element.productId == productId);
-      cartData[schoolName]!.remove(productId);
+      cartData[schoolName]![productId]![set]!.remove(stream);
+      if(cartData[schoolName]![productId]![set]!.isEmpty){
+        cartData[schoolName]![productId]!.remove(set);
+        if(cartData[schoolName]![productId]!.isEmpty){
+          cartData[schoolName]!.remove(productId);
+        }
+      }
     }
 
-    context.read<CartViewRepository>().removeSingleCartData(schoolName, productId);
-    await storeCartData();
-
     print(cartData);
+    context.read<CartViewRepository>().removeSingleCartData(schoolName, set , stream, productId);
+    await storeCartData();
     notifyListeners();
   }
 
@@ -98,8 +106,22 @@ class CartProvider extends ChangeNotifier {
   Future<void> storeCartData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Create a function to store this cartData in form of string in shared prefereances which can be restored easily.
+    Map<String, dynamic> encodedData = {};
 
-    await prefs.setString('cartData', jsonEncode(cartData)).then((value) => print('Cart data stored successfully'));
+    cartData.forEach((school, schoolData) {
+      encodedData[school] = {};
+      schoolData.forEach((product, productData) {
+        encodedData[school]![product] = {};
+        productData.forEach((set, setData) {
+          encodedData[school]![product]![set.toString()] = {};
+          setData.forEach((stream, streamData) {
+            encodedData[school]![product]![set.toString()]![stream.toString()] = streamData;
+          });
+        });
+      });
+    });
+    // cartData.forEach((schoolName, productData) {productData.forEach((product, setData) {setData.forEach((set, streamData) {print(jsonEncode(streamData));});});});
+    await prefs.setString('cartData', jsonEncode(encodedData)).then((value) => print('Cart data stored successfully'));
     print(prefs.getString('cartData'));
   }
   //
@@ -112,22 +134,29 @@ class CartProvider extends ChangeNotifier {
     if(cartData.isEmpty) {
       try {
         if (prefs.containsKey('cartData')) {
-          print(prefs.getString('cartData'));
           String? cartDataString = prefs.getString('cartData');
           if (cartDataString != '' && cartDataString != null) {
             // print("Shivam");
             Map<String, dynamic> map = jsonDecode(cartDataString);
-            Map<String , Map<String , int>> productsIdMap =
-               map.map((key, value) => MapEntry(key, Map<String , int>.from(value)));
-            cartData = productsIdMap;
-            // print(cartData.toMap().toString());
-            productsIdMap.forEach((schoolName, productData) {
-              productData.forEach((productId, quantity) {
-                context.read<CartViewRepository>().getCartProduct( productId ,schoolName,  quantity);
+            Map<String , Map<String , Map<int , Map<int , int>>>> productsIdMap = {};
+
+            map.forEach((school, schoolData) {
+              productsIdMap[school] = {};
+              schoolData.forEach((product, productData) {
+                productsIdMap[school]![product] = {};
+                productData.forEach((key1, innerMap) {
+                  productsIdMap[school]![product]![int.parse(key1)] = {};
+                  innerMap.forEach((key2, value) {
+                    productsIdMap[school]![product]![int.parse(key1)]![int.parse(key2)] = value;
+                    context.read<CartViewRepository>().getCartProduct(product, school , key1 , key2 ,  value);
+                  });
+                });
               });
             });
-          }
 
+            cartData = productsIdMap;
+            print(cartData);
+          }
           notifyListeners();
         }
       } catch (e) {

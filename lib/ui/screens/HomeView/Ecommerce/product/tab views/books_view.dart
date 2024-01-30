@@ -39,11 +39,16 @@ class _BooksState extends State<Books> {
             itemCount: schoolData.selectedSchool.productsId.length,
             itemBuilder: (context, index) {
               var product = productView.productData[index];
+              print(product.classId.substring(3,product.classId.length));
               return GestureDetector(
                 onTap: (){
-                  // print("Shivam");
                   // productData.setProductDetail(product);
                   productView.setProductDetail(productView.productData[index]);
+                  productView.setProductName(schoolData.schoolName);
+                  productView.setSelectedSetData(0);
+                  productView.setSelectedStreamData(0);
+                  productView.setTotalSalePrice();
+                  productView.setTotalPrice();
                   Navigator.of(context).pushNamed(ProductDescriptionScreen.route);
                 },
                 child: Container(
@@ -70,10 +75,11 @@ class _BooksState extends State<Books> {
                           topRight: Radius.circular(12),
                         ),
                         child: SvgPicture.asset(
-                          'assets/school/booksets/${index + 1}.svg',
+                          'assets/school/booksets/${product.classId.substring(3,product.classId.length)}.svg',
                           fit: BoxFit.fitWidth,
                           color: Colors.redAccent,
                         ),
+                        // child: ,
                       ),
                       SizedBox(height: dimensions.height24 / 5),
                       Padding(

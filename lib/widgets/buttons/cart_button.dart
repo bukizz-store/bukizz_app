@@ -13,11 +13,15 @@ class ReusableQuantityButton extends StatelessWidget {
   final double width;
   final String productId;
   final String schoolName;
+  final int set;
+  final int stream;
 
   ReusableQuantityButton({
     required this.quantity,
     this.onChanged, required this.height, required this.width,
     required this.schoolName,
+    required this.set,
+    required this.stream,
 required this.productId
   });
 
@@ -41,8 +45,8 @@ required this.productId
             onTap: () {
               if (onChanged != null) {
                 // if(quantity>0)
-                // onChanged!(quantity - 1);
-                context.read<CartProvider>().removeSingleCartData(schoolName ,productId, context , 1);
+                onChanged!(quantity - 1);
+                context.read<CartProvider>().removeSingleCartData(schoolName ,productId, context ,set , stream, 1);
               }
             },
           ),
@@ -56,8 +60,8 @@ required this.productId
             child: Icon(Icons.add,color: Color(0xFF00579E),),
             onTap: () {
               if (onChanged != null) {
-              //   onChanged!(quantity + 1);
-                context.read<CartProvider>().addProductInCart(schoolName, 1, productId, context);
+                onChanged!(quantity + 1);
+                context.read<CartProvider>().addProductInCart(schoolName,set , stream, 1, productId, context);
               }
             },
           ),

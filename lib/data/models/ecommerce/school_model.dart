@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
+import 'package:bukizz_1/data/models/ecommerce/products/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchoolModel{
@@ -17,6 +17,9 @@ class SchoolModel{
   String logo;
   String banner;
   String aboutUs;
+  String mission;
+  String image;
+  String ourInspiration;
   List<dynamic> productsId;
 
   SchoolModel({
@@ -34,6 +37,9 @@ class SchoolModel{
     required this.banner,
     required this.aboutUs,
     required this.productsId,
+    this.mission = '',
+    this.image = '',
+    this.ourInspiration = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -52,6 +58,9 @@ class SchoolModel{
       'banner': banner,
       'aboutUs': aboutUs,
       'productsId': productsId,
+      'mission': mission,
+      'image': image,
+      'ourInspiration': ourInspiration,
     };
   }
 
@@ -71,6 +80,9 @@ class SchoolModel{
       banner: map['banner'] ?? '',
       aboutUs: map['aboutUs'] ?? '',
       productsId: map['productsId'] ?? [],
+      mission: map['mission'] ?? '',
+      image: map['image'] ?? '',
+      ourInspiration: map['ourInspiration'] ?? '',
     );
   }
 

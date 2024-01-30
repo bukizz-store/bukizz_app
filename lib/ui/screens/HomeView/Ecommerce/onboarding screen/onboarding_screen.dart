@@ -1,10 +1,15 @@
 import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/buttons/Reusable_Button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../data/providers/school_repository.dart';
+import '../main_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String route = '/onboardingscreen';
@@ -18,14 +23,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
   late Animation<double> animation;
   late AnimationController animationController;
 
-
-
   @override
   void initState() {
     super.initState();
     animationController = AnimationController(vsync: this, duration: Duration(seconds: 3))
       ..addListener(() {
-        // print(animation.value);
         setState(() {});
       })
       ..forward();
@@ -35,6 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
         .animate(CurvedAnimation(
         parent: animationController, curve: Interval(intervalStart, intervalEnd, curve: Curves.easeOutQuart)));
 
+    navigateToNext();
   }
 
   navigateToNext() {
@@ -45,19 +48,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
 
 
   Future<void> checkCurrentUser() async {
-    if (AppConstants.isLogin && AppConstants.userData.uid != '') {
+    if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
       Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.route, (Route<dynamic> route) => false);
-    } else {
-      Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.route, (Route<dynamic> route) => false);
+          context, MainScreen.route, (Route<dynamic> route) => false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-
+    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    schoolData.loadData(context);
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -117,7 +118,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
               ],
             )
           ),
-          Positioned(
+          !AppConstants.isLogin ?  Positioned(
             left: dimensions.width10*4,
             right:dimensions.width10*4,
             top: animation.value*5+dimensions.height10*50,
@@ -129,7 +130,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
               },
               buttonText: 'Get Started',
             )
-          )
+          ): Container()
         ],
       )
     );

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
-import '../models/ecommerce/product_model.dart';
+import '../models/ecommerce/products/product_model.dart';
 import '../providers/cart_provider.dart';
 
 class CartViewRepository extends ChangeNotifier {
@@ -43,9 +43,9 @@ class CartViewRepository extends ChangeNotifier {
 
   List<ProductModel> products = [];
 
-  Map<String , Map<String , int>> cartData = {};
+  Map<String , Map<String , Map<int , Map<int , int>>>> cartData = {};
 
-  Map<String , Map<String , int>>  get getCartData => cartData;
+  Map<String , Map<String , Map<int , Map<int , int>>>>  get getCartData => cartData;
 
   // void setCartData(String schoolName , int quantity , String productId){
   //   cartData[schoolName] = CartValue(productId: productId , quantity: quantity);
@@ -66,57 +66,80 @@ class CartViewRepository extends ChangeNotifier {
   }
 
 
-  void addCartData(ProductModel productModel , String schoolName , int quantity) {
+  void addCartData(ProductModel productModel , String schoolName ,int set , int stream, int quantity) {
     cartData.putIfAbsent(schoolName, () => {});
-    cartData[schoolName]![productModel.productId] = (cartData[schoolName]![productModel.productId] ?? 0) + quantity;
+    cartData[schoolName]!.putIfAbsent(productModel.productId, () => {});
+    cartData[schoolName]![productModel.productId]!.putIfAbsent(set, () => {});
+    cartData[schoolName]![productModel.productId]![set]!.putIfAbsent(stream, () => 0);
+    cartData[schoolName]![productModel.productId]![set]![stream] = (cartData[schoolName]![productModel.productId]![set]![stream] ?? 0) + quantity;
+
     addProduct(productModel);
     int length = 0;
 
-    cartData.forEach((key, value) {
-      length = length + value.length;
+    cartData.forEach((schoolName, productId) {
+      productId.forEach((key, set) {
+        length = length + set.length;
+      });
     });
 
     setCartVal(length);
     notifyListeners();
   }
 
-  void removeCartData(String schoolName , String productId ){
-    if(cartData[schoolName]!.length == 1){
-      // products.removeWhere((element) => element.productId == productId);
-      cartData.remove(schoolName);
+  void removeCartData(String schoolName , String productId , int set, int stream){
+    // if(cartData[schoolName]!.length == 1){
+    //   // products.removeWhere((element) => element.productId == productId);
+    //   cartData.remove(schoolName);
+    // }
+    // else{
+    //   // products.removeWhere((element) => element.productId == productId);
+    //   cartData[schoolName]!.remove(productId);
+    // }
+
+    if(cartData[schoolName]![productId]![set]!.length == 1){
+      cartData[schoolName]![productId]!.remove(set);
+      if(cartData[schoolName]![productId]!.isEmpty){
+        cartData[schoolName]!.remove(productId);
+        if(cartData[schoolName]!.isEmpty){
+          cartData.remove(schoolName);
+        }
+      }
     }
     else{
-      // products.removeWhere((element) => element.productId == productId);
-      cartData[schoolName]!.remove(productId);
+      cartData[schoolName]![productId]![set]!.remove(stream);
     }
-
     int length = 0;
 
-    cartData.forEach((key, value) {
-      length = length + value.length;
+    cartData.forEach((schoolName, productId) {
+      productId.forEach((key, set) {
+        set.forEach((key, stream) {
+          length = length + stream.length;
+        });
+      });
     });
 
     setCartVal(length);
     notifyListeners();
   }
 
-  void removeSingleCartData(String schoolName , String productId){
+  void removeSingleCartData(String schoolName ,int set , int stream, String productId){
     // print(schoolName + " " + productId);
-    if(cartData[schoolName]![productId]! > 1){
-      cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
 
-      // cartData[schoolName]![productId] = cartData[schoolName]![productId]! - 1;
+    if(cartData[schoolName]![productId]![set]![stream]! > 1){
+      cartData[schoolName]![productId]![set]![stream] = cartData[schoolName]![productId]![set]![stream]! - 1;
     }
     else{
-      products.removeWhere((element) => element.productId == productId);
-      cartData[schoolName]!.remove(productId);
+      cartData[schoolName]![productId]!.remove(set);
+      if(cartData[schoolName]![productId]!.isEmpty){
+        cartData[schoolName]!.remove(productId);
+      }
     }
 
     // print(cartData);
     notifyListeners();
   }
 
-  void getCartProduct(String productId , String schoolName , int quantity) async {
+  void getCartProduct(String productId , String schoolName ,int set , int stream ,  int quantity) async {
     setIsCartLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
       ProductModel product = await FirebaseFirestore.instance
@@ -124,7 +147,7 @@ class CartViewRepository extends ChangeNotifier {
           .where('productId', isEqualTo: productId)
           .get()
           .then((value) => ProductModel.fromMap(value.docs.first.data()));
-      addCartData(product, schoolName, quantity);
+      addCartData(product, schoolName,set , stream , quantity);
     // }
     setIsCartLoaded(true);
     notifyListeners();

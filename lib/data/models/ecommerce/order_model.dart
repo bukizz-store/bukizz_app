@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderModel {
@@ -9,7 +10,7 @@ class OrderModel {
   String orderDate;
   double totalAmount;
   double saleAmount;
-  String address;
+  Address address;
   Map<String , Map<String , int>> cartData;
   
 
@@ -43,7 +44,7 @@ class OrderModel {
       totalAmount: map['totalAmount'] ?? 0,
       saleAmount: map['saleAmount'] ?? 0,
       cartData: map['cartData'] ?? {},
-      address: map['address'] ?? '',
+      address: Address.fromMap(map['address']),
     );
   }
 
@@ -55,7 +56,7 @@ class OrderModel {
     String? orderId,
     String? userId,
     String? orderDate,
-    String? address,
+    Address? address,
     double? totalAmount,
     double? saleAmount,
     Map<String , Map<String , int>>? cartData,
@@ -111,7 +112,7 @@ class OrderModel {
       totalAmount: snap['totalAmount'],
       saleAmount: snap['saleAmount'],
       cartData: snap['cartData'],
-      address: snap['address'],
+      address: Address.fromMap(snap['address']),
     );
   }
 

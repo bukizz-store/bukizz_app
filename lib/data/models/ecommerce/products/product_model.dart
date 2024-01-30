@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:bukizz_1/data/models/ecommerce/products/set_model.dart';
 import 'package:bukizz_1/data/models/ecommerce/products/stream_model.dart';
-class StationaryModel {
+import 'package:bukizz_1/data/models/ecommerce/review_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class ProductModel {
   String productId;
   String name;
   String description;
@@ -17,7 +20,7 @@ class StationaryModel {
   List<SetData> set;
   List<dynamic> reviewIdList;
 
-  StationaryModel({
+  ProductModel({
     required this.productId,
     required this.name,
     required this.description,
@@ -27,9 +30,9 @@ class StationaryModel {
     required this.image,
     required this.classId,
     required this.board,
-    required this.salePrice,
     required this.stream,
     required this.set,
+    required this.salePrice,
     required this.reviewIdList
   });
 
@@ -44,60 +47,51 @@ class StationaryModel {
       'image': image,
       'classId': classId,
       'board': board,
-      'salePrice': salePrice,
       'stream': stream.map((x) => x.toMap()).toList(),
       'set': set.map((x) => x.toMap()).toList(),
+      'salePrice': salePrice,
       'reviewIdList': reviewIdList
     };
   }
 
-  factory StationaryModel.fromMap(Map<String, dynamic> map) {
-    return StationaryModel(
-        productId: map['productId'] ?? 0,
-        name: map['name'] ?? '',
-        description: map['description'] ?? '',
-        price: map['price'] ?? 0.0,
-        stockQuantity: map['stockQuantity'] ?? 0,
-        categoryId: map['categoryId'] ?? 0,
-        image: map['image'] ?? '',
-        classId: map['classId'] ?? '',
-        board: map['board'] ?? '',
-        salePrice: map['salePrice'] ?? 0,
-        stream: List<StreamData>.from(map['stream']?.map((x) => StreamData.fromMap(x))),
-        set: List<SetData>.from(map['set']?.map((x) => SetData.fromMap(x))),
-        reviewIdList: map['reviewIdList'] ?? []
+  factory ProductModel.fromMap(Map<String, dynamic> map) {
+    return ProductModel(
+      productId: map['productId'] ?? 0,
+      name: map['name'] ?? '',
+      description: map['description'] ?? '',
+      price: map['price'] ?? 0.0,
+      stockQuantity: map['stockQuantity'] ?? 0,
+      categoryId: map['categoryId'] ?? 0,
+      image: map['image'] ?? '',
+      classId: map['classId'] ?? '',
+      board: map['board'] ?? '',
+      salePrice: map['salePrice'] ?? 0,
+      stream: List<StreamData>.from(map['stream']?.map((x) => StreamData.fromMap(x))),
+      set: List<SetData>.from(map['set']?.map((x) => SetData.fromMap(x))),
+      reviewIdList: map['reviewIdList'] ?? []
     );
   }
 
 
-  // static Future<void> updateProductData() async {
-  //   //function to update the current product data by finding the product where productId is equals to "BSCL6" and i want to add a new field for list of stream and set
-  //   await FirebaseFirestore.instance
-  //       .collection('products')
-  //       .where('productId', isEqualTo: 'BSCL10')
-  //       .get()
-  //       .then((value) {
-  //     value.docs.forEach((element) {
-  //       FirebaseFirestore.instance
-  //           .collection('products')
-  //           .doc(element.id)
-  //           .update({
-  //         'stream': [],
-  //         'set': [
-  //           {
-  //             'name': 'BookSet',
-  //             'price': '1000',
-  //           },
-  //           {
-  //             'name': 'BookSet + NoteBook Set',
-  //             'price': '2000',
-  //           },
-  //         ],
-  //       }).then((value) => print('Product updated successfully'));
-  //     });
-  //   });
-  //
-  // }
+  static Future<void> updateProductData() async {
+    //function to update the current product data by finding the product where productId is equals to "BSCL6" and i want to add a new field for list of stream and set
+    await FirebaseFirestore.instance
+        .collection('products')
+        .where('categoryId', isEqualTo: 'ST')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        FirebaseFirestore.instance
+            .collection('products')
+            .doc(element.id)
+            .update({
+          'stream': [],
+          'set': [],
+        }).then((value) => print('Product updated successfully'));
+      });
+    });
+
+  }
   // static ProductModel randomProductData() {
 
   //   return ProductModel(

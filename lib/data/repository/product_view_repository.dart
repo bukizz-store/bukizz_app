@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-import '../models/ecommerce/product_model.dart';
+import '../models/ecommerce/products/product_model.dart';
+import '../models/ecommerce/products/set_model.dart';
+import '../models/ecommerce/products/stream_model.dart';
 
 class ProductViewRepository extends ChangeNotifier {
   bool isProductAdded = false;
@@ -22,6 +24,58 @@ class ProductViewRepository extends ChangeNotifier {
 
   setProductDetail(ProductModel productModel){
     selectedProduct = productModel;
+    notifyListeners();
+  }
+
+  String _productName = '';
+
+  String get productName => _productName;
+
+  setProductName(String school){
+    String schoolName = school;
+    String productName = selectedProduct.name;
+    String streamName =  selectedProduct.stream.isNotEmpty ?  "- ${selectedProduct.stream[_selectedStreamDataIndex].name}" ?? '' : '';
+    String setName = "(${selectedProduct.set[_selectedSetDataIndex].name})" ?? '';
+    _productName = "$schoolName - $productName$streamName $setName";
+    notifyListeners();
+  }
+  int _selectedSetDataIndex = 0;
+
+  int get getSelectedSetDataIndex => _selectedSetDataIndex;
+
+  setSelectedSetData(int value){
+    _selectedSetDataIndex = value;
+    notifyListeners();
+  }
+
+  int _selectedStreamDataIndex = 0;
+
+  int get getSelectedStreamDataIndex => _selectedStreamDataIndex;
+
+  setSelectedStreamData(int value){
+    _selectedStreamDataIndex = value;
+    notifyListeners();
+  }
+
+  int totalSalePrice = 0;
+
+  int get getTotalSalePrice => totalSalePrice;
+
+  setTotalSalePrice(){
+    totalSalePrice = selectedProduct.salePrice;
+    selectedProduct.set.isNotEmpty ? totalSalePrice += int.parse(selectedProduct.set[_selectedSetDataIndex].price): 0;
+    selectedProduct.stream.isNotEmpty ? totalSalePrice += int.parse(selectedProduct.stream[_selectedStreamDataIndex].price ?? "0"): 0;
+    notifyListeners();
+  }
+
+  int totalPrice = 0;
+
+  int get getTotalPrice => totalSalePrice;
+
+  setTotalPrice(){
+    totalPrice = selectedProduct.price.floor();
+    selectedProduct.set.isNotEmpty ? totalPrice += int.parse(selectedProduct.set[_selectedSetDataIndex].price): 0;
+    selectedProduct.stream.isNotEmpty ? totalPrice += int.parse(selectedProduct.stream[_selectedStreamDataIndex].price ?? "0"): 0;
     notifyListeners();
   }
 

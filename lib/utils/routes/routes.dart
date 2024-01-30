@@ -1,12 +1,20 @@
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/checkout1.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/add_review.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/know_more.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/order.dart';
 import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
+import '../../ui/screens/HomeView/Ecommerce/onboarding screen/location.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
@@ -64,6 +72,35 @@ class RouteGenerator{
       case OnboardingScreen.route:
         return MaterialPageRoute(
           builder: (_) => OnboardingScreen(),
+        );
+      case SelectLocation.route:
+        return MaterialPageRoute(
+          builder: (_) => SelectLocation(),
+        );
+      case LocationScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const LocationScreen(),
+        );
+      case OrderScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const OrderScreen(),
+        );
+      case KnowMoreScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const KnowMoreScreen(),
+        );
+      case RatingsScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const RatingsScreen(),
+        );
+
+      case ReviewScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const ReviewScreen(),
+        );
+      case ContactUsScreen.route:
+        return MaterialPageRoute(
+          builder: (_) =>  ContactUsScreen(),
         );
       default:
         return _errorRoute();

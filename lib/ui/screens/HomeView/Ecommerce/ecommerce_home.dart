@@ -1,4 +1,4 @@
-import 'package:bukizz_1/data/models/ecommerce/product_model.dart';
+import 'package:bukizz_1/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz_1/data/providers/bottom_nav_bar_provider.dart';
 import 'package:bukizz_1/data/repository/product_view_repository.dart';
 // import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
@@ -65,7 +65,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    schoolData.loadData(context);
+    // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
       body: Container(
@@ -379,6 +379,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         InkWell(
                             onTap: () {
                               // ProductModel.sendRandomProductData();
+                              // ProductModel.updateProductData();
                               // schoolData.pushRandomData();
                             },
                             child: ReusableText(
