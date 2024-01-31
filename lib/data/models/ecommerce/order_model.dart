@@ -13,7 +13,7 @@ class OrderModel {
   double saleAmount;
   Address address;
   Map<String , dynamic> cartData;
-  deliveryStatus status;
+  String status;
   String reviewId;
   
 
@@ -25,7 +25,7 @@ class OrderModel {
     required this.saleAmount,
     required this.cartData,
     required this.address,
-    this.status = deliveryStatus.Pending,
+    required this.status,
     this.reviewId = '',
   });
 
