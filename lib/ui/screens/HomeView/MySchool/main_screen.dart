@@ -28,9 +28,9 @@ class _MySchoolMainState extends State<MySchoolMain> {
           ElevatedButton(
             onPressed: () async{
               // Handle the teacher button click
-              AppConstants.isLogin = true;
+              AppConstants.isLogin = false;
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.setBool('isLogin', true);
+              prefs.setBool('isLogin', false);
               authProvider.signOut(context);
               Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
             },

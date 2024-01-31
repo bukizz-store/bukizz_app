@@ -222,7 +222,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
 
               // ListView of schools
-              schoolData.schoolData.isNotEmpty ? Container(
+              context.watch<SchoolDataProvider>().schoolData.isNotEmpty ? Container(
                 height: dimensions.height151,
                 width: dimensions.width195,
                 child: ListView.builder(
