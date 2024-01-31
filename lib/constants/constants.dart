@@ -25,5 +25,14 @@ class AppConstants{
           );
         });
   }
+
+  static Future<void> showSnackBar(BuildContext context , String text) async {
+    var snackBar = SnackBar(
+      content: Text(text),
+      duration: const Duration(seconds: 2),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
 }
 

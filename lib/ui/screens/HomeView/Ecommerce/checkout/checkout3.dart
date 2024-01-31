@@ -1,5 +1,6 @@
 
 import 'package:bukizz_1/data/repository/order_view_repository.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,6 +46,7 @@ class _Checkout3State extends State<Checkout3> {
               child:Padding(
                 padding: EdgeInsets.symmetric(horizontal: dimensions.width24*1.5),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomCircleAvatar(
                       radius: dimensions.height8*2,
@@ -148,7 +150,7 @@ class _Checkout3State extends State<Checkout3> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ReusableText(text: 'Price (${cartData.cart_val} items)', fontSize: 12,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w500,),
-                          ReusableText(text: '₹${cartData.getSalePrice}', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,)
+                          ReusableText(text: '₹${cartData.getTotalPrice}', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500,)
                         ],
                       ),
                       SizedBox(height: dimensions.height8*2.5,),
@@ -225,7 +227,7 @@ class _Checkout3State extends State<Checkout3> {
            if(upi)
              Container(
                width: dimensions.screenWidth,
-               height: dimensions.height10 * 23,
+               // height: dimensions.height10 * 23,
                color: Colors.white,
                margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
                padding:EdgeInsets.only(right: dimensions.width16),
@@ -267,7 +269,7 @@ class _Checkout3State extends State<Checkout3> {
                        child: InkWell(
                          onTap: (){
                            orderData.pushOrderDataToFirebase(context);
-                           Navigator.pushNamed(context, HomeScreen.route);
+                           // Navigator.pushNamedAndRemoveUntil(context ,  MainScreen.route, (route) => false);
                          },
                          child: Container(
                            alignment: Alignment.center,

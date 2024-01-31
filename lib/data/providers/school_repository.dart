@@ -128,6 +128,8 @@ class SchoolDataProvider extends ChangeNotifier {
 
     //Function for fetching schoolData from firebase which have the city same as the AppConstant.locationSet list have
 
+    print(AppConstants.locationSet);
+
     AppConstants.locationSet.isNotEmpty ? await FirebaseFirestore.instance
         .collection('schools').where('city', whereIn: AppConstants.locationSet).get()
         .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList()) : await FirebaseFirestore.instance

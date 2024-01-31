@@ -1,3 +1,4 @@
+import 'package:bukizz_1/constants/colors.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
@@ -5,6 +6,7 @@ import 'package:bukizz_1/widgets/containers/class_number.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../data/providers/product_provider.dart';
@@ -43,7 +45,6 @@ class _BooksState extends State<Books> {
             itemCount: schoolData.selectedSchool.productsId.length,
             itemBuilder: (context, index) {
               var product = productView.productData[index];
-              print(product.classId.substring(3,product.classId.length));
               return GestureDetector(
                 onTap: (){
                   // productData.setProductDetail(product);
@@ -73,17 +74,46 @@ class _BooksState extends State<Books> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-                      CustomClassContainer(
-                          width: dimensions.width169,
-                          height: dimensions.height10*10.5,
-                          classNumber: suffix(int.parse(product.classId.substring(3))),
-                          classTextLeft: dimensions.width10*5.5, //margin to text->class
-                          classTextRight:  dimensions.width10*5.5,
-                          classTextTop: dimensions.height10*2.84,
-                          classNumberLeft: dimensions.width10*4.3, //margin to class No.
-                          classNumberRight: dimensions.width10*4.3,
-                          classNumberTop: dimensions.height10*5.3
+                      // CustomClassContainer(
+                      //     width: dimensions.width169,
+                      //     height: dimensions.height10*10,
+                      //     classNumber: suffix(int.parse(product.classId.substring(3))),
+                      //     classTextLeft: dimensions.width10*5.5, //margin to text->class
+                      //     classTextRight:  dimensions.width10*5.5,
+                      //     classTextTop: dimensions.height10*2.84,
+                      //     classNumberLeft: dimensions.width10*4.3, //margin to class No.
+                      //     classNumberRight: dimensions.width10*4.3,
+                      //     classNumberTop: dimensions.height10*5.3
+                      // ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: dimensions.width169,
+                        height: dimensions.height105 * 0.95,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                          ),
+                          gradient: LinearGradient(
+                            begin: Alignment(0.00, -1.00),
+                            end: Alignment(0, 1),
+                            colors: [Color(0xFF39A7FF), Color(0xFF0074D1)],
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("CLASS" , style: GoogleFonts.lora(fontSize: 12 , color: AppColors.white , fontWeight: FontWeight.w400),),
+                            Text(
+                              product.name.substring(6),
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 36,
+                                color: AppColors.white,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: dimensions.height24 / 5),
                       Padding(

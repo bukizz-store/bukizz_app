@@ -2,6 +2,7 @@ import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/constants.dart';
 import '../../data/providers/cart_provider.dart';
 import '../containers/Reusable_ColouredBox.dart';
 import '../text and textforms/Reusable_text.dart';
@@ -58,10 +59,10 @@ required this.productId
           ),
           GestureDetector(
             child: Icon(Icons.add,color: Color(0xFF00579E),),
-            onTap: () {
+            onTap: () async {
               if (onChanged != null) {
                 onChanged!(quantity + 1);
-                context.read<CartProvider>().addProductInCart(schoolName,set , stream, 1, productId, context);
+                await context.read<CartProvider>().addProductInCart(schoolName,set , stream, 1, productId, context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
               }
             },
           ),

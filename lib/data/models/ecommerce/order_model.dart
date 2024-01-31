@@ -11,7 +11,7 @@ class OrderModel {
   double totalAmount;
   double saleAmount;
   Address address;
-  Map<String , Map<String , int>> cartData;
+  Map<String , Map<String , Map<int , Map<int , int>>>>  cartData;
   
 
   OrderModel({
@@ -32,7 +32,7 @@ class OrderModel {
       'totalAmount': totalAmount,
       'saleAmount': saleAmount,
       'cartData': cartData,
-      'address': address,
+      'address': address.toMap(),
     };
   }
 
@@ -52,26 +52,26 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> map) => OrderModel.fromMap(map);
 
-  OrderModel copyWith({
-    String? orderId,
-    String? userId,
-    String? orderDate,
-    Address? address,
-    double? totalAmount,
-    double? saleAmount,
-    Map<String , Map<String , int>>? cartData,
-
-  }) {
-    return OrderModel(
-      orderId: orderId ?? this.orderId,
-      userId: userId ?? this.userId,
-      orderDate: orderDate ?? this.orderDate,
-      totalAmount: totalAmount ?? this.totalAmount,
-      saleAmount: saleAmount ?? this.saleAmount,
-      cartData: cartData ?? this.cartData,
-      address: address ?? this.address,
-    );
-  }
+  // OrderModel copyWith({
+  //   String? orderId,
+  //   String? userId,
+  //   String? orderDate,
+  //   Address? address,
+  //   double? totalAmount,
+  //   double? saleAmount,
+  //   Map<String , Map<String , int>>? cartData,
+  //
+  // }) {
+  //   return OrderModel(
+  //     orderId: orderId ?? this.orderId,
+  //     userId: userId ?? this.userId,
+  //     orderDate: orderDate ?? this.orderDate,
+  //     totalAmount: totalAmount ?? this.totalAmount,
+  //     saleAmount: saleAmount ?? this.saleAmount,
+  //     cartData: cartData ?? this.cartData,
+  //     address: address ?? this.address,
+  //   );
+  // }
 
   @override
   String toString() {

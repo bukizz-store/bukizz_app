@@ -26,36 +26,38 @@ class CustomClassContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      clipBehavior: Clip.antiAlias,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
-        gradient: LinearGradient(
-          begin: Alignment(0.00, -1.00),
-          end: Alignment(0, 1),
-          colors: [Color(0xFF39A7FF), Color(0xFF0074D1)],
-        ),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-              left:classTextLeft,
-              right: classTextRight,
-              top: classTextTop,
-              child: ReusableText(text: 'CLASS', fontSize: 12,color: Color(0xCCF4F4F4),fontWeight: FontWeight.w700,height: 0.14,)
+    return Center(
+      child: Container(
+        width: width,
+        height: height,
+        clipBehavior: Clip.antiAlias,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
           ),
-          Positioned(
-              left:classNumberLeft,
-              right: classNumberRight,
-              top: classNumberTop,
-              child: ReusableText(text: classNumber, fontSize: 36,color: Color(0xFFFDFDFD),fontWeight: FontWeight.w700,)
-          )
-        ],
+          gradient: LinearGradient(
+            begin: Alignment(0.00, -1.00),
+            end: Alignment(0, 1),
+            colors: [Color(0xFF39A7FF), Color(0xFF0074D1)],
+          ),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+                left:classTextLeft,
+                right: classTextRight,
+                top: classTextTop,
+                child: ReusableText(text: 'CLASS', fontSize: 12,color: Color(0xCCF4F4F4),fontWeight: FontWeight.w700,height: 0.14,)
+            ),
+            Positioned(
+                left:classNumberLeft,
+                right: classNumberRight,
+                top: classNumberTop,
+                child: ReusableText(text: classNumber, fontSize: 36,color: Color(0xFFFDFDFD),fontWeight: FontWeight.w700,)
+            )
+          ],
+        ),
       ),
     );
   }

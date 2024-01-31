@@ -23,6 +23,19 @@ class UpdateUserData extends ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> updateUserAlternateAddress(Address address)async {
+    //Make a function to update the address of the user in firebase and also in the shared preferences
+    await FirebaseFirestore.instance.collection('userDetails').doc(AppConstants.userData.uid).update({
+      'alternateAddress': address.toMap(),
+    }).then((value) => print("User Alternate Address Updated"))
+        .catchError((error) => print("Failed to update user address: $error"));
+
+    AppConstants.userData.alternateAddress = address;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
+    notifyListeners();
+  }
+
   void saveLocationSetToSharedPreferences(List<String> locations) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setStringList('locationSet', locations);

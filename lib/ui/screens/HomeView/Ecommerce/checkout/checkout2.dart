@@ -4,6 +4,7 @@ import 'package:bukizz_1/data/repository/order_view_repository.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/textformAddress.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +42,7 @@ class _Checkout2State extends State<Checkout2> {
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
+    var orderDetail = context.read<OrderViewRespository>();
     return Consumer<CartViewRepository>(builder: (context , cartData , child){
       return Scaffold(
         appBar: AppBar(
@@ -135,7 +137,7 @@ class _Checkout2State extends State<Checkout2> {
                               Container(
                                 width: dimensions.width24 * 9.5,
                                 child: ReusableText(
-                                  text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                                  text: "${orderDetail.getUserAddress.houseNo}, ${orderDetail.getUserAddress.street}, ${orderDetail.getUserAddress.city}, ${orderDetail.getUserAddress.state}, ${orderDetail.getUserAddress.pinCode}",
                                   fontSize: 14,
                                   height: 0,
                                   color: Color(0xFF7A7A7A),
@@ -180,7 +182,7 @@ class _Checkout2State extends State<Checkout2> {
 
                Container(
                  width: dimensions.screenWidth,
-                 height: dimensions.height10*10.3,
+                 // height: dimensions.height10*10.3,
                  color: Colors.white,
                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.width10*2),
                  child: Column(
@@ -318,7 +320,7 @@ class _Checkout2State extends State<Checkout2> {
           width: dimensions.screenWidth,
           color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.only(bottom: dimensions.width24/2,left: dimensions.width24,right: dimensions.width24),
+            padding: EdgeInsets.only(left: dimensions.width24,right: dimensions.width24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -359,7 +361,7 @@ class _Checkout2State extends State<Checkout2> {
                     } else {
                       // Navigate to the next screen or perform other actions
 
-                      // context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, cartData.getCartData);
+                      context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, cartData.getCartData);
                       context
                           .read<CartViewRepository>()
                           .setTotalPrice(totalPrice.toInt());
@@ -431,8 +433,8 @@ class _Checkout2State extends State<Checkout2> {
             String productName = setProductName(schoolName, set, stream, productModel);
             int totalSalePrice = setTotalSalePrice(productModel, set, stream);
             int price = setTotalPrice(productModel, set, stream);
-            totalPrice += price;
-            salePrice += totalSalePrice.toDouble();
+            totalPrice += price * quantity;
+            salePrice += totalSalePrice * quantity;
                 list.add(
                   Container(
                     // height: dimensions.height192,
@@ -463,18 +465,17 @@ class _Checkout2State extends State<Checkout2> {
                                         .first
                                         .image)),
                                   SizedBox(height: dimensions.height8),
-                                  // ReusableQuantityButton(
-                                  //   quantity: quantity,
-                                  //   height: 32,
-                                  //   width: 83,
-                                  //   productId: productId,
-                                  //   schoolName: schoolName,
-                                  //   onChanged: (newQuantity) {
-                                  //     // setState(() {
-                                  //     //   CartQuantity[index] = newQuantity;
-                                  //     // });
-                                  //   },
-                                  // ),
+                                  ReusableQuantityButton(
+                                    quantity: quantity,
+                                    height: 32,
+                                    width: 83,
+                                    productId: product,
+                                    schoolName: schoolName,
+                                    set: set,
+                                    stream: stream,
+                                    onChanged: (newQuantity) {
+                                    },
+                                  ),
                                 ],
                               ),
                               //bookset name review and pricing
