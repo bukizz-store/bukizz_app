@@ -6,9 +6,11 @@ import 'package:bukizz_1/utils/dimensions.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/auth/firebase_auth.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../main_screen.dart';
 
@@ -245,9 +247,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bottomNavigationBar:  Padding(
         padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
         child: OutlinedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, SignIn.route);
-            provider.selectedIndex=0;
+          onPressed: () async{
+            var authProvider = Provider.of<AuthProvider>(context, listen: false);
+            AppConstants.isLogin = false;
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setBool('isLogin', false);
+            if(context.mounted)
+              {
+                authProvider.signOut(context);
+                Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
+              }
           },
           style: OutlinedButton.styleFrom(
               shape: const RoundedRectangleBorder(

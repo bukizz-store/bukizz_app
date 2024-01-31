@@ -18,7 +18,7 @@ class OrderViewRespository extends ChangeNotifier {
     saleAmount: 0,
     cartData: {},
     address: AppConstants.userData.address,
-    status: deliveryStatus.Pending,
+    status: deliveryStatus.Pending.toString(),
     reviewId: '',
   );
 
@@ -47,7 +47,7 @@ class OrderViewRespository extends ChangeNotifier {
         saleAmount: saleAmount,
         cartData: cartData,
         address: getUserAddress,
-        status: deliveryStatus.Pending,
+        status: deliveryStatus.Pending.toString(),
         reviewId: ''
     );
 
@@ -69,12 +69,9 @@ class OrderViewRespository extends ChangeNotifier {
           .doc(AppConstants.userData.uid)
           .update({
         'orderID': FieldValue.arrayUnion([orderModel.orderId]),
-      })
-          .then((value) {
-        context.read<CartProvider>().blankCart();
-        context.read<CartViewRepository>().blankCart();
-      })
-          .then((value) => print('Order ID added to user details')).catchError((e)=>{print(e)});
+      }).then((value) => print('Order ID added to user details')).catchError((e)=>{print(e)});
+    context.read<CartProvider>().blankCart();
+    context.read<CartViewRepository>().blankCart();
       AppConstants.userData.orderID.add(orderModel.orderId);
       AppConstants.showSnackBar(context, 'Order Placed Successfully');
       notifyListeners();

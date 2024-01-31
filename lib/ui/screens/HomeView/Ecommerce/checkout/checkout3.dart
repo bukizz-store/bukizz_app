@@ -319,7 +319,7 @@ class _Checkout3State extends State<Checkout3> {
                        child: InkWell(
                          onTap: (){
                            orderData.pushOrderDataToFirebase(context);
-                           Navigator.pushNamed(context, HomeScreen.route);
+                           Navigator.pushNamedAndRemoveUntil(context ,  MainScreen.route, (route) => false);
                          },
                          child: Container(
                            alignment: Alignment.center,
@@ -370,7 +370,7 @@ class _Checkout3State extends State<Checkout3> {
                        child: InkWell(
                          onTap: (){
                            orderData.pushOrderDataToFirebase(context);
-                           Navigator.pushNamed(context, HomeScreen.route);
+                           Navigator.pushNamedAndRemoveUntil(context ,  MainScreen.route, (route) => false);
                          },
                          child: Container(
                            alignment: Alignment.center,
