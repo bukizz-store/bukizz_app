@@ -94,14 +94,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner1.svg',
+                            assetImage: 'assets/ecommerce home/banner1.jpg',
 
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.svg',
+                            assetImage: 'assets/ecommerce home/banner2.png',
                           ),
                         ],
                         options: CarouselOptions(
@@ -222,7 +222,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
 
               // ListView of schools
-              Container(
+              schoolData.schoolData.isNotEmpty ? Container(
                 height: dimensions.height151,
                 width: dimensions.width195,
                 child: ListView.builder(
@@ -291,6 +291,71 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     );
                   },
                 ),
+              ) : Container(
+                height: dimensions.height151,
+                width: dimensions.width195,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:EdgeInsets.symmetric(horizontal: dimensions.width16*0.8,vertical: dimensions.height8),
+                      child: InkWell(
+                        onTap: () {
+                        },
+                        //
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: dimensions.height151,
+                              width: dimensions.width169,
+                              decoration: ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: const Alignment(-0.00, -1.00),
+                                  end: const Alignment(0, 1),
+                                  colors: [Colors.black.withOpacity(0), Colors.black],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 0.50,
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                    color: Color(0xFFD6D6D6),
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x4C00579E),
+                                    blurRadius: 12,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              // child: ClipRRect(
+                              //   borderRadius: BorderRadius.circular(12),
+                              //   child: Image.network(
+                              //     schoolData.schoolData[index].banner,
+                              //     fit: BoxFit.cover,
+                              //     filterQuality: FilterQuality.low,
+                              //     height: dimensions.height151,
+                              //     width: dimensions.width195,
+                              //   ),
+                              // ),
+                            ),
+
+                            // Positioned(
+                            //     left: dimensions.width16/2,
+                            //     right: 0,
+                            //     bottom: dimensions.height8*2.5,
+                            //     child: ReusableText(text: schoolData.schoolData[index].name, fontSize: 14,color: Color(0xFFF9F9F9),fontWeight: FontWeight.w700,)
+                            // )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
 
               SizedBox(height: dimensions.height16),
@@ -307,13 +372,13 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.svg',
+                            assetImage: 'assets/ecommerce home/banner1.jpg',
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.svg',
+                            assetImage: 'assets/ecommerce home/banner2.png',
                           ),
                         ],
                         options: CarouselOptions(

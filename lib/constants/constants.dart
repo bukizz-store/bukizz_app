@@ -6,8 +6,8 @@ enum userType{
   student, teacher
 }
 
-enum status{
-  initiated , delivered , cancelled, pending ,et
+enum deliveryStatus{
+  Pending , Delivered , Cancelled
 }
 
 class AppConstants{

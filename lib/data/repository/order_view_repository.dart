@@ -10,17 +10,18 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class OrderViewRespository extends ChangeNotifier {
-  // OrderModel orderModel = OrderModel(
-  //   orderId: '',
-  //   userId: AppConstants.userData.uid,
-  //   orderDate: DateTime.now().toIso8601String(),
-  //   totalAmount: 0,
-  //   saleAmount: 0,
-  //   cartData: {},
-  //   address: AppConstants.userData.address,
-  // );
+  OrderModel orderModel = OrderModel(
+    orderId: '',
+    userId: AppConstants.userData.uid,
+    orderDate: DateTime.now().toIso8601String(),
+    totalAmount: 0,
+    saleAmount: 0,
+    cartData: {},
+    address: AppConstants.userData.address,
+    status: deliveryStatus.Pending,
+    reviewId: '',
+  );
 
-  late OrderModel orderModel ;
 
   Address _userAddress = AppConstants.userData.address;
 
@@ -36,7 +37,8 @@ class OrderViewRespository extends ChangeNotifier {
   OrderModel get getOrderModel => orderModel;
 
   void setOrderModelData(double totalAmount, double saleAmount,
-      Map<String , Map<String , Map<int , Map<int , int>>>> cartData) {
+      Map<String , dynamic> cartData) {
+
     orderModel = OrderModel(
         orderId: uuid.v1(),
         userId: AppConstants.userData.uid,
@@ -44,23 +46,25 @@ class OrderViewRespository extends ChangeNotifier {
         totalAmount: totalAmount,
         saleAmount: saleAmount,
         cartData: cartData,
-        address: getUserAddress);
+        address: getUserAddress,
+        status: deliveryStatus.Pending,
+        reviewId: ''
+    );
 
     print(orderModel);
     notifyListeners();
   }
 
   void pushOrderDataToFirebase(BuildContext context) async{
-    // try
-    // {
+    try
+    {
     // print(orderModel.toMap());
-
     Map<String , dynamic> order = orderModel.toMap();
-      await FirebaseFirestore.instance
+      FirebaseFirestore.instance
           .collection('orderDetails')
-          .doc(orderModel.orderId.toString())
+          .doc(orderModel.orderId)
           .set(order).then((value) => print("Added in Order"));
-      await FirebaseFirestore.instance
+      FirebaseFirestore.instance
           .collection('userDetails')
           .doc(AppConstants.userData.uid)
           .update({
@@ -71,13 +75,12 @@ class OrderViewRespository extends ChangeNotifier {
         context.read<CartViewRepository>().blankCart();
       })
           .then((value) => print('Order ID added to user details')).catchError((e)=>{print(e)});
-
-      // SnackBar snackBar = SnackBar(content: Text('Order Placed Successfully'));
-      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      AppConstants.userData.orderID.add(orderModel.orderId);
+      AppConstants.showSnackBar(context, 'Order Placed Successfully');
       notifyListeners();
-    // }
-    // catch(e){
-    //   print("Error in pushing data : $e");
-    // }
+    }
+    catch(e){
+      print("Error in pushing data : $e");
+    }
   }
 }

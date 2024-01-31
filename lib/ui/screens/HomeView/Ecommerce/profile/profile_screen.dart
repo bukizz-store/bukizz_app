@@ -1,3 +1,4 @@
+import 'package:bukizz_1/data/repository/my_orders.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/order.dart';
 import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
@@ -56,6 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       OutlinedButton(
                         onPressed: () {
+                          context.read<MyOrders>().fetchOrders();
                           Navigator.pushNamed(context, OrderScreen.route);
                         },
                         style: OutlinedButton.styleFrom(

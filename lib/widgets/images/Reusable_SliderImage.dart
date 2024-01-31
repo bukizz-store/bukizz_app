@@ -54,7 +54,7 @@ class RoundedImage extends StatelessWidget {
               imageUrl!,
               fit: fit ?? BoxFit.contain,
             )
-                : SvgPicture.asset(
+                : Image.asset(
               assetImage!,
               fit: fit ?? BoxFit.cover,
             ),

@@ -123,12 +123,12 @@ class SchoolDataProvider extends ChangeNotifier {
     await Future.delayed(Duration.zero, () {
       setIsSchoolDataLoaded(false);
     });
-    context.read<StationaryProvider>().fetchStationaryItems();
-    context.read<CartProvider>().loadCartData(context);
-
     //Function for fetching schoolData from firebase which have the city same as the AppConstant.locationSet list have
 
-    print(AppConstants.locationSet);
+    // print(AppConstants.locationSet);
+
+    context.read<StationaryProvider>().fetchStationaryItems();
+    context.read<CartProvider>().loadCartData(context);
 
     AppConstants.locationSet.isNotEmpty ? await FirebaseFirestore.instance
         .collection('schools').where('city', whereIn: AppConstants.locationSet).get()

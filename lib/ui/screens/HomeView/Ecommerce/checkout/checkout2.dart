@@ -361,7 +361,22 @@ class _Checkout2State extends State<Checkout2> {
                     } else {
                       // Navigate to the next screen or perform other actions
 
-                      context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, cartData.getCartData);
+                      Map<String, dynamic> encodedData = {};
+
+                      cartData.getCartData.forEach((school, schoolData) {
+                        encodedData[school] = {};
+                        schoolData.forEach((product, productData) {
+                          encodedData[school]![product] = {};
+                          productData.forEach((set, setData) {
+                            encodedData[school]![product]![set.toString()] = {};
+                            setData.forEach((stream, streamData) {
+                              encodedData[school]![product]![set.toString()]![stream.toString()] = streamData;
+                            });
+                          });
+                        });
+                      });
+
+                      context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData);
                       context
                           .read<CartViewRepository>()
                           .setTotalPrice(totalPrice.toInt());
