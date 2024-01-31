@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,7 +12,9 @@ class OrderModel {
   double totalAmount;
   double saleAmount;
   Address address;
-  Map<String , Map<String , int>> cartData;
+  Map<String , dynamic> cartData;
+  deliveryStatus status;
+  String reviewId;
   
 
   OrderModel({
@@ -22,6 +25,8 @@ class OrderModel {
     required this.saleAmount,
     required this.cartData,
     required this.address,
+    this.status = deliveryStatus.Pending,
+    this.reviewId = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -32,7 +37,9 @@ class OrderModel {
       'totalAmount': totalAmount,
       'saleAmount': saleAmount,
       'cartData': cartData,
-      'address': address,
+      'address': address.toMap(),
+      'status': status,
+      'reviewId': reviewId,
     };
   }
 
@@ -45,6 +52,8 @@ class OrderModel {
       saleAmount: map['saleAmount'] ?? 0,
       cartData: map['cartData'] ?? {},
       address: Address.fromMap(map['address']),
+      status: map['status'] ?? deliveryStatus.Pending,
+      reviewId: map['reviewId'] ?? '',
     );
   }
 
@@ -52,30 +61,30 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> map) => OrderModel.fromMap(map);
 
-  OrderModel copyWith({
-    String? orderId,
-    String? userId,
-    String? orderDate,
-    Address? address,
-    double? totalAmount,
-    double? saleAmount,
-    Map<String , Map<String , int>>? cartData,
-
-  }) {
-    return OrderModel(
-      orderId: orderId ?? this.orderId,
-      userId: userId ?? this.userId,
-      orderDate: orderDate ?? this.orderDate,
-      totalAmount: totalAmount ?? this.totalAmount,
-      saleAmount: saleAmount ?? this.saleAmount,
-      cartData: cartData ?? this.cartData,
-      address: address ?? this.address,
-    );
-  }
+  // OrderModel copyWith({
+  //   String? orderId,
+  //   String? userId,
+  //   String? orderDate,
+  //   Address? address,
+  //   double? totalAmount,
+  //   double? saleAmount,
+  //   Map<String , Map<String , int>>? cartData,
+  //
+  // }) {
+  //   return OrderModel(
+  //     orderId: orderId ?? this.orderId,
+  //     userId: userId ?? this.userId,
+  //     orderDate: orderDate ?? this.orderDate,
+  //     totalAmount: totalAmount ?? this.totalAmount,
+  //     saleAmount: saleAmount ?? this.saleAmount,
+  //     cartData: cartData ?? this.cartData,
+  //     address: address ?? this.address,
+  //   );
+  // }
 
   @override
   String toString() {
-    return 'OrderModel(orderId: $orderId, userId: $userId, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address)';
+    return 'OrderModel(orderId: $orderId, userId: $userId, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address , status: $status)';
   }
 
   @override
@@ -89,7 +98,8 @@ class OrderModel {
     other.totalAmount == totalAmount &&
     other.saleAmount == saleAmount &&
     other.cartData == cartData &&
-    other.address == address;
+    other.address == address &&
+    other.status == status;
   }
 
   @override
@@ -100,6 +110,7 @@ class OrderModel {
     totalAmount.hashCode ^
     saleAmount.hashCode ^
     address.hashCode ^
+    status.hashCode ^
     cartData.hashCode;
 
   }
@@ -112,6 +123,7 @@ class OrderModel {
       totalAmount: snap['totalAmount'],
       saleAmount: snap['saleAmount'],
       cartData: snap['cartData'],
+      status: snap['status'],
       address: Address.fromMap(snap['address']),
     );
   }
@@ -124,9 +136,9 @@ class OrderModel {
       'totalAmount': totalAmount,
       'saleAmount': saleAmount,
       'cartData': cartData,
+      'status': status,
       'address': address,
     };
   }
-
-
 }
+

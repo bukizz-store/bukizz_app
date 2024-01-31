@@ -4,6 +4,7 @@ import 'package:bukizz_1/data/repository/product_view_repository.dart';
 // import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -93,14 +94,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner1.svg',
+                            assetImage: 'assets/ecommerce home/banner1.jpg',
 
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.svg',
+                            assetImage: 'assets/ecommerce home/banner2.png',
                           ),
                         ],
                         options: CarouselOptions(
@@ -118,7 +119,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         ),
                       ),
                       Positioned(
-                        bottom: 10.0, // Adjust the position as needed
+                        bottom: dimensions.height10, // Adjust the position as needed
                         left: 0.0,
                         right: 0.0,
                         child: DotsIndicator(
@@ -149,9 +150,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.only(left: 29),
+                      padding: EdgeInsets.only(left: dimensions.width24),
                       child: Container(
-                        height: 65,
+                        height: dimensions.height10*6.5,
                         child: Column(
                           children: [
                             CircleAvatar(
@@ -160,7 +161,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',fit: BoxFit.cover,)
                             ),
                             SizedBox(
-                              height: 8,
+                              height: dimensions.height8,
                             ),
                             ReusableText(
                               text: emojiText[index],
@@ -221,7 +222,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
 
               // ListView of schools
-              Container(
+              schoolData.schoolData.isNotEmpty ? Container(
                 height: dimensions.height151,
                 width: dimensions.width195,
                 child: ListView.builder(
@@ -290,6 +291,71 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     );
                   },
                 ),
+              ) : Container(
+                height: dimensions.height151,
+                width: dimensions.width195,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:EdgeInsets.symmetric(horizontal: dimensions.width16*0.8,vertical: dimensions.height8),
+                      child: InkWell(
+                        onTap: () {
+                        },
+                        //
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: dimensions.height151,
+                              width: dimensions.width169,
+                              decoration: ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: const Alignment(-0.00, -1.00),
+                                  end: const Alignment(0, 1),
+                                  colors: [Colors.black.withOpacity(0), Colors.black],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 0.50,
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                    color: Color(0xFFD6D6D6),
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x4C00579E),
+                                    blurRadius: 12,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              // child: ClipRRect(
+                              //   borderRadius: BorderRadius.circular(12),
+                              //   child: Image.network(
+                              //     schoolData.schoolData[index].banner,
+                              //     fit: BoxFit.cover,
+                              //     filterQuality: FilterQuality.low,
+                              //     height: dimensions.height151,
+                              //     width: dimensions.width195,
+                              //   ),
+                              // ),
+                            ),
+
+                            // Positioned(
+                            //     left: dimensions.width16/2,
+                            //     right: 0,
+                            //     bottom: dimensions.height8*2.5,
+                            //     child: ReusableText(text: schoolData.schoolData[index].name, fontSize: 14,color: Color(0xFFF9F9F9),fontWeight: FontWeight.w700,)
+                            // )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
 
               SizedBox(height: dimensions.height16),
@@ -306,13 +372,13 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.svg',
+                            assetImage: 'assets/ecommerce home/banner1.jpg',
                           ),
                           RoundedImage(
                             width: dimensions.screenWidth,
                             height: dimensions.height192,
                             isNetworkImage: false,
-                            assetImage: 'assets/ecommerce home/banner2.svg',
+                            assetImage: 'assets/ecommerce home/banner2.png',
                           ),
                         ],
                         options: CarouselOptions(
@@ -367,11 +433,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     ),
                     Row(
                       children: [
-                        InkWell(
+                        GestureDetector(
                             onTap: () {
-                              // ProductModel.sendRandomProductData();
-                              // ProductModel.updateProductData();
-                              // schoolData.pushRandomData();
+                              Navigator.pushNamed(context, ViewAllSchoolScreen.route);
                             },
                             child: ReusableText(
                               text: 'View all',
@@ -380,7 +444,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF00579E),
                             )),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward,
                           color: Color(0xFF00579E),
                           size: 18,
@@ -395,64 +459,63 @@ class _EcommerceMainState extends State<EcommerceMain> {
               Container(
                 height: dimensions.height10*17,
                 width: dimensions.screenWidth,
+                // color: Colors.red,
                 child: ListView.builder(
                     itemCount: 2,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context,index){
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
-                        child: GestureDetector(
-                          onTap: (){
-                            print('stationary button tapped');
-                          },
-                          child: Container(
-                            width: dimensions.width146,
-                            height: dimensions.height10*15,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  strokeAlign: BorderSide.strokeAlignOutside,
-                                  color: Color(0xFFD6D6D6),
-                                ),
-                                borderRadius: BorderRadius.circular(12),
+                      return GestureDetector(
+                        onTap: (){
+                          print('stationary button tapped');
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height10/2),
+                          width: dimensions.width146,
+                          height: dimensions.height10,
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                width: 0.50,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                                color: Color(0xFFD6D6D6),
                               ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x2600579E),
-                                  blurRadius: 12,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
+                              borderRadius: BorderRadius.circular(12),
                             ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x2600579E),
+                                blurRadius: 12,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
 
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: dimensions.width146,
-                                  height: dimensions.height10*10.4,
-                                  child: ClipRRect(
-                                      borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
-                                    child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
-                                  ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: dimensions.width146,
+                                height: dimensions.height10*9,
+                                child: ClipRRect(
+                                    borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+                                  child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      ReusableText(text: stationaryText[2*index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
-                                      SizedBox(height: dimensions.height10*2,),
-                                      ReusableText(text: stationaryText[2*index+1], fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ReusableText(text: stationaryText[2*index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
+                                    SizedBox(height: dimensions.height10*2,),
+                                    ReusableText(text: stationaryText[2*index+1], fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       );

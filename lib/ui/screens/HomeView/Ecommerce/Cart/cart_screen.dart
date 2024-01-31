@@ -119,7 +119,7 @@ class _CartState extends State<Cart> {
                                 )),
                               ],
                             ),
-                            InkWell(
+                            GestureDetector(
                               onTap: () {
                                 print('change button is tapped');
                               },
@@ -266,8 +266,8 @@ class _CartState extends State<Cart> {
               String productName = setProductName(SchoolName, set, stream, productModel);
               int totalSalePrice = setTotalSalePrice(productModel, set, stream);
               int price = setTotalPrice(productModel, set, stream);
-              totalPrice += price;
-              salePrice += totalSalePrice;
+              totalPrice += price * quantity;
+              salePrice += totalSalePrice * quantity;
               items.add(Container(
                 // height: dimensions.height192,
                 width: dimensions.screenWidth,
@@ -305,13 +305,6 @@ class _CartState extends State<Cart> {
                                 set: set,
                                 stream: stream,
                                 onChanged: (newQuantity) {
-                                  // setState(() {
-                                  //   CartQuantity[index] = newQuantity;
-                                  // });
-                                  // cartProvider.addProductInCart(
-                                  //     cartData
-                                  //         .products[index].productId,
-                                  //     context);
                                 },
                               ),
                             ],

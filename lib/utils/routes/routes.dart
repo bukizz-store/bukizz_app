@@ -5,6 +5,7 @@ import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/manua
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/add_review.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
@@ -101,6 +102,10 @@ class RouteGenerator{
       case ContactUsScreen.route:
         return MaterialPageRoute(
           builder: (_) =>  ContactUsScreen(),
+        );
+      case ViewAllSchoolScreen.route:
+        return MaterialPageRoute(
+          builder: (_) =>  ViewAllSchoolScreen(),
         );
       default:
         return _errorRoute();

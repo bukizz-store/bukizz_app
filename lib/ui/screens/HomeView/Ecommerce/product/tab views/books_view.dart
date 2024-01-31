@@ -1,9 +1,12 @@
+import 'package:bukizz_1/constants/colors.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz_1/widgets/containers/class_number.dart';
 import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../data/providers/product_provider.dart';
@@ -20,6 +23,7 @@ class Books extends StatefulWidget {
 
 class _BooksState extends State<Books> {
   @override
+
   Widget build(BuildContext context) {
     var productView = context.watch<ProductViewRepository>();
     // var productData = context.read<ProductProvider>();
@@ -31,15 +35,14 @@ class _BooksState extends State<Books> {
         child: GridView.builder(
             gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              // Set the number of columns in the grid
-              crossAxisSpacing: dimensions.width24/3,
-              // Set the horizontal spacing between column
-              mainAxisSpacing: dimensions.height8, // Set the vertical spacing between rows
+              crossAxisSpacing: dimensions.width24/1.5,
+              mainAxisSpacing: dimensions.height8*2,
+
+              mainAxisExtent: dimensions.height10*17
             ),
             itemCount: schoolData.selectedSchool.productsId.length,
             itemBuilder: (context, index) {
               var product = productView.productData[index];
-              print(product.classId.substring(3,product.classId.length));
               return GestureDetector(
                 onTap: (){
                   // productData.setProductDetail(product);
@@ -62,24 +65,43 @@ class _BooksState extends State<Books> {
                         color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
+
+                      Container(
+                        alignment: Alignment.center,
+                        width: dimensions.width169,
+                        height: dimensions.height105 * 0.95,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                          ),
+                          gradient: LinearGradient(
+                            begin: Alignment(0.00, -1.00),
+                            end: Alignment(0, 1),
+                            colors: [Color(0xFF39A7FF), Color(0xFF0074D1)],
+                          ),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/school/booksets/${product.classId.substring(3,product.classId.length)}.svg',
-                          fit: BoxFit.fitWidth,
-                          color: Colors.redAccent,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("CLASS" , style: GoogleFonts.lora(fontSize: 12 , color: AppColors.white , fontWeight: FontWeight.w400),),
+                            Text(
+                              product.name.substring(6),
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 36,
+                                color: AppColors.white,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
                         ),
-                        // child: ,
                       ),
                       SizedBox(height: dimensions.height24 / 5),
                       Padding(
@@ -99,7 +121,7 @@ class _BooksState extends State<Books> {
                                 children: [
                                   TextSpan(
                                     text: ' ₹ ${product.salePrice}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF121212),
                                       fontWeight: FontWeight.w700,
                                       decoration: TextDecoration.none,

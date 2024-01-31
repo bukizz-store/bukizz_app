@@ -51,6 +51,7 @@ dependencies:
   url_launcher: ^6.2.4
   uuid: ^4.3.3
   curved_navigation_bar: ^1.0.3
+  google_fonts: ^6.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,6 +81,7 @@ flutter:
   assets:
     - assets/
     - assets/checkout/
+    - assets/category/
     - assets/school/
     - assets/payment/
     - assets/onboarding/

@@ -5,6 +5,7 @@ import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../constants/colors.dart';
+import '../../../../../constants/constants.dart';
 import '../../../../../constants/font_family.dart';
 import '../../../../../data/providers/stationary_provider.dart';
 import '../../../../../utils/dimensions.dart';
@@ -394,22 +395,22 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                                   ),
                                                   GestureDetector(
                                                     child: Icon(Icons.add),
-                                                    onTap: () {
+                                                    onTap: () async{
                                                       // setState(() {
                                                       //   setCartQuantities[index]++;
                                                       // });
-                                                      context
+                                                      await context
                                                           .read<CartProvider>()
                                                           .addProductInCart(
                                                               "all",
-                                                              -1,
-                                                              -1,
+                                                              0,
+                                                              0,
                                                               1,
                                                               stationaryData
                                                                   .stationaryListItems[
                                                                       index]
                                                                   .productId,
-                                                              context);
+                                                              context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
                                                     },
                                                   ),
                                                 ],
@@ -443,23 +444,25 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
             width: dimensions.screenWidth,
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
+              padding:  EdgeInsets.symmetric(
+                horizontal: dimensions.width24,
+                vertical: dimensions.height10
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {
+                    onTap: () async{
                       // context.read<CartProvider>().addProductInCart(
                       //     productView.selectedProduct.productId, context);
-                      context.read<CartProvider>().addProductInCart(
+                      await context.read<CartProvider>().addProductInCart(
                           schoolData.selectedSchool.name,
                           value.getSelectedSetDataIndex,
                           value.getSelectedStreamDataIndex,
                           1,
                           value.selectedProduct.productId,
-                          context);
+                          context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
+
                       // context.read<CartViewRepository>().setCartData(
                       //     schoolData.schoolName,
                       //     context
@@ -488,7 +491,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             fontWeight: FontWeight.w700,
                             color: Color(0xFF00579E),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.shopping_cart,
                             color: Color(0xFF00579E),
                           ),

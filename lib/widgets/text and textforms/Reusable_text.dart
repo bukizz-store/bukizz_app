@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/font_family.dart';
 
@@ -12,6 +13,7 @@ class ReusableText extends StatelessWidget {
   final double letterSpacing;
   final TextOverflow overflow;
   final VoidCallback? onTap;
+  final int maxLine;
 
   ReusableText({
     Key? key,
@@ -24,6 +26,7 @@ class ReusableText extends StatelessWidget {
     this.letterSpacing = -0.72,
     this.overflow = TextOverflow.ellipsis, // Default overflow
     this.onTap,
+    this.maxLine = 1
   }) : super(key: key);
 
   @override
@@ -34,14 +37,14 @@ class ReusableText extends StatelessWidget {
         text,
         overflow: overflow,
         softWrap: true,
-        style: TextStyle(
+        style: GoogleFonts.nunito(
           color: color,
           fontSize: fontSize,
-          fontFamily: fontFamily.name,
           fontWeight: fontWeight,
           height: height,
           letterSpacing: letterSpacing,
         ),
+        maxLines: maxLine,
       ),
     );
   }

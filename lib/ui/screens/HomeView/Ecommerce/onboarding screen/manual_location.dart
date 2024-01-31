@@ -40,7 +40,6 @@ class _SelectLocationState extends State<SelectLocation> {
 
   @override
   void initState() {
-    // TODO: implement initState
     foundedCities = cities;
     super.initState();
   }
@@ -70,12 +69,9 @@ class _SelectLocationState extends State<SelectLocation> {
                 height: dimensions.height10 * 5.3,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(Icons.arrow_back),
-                  SizedBox(
-                    width: dimensions.width10 * 2,
-                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: dimensions.height10 * 4.4,
@@ -116,8 +112,10 @@ class _SelectLocationState extends State<SelectLocation> {
                         vertical: dimensions.height8 * 1.5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
                               Icons.my_location,
@@ -125,7 +123,6 @@ class _SelectLocationState extends State<SelectLocation> {
                             ),
                           ],
                         ),
-                        // SizedBox(width: dimensions.width10/2,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -160,9 +157,12 @@ class _SelectLocationState extends State<SelectLocation> {
                             )
                           ],
                         ),
-                        Column(
+                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Icon(Icons.chevron_right)],
+                          children: [
+                            SizedBox(height: dimensions.height10*1.5,),
+                            Icon(Icons.chevron_right)
+                          ],
                         ),
                       ],
                     ),

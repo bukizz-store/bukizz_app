@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bukizz_1/constants/constants.dart';
 import 'package:bukizz_1/data/repository/cart_view_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,12 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addProductInCart(String schoolName,int set , int stream , int quantity, String productId, BuildContext context) async {
+  void blankCart() async{
+    cartData = {};
+    await storeCartData();
+  }
+
+  Future<void> addProductInCart(String schoolName,int set , int stream , int quantity, String productId, BuildContext context) async {
     setCartLoaded(false);
 
     cartData.putIfAbsent(schoolName, () => {});
@@ -36,17 +42,9 @@ class CartProvider extends ChangeNotifier {
     cartData[schoolName]![productId]![set]!.putIfAbsent(stream, () => 0);
     cartData[schoolName]![productId]![set]![stream] = (cartData[schoolName]![productId]![set]![stream] ?? 0) + quantity;
 
-    print(cartData);
     context.read<CartViewRepository>().getCartProduct(productId, schoolName ,set , stream ,  quantity);
 
     await storeCartData();
-
-    const snackBar = SnackBar(
-      content: Text('Product added to cart'),
-      duration: Duration(seconds: 2),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
     setCartLoaded(true);
     notifyListeners();
@@ -148,7 +146,7 @@ class CartProvider extends ChangeNotifier {
                   productsIdMap[school]![product]![int.parse(key1)] = {};
                   innerMap.forEach((key2, value) {
                     productsIdMap[school]![product]![int.parse(key1)]![int.parse(key2)] = value;
-                    context.read<CartViewRepository>().getCartProduct(product, school , key1 , key2 ,  value);
+                    context.read<CartViewRepository>().getCartProduct(product, school , int.parse(key1) , int.parse(key2) ,  value);
                   });
                 });
               });

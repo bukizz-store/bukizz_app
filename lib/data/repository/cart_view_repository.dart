@@ -47,6 +47,11 @@ class CartViewRepository extends ChangeNotifier {
 
   Map<String , Map<String , Map<int , Map<int , int>>>>  get getCartData => cartData;
 
+
+  void blankCart() async{
+    cartData = {};
+    products = [];
+  }
   // void setCartData(String schoolName , int quantity , String productId){
   //   cartData[schoolName] = CartValue(productId: productId , quantity: quantity);
   //   // print(cartData.toString());
@@ -87,14 +92,6 @@ class CartViewRepository extends ChangeNotifier {
   }
 
   void removeCartData(String schoolName , String productId , int set, int stream){
-    // if(cartData[schoolName]!.length == 1){
-    //   // products.removeWhere((element) => element.productId == productId);
-    //   cartData.remove(schoolName);
-    // }
-    // else{
-    //   // products.removeWhere((element) => element.productId == productId);
-    //   cartData[schoolName]!.remove(productId);
-    // }
 
     if(cartData[schoolName]![productId]![set]!.length == 1){
       cartData[schoolName]![productId]!.remove(set);
