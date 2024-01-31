@@ -81,6 +81,7 @@ flutter:
   assets:
     - assets/
     - assets/checkout/
+    - assets/category/
     - assets/school/
     - assets/payment/
     - assets/onboarding/

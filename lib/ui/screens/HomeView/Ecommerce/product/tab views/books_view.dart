@@ -35,10 +35,8 @@ class _BooksState extends State<Books> {
         child: GridView.builder(
             gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              // Set the number of columns in the grid
               crossAxisSpacing: dimensions.width24/1.5,
-              // Set the horizontal spacing between column
-              mainAxisSpacing: dimensions.height8*2, // Set the vertical spacing between rows
+              mainAxisSpacing: dimensions.height8*2,
 
               mainAxisExtent: dimensions.height10*17
             ),
@@ -74,17 +72,7 @@ class _BooksState extends State<Books> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // CustomClassContainer(
-                      //     width: dimensions.width169,
-                      //     height: dimensions.height10*10,
-                      //     classNumber: suffix(int.parse(product.classId.substring(3))),
-                      //     classTextLeft: dimensions.width10*5.5, //margin to text->class
-                      //     classTextRight:  dimensions.width10*5.5,
-                      //     classTextTop: dimensions.height10*2.84,
-                      //     classNumberLeft: dimensions.width10*4.3, //margin to class No.
-                      //     classNumberRight: dimensions.width10*4.3,
-                      //     classNumberTop: dimensions.height10*5.3
-                      // ),
+
                       Container(
                         alignment: Alignment.center,
                         width: dimensions.width169,
@@ -133,7 +121,7 @@ class _BooksState extends State<Books> {
                                 children: [
                                   TextSpan(
                                     text: ' ₹ ${product.salePrice}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF121212),
                                       fontWeight: FontWeight.w700,
                                       decoration: TextDecoration.none,

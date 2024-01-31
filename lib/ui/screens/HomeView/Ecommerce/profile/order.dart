@@ -36,6 +36,7 @@ class _OrderScreenState extends State<OrderScreen> {
               color: Color(0xFFE0F0FF),
             ),
             Container(
+              padding:EdgeInsets.symmetric(horizontal: dimensions.width24/4,vertical: dimensions.height8/2),
               width: dimensions.screenWidth,
               height: dimensions.height10*23*itemCount,
               color: Colors.white,

@@ -4,6 +4,7 @@ import 'package:bukizz_1/data/repository/product_view_repository.dart';
 // import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
+import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -367,11 +368,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     ),
                     Row(
                       children: [
-                        InkWell(
+                        GestureDetector(
                             onTap: () {
-                              // ProductModel.sendRandomProductData();
-                              // ProductModel.updateProductData();
-                              // schoolData.pushRandomData();
+                              Navigator.pushNamed(context, ViewAllSchoolScreen.route);
                             },
                             child: ReusableText(
                               text: 'View all',
@@ -380,7 +379,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF00579E),
                             )),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward,
                           color: Color(0xFF00579E),
                           size: 18,
