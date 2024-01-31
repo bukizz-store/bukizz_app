@@ -28,15 +28,13 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     return Scaffold(
-        body: Padding(
-      padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: dimensions.height10 * 5.3,
-            ),
-            SizedBox(
+      body:Stack(
+        children: [
+        Positioned(
+            top: dimensions.height10*5.3,
+            left: dimensions.width24,
+            right: dimensions.width24,
+            child: SizedBox(
               width: dimensions.width342,
               child: const Text(
                 'Set your location to start exploring schools near you',
@@ -50,41 +48,48 @@ class _LocationScreenState extends State<LocationScreen> {
                 ),
               ),
             ),
-            SizedBox(height: dimensions.height10*2,),
-
-            SizedBox(
-              height: dimensions.height10 * 2,
-            ),
-            SvgPicture.asset('assets/location.svg'),
-            SizedBox(
-              height: dimensions.height10,
-            ),
-            ReusableElevatedButton(
+           ),
+        Positioned(
+            top: dimensions.height10*17,
+            left: dimensions.width10*2.8,
+            right: dimensions.width10*2.7,
+            child: Container(
                 width: dimensions.width342,
-                height: dimensions.height10 * 5.4,
-                onPressed: getLocation,
-                buttonText: 'Enable Device Loaction'),
-            SizedBox(
-              height: dimensions.height10 * 1.6,
+                height: dimensions.height10*44.9,
+                child: SvgPicture.asset('assets/location.svg')
             ),
-            ReusableElevatedButton(
+         ),
+        Positioned(
+          left: dimensions.width24,
+          right: dimensions.width24,
+          bottom: dimensions.height10*11.8,
+          child: ReusableElevatedButton(
               width: dimensions.width342,
               height: dimensions.height10 * 5.4,
-              onPressed: () {
+              onPressed: getLocation,
+              buttonText: 'Enable Device Loaction'),
+          ),
+        Positioned(
+          left: dimensions.width24,
+          right: dimensions.width24,
+          bottom: dimensions.height48,
+          child: ReusableElevatedButton(
+            width: dimensions.width342,
+            height: dimensions.height10 * 5.4,
+            onPressed: () {
 
-                Navigator.pushNamed(context, SelectLocation.route);
-              },
-              buttonText: 'Enter Your Location Manually',
-              buttonColor: Color(0xFFE0EFFF),
-              textColor: Color(0xFF058FFF),
-              borderColor: Color(0xFF058FFF),
-            ),
-          ],
-        ),
-      ),
+              Navigator.pushNamed(context, SelectLocation.route);
+            },
+            buttonText: 'Enter Your Location Manually',
+            buttonColor: Color(0xFFE0EFFF),
+            textColor: Color(0xFF058FFF),
+            borderColor: Color(0xFF058FFF),
+          ),
+        )
+      ],
     )
   );
-  }
+}
 
   void getLocation() async {
     bool serviceEnabled;
@@ -128,6 +133,7 @@ class _LocationScreenState extends State<LocationScreen> {
         return;
       }
     }
+
 
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
