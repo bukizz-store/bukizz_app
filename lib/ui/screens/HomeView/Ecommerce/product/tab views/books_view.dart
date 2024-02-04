@@ -1,9 +1,9 @@
-import 'package:bukizz_1/constants/colors.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/containers/class_number.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/containers/class_number.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';

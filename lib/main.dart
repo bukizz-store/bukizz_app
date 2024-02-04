@@ -1,6 +1,6 @@
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
-import 'package:bukizz_1/utils/helper/providers.dart';
-import 'package:bukizz_1/utils/routes/routes.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
+import 'package:bukizz/utils/helper/providers.dart';
+import 'package:bukizz/utils/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

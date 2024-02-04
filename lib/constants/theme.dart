@@ -1,4 +1,4 @@
-import 'package:bukizz_1/constants/colors.dart';
+import 'package:bukizz/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme{

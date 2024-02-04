@@ -1,6 +1,6 @@
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
-import 'package:bukizz_1/ui/screens/HomeView/MySchool/main_screen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
+import 'package:bukizz/ui/screens/HomeView/MySchool/main_screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import '../../../widgets/custom_tab/custom_tab1.dart';
 

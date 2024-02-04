@@ -1,4 +1,4 @@
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

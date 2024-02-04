@@ -1,5 +1,5 @@
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/data/models/user_details.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/models/user_details.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

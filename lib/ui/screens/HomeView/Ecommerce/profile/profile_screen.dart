@@ -1,9 +1,9 @@
-import 'package:bukizz_1/data/repository/my_orders.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/profile/order.dart';
-import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/data/repository/my_orders.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/order.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,10 +22,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  TextEditingController _nameController=TextEditingController();
-  TextEditingController _emailController=TextEditingController();
-  TextEditingController _phoneController=TextEditingController();
+  final TextEditingController _nameController=TextEditingController();
+  final TextEditingController _emailController=TextEditingController();
+  final TextEditingController _phoneController=TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = AppConstants.userData.name ?? '';
+    _emailController.text = AppConstants.userData.email ?? '';
+    _phoneController.text = AppConstants.userData.mobile ?? '';
+  }
   @override
   Widget build(BuildContext context) {
     BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();

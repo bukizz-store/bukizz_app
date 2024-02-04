@@ -1,5 +1,5 @@
-import "package:bukizz_1/constants/colors.dart";
-import "package:bukizz_1/data/providers/header_switch.dart";
+import "package:bukizz/constants/colors.dart";
+import "package:bukizz/data/providers/header_switch.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 

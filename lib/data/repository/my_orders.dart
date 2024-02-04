@@ -1,4 +1,4 @@
-import 'package:bukizz_1/constants/constants.dart';
+import 'package:bukizz/constants/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 

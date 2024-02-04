@@ -1,8 +1,8 @@
-import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
-import 'package:bukizz_1/data/providers/auth/updateUserData.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_TextForm.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/textformAddress.dart';
+import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
+import 'package:bukizz/data/providers/auth/updateUserData.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';

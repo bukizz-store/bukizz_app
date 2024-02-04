@@ -1,7 +1,7 @@
 
-import 'package:bukizz_1/data/repository/order_view_repository.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz/data/repository/order_view_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

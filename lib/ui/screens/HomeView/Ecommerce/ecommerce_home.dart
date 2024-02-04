@@ -1,10 +1,10 @@
-import 'package:bukizz_1/data/models/ecommerce/products/product_model.dart';
-import 'package:bukizz_1/data/providers/bottom_nav_bar_provider.dart';
-import 'package:bukizz_1/data/repository/product_view_repository.dart';
+import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
+import 'package:bukizz/data/providers/bottom_nav_bar_provider.dart';
+import 'package:bukizz/data/repository/product_view_repository.dart';
 // import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';

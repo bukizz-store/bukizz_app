@@ -1,7 +1,7 @@
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
-import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
-import 'package:bukizz_1/widgets/navigator/page_navigator.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
+import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
+import 'package:bukizz/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';

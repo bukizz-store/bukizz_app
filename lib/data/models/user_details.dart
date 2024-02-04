@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
+import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,8 +1,8 @@
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

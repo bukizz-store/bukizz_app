@@ -1,9 +1,9 @@
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
-import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/buttons/Reusable_Button.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/buttons/Reusable_Button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
-import 'package:bukizz_1/data/providers/cart_provider.dart';
-import 'package:bukizz_1/data/providers/school_repository.dart';
-import 'package:bukizz_1/data/repository/product_view_repository.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/data/providers/cart_provider.dart';
+import 'package:bukizz/data/providers/school_repository.dart';
+import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../constants/colors.dart';

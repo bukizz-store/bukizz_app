@@ -1,5 +1,5 @@
 
-import 'package:bukizz_1/widgets/navigator/page_navigator.dart';
+import 'package:bukizz/widgets/navigator/page_navigator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 

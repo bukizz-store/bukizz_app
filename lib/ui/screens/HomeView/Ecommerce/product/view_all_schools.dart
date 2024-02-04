@@ -1,7 +1,7 @@
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_TextForm.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/textformAddress.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

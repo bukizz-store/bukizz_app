@@ -1,5 +1,5 @@
-import 'package:bukizz_1/constants/colors.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';

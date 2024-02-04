@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ContactUsScreen extends StatelessWidget {

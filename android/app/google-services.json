@@ -7,6 +7,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:87504596017:android:ea0c0af8b65b148ff1f910",
+        "android_client_info": {
+          "package_name": "com.example.bukizz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmx20-mEPRqrJqA-CeTB55DHGQgW0Eswo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:87504596017:android:c678028905b45d1af1f910",
         "android_client_info": {
           "package_name": "com.example.bukizz_1"

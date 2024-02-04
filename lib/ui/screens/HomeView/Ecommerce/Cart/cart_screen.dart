@@ -1,13 +1,13 @@
-import 'package:bukizz_1/constants/colors.dart';
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/constants/font_family.dart';
-import 'package:bukizz_1/data/repository/cart_view_repository.dart';
-import 'package:bukizz_1/data/repository/product_view_repository.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/buttons/cart_button.dart';
-import 'package:bukizz_1/widgets/containers/Reusable_ColouredBox.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/constants/font_family.dart';
+import 'package:bukizz/data/repository/cart_view_repository.dart';
+import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/buttons/cart_button.dart';
+import 'package:bukizz/widgets/containers/Reusable_ColouredBox.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

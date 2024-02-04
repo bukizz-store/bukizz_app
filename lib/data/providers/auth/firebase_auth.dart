@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/data/models/ecommerce/address/address_model.dart';
-import 'package:bukizz_1/data/models/user_details.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
+import 'package:bukizz/data/models/user_details.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';

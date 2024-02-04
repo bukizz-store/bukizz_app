@@ -1,4 +1,4 @@
-import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

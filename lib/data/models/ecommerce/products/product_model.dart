@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:bukizz_1/data/models/ecommerce/products/set_model.dart';
-import 'package:bukizz_1/data/models/ecommerce/products/stream_model.dart';
-import 'package:bukizz_1/data/models/ecommerce/review_model.dart';
+import 'package:bukizz/data/models/ecommerce/products/set_model.dart';
+import 'package:bukizz/data/models/ecommerce/products/stream_model.dart';
+import 'package:bukizz/data/models/ecommerce/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {

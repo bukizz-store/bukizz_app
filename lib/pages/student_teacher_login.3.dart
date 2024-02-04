@@ -1,6 +1,6 @@
-import 'package:bukizz_1/data/models/user_details.dart';
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/ui/screens/HomeView/homeScreen.dart';
+import 'package:bukizz/data/models/user_details.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

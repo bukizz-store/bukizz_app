@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/data/repository/cart_view_repository.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/repository/cart_view_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

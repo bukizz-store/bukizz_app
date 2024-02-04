@@ -1,9 +1,9 @@
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/data/repository/order_view_repository.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/checkout/checkout2.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/repository/order_view_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/checkout2.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

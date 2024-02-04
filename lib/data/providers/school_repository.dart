@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/data/providers/cart_provider.dart';
-import 'package:bukizz_1/data/providers/stationary_provider.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/providers/cart_provider.dart';
+import 'package:bukizz/data/providers/stationary_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';

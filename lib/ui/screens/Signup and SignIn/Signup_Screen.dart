@@ -1,4 +1,4 @@
-import 'package:bukizz_1/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/constants.dart';

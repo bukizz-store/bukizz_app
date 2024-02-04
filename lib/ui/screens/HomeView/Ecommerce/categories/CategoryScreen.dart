@@ -1,4 +1,4 @@
-import 'package:bukizz_1/utils/dimensions.dart';
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -97,16 +97,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                   ),
                   Positioned(
-                    left: dimensions.height24/1.95,
-                    top: dimensions.width24*2,
+                    left: dimensions.height24 / 1.95,
+                    top: dimensions.width24 * 2,
                     child: Container(
-                      width: dimensions.width10*8.5,
-                      height: dimensions.height10*8.5,
-
-                      decoration:   BoxDecoration(
+                      width: dimensions.width10 * 8.5,
+                      height: dimensions.height10 * 8.5,
+                      decoration: BoxDecoration(
                         color: Colors.transparent,
                         image: DecorationImage(
-                          image: AssetImage('assets/category/${index+1}.jpg'),
+                          image: AssetImage('assets/category/${index + 1}.jpg'),
                           fit: BoxFit.fill,
                         ),
                       ),

@@ -1,5 +1,5 @@
 
-import 'package:bukizz_1/data/models/ecommerce/review_model.dart';
+import 'package:bukizz/data/models/ecommerce/review_model.dart';
 import 'package:flutter/foundation.dart';
 
 class ReviewRepository with ChangeNotifier {

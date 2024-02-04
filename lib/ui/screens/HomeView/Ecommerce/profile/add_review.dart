@@ -1,5 +1,5 @@
-import 'package:bukizz_1/widgets/buttons/Reusable_Button.dart';
-import 'package:bukizz_1/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/widgets/buttons/Reusable_Button.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:bukizz_1/constants/constants.dart';
-import 'package:bukizz_1/data/providers/auth/updateUserData.dart';
-import 'package:bukizz_1/data/providers/school_repository.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
-import 'package:bukizz_1/utils/dimensions.dart';
-import 'package:bukizz_1/widgets/buttons/Reusable_Button.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/providers/auth/updateUserData.dart';
+import 'package:bukizz/data/providers/school_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/buttons/Reusable_Button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';

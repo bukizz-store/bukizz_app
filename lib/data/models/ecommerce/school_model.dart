@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bukizz_1/data/models/ecommerce/products/product_model.dart';
+import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchoolModel{
