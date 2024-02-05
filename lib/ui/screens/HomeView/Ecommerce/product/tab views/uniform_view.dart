@@ -1,55 +1,41 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../utils/dimensions.dart';
-import '../../../../../widgets/text and textforms/Reusable_text.dart';
-import '../../../../../widgets/text and textforms/textformAddress.dart';
+import '../../../../../../utils/dimensions.dart';
+import '../../../../../../widgets/text and textforms/Reusable_text.dart';
+import '../../../../../../widgets/text and textforms/textformAddress.dart';
 
-class ViewAllStationaryScreen extends StatefulWidget {
-  static const String route = '/viewallstationary';
-  const ViewAllStationaryScreen({super.key});
+
+class UniformScreen extends StatefulWidget {
+  const UniformScreen({super.key});
 
   @override
-  State<ViewAllStationaryScreen> createState() => _ViewAllStationaryScreenState();
+  State<UniformScreen> createState() => _UniformScreenState();
 }
 
-class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
+class _UniformScreenState extends State<UniformScreen> {
   @override
   Widget build(BuildContext context) {
     List<String>stationaryText=[
-      'School Bags',
-      '18 Notebook set',
-      'Lunchbox set',
-      'Lunchboxtext',
+      'School uniform',
+      'Track Suit',
+      'Boys Grey Trouser',
+      'Unisex Blue Blazer',
     ];
-    List<String>stationarySubText=[
-      'Min 50% off',
-      '@ RS.200',
-      '@ RS.200',
-      '@ RS.200',
-    ];
+    // List<String>stationarySubText=[
+    //   'Min 50% off',
+    //   '@ RS.200',
+    //   '@ RS.200',
+    //   '@ RS.200',
+    // ];
     TextEditingController formController=TextEditingController();
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Buy stationary'),
-      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: dimensions.height8),
-            Padding(
-              padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
-              child: CustomTextForm(
-                width: dimensions.width342,
-                height: dimensions.height8*6,
-                controller: formController,
-                hintText: 'Enter School bags,lunch box',
-                icon: Icons.search,
-              ),
-            ),
 
-            SizedBox(height: dimensions.height8*1.5),
+            SizedBox(height: dimensions.height8*2.5),
 
             Container(
               width: dimensions.screenWidth,
@@ -94,7 +80,7 @@ class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
                             height: dimensions.height10*9.5,
                             child: ClipRRect(
                                 borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
-                                child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
+                                child: Image.asset('assets/uniform/${index+1}.jpg',fit: BoxFit.cover,)
                             ),
                           ),
                           Padding(
@@ -104,7 +90,7 @@ class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
                               children: [
                                 ReusableText(text: stationaryText[index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
                                 SizedBox(height: dimensions.height10*2,),
-                                ReusableText(text: stationarySubText[index], fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
+                                ReusableText(text: 'Min 50% Off', fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
                               ],
                             ),
                           )

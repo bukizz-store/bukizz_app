@@ -43,6 +43,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     '18 Notebook Set',
     '@ Rs. 200/-'
   ];
+  List routes=[ViewAll.route,ViewAll.route,ViewAll.route,ViewAllStationaryScreen.route,ViewAllStationaryScreen.route];
 
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
@@ -155,10 +156,15 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         height: dimensions.height10*6.5,
                         child: Column(
                           children: [
-                            CircleAvatar(
-                                radius: dimensions.height48 / 2,
-                                backgroundColor: Color(0xFFCCE8FF),
-                                child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',fit: BoxFit.cover,)
+                            GestureDetector(
+                              onTap:(){
+                                Navigator.pushNamed(context, routes[index]);
+                              },
+                              child: CircleAvatar(
+                                  radius: dimensions.height48 / 2,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',fit: BoxFit.cover,)
+                              ),
                             ),
                             SizedBox(
                               height: dimensions.height8,
@@ -235,7 +241,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         onTap: () {
                           schoolData.setSchoolName(schoolData.schoolData[index].name, schoolData.schoolData[index].schoolId);
                           context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
-                          Navigator.pushNamed(context, ProductScreen.route);
+                          Navigator.pushNamed(context, TabScreen.route);
                         },
                         //
                         child: Stack(
@@ -435,7 +441,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       children: [
                         GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, ViewAllSchoolScreen.route);
+                              Navigator.pushNamed(context, ViewAllStationaryScreen.route);
                             },
                             child: ReusableText(
                               text: 'View all',

@@ -42,9 +42,9 @@ class RouteGenerator{
         return MaterialPageRoute(
           builder: (_) => Cart(),
         );
-      case ProductScreen.route:
+      case TabScreen.route:
         return MaterialPageRoute(
-          builder: (_) => ProductScreen(),
+          builder: (_) => TabScreen()
         );
 
       case ProductDescriptionScreen.route:
@@ -103,9 +103,9 @@ class RouteGenerator{
         return MaterialPageRoute(
           builder: (_) =>  ContactUsScreen(),
         );
-      case ViewAllSchoolScreen.route:
+      case ViewAllStationaryScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  ViewAllSchoolScreen(),
+          builder: (_) =>  ViewAllStationaryScreen(),
         );
       default:
         return _errorRoute();
