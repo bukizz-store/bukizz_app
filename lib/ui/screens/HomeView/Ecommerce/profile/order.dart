@@ -46,8 +46,8 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
               Container(
                   padding: EdgeInsets.symmetric(
-                      horizontal: dimensions.width24 / 4,
-                      vertical: dimensions.height8 / 2),
+                      horizontal: dimensions.width24/2 ,
+                      vertical: dimensions.height8 ),
                   width: dimensions.screenWidth,
                   height: dimensions.height10 *
                       23 *
@@ -121,7 +121,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     ),
                                     SizedBox(width: dimensions.width16),
                                     SizedBox(
-                                      width: dimensions.width10 * 25.2,
+                                      width: dimensions.width10 * 23.2,
                                       child: const Text(
                                         'Your product English Book Set - Wisdom World School - Class 1st is delivered',
                                         style: TextStyle(
@@ -135,55 +135,29 @@ class _OrderScreenState extends State<OrderScreen> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: dimensions.height8 * 2),
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, KnowMoreScreen.route);
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                          shape: const RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              color: Color(0xFF00579E),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                              dimensions.width10 * 4)),
-                                      child: ReusableText(
-                                        text: 'Know More',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF7A7A7A),
+                                SizedBox(height: dimensions.height8 * 3),
+                                GestureDetector(
+                                  onTap: (){},
+                                  child: Container(
+                                    width: dimensions.width10*34.5,
+                                    height: dimensions.height10*3.5,
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(width: 0.50, color: Color(0xFF7A7A7A)),
+                                        borderRadius: BorderRadius.circular(6),
                                       ),
                                     ),
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, RatingsScreen.route);
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                          shape: const RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              color: Color(0xFF00579E),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                              dimensions.width10 * 4)),
-                                      child: ReusableText(
-                                        text: 'Add Review',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF7A7A7A),
-                                      ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        ReusableText(text:  'View Order', fontSize: 14,color: Color(0xFF7A7A7A),fontWeight: FontWeight.w600,)
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
