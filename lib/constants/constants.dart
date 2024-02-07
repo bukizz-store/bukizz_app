@@ -7,7 +7,7 @@ enum userType{
 }
 
 enum deliveryStatus{
-  Pending , Delivered , Cancelled
+  Ordered , Shipped , Delivered
 }
 
 class AppConstants{

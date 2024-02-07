@@ -52,7 +52,7 @@ class OrderModel {
       saleAmount: map['saleAmount'] ?? 0,
       cartData: map['cartData'] ?? {},
       address: Address.fromMap(map['address']),
-      status: map['status'] ?? deliveryStatus.Pending,
+      status: map['status'] ?? deliveryStatus.Ordered.toString(),
       reviewId: map['reviewId'] ?? '',
     );
   }
