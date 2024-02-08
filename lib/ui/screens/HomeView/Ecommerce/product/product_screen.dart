@@ -112,27 +112,3 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 }
-// Card(
-// // You can customize the appearance of each grid item using Card, Container, or any other widget
-// elevation: 4.0,
-// child: Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Column(
-// mainAxisAlignment: MainAxisAlignment.center,
-// crossAxisAlignment: CrossAxisAlignment.center,
-// children: [
-// Text(product.name, style: TextStyle(fontSize: 16.0)),
-// SizedBox(height: 8.0),
-// Text('Rs ${product.price.toStringAsFixed(2)}',
-// style: TextStyle(fontSize: 14.0, color: Colors.green)),
-// ],
-// ),
-// ),
-// );
-// },
-// ),
-// );
-// }
-// }
-
-

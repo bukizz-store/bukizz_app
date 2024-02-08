@@ -7,7 +7,7 @@ import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import '../main_screen.dart';
 import '../profile/add_rating.dart';
-import '../profile/know_more.dart';
+import '../profile/contact_for_query.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
