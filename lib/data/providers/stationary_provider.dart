@@ -1,6 +1,9 @@
 import 'package:bukizz/data/models/ecommerce/stationary/stationary_model.dart';
+import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StationaryProvider extends ChangeNotifier {
 
@@ -22,8 +25,9 @@ class StationaryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchStationaryItems() async {
+  Future<void> fetchStationaryItems(BuildContext context) async {
     setStationaryLoaded(false);
+    context.read<CartProvider>().loadCartData(context);
     await FirebaseFirestore.instance
         .collection('products')
         .where('categoryId', isEqualTo: 'ST')

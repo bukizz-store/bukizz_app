@@ -9,10 +9,12 @@ class OrderModel {
   String orderId;
   String userId;
   String orderDate;
+  String orderName;
   double totalAmount;
   double saleAmount;
   Address address;
   Map<String , dynamic> cartData;
+  int cartLength;
   String status;
   String reviewId;
   
@@ -21,10 +23,12 @@ class OrderModel {
     required this.orderId,
     required this.userId,
     required this.orderDate,
+    required this.orderName,
     required this.totalAmount,
     required this.saleAmount,
     required this.cartData,
     required this.address,
+    required this.cartLength,
     required this.status,
     this.reviewId = '',
   });
@@ -34,11 +38,13 @@ class OrderModel {
       'orderId': orderId,
       'userId': userId,
       'orderDate': orderDate,
+      'orderName': orderName,
       'totalAmount': totalAmount,
       'saleAmount': saleAmount,
       'cartData': cartData,
       'address': address.toMap(),
       'status': status,
+      'cartLength' : cartLength,
       'reviewId': reviewId,
     };
   }
@@ -48,8 +54,10 @@ class OrderModel {
       orderId: map['orderId'] ?? '',
       userId: map['userId'] ?? '',
       orderDate: map['orderDate'] ?? '',
+      orderName: map['orderName'] ?? '',
       totalAmount: map['totalAmount'] ?? 0,
       saleAmount: map['saleAmount'] ?? 0,
+      cartLength: map['cartLength'] ?? 0,
       cartData: map['cartData'] ?? {},
       address: Address.fromMap(map['address']),
       status: map['status'] ?? deliveryStatus.Ordered.toString(),
@@ -84,7 +92,7 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(orderId: $orderId, userId: $userId, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address , status: $status)';
+    return 'OrderModel(orderId: $orderId, userId: $userId, orderName: $orderName, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address , status: $status)';
   }
 
   @override
@@ -95,9 +103,11 @@ class OrderModel {
     other.orderId == orderId &&
     other.userId == userId &&
     other.orderDate == orderDate &&
+    other.orderName == orderName &&
     other.totalAmount == totalAmount &&
     other.saleAmount == saleAmount &&
     other.cartData == cartData &&
+    other.cartLength == cartLength &&
     other.address == address &&
     other.status == status;
   }
@@ -108,8 +118,10 @@ class OrderModel {
     userId.hashCode ^
     orderDate.hashCode ^
     totalAmount.hashCode ^
+    orderName.hashCode ^
     saleAmount.hashCode ^
     address.hashCode ^
+    cartLength.hashCode ^
     status.hashCode ^
     cartData.hashCode;
 
@@ -120,9 +132,11 @@ class OrderModel {
       orderId: snap['orderId'],
       userId: snap['userId'],
       orderDate: snap['orderDate'],
+      orderName: snap['orderName'],
       totalAmount: snap['totalAmount'],
       saleAmount: snap['saleAmount'],
       cartData: snap['cartData'],
+      cartLength: snap['cartLength'],
       status: snap['status'],
       address: Address.fromMap(snap['address']),
     );
@@ -136,6 +150,8 @@ class OrderModel {
       'totalAmount': totalAmount,
       'saleAmount': saleAmount,
       'cartData': cartData,
+      'orderName': orderName,
+      'cartLength': cartLength,
       'status': status,
       'address': address,
     };

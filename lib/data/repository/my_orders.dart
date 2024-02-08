@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/ecommerce/order_model.dart';
+import '../models/ecommerce/products/product_model.dart';
 
 class MyOrders with ChangeNotifier{
   List<OrderModel> orders = [];
@@ -23,6 +24,87 @@ class MyOrders with ChangeNotifier{
     notifyListeners();
   }
 
+  late OrderModel _selectedOrderModel ;
+
+  OrderModel get selectedOrderModel => _selectedOrderModel;
+
+  set selectedOrderModel(value)
+  {
+    _selectedOrderModel = value;
+    notifyListeners();
+  }
+  // Map<SchoolName , Map<productId , Map<set , Map<stream , quantity>>>>
+  Map<String , Map<String , Map<int , Map<int , List<dynamic>>>>> selectedOrder = {};
+
+  void setOrder(int index)
+  {
+    selectedOrderModel = orders[index];
+    Map<String , Map<String , Map<int , Map<int , List<dynamic>>>>> productsIdMap = {};
+    selectedOrderModel.cartData.forEach((school, schoolData) {
+      productsIdMap[school] = {};
+      schoolData.forEach((product, productData) {
+        productsIdMap[school]![product] = {};
+        productData.forEach((key1, innerMap) {
+          productsIdMap[school]![product]![int.parse(key1)] = {};
+          innerMap.forEach((key2, value) {
+            productsIdMap[school]![product]![int.parse(key1)]![int.parse(key2)] = value;
+            getCartProduct(product, school , int.parse(key1) , int.parse(key2) ,  value);
+          });
+        });
+      });
+    });
+    selectedOrder = productsIdMap;
+    notifyListeners();
+  }
+
+  bool _isOrderDataLoaded = false;
+  bool get isOrderDataLoaded => _isOrderDataLoaded;
+
+  void setIsOrderDataLoaded(bool value)
+  {
+    _isOrderDataLoaded = value;
+    notifyListeners();
+  }
+
+
+  void getCartProduct(String productId , String schoolName ,int set , int stream ,  List<dynamic> quantity) async {
+    setIsOrderDataLoaded(false);
+    // if (products.any((element) => element.productId != productId)) {
+    ProductModel product = await FirebaseFirestore.instance
+        .collection('products')
+        .where('productId', isEqualTo: productId)
+        .get()
+        .then((value) => ProductModel.fromMap(value.docs.first.data()));
+    addCartData(product, schoolName,set , stream , quantity);
+    // }
+    setIsOrderDataLoaded(true);
+    notifyListeners();
+  }
+
+  List<ProductModel> orderedProduct = [];
+
+
+  void addProduct(ProductModel productModel) {
+    if(!orderedProduct.contains(productModel)){
+      orderedProduct.add(productModel);
+    }
+    notifyListeners();
+  }
+
+
+  void addCartData(ProductModel productModel , String schoolName ,int set , int stream, List<dynamic> quantity) {
+    addProduct(productModel);
+    int length = 0;
+
+    // cartData.forEach((schoolName, productId) {
+    //   productId.forEach((key, set) {
+    //     length = length + set.length;
+    //   });
+    // });
+
+    // setCartVal(length);
+    notifyListeners();
+  }
 
   //Create a method to fetch data of orders from firebase with having the docs as the user have placed the order
   // and then set the orders list with the fetched data
@@ -32,9 +114,13 @@ class MyOrders with ChangeNotifier{
     await FirebaseFirestore.instance.collection('orderDetails').where('orderId' , whereIn: AppConstants.userData.orderID).get().then((value) {
       value.docs.forEach((element) {
         tempOrders.add(OrderModel.fromMap(element.data()));
+        print(element.data());
+        // Map<String, dynamic> map = element.data()['cartData'];
       });
     });
     setOrders(tempOrders);
+
+
     setIsOrdersLoaded(true);
     notifyListeners();
   }

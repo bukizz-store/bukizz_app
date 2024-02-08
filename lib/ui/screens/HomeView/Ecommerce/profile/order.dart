@@ -55,7 +55,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           (4),
                       color: Colors.white,
                       child: ListView.builder(
-                          itemCount:4,
+                          itemCount:orderData.orders.length,
                           physics: NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) {
@@ -65,7 +65,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                   ),
                               child: Container(
                                 width: dimensions.width10 * 39.3,
-                                height: dimensions.height10 * 20,
+                                // height: dimensions.height10 * 20,
                                 child: Column(
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
@@ -101,12 +101,12 @@ class _OrderScreenState extends State<OrderScreen> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: dimensions.height8,),
-                                            ReusableText(text: '3 items', fontSize: 12),
+                                            ReusableText(text: '${orderData.orders[index].cartLength} items', fontSize: 12),
                                             SizedBox(height: dimensions.height10,),
                                             SizedBox(
                                               width: dimensions.width10 * 25.2,
-                                              child: const Text(
-                                                'Your product English Book Set - Wisdom World School - Class 1st is delivered',
+                                              child: Text(
+                                                orderData.orders[index].orderName,
                                                 style: TextStyle(
                                                   color: Color(0xFF444444),
                                                   fontSize: 12,
@@ -117,7 +117,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               ),
                                             ),
                                             SizedBox(height: dimensions.height10,),
-                                            ReusableText(text: 'Ordered On: 24/03/2024', fontSize: 12,color: Color(0xFFA5A5A5),fontWeight: FontWeight.w500,),
+                                            ReusableText(text: 'Ordered On: ${orderData.orders[index].orderDate.substring(0,10)}', fontSize: 12,color: Color(0xFFA5A5A5),fontWeight: FontWeight.w500,),
                                           ],
                                         ),
                                       ],
@@ -125,6 +125,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     SizedBox(height: dimensions.height8 * 3),
                                     GestureDetector(
                                       onTap: (){
+                                        orderData.setOrder(index);
                                         Navigator.pushNamed(context, OrderDetailsScreen.route);
                                       },
                                       child: Container(

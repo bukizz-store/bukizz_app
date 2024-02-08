@@ -14,9 +14,11 @@ class OrderViewRespository extends ChangeNotifier {
     orderId: '',
     userId: AppConstants.userData.uid,
     orderDate: DateTime.now().toIso8601String(),
+    orderName: '',
     totalAmount: 0,
     saleAmount: 0,
     cartData: {},
+    cartLength: 0,
     address: AppConstants.userData.address,
     status: deliveryStatus.Ordered.toString(),
     reviewId: '',
@@ -37,7 +39,7 @@ class OrderViewRespository extends ChangeNotifier {
   OrderModel get getOrderModel => orderModel;
 
   void setOrderModelData(double totalAmount, double saleAmount,
-      Map<String , dynamic> cartData) {
+      Map<String , dynamic> cartData , int cartLength , String orderName) {
 
     orderModel = OrderModel(
         orderId: uuid.v1(),
@@ -45,8 +47,10 @@ class OrderViewRespository extends ChangeNotifier {
         orderDate: DateTime.now().toIso8601String(),
         totalAmount: totalAmount,
         saleAmount: saleAmount,
+        orderName: orderName,
         cartData: cartData,
         address: getUserAddress,
+        cartLength: cartLength,
         status: deliveryStatus.Ordered.toString(),
         reviewId: ''
     );

@@ -123,16 +123,11 @@ class SchoolDataProvider extends ChangeNotifier {
 
   void loadData(BuildContext context) async {
   var stationaryData = Provider.of<StationaryProvider>(context, listen: false);
-  var cartData = Provider.of<CartProvider>(context, listen: false);
     await Future.delayed(Duration.zero, () {
       setIsSchoolDataLoaded(false);
     });
-    stationaryData.fetchStationaryItems();
-  if(!context.mounted)
-    {
-      return;
-    }
-    cartData.loadCartData(context);
+    stationaryData.fetchStationaryItems(context);
+
     AppConstants.locationSet.isNotEmpty ? await FirebaseFirestore.instance
         .collection('schools').where('city', whereIn: AppConstants.locationSet).get()
         .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList()) : await FirebaseFirestore.instance
