@@ -1,18 +1,18 @@
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_for_query.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/order_details.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/queryContact/contact_for_query.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../constants/font_family.dart';
-import '../../../../../data/providers/bottom_nav_bar_provider.dart';
-import '../../../../../utils/dimensions.dart';
+import '../../../../../../constants/font_family.dart';
+import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
+import '../../../../../../utils/dimensions.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../shimmer loading/order shimmer.dart';
+import '../../shimmer loading/order shimmer.dart';
 
 // Import your other dependencies
 
@@ -33,7 +33,7 @@ class _OrderScreenState extends State<OrderScreen> {
     context.read<BottomNavigationBarProvider>();
     Dimensions dimensions = Dimensions(context);
     return Consumer<MyOrders>(builder: (context, orderData, child) {
-      return Scaffold(
+      return orderData.isOrdersLoaded? Scaffold(
         appBar: AppBar(
           title: const Text('My Orders'),
         ),
@@ -167,7 +167,7 @@ class _OrderScreenState extends State<OrderScreen> {
           ),
         )
 
-      );
+      ) : Center(child: CircularProgressIndicator(),);
     });
   }
 }
