@@ -1,15 +1,18 @@
 import 'package:bukizz/data/models/ecommerce/stationary/stationary_model.dart';
+import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StationaryProvider extends ChangeNotifier {
 
-  bool isStationaryLoaded = false;
+  bool _isStationaryLoaded = false;
 
-  bool get getIsStationaryLoaded => isStationaryLoaded;
+  bool get isStationaryLoaded => _isStationaryLoaded;
 
-  setStationaryLoaded(bool value){
-    isStationaryLoaded = value;
+  set isStationaryLoaded(bool value){
+    _isStationaryLoaded = value;
     notifyListeners();
   }
 
@@ -22,8 +25,9 @@ class StationaryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchStationaryItems() async {
-    setStationaryLoaded(false);
+  void fetchStationaryItems(BuildContext context) async {
+    isStationaryLoaded = false;
+    context.read<CartProvider>().loadCartData(context);
     await FirebaseFirestore.instance
         .collection('products')
         .where('categoryId', isEqualTo: 'ST')
@@ -35,7 +39,7 @@ class StationaryProvider extends ChangeNotifier {
       });
       stationaryListItems = stationaryList;
     });
-    setStationaryLoaded(true);
+    isStationaryLoaded = true;
     notifyListeners();
   }
 }

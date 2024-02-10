@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../../../../data/providers/product_provider.dart';
 import '../../../../../../data/providers/school_repository.dart';
 import '../../../../../../data/repository/product_view_repository.dart';
+import '../../../../../../data/repository/review/product_Reviews.dart';
 
 
 class Books extends StatefulWidget {
@@ -52,6 +53,7 @@ class _BooksState extends State<Books> {
                   productView.setSelectedStreamData(0);
                   productView.setTotalSalePrice();
                   productView.setTotalPrice();
+                  context.read<ProductReview>().fetchReviews(product.productId);
                   Navigator.of(context).pushNamed(ProductDescriptionScreen.route);
                 },
                 child: Container(

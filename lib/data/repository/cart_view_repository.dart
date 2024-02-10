@@ -52,6 +52,16 @@ class CartViewRepository extends ChangeNotifier {
     cartData = {};
     products = [];
   }
+  
+  String orderName = 'BookSet';
+  
+  void getProductName()
+  {
+    if(cartData.containsKey('all'))
+      {
+        orderName = '$orderName + Stationary';
+      }
+  }
   // void setCartData(String schoolName , int quantity , String productId){
   //   cartData[schoolName] = CartValue(productId: productId , quantity: quantity);
   //   // print(cartData.toString());

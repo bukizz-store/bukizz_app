@@ -1,15 +1,11 @@
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
+import 'package:bukizz/data/providers/stationary_provider.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/profile_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/providers/bottom_nav_bar_provider.dart';
 import 'Cart/cart_screen.dart';
-import 'Cart/empty_cart_screen.dart';
 import 'categories/CategoryScreen.dart';
 import 'notification/notification_screen.dart';
 

@@ -162,8 +162,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               },
                               child: CircleAvatar(
                                   radius: dimensions.height48 / 2,
-                                  backgroundColor: Color(0xFFCCE8FF),
-                                  child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',fit: BoxFit.cover,)
+                                  // backgroundColor: Color(0xFFCCE8FF),
+                                  child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',alignment: Alignment.center,)
                               ),
                             ),
                             SizedBox(

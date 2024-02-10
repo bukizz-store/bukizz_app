@@ -370,13 +370,17 @@ class _Checkout2State extends State<Checkout2> {
                           productData.forEach((set, setData) {
                             encodedData[school]![product]![set.toString()] = {};
                             setData.forEach((stream, streamData) {
-                              encodedData[school]![product]![set.toString()]![stream.toString()] = streamData;
+                              List<dynamic> temp = [];
+                              temp.add(streamData);
+                              temp.add("");
+                              temp.add(deliveryStatus.Ordered.name);
+                              encodedData[school]![product]![set.toString()]![stream.toString()] = temp;
                             });
                           });
                         });
                       });
 
-                      context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData);
+                      context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData ,cartData.cart_val , cartData.orderName);
                       context
                           .read<CartViewRepository>()
                           .setTotalPrice(totalPrice.toInt());
@@ -606,5 +610,4 @@ class _Checkout2State extends State<Checkout2> {
     });
     return list;
   }
-
 }

@@ -9,8 +9,9 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_review.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/know_more.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/order.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/queryContact/contact_for_query.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
@@ -85,6 +86,10 @@ class RouteGenerator{
       case OrderScreen.route:
         return MaterialPageRoute(
           builder: (_) => const OrderScreen(),
+        );
+      case OrderDetailsScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => const OrderDetailsScreen(),
         );
       case KnowMoreScreen.route:
         return MaterialPageRoute(

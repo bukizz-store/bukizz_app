@@ -1,6 +1,6 @@
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/order.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
