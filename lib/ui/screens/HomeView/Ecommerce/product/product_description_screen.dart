@@ -8,6 +8,7 @@ import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../constants/font_family.dart';
 import '../../../../../data/providers/stationary_provider.dart';
+import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/buttons/product_buttons.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
@@ -501,7 +502,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      print('buy button is tapped');
+                      context
+                          .read<CartViewRepository>()
+                          .setTotalPrice(value.selectedProduct.price.toInt());
+                      context
+                          .read<CartViewRepository>()
+                          .setSalePrice(value.selectedProduct.salePrice.toInt());
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Checkout1()),

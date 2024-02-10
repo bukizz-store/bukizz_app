@@ -59,7 +59,7 @@ class ContactUsScreen extends StatelessWidget {
                   width: dimensions.width342,
                   child: GestureDetector(
                     onTap: () async {
-                      Uri phoneno = Uri.parse('tel:99995550');
+                      Uri phoneno = Uri.parse('tel:+919369467134');
                       await launchUrl(phoneno);
 
 
@@ -78,7 +78,7 @@ class ContactUsScreen extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: '99995550',
+                            text: '+919369467134',
                             style: TextStyle(
                               color: Color(0xFF00579E),
                               fontSize: 14,
@@ -97,7 +97,7 @@ class ContactUsScreen extends StatelessWidget {
                   width: dimensions.width342,
                   child:   GestureDetector(
                     onTap: () async {
-                      Uri email = Uri.parse('mailto:<xyz@gmail.com>');
+                      Uri email = Uri.parse('mailto:<bukizzstore@gmail.com>');
                       await launchUrl(email);
 
                     },
@@ -115,7 +115,7 @@ class ContactUsScreen extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: 'xyz@gmail.com',
+                            text: 'bukizzstore@gmail.com',
                             style: TextStyle(
                               color: Color(0xFF00579E),
                               fontSize: 14,

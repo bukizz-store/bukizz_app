@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../utils/dimensions.dart';
 import '../../../../../../widgets/buttons/Reusable_Button.dart';
+import '../../tick_screen/tick.dart';
 
 class KnowMoreScreen extends StatefulWidget {
   static const route = '/knowmore';
@@ -115,6 +116,7 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
                     AppConstants.showSnackBar(context, "Please select the Query");
                   }else{
                   queryData.setOrderQuery(messageController.text, dropdownValue!, context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Query Raised Successfully!")));
                 }
               },
               buttonText: 'Submit Query'
