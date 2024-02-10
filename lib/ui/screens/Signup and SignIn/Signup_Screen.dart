@@ -163,14 +163,19 @@ class _SignUpState extends State<SignUp> {
                 ),
 
                 signUpOption(
-                    'Have an account?', 'Sign In', context, SignIn.route),
+                    'Have an account?', 'Sign In', context, SignIn.route,
+                ),
 
                 SizedBox(
                   height: dimensions.height138,
                 ),
 
                 termsAndService('By clicking Register, you agree to our',
-                    'Terms, Data Policy.',(){}),
+                    'Terms, Data Policy.',
+                    (){
+                      showCustomAboutDialog(context);
+                    }
+                ),
               ],
             ),
           ),
@@ -178,4 +183,80 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+}
+
+
+void showCustomAboutDialog(BuildContext context) {
+  Dimensions dimensions=Dimensions(context);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return  AlertDialog(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ReusableText(
+                  text: 'Privacy Policy',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF121212),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: Icon(Icons.close_sharp)
+                )
+              ],
+            ),
+            ReusableText(text: 'Last Updated: 10/02/2024', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFFA5A5A5),),
+          ],
+        ),
+        content: Container(
+          width: dimensions.width10 * 34.5,
+          height: dimensions.height10 * 40.4,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      customTextSpan('Welcome to Bukizz, the mobile application developed and managed by Bukizz. We are committed to protecting the privacy and security of our users\' data. This Privacy Policy outlines the types of information we collect, how we use it, and the measures we take to protect it.\n1. Information Collection\n'),
+                      customTextSpan('Personal Information: We may collect personal information such as your name, email address, phone number, and payment information when you register for our app, make a purchase, or interact with our services.\nUsage Data: We collect information about how you use our app, including the features you use, the time spent on the app, and your location data.\nDevice Information: We collect information from your mobile device, including hardware model, operating system, unique device identifiers, and mobile network information.\n'),
+                      customTextSpan('2. Use of Information\nThe information we collect is used to:\n'),
+                      customTextSpan('Provide, maintain, and improve our services.\nProcess transactions and send related information, including confirmations and invoices.\nSend you technical notices, updates, security alerts, and support messages.\nRespond to your comments, questions, and requests for customer service.\nCommunicate with you about products, services, offers, promotions, and events.\n'),
+                      customTextSpan('3. Sharing of Information\nWe do not share your personal information with third parties except:\n'),
+                      customTextSpan('With your consent.\nFor legal reasons, including to meet any applicable law, regulation, legal process, or enforceable governmental request.\nTo detect, prevent, or otherwise address fraud, security, or technical issues.\n'),
+                      customTextSpan('4. Data Security\nWe implement a variety of security measures to maintain the safety of your personal information. However, no method of transmission over the internet or method of electronic storage is 100% secure.\n5. Your Rights\nYou have the right to access, update, delete, or change your personal information. You can do this directly through your account settings or by contacting us.\n6. Children\'s Privacy\nOur app does not knowingly collect or solicit any information from anyone under the age of 13. If we learn that we have collected personal information from a child under age 13 without parental consent, we will delete that information as quickly as possible.\n7. Changes to This Privacy Policy\nWe may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top.\n8. Contact Us\nIf you have any questions about this Privacy Policy, please contact us at [bukizzstore@gmail.com].'),
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+        ),
+
+      );
+
+    },
+  );
+}
+//
+
+TextSpan customTextSpan(String text) {
+  return TextSpan(
+    text: text,
+    style: const TextStyle(
+      color: Color(0xFF282828),
+      fontSize: 12,
+      fontFamily: 'Nunito',
+      fontWeight: FontWeight.w400,
+      height: 1.5, // Adjust the height as needed
+    ),
+  );
 }
