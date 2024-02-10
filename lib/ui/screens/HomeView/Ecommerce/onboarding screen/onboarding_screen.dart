@@ -92,7 +92,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
         children: [
           Positioned(
             // left: dimensions.width10*11.5,
-            top: animation.value,
+            top: animation.value+dimensions.height10*3,
             child: SvgPicture.asset('assets/logo.svg')
           ),
           Positioned(
