@@ -557,8 +557,7 @@ class _Checkout3State extends State<Checkout3> {
                                 Center(
                                   child: InkWell(
                                     onTap: () {
-                                      orderData
-                                          .pushOrderDataToFirebase(context);
+
                                       upiPayment.setTransactionNote(orderData.orderModel.orderName);
                                       upiPayment.setAmount(orderData.orderModel.saleAmount);
                                       upiPayment.setTransactionRefId(orderData.orderModel.orderId);

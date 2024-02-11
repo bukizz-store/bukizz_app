@@ -1,7 +1,9 @@
 import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/repository/order_view_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:upi_india/upi_india.dart';
 
 import '../../../ui/screens/HomeView/Ecommerce/tick_screen/tick.dart';
@@ -90,6 +92,7 @@ class UPIPayment extends ChangeNotifier {
     switch (status) {
       case UpiPaymentStatus.SUCCESS:
         print('Transaction Successful');
+        context.read<OrderViewRespository>().pushOrderDataToFirebase(context);
         Navigator.push(
             context,
             MaterialPageRoute(
