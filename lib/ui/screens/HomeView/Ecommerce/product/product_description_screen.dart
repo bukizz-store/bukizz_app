@@ -1,6 +1,7 @@
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
 import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,8 @@ class ProductDescriptionScreen extends StatefulWidget {
 }
 
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
+
+  bool productAdded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -390,13 +393,15 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                                     },
                                                   ),
                                                   ReusableText(
-                                                    text: '${1}',
+                                                    text : context.watch<CartProvider>().cartData.containsKey('all') ? context.watch<CartProvider>().cartData['all']!.containsKey(stationaryData.stationaryListItems[index].productId) ? context.watch<CartProvider>().cartData['all']![stationaryData.stationaryListItems[index].productId]![0]![0].toString() : '0' : '0',
+                                                    // text:  context.watch<CartProvider>().cartData['all']!.containsKey(stationaryData.stationaryListItems[index].productId) ? context.watch<CartProvider>().cartData['all']![stationaryData.stationaryListItems[index].productId]![0]![0].toString() : '0',
                                                     fontSize: 12,
                                                     height: 0.10,
                                                   ),
                                                   GestureDetector(
                                                     child: Icon(Icons.add),
                                                     onTap: () async{
+
                                                       // setState(() {
                                                       //   setCartQuantities[index]++;
                                                       // });
@@ -456,13 +461,19 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     onTap: () async{
                       // context.read<CartProvider>().addProductInCart(
                       //     productView.selectedProduct.productId, context);
-                      await context.read<CartProvider>().addProductInCart(
+                      productAdded ?Navigator.of(context).pushNamedAndRemoveUntil(Cart.route, (route) => false) : await context.read<CartProvider>().addProductInCart(
                           schoolData.selectedSchool.name,
                           value.getSelectedSetDataIndex,
                           value.getSelectedStreamDataIndex,
                           1,
                           value.selectedProduct.productId,
                           context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
+
+                      setState(() {
+                        productAdded = true;
+                      });
+
+
 
                       // context.read<CartViewRepository>().setCartData(
                       //     schoolData.schoolName,
@@ -486,7 +497,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ReusableText(
-                            text: 'Add to Cart',
+                            text: productAdded ? 'Go to Cart' :  'Add to Cart',
                             fontSize: 16,
                             height: 0.11,
                             fontWeight: FontWeight.w700,
@@ -502,16 +513,18 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      context
-                          .read<CartViewRepository>()
-                          .setTotalPrice(value.selectedProduct.price.toInt());
-                      context
-                          .read<CartViewRepository>()
-                          .setSalePrice(value.selectedProduct.salePrice.toInt());
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Checkout1()),
-                      );
+
+
+                      // context
+                      //     .read<CartViewRepository>()
+                      //     .setTotalPrice(value.selectedProduct.price.toInt());
+                      // context
+                      //     .read<CartViewRepository>()
+                      //     .setSalePrice(value.selectedProduct.salePrice.toInt());
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => Checkout1()),
+                      // );
                     },
                     child: Container(
                       height: dimensions.height8 * 6,
