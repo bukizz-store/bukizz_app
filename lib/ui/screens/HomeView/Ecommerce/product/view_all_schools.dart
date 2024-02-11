@@ -138,7 +138,7 @@ class _ViewAllState extends State<ViewAll> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      schoolData.setSchoolName(schoolData.schoolData[index].name, schoolData.schoolData[index].schoolId);
+                      schoolData.setSchoolName(foundedSchool[index].name, foundedSchool[index].schoolId);
                       context.read<ProductViewRepository>().getProductData(schoolData.schoolDetails.productsId);
                       Navigator.pushNamed(context, ProductScreen.route);
                     },
@@ -173,7 +173,7 @@ class _ViewAllState extends State<ViewAll> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.network(
-                              schoolData.schoolData[index].banner,
+                              foundedSchool[index].banner,
                               fit: BoxFit.cover,
                               filterQuality: FilterQuality.low,
                               height: dimensions.height151,
@@ -186,7 +186,7 @@ class _ViewAllState extends State<ViewAll> {
                           right: 0,
                           bottom: dimensions.height8*5,
                           child: ReusableText(
-                            text: schoolData.schoolData[index].name,
+                            text: foundedSchool[index].name,
                             fontSize: 14,
                             color: Color(0xFFF9F9F9),
                             fontWeight: FontWeight.w700,
