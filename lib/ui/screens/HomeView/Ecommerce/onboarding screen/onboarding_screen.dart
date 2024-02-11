@@ -4,6 +4,7 @@ import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/buttons/Reusable_Button.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,11 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController animationController;
+  late PageController _pageController;
+  int _currentPage = 0;
+
+  List texts=['Book & Go!', 'Explore & Enroll!', 'Stay Informed, Stay Ahead!'];
+  List subTexts=['Order your school books & essentials, delivered straight home.','Find your dream school, fill forms online, and get ready for success.', 'Track progress, manage fees, and connect with your school – all in one place.'];
 
   @override
   void initState() {
@@ -44,8 +50,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
     Future.delayed(const Duration(seconds: 4), () async {
       await checkCurrentUser();
     });
-  }
 
+    _pageController = PageController(initialPage: 0);
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page! as int;
+      });
+    });
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Access MediaQuery and update animation values
+    Dimensions dimensions = Dimensions(context);
+    animation = Tween<double>(
+      begin: dimensions.height10 * 40,
+      end: dimensions.height10 * 4,
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(0.5, 1.0, curve: Curves.easeOutQuart),
+      ),
+    );
+  }
 
   Future<void> checkCurrentUser() async {
     if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
@@ -135,6 +162,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
           )
       );
     },);
+  }
+
+  Widget _buildOnboardingPage(String imagePath) {
+    Dimensions dimensions=Dimensions(context);
+    return  Container(
+      padding: EdgeInsets.all(dimensions.width10),
+      width: dimensions.width10*30.5,
+      height: dimensions.height10*28.4,
+      clipBehavior: Clip.antiAlias,
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+      ),
+
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: Image.asset(imagePath,fit: BoxFit.cover,)
+      ),
+    );
   }
 
   @override

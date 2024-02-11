@@ -6,7 +6,6 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
