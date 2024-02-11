@@ -59,9 +59,9 @@ class UPIPayment extends ChangeNotifier {
           app: app,
           receiverUpiId: "8545892770@paytm",
           receiverName: 'Sugam Tripathi',
-          transactionRefId: 'TestingUpiIndiaPlugin',
-          transactionNote: 'Not actual. Just an example.',
-          amount: 1.00,
+          transactionRefId: transactionRefId,
+          transactionNote: transactionNote,
+          amount: amount,
         )
         .then((value) => _checkTxnStatus(value.status!, context))
         .catchError((e) {
