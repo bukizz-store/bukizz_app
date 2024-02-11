@@ -1,10 +1,9 @@
+import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/data/models/ecommerce/school_model.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
-import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
-import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../data/providers/school_repository.dart';
 import '../../../../../data/repository/product_view_repository.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
@@ -18,9 +17,35 @@ class ViewAll extends StatefulWidget {
 }
 
 class _ViewAllState extends State<ViewAll> {
+  List<SchoolModel> foundedSchool = [];
+  final TextEditingController _schoolNameController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    foundedSchool = Provider.of<SchoolDataProvider>(context, listen: false).schoolData;
+  }
+
+
+  void _runFilter(String word){
+    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    print(word);
+    List<SchoolModel> results = [];
+    if(word.isEmpty){
+      results = List.from(schoolData.schoolData);
+    }else{
+      //write the logic to search the school name in the list of schoolModel and store the result in results
+      results = schoolData.schoolData.where((element) => element.name.toLowerCase().contains(word.toLowerCase())).toList();
+    }
+    setState(() {
+      foundedSchool = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController formController=TextEditingController();
+
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
@@ -31,16 +56,50 @@ class _ViewAllState extends State<ViewAll> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: dimensions.height8),
-          Padding(
-            padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
-            child: CustomTextForm(
-              width: dimensions.width342,
-              height: dimensions.height8*6,
-              controller: formController,
-              hintText: 'Enter School name (e.g., DAV School)',
-              icon: Icons.search,
-            ),
-          ),
+          // Padding(
+          //   padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
+          //   child: CustomTextForm(
+          //     width: dimensions.width342,
+          //     height: dimensions.height8*6,
+          //     controller: formController,
+          //     hintText: 'Enter School name (e.g., DAV School)',
+          //     icon: Icons.search,
+          //   ),
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Icon(Icons.arrow_back),
+              Padding(
+                padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
+                child:  SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: dimensions.height10 * 4.4,
+                  child: TextField(
+                    onChanged: (value) => _runFilter(value),
+                    controller: _schoolNameController,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search , color: AppColors.productButtonSelectedBorder,),
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: dimensions.height8 * 2),
+                      hintText: 'Enter School name (e.g., DAV School)',
+                      hintStyle: const TextStyle(color: Color(0xFF7A7A7A)),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                            dimensions.height10 * 4.4 / 2),
+                        borderSide: const BorderSide(color: Color(0xFF7A7A7A)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                            dimensions.height10 * 4.4 / 2),
+                        borderSide: const BorderSide(color: Colors.black38),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          //   ],
+          // ),
           SizedBox(height: dimensions.height8*1.5),
           Padding(
             padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
@@ -75,7 +134,7 @@ class _ViewAllState extends State<ViewAll> {
                   crossAxisSpacing: dimensions.width24/3,
                   mainAxisSpacing: dimensions.height8,
                 ),
-                itemCount: schoolData.schoolData.length,
+                itemCount: foundedSchool.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {

@@ -12,7 +12,7 @@ class BottomNavigationBarProvider with ChangeNotifier {
   ];
   int _selectedIndex=0;
 
-  int get selectedIndex=>_selectedIndex;
+  int get selectedIndex => _selectedIndex;
 
   set selectedIndex(int value){
     _selectedIndex=value;

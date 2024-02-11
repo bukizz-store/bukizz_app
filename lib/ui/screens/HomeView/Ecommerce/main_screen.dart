@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/providers/bottom_nav_bar_provider.dart';
+import '../../../../data/providers/school_repository.dart';
 import 'Cart/cart_screen.dart';
 import 'categories/CategoryScreen.dart';
 import 'notification/notification_screen.dart';
@@ -22,42 +23,45 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildCurrentScreen(context),
-      bottomNavigationBar: Consumer<BottomNavigationBarProvider>(
-        builder: (context, provider, child) {
-          return BottomNavigationBar(
+    return Consumer<SchoolDataProvider>(builder: (context , schoolData , child){
+      schoolData.loadData(context);
+      return Scaffold(
+        body: _buildCurrentScreen(context),
+        bottomNavigationBar: Consumer<BottomNavigationBarProvider>(
+          builder: (context, provider, child) {
+            return BottomNavigationBar(
 
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                label: 'Cart',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
-                label: 'Notification',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.category),
-                label: 'Categories',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-            ],
-            unselectedItemColor: Color(0xFFA6A6A6),
-            selectedItemColor: Color(0xFF058FFF),
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped, // Add this line
-          );
-        },
-      ),
-    );
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart),
+                  label: 'Cart',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications),
+                  label: 'Notification',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.category),
+                  label: 'Categories',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+              unselectedItemColor: Color(0xFFA6A6A6),
+              selectedItemColor: Color(0xFF058FFF),
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped, // Add this line
+            );
+          },
+        ),
+      );
+    },);
   }
 
   void _onItemTapped(int index) {

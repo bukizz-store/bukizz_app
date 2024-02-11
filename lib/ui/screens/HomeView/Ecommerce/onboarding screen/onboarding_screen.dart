@@ -57,8 +57,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    return Consumer<SchoolDataProvider>(builder: (context , schoolData , child){
-      schoolData.loadData(context);
       return Scaffold(
           body: Stack(
             alignment: Alignment.center,
@@ -134,7 +132,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
             ],
           )
       );
-    },);
   }
 
   @override

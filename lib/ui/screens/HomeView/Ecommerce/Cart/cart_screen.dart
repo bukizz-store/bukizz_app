@@ -34,20 +34,22 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
-    BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
+    var provider = context.read<BottomNavigationBarProvider>();
     Dimensions dimensions = Dimensions(context);
     print('CartUpdated');
     // var cartData = context.watch<CartViewRepository>();
-    var cartProvider = context.watch<CartProvider>();
+    var cartProvider = context.read<CartProvider>();
+    // cartProvider.loadCartData(context);
     return Consumer<CartViewRepository>(
         builder: (context, cartViewData, child) {
+
+          // print(cartProvider.isCartLoadedProvider);
       // Map<String, Map<String, int>> cartTempData = cartViewData.cartData;
 
       if (cartViewData.getCartData.isEmpty) {
-        return EmptyCart();
-      }
-
-      return Scaffold(
+        return const EmptyCart();
+      }else {
+        return Scaffold(
         appBar: AppBar(
           title: const Text('Cart'),
           leading: IconButton(
@@ -65,9 +67,8 @@ class _CartState extends State<Cart> {
                     SizedBox(
                       height: dimensions.height24 / 2,
                     ),
-
                     //1st container with address info
-                   (AppConstants.userData.address!= '' || AppConstants.userData.address != null) ?  Container(
+                   (AppConstants.userData.address.pinCode.isNotEmpty) ?  Container(
                       height: dimensions.height40 * 2,
                       width: dimensions.screenWidth,
                       color: Colors.white,
@@ -230,6 +231,7 @@ class _CartState extends State<Cart> {
           ),
         ),
       );
+      }
     });
   }
 
