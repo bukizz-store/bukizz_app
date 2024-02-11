@@ -1,8 +1,10 @@
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/review_model.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/tick_screen/tick.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../ui/screens/HomeView/Ecommerce/profile/add_review.dart';
@@ -109,10 +111,6 @@ class ReviewRepository with ChangeNotifier {
         'reviewId': randomReview.reviewId,
       }).then((value) => print('Review ID added to user details')).catchError((e)=>{print(e)});
 
-      if(context.mounted)
-        {
-          AppConstants.showSnackBar(context, "Review Added Successfully");
-        }
       rating = 0;
       productId = '';
       orderId = '';

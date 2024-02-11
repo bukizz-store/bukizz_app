@@ -51,7 +51,8 @@ class _TickScreenState extends State<TickScreen> {
             width: dimensions.width342,
             height: dimensions.height10*5.4,
             onPressed: (){
-              Navigator.pushNamed(context, MainScreen.route);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, MainScreen.route, (Route<dynamic> route) => false);
             },
             buttonText: 'Back to Home'
         ),

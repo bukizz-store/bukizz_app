@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../ui/screens/HomeView/Ecommerce/tick_screen/tick.dart';
 import '../../models/ecommerce/query/order_queryModel.dart';
 
 class OrderQueryRepository extends ChangeNotifier {
@@ -87,11 +89,6 @@ class OrderQueryRepository extends ChangeNotifier {
   Future<void> pushDataToFirebase(BuildContext context) async
   {
     await FirebaseFirestore.instance.collection('orderQuery').doc(orderQuery.queryId).set(orderQuery.toMap()).then((value) => print("Query Added"));
-    if(context.mounted)
-      {
-        AppConstants.showSnackBar(context, "Query Raised Successfully");
-        Navigator.of(context).pop();
-      }
     orderQuery = OrderQuery(queryId: '', userId: '', query: '', contactNo: '', queryType: '', email: '', orderId: '', productName: '', dateTime: '');
 
     notifyListeners();

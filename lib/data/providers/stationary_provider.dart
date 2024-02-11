@@ -7,12 +7,12 @@ import 'package:provider/provider.dart';
 
 class StationaryProvider extends ChangeNotifier {
 
-  bool isStationaryLoaded = false;
+  bool _isStationaryLoaded = false;
 
-  bool get getIsStationaryLoaded => isStationaryLoaded;
+  bool get isStationaryLoaded => _isStationaryLoaded;
 
-  setStationaryLoaded(bool value){
-    isStationaryLoaded = value;
+  set isStationaryLoaded(bool value){
+    _isStationaryLoaded = value;
     notifyListeners();
   }
 
@@ -25,8 +25,8 @@ class StationaryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchStationaryItems(BuildContext context) async {
-    setStationaryLoaded(false);
+  void fetchStationaryItems(BuildContext context) async {
+    isStationaryLoaded = false;
     context.read<CartProvider>().loadCartData(context);
     await FirebaseFirestore.instance
         .collection('products')
@@ -39,7 +39,7 @@ class StationaryProvider extends ChangeNotifier {
       });
       stationaryListItems = stationaryList;
     });
-    setStationaryLoaded(true);
+    isStationaryLoaded = true;
     notifyListeners();
   }
 }

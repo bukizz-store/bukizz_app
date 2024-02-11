@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../utils/dimensions.dart';
+import '../tick_screen/tick.dart';
 
 class ReviewScreen extends StatefulWidget {
   static const route = '/review';
@@ -169,6 +170,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             height: dimensions.height8*6,
             onPressed: (){
               reviewData.setFinalReviewData(messageController.text , '' , '' , context);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Review Submitted!")));
             },
             buttonText: 'Submit Reviews',
           ),
