@@ -78,8 +78,11 @@ class AuthProvider extends ChangeNotifier {
 
         await userDetails.saveToSharedPreferences();
 
-        Navigator.pushNamedAndRemoveUntil(
-            context, LocationScreen.route, (route) => false);
+        if(context.mounted)
+          {
+            Navigator.pushNamedAndRemoveUntil(
+                context, LocationScreen.route, (route) => false);
+          }
       }
       else {
         const snackBar = SnackBar(
@@ -90,6 +93,24 @@ class AuthProvider extends ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
+      // Handle sign-in errors
+      String errorMessage = "An error occurred during sign-in.";
+
+      if (e is FirebaseAuthException) {
+        if (e.code == 'user-not-found') {
+          errorMessage = "No user found with this email.";
+        } else if (e.code == 'wrong-password') {
+          errorMessage = "Incorrect password.";
+        } else {
+          errorMessage = "Error: ${e.message}";
+        }
+      }
+
+      if(context.mounted)
+        {
+          AppConstants.showSnackBar(context, errorMessage);
+          Navigator.of(context).pop();
+        }
       print("Error signing in: $e");
     }
   }
@@ -154,13 +175,18 @@ class AuthProvider extends ChangeNotifier {
         AppConstants.userData = userDetails;
         await userDetails.saveToSharedPreferences();
 
-        Navigator.pushNamedAndRemoveUntil(
-            context, LocationScreen.route, (route) => false);
+        if(context.mounted)
+          {
+            Navigator.pushNamedAndRemoveUntil(
+                context, LocationScreen.route, (route) => false);
+          }
       }
       else {
-        const snackBar = SnackBar(
-          content: Text("Failed to Login"),
-        );
+        if(context.mounted)
+          {
+            AppConstants.showSnackBar(
+                context, "Error signing in with Google. Please try again later");
+        }
       } // if result not null we simply call the MaterialpageRoute,
       // for go to the HomePage scree
       notifyListeners();
@@ -236,8 +262,10 @@ class AuthProvider extends ChangeNotifier {
         }
 
         // Navigate to the home screen
-        Navigator.pushNamedAndRemoveUntil(
-            context, LocationScreen.route, (route) => false);
+        if(context.mounted) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, LocationScreen.route, (route) => false);
+          }
 
         notifyListeners();
       } else {
@@ -249,12 +277,21 @@ class AuthProvider extends ChangeNotifier {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print("Error signing up: $e");
-      const snackBar = SnackBar(
-        content: Text("Failed to Sign Up"),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.of(context).pop();
+      String errorMessage = "An error occurred during sign-up.";
+
+      if (e is FirebaseAuthException) {
+        if (e.code == 'email-already-in-use') {
+          errorMessage = "The email address is already in use.";
+        } else {
+          errorMessage = "Error: ${e.message}";
+        }
+      }
+
+      if(context.mounted)
+        {
+          AppConstants.showSnackBar(context, errorMessage);
+          Navigator.of(context).pop();
+        }
     }
   }
 

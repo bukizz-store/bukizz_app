@@ -75,13 +75,13 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomeScreen();
       case 1:
-        return Cart();
+        return const Cart();
       case 2:
-        return NotificationScreen();
+        return const NotificationScreen();
       case 3:
-        return CategoryScreen();
+        return const CategoryScreen();
       case 4:
-        return ProfileScreen();
+        return const ProfileScreen();
       default:
         return Container();
     }

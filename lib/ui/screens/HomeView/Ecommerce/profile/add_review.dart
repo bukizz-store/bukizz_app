@@ -170,7 +170,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             height: dimensions.height8*6,
             onPressed: (){
               reviewData.setFinalReviewData(messageController.text , '' , '' , context);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Review Submitted!")));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Review Submitted!" , secondaryText: 'Thanks for spending your valuable time!',)));
             },
             buttonText: 'Submit Reviews',
           ),

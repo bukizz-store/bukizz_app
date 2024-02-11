@@ -8,7 +8,8 @@ import '../main_screen.dart';
 
 class TickScreen extends StatefulWidget {
   final String text;
-  const TickScreen({super.key, required this.text});
+  final String secondaryText;
+  const TickScreen({super.key, required this.text , required this.secondaryText});
 
   @override
   State<TickScreen> createState() => _TickScreenState();
@@ -41,7 +42,7 @@ class _TickScreenState extends State<TickScreen> {
           SizedBox(height: dimensions.height10*2,),
           ReusableText(text: widget.text, fontSize: 20,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
           SizedBox(height: dimensions.height10*2,),
-          ReusableText(text: 'Thanks for spending your valuable time!', fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xFF444444),)
+          ReusableText(text: widget.secondaryText, fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xFF444444),)
 
         ],
       ),

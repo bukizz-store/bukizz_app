@@ -116,7 +116,7 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
                     AppConstants.showSnackBar(context, "Please select the Query");
                   }else{
                   queryData.setOrderQuery(messageController.text, dropdownValue!, context);
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Query Raised Successfully!")));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Query Raised Successfully!" , secondaryText: "We will get back to you soon",)));
                 }
               },
               buttonText: 'Submit Query'
