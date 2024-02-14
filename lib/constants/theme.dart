@@ -5,7 +5,7 @@ class AppTheme{
   static ThemeData instance = lightThemeData;
   static ThemeData lightThemeData = ThemeData(
     hintColor: Colors.black,
-    scaffoldBackgroundColor:Color(0xFFE0EFFF),
+    scaffoldBackgroundColor:Color(0xFFF5FAFF),//Color(0xFFE0EFFF)
     splashColor: Colors.transparent,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

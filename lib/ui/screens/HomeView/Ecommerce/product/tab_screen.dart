@@ -27,13 +27,12 @@ class _TabScreenState extends State<TabScreen>
   @override
   void initState() {
     super.initState();
-    // Initialize the TabController in the initState method
+
     tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   void dispose() {
-    // Dispose of the TabController when the widget is disposed
     tabController.dispose();
     super.dispose();
   }

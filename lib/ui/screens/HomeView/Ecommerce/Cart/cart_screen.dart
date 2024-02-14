@@ -275,7 +275,7 @@ class _CartState extends State<Cart> {
                 color: Colors.white,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: dimensions.width24 / 2,
+                    horizontal: dimensions.width24/1.5,
                     vertical: dimensions.height8,
                   ),
                   child: Column(
@@ -291,16 +291,23 @@ class _CartState extends State<Cart> {
                               Container(
                                   width: dimensions.width83,
                                   height: dimensions.height83,
-                                  child: Image.network(cartData.products
-                                      .where(
-                                          (element) => element.productId == product)
-                                      .first
-                                      .image)),
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(cartData.products
+                                        .where(
+                                            (element) => element.productId == product)
+                                        .first
+                                        .image),
+                                  )
+                              ),
                               SizedBox(height: dimensions.height8),
                               ReusableQuantityButton(
                                 quantity: quantity,
-                                height: 32,
-                                width: 83,
+                                height: dimensions.height10*3.2,
+                                width: dimensions.width10*8.3,
                                 productId: product,
                                 schoolName: SchoolName,
                                 set: set,
@@ -314,7 +321,7 @@ class _CartState extends State<Cart> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                height: dimensions.height16,
+                                height: dimensions.height16/2,
                               ),
                               //book names
                               SizedBox(
@@ -391,7 +398,7 @@ class _CartState extends State<Cart> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
+                          GestureDetector(
                             onTap: () {
                               print('Remove button pressed');
                               cartData.removeCartData(SchoolName, product , set , stream);
@@ -453,7 +460,7 @@ class _CartState extends State<Cart> {
                         ],
                       ),
                       SizedBox(
-                        height: dimensions.height16,
+                        height: dimensions.height10*2.2,
                       ),
                       const Divider(
                         height: 1.0,

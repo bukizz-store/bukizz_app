@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
-
+List<String> emojiText = [
+  "Books",
+  "Forms",
+  "Uniform",
+  "About School",
+];
 class CustomTabBar2 extends StatefulWidget {
   final TabController tabController;
   final ValueChanged<int>? onIndexChanged;
@@ -22,12 +27,7 @@ class CustomTabBar2 extends StatefulWidget {
 
 class _CustomTabBar2State extends State<CustomTabBar2> {
   int currentIndex = 0;
-  List<String> emojiText = [
-    "Books",
-    "Forms",
-    "Uniform",
-    "About School",
-  ];
+
 
   @override
   void initState() {
@@ -75,7 +75,19 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
               SizedBox(height: dimensions.height16,),
               Container(
                 child: currentIndex == index
-                    ? SvgPicture.asset('assets/tab icons/marker.svg')
+                    ? Container(
+                  width:dimensions.width10*5.8,
+                  height: dimensions.height10*0.6,
+                  decoration: const ShapeDecoration(
+                    color: Color(0xFF00579E),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                )
                     : null,
               )
             ],

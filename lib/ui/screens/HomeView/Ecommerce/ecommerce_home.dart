@@ -1,7 +1,4 @@
-import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
-import 'package:bukizz/data/providers/bottom_nav_bar_provider.dart';
 import 'package:bukizz/data/repository/product_view_repository.dart';
-// import 'package:bukizz_1/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
@@ -10,16 +7,12 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../constants/colors.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
 import '../../../../utils/dimensions.dart';
-import '../../../../widgets/images/Reusable_Card.dart';
-import '../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../widgets/images/Reusable_SliderImage.dart';
 import '../../../../widgets/text and textforms/Reusable_text.dart';
-import 'Cart/cart_screen.dart';
+
 
 class EcommerceMain extends StatefulWidget {
   const EcommerceMain({Key? key}) : super(key: key);
@@ -162,7 +155,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               child: CircleAvatar(
                                   radius: dimensions.height48 / 2,
                                   // backgroundColor: Color(0xFFCCE8FF),
-                                  child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',alignment: Alignment.center,)
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(dimensions.height48 / 2),
+                                      child: SvgPicture.asset('assets/ecommerce home/icons/${index + 1}.svg',alignment: Alignment.center,)
+                                  )
                               ),
                             ),
                             SizedBox(
@@ -474,7 +470,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           print('stationary button tapped');
                         },
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height10/2),
+                          margin: EdgeInsets.symmetric(horizontal: dimensions.width24/1.5,vertical: dimensions.height10/2),
                           width: dimensions.width146,
                           height: dimensions.height10,
                           decoration: ShapeDecoration(
@@ -510,7 +506,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),
+                                padding: EdgeInsets.symmetric(horizontal: dimensions.width24/3,vertical: dimensions.height10*2),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
