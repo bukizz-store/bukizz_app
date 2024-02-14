@@ -178,8 +178,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: dimensions.height24,),
-
+                  SizedBox(height: dimensions.height24/3,),
+                  TextButton(onPressed: (){}, child: ReusableText(text: 'Save Changes', fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF00579E),)),
+                  SizedBox(height: dimensions.height24/2,),
                   //address
                   Container(
                     width: dimensions.screenWidth,
@@ -241,6 +242,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
 
+
+                  SizedBox(height: dimensions.height24/3,),
+
                   SizedBox(height: dimensions.height24*6,),
 
 
@@ -254,16 +258,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bottomNavigationBar:  Padding(
         padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
         child: OutlinedButton(
-          onPressed: () async{
-            var authProvider = Provider.of<AuthProvider>(context, listen: false);
-            AppConstants.isLogin = false;
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setBool('isLogin', false);
-            if(context.mounted)
-              {
-                authProvider.signOut(context);
-                Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
-              }
+          onPressed: () {
+            showCustomAboutDialog(context);
           },
           style: OutlinedButton.styleFrom(
               shape: const RoundedRectangleBorder(
@@ -287,4 +283,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+}
+
+
+
+void showCustomAboutDialog(BuildContext context) {
+  Dimensions dimensions=Dimensions(context);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return  AlertDialog(
+        title: Center(
+          child: Column(
+            children: [
+              ReusableText(text: 'Are You Sure', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
+              SizedBox(height: dimensions.height10*2,),
+              ReusableText(text: 'You are about to logout from the app', fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF444444),),
+            ],
+          ),
+        ),
+        content:Container(
+          // width: dimensions.width10*35.6,
+          height: dimensions.height10*8.5,
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () async{
+                  var authProvider = Provider.of<AuthProvider>(context, listen: false);
+                  AppConstants.isLogin = false;
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setBool('isLogin', false);
+                  if(context.mounted)
+                  {
+                    authProvider.signOut(context);
+                    Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
+                  }
+                },
+                child: Container(
+                  width: dimensions.width10*11.5,
+                  height: dimensions.height10*3.5,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  child: Center(
+                    child: ReusableText(text: 'Logout', fontSize: 14,fontWeight: FontWeight.w600, color: Color(0xFF00579E),),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: dimensions.width10*11.5,
+                  height: dimensions.height10*3.5,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF058FFF),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  ),
+                  child: Center(
+                    child: ReusableText(text: 'Cancel', fontSize: 14,fontWeight: FontWeight.w600, color:Colors.white,),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+
+      );
+
+    },
+  );
 }

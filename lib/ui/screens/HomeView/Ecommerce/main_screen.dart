@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
                   label: 'Notification',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.category),
+                  icon: Icon(Icons.grid_view_rounded),
                   label: 'Categories',
                 ),
                 BottomNavigationBarItem(
@@ -56,7 +56,8 @@ class _MainScreenState extends State<MainScreen> {
               unselectedItemColor: Color(0xFFA6A6A6),
               selectedItemColor: Color(0xFF058FFF),
               currentIndex: _selectedIndex,
-              onTap: _onItemTapped, // Add this line
+              onTap: _onItemTapped,
+              showUnselectedLabels: true,
             );
           },
         ),
