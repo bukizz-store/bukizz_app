@@ -55,7 +55,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         parent: animationController,
         curve:
             const Interval(intervalStart, intervalEnd, curve: Curves.easeOutQuart)));
-
     navigateToNext();
   }
 
@@ -70,6 +69,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         _currentPage = _pageController.page?.toInt() ?? 0;
       });
     });
+  }
+  Future<void> checkCurrentUser() async {
+    if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
+      context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+      Navigator.pushNamedAndRemoveUntil(
+          context, MainScreen.route, (Route<dynamic> route) => false);
+    }
   }
 
   @override
@@ -88,18 +94,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-  Future<void> checkCurrentUser() async {
-    if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, MainScreen.route, (Route<dynamic> route) => false);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    schoolData.loadData(context);
     return Scaffold(
         body: Stack(
       alignment: Alignment.center,
@@ -189,7 +187,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       width: dimensions.width342,
                       height: dimensions.height16*3.5,
                       onPressed: () {
-                        Navigator.pushNamed(context, SignIn.route);
+                        Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (Route<dynamic> route) => false);
                       },
                       buttonText: 'Get Started',
                     )

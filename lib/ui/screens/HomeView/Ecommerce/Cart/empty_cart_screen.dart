@@ -53,8 +53,7 @@ class _EmptyCartState extends State<EmptyCart> {
               ),
                ElevatedButton(
                   onPressed: (){
-                    Navigator.pushReplacementNamed(context,MainScreen.route);
-                    provider.selectedIndex=0;
+                    context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
                   },
                    style: ElevatedButton.styleFrom(
                      backgroundColor: Colors.transparent,

@@ -12,7 +12,7 @@ import '../../../../../widgets/circle/custom circleAvatar.dart';
 
 
 class Checkout1 extends StatefulWidget {
-  static const route = '/checkout1';
+  static const String  route = '/checkout1';
   const Checkout1({super.key});
 
   @override

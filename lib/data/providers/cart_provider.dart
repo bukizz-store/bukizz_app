@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/constants/shared_pref_helper.dart';
 import 'package:bukizz/data/repository/cart_view_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,10 @@ class CartProvider extends ChangeNotifier {
   void blankCart() async{
     cartData = {};
     await storeCartData();
+    notifyListeners();
   }
 
-  Future<void> addProductInCart(String schoolName,int set , int stream , int quantity, String productId, BuildContext context) async {
+  Future addProductInCart(String schoolName,int set , int stream , int quantity, String productId, BuildContext context) async {
     setCartLoaded(false);
 
     cartData.putIfAbsent(schoolName, () => {});
@@ -50,7 +52,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeCartData(String schoolName, String productId , int set , int stream, BuildContext context) async{
+  Future removeCartData(String schoolName, String productId , int set , int stream, BuildContext context) async{
 
     if(cartData[schoolName]![productId]![set]!.length == 1){
       cartData[schoolName]![productId]!.remove(set);
@@ -79,7 +81,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSingleCartData(String schoolName , String productId , BuildContext context ,int set , int stream, int quantity) async{
+  Future removeSingleCartData(String schoolName , String productId , BuildContext context ,int set , int stream, int quantity) async{
 
     if(cartData[schoolName]![productId]![set]![stream]! > 1){
       cartData[schoolName]![productId]![set]![stream] = cartData[schoolName]![productId]![set]![stream]! - 1;
@@ -119,11 +121,11 @@ class CartProvider extends ChangeNotifier {
       });
     });
     // cartData.forEach((schoolName, productData) {productData.forEach((product, setData) {setData.forEach((set, streamData) {print(jsonEncode(streamData));});});});
-    await prefs.setString('cartData', jsonEncode(encodedData)).then((value) => print('Cart data stored successfully'));
-    print(prefs.getString('cartData'));
+    await prefs.setString(SharedPrefHelper.cartData, jsonEncode(encodedData)).then((value) => print('Cart data stored successfully'));
+    debugPrint(prefs.getString('cartData'));
   }
   //
-  void loadCartData(BuildContext context) async{
+  Future loadCartData(BuildContext context) async{
     await Future.delayed(Duration.zero, () {
       setCartLoaded(false);
     });
@@ -165,29 +167,4 @@ class CartProvider extends ChangeNotifier {
       setCartLoaded(true);
     });
   }
-}
-
-class CartValue{
-  String productId;
-  int quantity;
-
-  CartValue({required this.productId , required this.quantity});
-
-  Map<String, dynamic> toMap() {
-    return {
-      'productId': productId,
-      'quantity': quantity,
-    };
-  }
-
-  factory CartValue.fromMap(Map<String, dynamic> map) {
-    return CartValue(
-      productId: map['productId'] ?? '',
-      quantity: map['quantity'] ?? 0,
-    );
-  }
-
-  factory CartValue.fromJson(Map<String, dynamic> map) => CartValue.fromMap(map);
-
-  String toJson() => json.encode(toMap());
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../widgets/buttons/Reusable_Button.dart';
-import '../main_screen.dart';
+import '../../ui/screens/HomeView/Ecommerce/main_screen.dart';
 
 class TickScreen extends StatefulWidget {
   final String text;

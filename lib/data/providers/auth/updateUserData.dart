@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateUserData extends ChangeNotifier{
-  Future<void> updateUserAddress(Address address)async {
+  Future updateUserAddress(Address address)async {
   //Make a function to update the address of the user in firebase and also in the shared preferences
     await FirebaseFirestore.instance.collection('userDetails').doc(AppConstants.userData.uid).update({
       'address': address.toMap(),
@@ -23,7 +23,7 @@ class UpdateUserData extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> updateUserAlternateAddress(Address address)async {
+  Future updateUserAlternateAddress(Address address)async {
     //Make a function to update the address of the user in firebase and also in the shared preferences
     await FirebaseFirestore.instance.collection('userDetails').doc(AppConstants.userData.uid).update({
       'alternateAddress': address.toMap(),
@@ -36,7 +36,7 @@ class UpdateUserData extends ChangeNotifier{
     notifyListeners();
   }
 
-  void saveLocationSetToSharedPreferences(List<String> locations) async {
+  Future saveLocationSetToSharedPreferences(List<String> locations) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setStringList('locationSet', locations);
     AppConstants.locationSet = prefs.getStringList('locationSet')! ?? [];

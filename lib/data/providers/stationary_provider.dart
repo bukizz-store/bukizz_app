@@ -27,7 +27,7 @@ class StationaryProvider extends ChangeNotifier {
 
   void fetchStationaryItems(BuildContext context) async {
     isStationaryLoaded = false;
-    context.read<CartProvider>().loadCartData(context);
+    context.read<CartProvider>().loadCartData(context).then((value) => debugPrint("Cart Data Loaded Successfully"));
     await FirebaseFirestore.instance
         .collection('products')
         .where('categoryId', isEqualTo: 'ST')

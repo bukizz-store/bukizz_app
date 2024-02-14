@@ -12,8 +12,6 @@ import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../utils/dimensions.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../shimmer loading/order shimmer.dart';
-
 // Import your other dependencies
 
 class OrderScreen extends StatefulWidget {

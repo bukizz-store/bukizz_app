@@ -35,7 +35,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -44,8 +43,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushNamed(context, MainScreen.route);
-            provider.selectedIndex = 0;
+            // Navigator.pushNamed(context, MainScreen.route);
+            context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
           },
         ),
       ),

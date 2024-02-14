@@ -12,6 +12,7 @@ import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import 'package:geolocator/geolocator.dart';
 
 class AddAddress extends StatefulWidget {
+  static const String route = '/add_address';
   const AddAddress({super.key});
 
   @override

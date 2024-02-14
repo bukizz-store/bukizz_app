@@ -26,8 +26,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushNamed(context, MainScreen.route);
-            provider.selectedIndex = 0;
+            context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
           },
         ),
       ),

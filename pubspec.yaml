@@ -55,6 +55,8 @@ dependencies:
   shimmer: ^3.0.0
   image_picker: ^1.0.7
   upi_india: ^3.0.1
+  responsive_sizer: ^3.3.0+1
+  firebase_database: ^10.4.5
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +95,7 @@ flutter:
     - assets/school/booksets/
     - assets/school/perticular bookset/
     - assets/cart/
+    - assets/images/
     - assets/ecommerce home/
     - assets/ecommerce home/icons/
     - assets/ecommerce home/tab icons/

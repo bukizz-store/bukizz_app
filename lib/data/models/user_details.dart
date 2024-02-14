@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bukizz/constants/shared_pref_helper.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
@@ -144,11 +145,11 @@ class MainUserDetails {
   // Load user details from shared preferences
   static Future<MainUserDetails?> loadFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? email = prefs.getString('email') ?? '';
-    String? password = prefs.getString('password') ?? '';
-    String? userData = prefs.getString('userData') ?? '';
-    String? uid = prefs.getString('uid') ?? '';
-    AppConstants.locationSet = prefs.getStringList('locationSet') ?? [];
+    String? email = prefs.getString(SharedPrefHelper.email) ?? '';
+    String? password = prefs.getString(SharedPrefHelper.password) ?? '';
+    String? userData = prefs.getString(SharedPrefHelper.userData) ?? '';
+    String? uid = prefs.getString(SharedPrefHelper.uid) ?? '';
+    AppConstants.locationSet = prefs.getStringList(SharedPrefHelper.locationSet) ?? [];
 
     // print(AppConstants.locationSet);
     bool? isLogin = prefs.getBool('isLogin') ?? false;

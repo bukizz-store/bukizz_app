@@ -14,6 +14,7 @@ class ReusableText extends StatelessWidget {
   final TextOverflow overflow;
   final VoidCallback? onTap;
   final int maxLine;
+  final TextAlign textAlign;
 
   ReusableText({
     Key? key,
@@ -26,7 +27,8 @@ class ReusableText extends StatelessWidget {
     this.letterSpacing = -0.72,
     this.overflow = TextOverflow.ellipsis, // Default overflow
     this.onTap,
-    this.maxLine = 1
+    this.maxLine = 1,
+    this.textAlign = TextAlign.start,
   }) : super(key: key);
 
   @override
@@ -37,6 +39,7 @@ class ReusableText extends StatelessWidget {
         text,
         overflow: overflow,
         softWrap: true,
+        textAlign: textAlign,
         style: GoogleFonts.nunito(
           color: color,
           fontSize: fontSize,

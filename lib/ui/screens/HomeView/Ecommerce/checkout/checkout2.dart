@@ -20,6 +20,7 @@ import '../Cart/cart_screen.dart';
 import 'checkout3.dart';
 
 class Checkout2 extends StatefulWidget {
+  static const String  route = '/checkout2';
   const Checkout2({super.key});
 
   @override
@@ -380,7 +381,8 @@ class _Checkout2State extends State<Checkout2> {
                         });
                       });
 
-                      context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData ,cartData.cart_val , cartData.orderName);
+                      context.read<OrderViewRespository>().setData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData ,cartData.cart_val , cartData.orderName);
+                      // context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData ,cartData.cart_val , cartData.orderName);
                       context
                           .read<CartViewRepository>()
                           .setTotalPrice(totalPrice.toInt());

@@ -56,7 +56,7 @@ class StationaryModel {
         productId: map['productId'] ?? 0,
         name: map['name'] ?? '',
         description: map['description'] ?? '',
-        price: map['price'] ?? 0.0,
+        price: (map['price'] ?? 0).toDouble(),
         stockQuantity: map['stockQuantity'] ?? 0,
         categoryId: map['categoryId'] ?? 0,
         image: map['image'] ?? '',

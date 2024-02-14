@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bukizz/data/repository/order_view_repository.dart';
 import 'package:bukizz/data/repository/payments/upi_payments.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
@@ -5,12 +7,14 @@ import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../../../../constants/colors.dart';
 import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import 'package:upi_india/upi_india.dart';
 
 class Checkout3 extends StatefulWidget {
+  static const String route = '/checkout3';
   const Checkout3({super.key});
 
   @override
@@ -494,7 +498,7 @@ class _Checkout3State extends State<Checkout3> {
                   // ),
 
                   //listview builder for the data of upiPayment.apps with the same ui as this upper container have
-                  if (upiPayment.apps!.isNotEmpty)
+                  if (upiPayment.apps.isNotEmpty)
                     Container(
                       width: dimensions.screenWidth,
                       height: dimensions.height8 * 23,
@@ -556,20 +560,18 @@ class _Checkout3State extends State<Checkout3> {
                                   upiPayment.apps[index].name)
                                 Center(
                                   child: InkWell(
-                                    onTap: () {
-
-                                      upiPayment.setTransactionNote(orderData.orderModel.orderName);
-                                      upiPayment.setAmount(orderData.orderModel.saleAmount);
-                                      upiPayment.setTransactionRefId(orderData.orderModel.orderId);
-                                      upiPayment.initiateTransaction(
-                                          upiPayment.apps[index] , context);
+                                    onTap: () async{
+                                      upiPayment.setTransactionRefId(generateTransactionId());
+                                      upiPayment.setTransactionNote(orderData.orderName);
+                                      upiPayment.setAmount(orderData.saleAmount);
+                                      await upiPayment.initiateTransaction(upiPayment.apps[index] , context);
                                     },
                                     child: Container(
                                       alignment: Alignment.center,
                                       width: dimensions.width24 * 12.38,
                                       height: dimensions.height48,
                                       decoration: ShapeDecoration(
-                                        color: Color(0xFF058FFF),
+                                        color: AppColors.productButtonSelectedBorder,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(100),
@@ -596,5 +598,21 @@ class _Checkout3State extends State<Checkout3> {
         );
       },
     );
+  }
+
+  String generateTransactionId() {
+    // Get current timestamp
+    DateTime now = DateTime.now();
+
+    // Generate a random number between 1000 and 9999
+    int random = Random().nextInt(9000) + 1000;
+
+    // Format the timestamp as string (you can customize the format as needed)
+    String timestamp = '${now.microsecondsSinceEpoch}';
+
+    // Combine the timestamp and random number to create a unique transaction ID
+    String transactionId = '${timestamp}_$random';
+
+    return transactionId;
   }
 }
