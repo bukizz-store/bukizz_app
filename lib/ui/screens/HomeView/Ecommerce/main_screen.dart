@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
                   label: 'Notification',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.category),
+                  icon: Icon(Icons.grid_view_rounded),
                   label: 'Categories',
                 ),
                 BottomNavigationBarItem(

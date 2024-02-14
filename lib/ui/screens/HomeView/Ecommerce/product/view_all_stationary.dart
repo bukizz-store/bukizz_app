@@ -66,7 +66,7 @@ class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10/2),
                       decoration: ShapeDecoration(
-                        color: Colors.white,
+                        color: Color(0xFFD6D6D6),
                         shape: RoundedRectangleBorder(
                           side: const BorderSide(
                             width: 0.50,
@@ -89,13 +89,26 @@ class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: dimensions.width10*16.8,
-                            height: dimensions.height10*9.5,
-                            child: ClipRRect(
-                                borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
-                                child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
-                            ),
+                          Stack(
+                            children: [
+                              Opacity(
+                                opacity: 0.5,
+                                child: Container(
+                                  width: dimensions.width10*16.8,
+                                  height: dimensions.height10*9.5,
+                                  child: ClipRRect(
+                                      borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+                                      child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                  left: dimensions.width10*1.9,
+                                  // right: dimensions.width10*3,
+                                  top: dimensions.height10*3.8,
+                                  child: ReusableText(text: 'Out of Stock', fontSize: 20,fontWeight: FontWeight.w700,color: Color(0xFFFC2A2A),)
+                              )
+                            ],
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2,vertical: dimensions.height10*2),

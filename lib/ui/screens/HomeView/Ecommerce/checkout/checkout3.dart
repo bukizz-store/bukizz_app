@@ -25,6 +25,7 @@ class _Checkout3State extends State<Checkout3> {
   String selectedUpiProvider = "google_pay";
   bool drop_down = true;
   bool upi = true;
+  bool cod = true;
 
   @override
   void setState(VoidCallback fn) {
@@ -592,6 +593,70 @@ class _Checkout3State extends State<Checkout3> {
                         },
                       ),
                     ),
+
+                SizedBox(height: dimensions.height10,),
+                Container(
+                  height: dimensions.height24 * 2,
+                  margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.money),
+                          SizedBox(
+                            width: dimensions.width24 / 3,
+                          ),
+                          ReusableText(
+                            text: 'Cash on Delivery',
+                            fontSize: 16,
+                            color: Color(0xFF282828),
+                            fontWeight: FontWeight.w700,
+                          )
+                        ],
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              cod = !cod;
+                            });
+                          },
+                          child: Icon(cod ? Icons.remove : Icons.add,
+                              color: Color(0xFF282828))
+                      ),
+
+
+                    ],
+                  ),
+                ),
+                if(cod)
+                  Center(
+                    child: InkWell(
+                      onTap:  () {
+                        showCustomAboutDialog(context);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: dimensions.width24 * 12.38,
+                        height: dimensions.height48,
+                        decoration: ShapeDecoration(
+                          color: AppColors.productButtonSelectedBorder,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: ReusableText(
+                          text:
+                          'Pay ₹${cartData.getSalePrice + 40}',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+
               ],
             ),
           ),
@@ -599,6 +664,8 @@ class _Checkout3State extends State<Checkout3> {
       },
     );
   }
+
+
 
   String generateTransactionId() {
     // Get current timestamp
@@ -615,4 +682,92 @@ class _Checkout3State extends State<Checkout3> {
 
     return transactionId;
   }
+}
+
+void showCustomAboutDialog(BuildContext context) {
+  Dimensions dimensions=Dimensions(context);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return  AlertDialog(
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: Colors.white,
+          title: Center(
+            child: ReusableText(text: 'Confirm Cash on Delivery Option', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
+          ),
+          content:Container(
+            // width: dimensions.width10*35.6,
+            height: dimensions.height10*15.5,
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Container(
+                  width: dimensions.width10*9.6,
+                  height: dimensions.height10*6.4,
+                  child: Image.asset('assets/payment/cod.jpg',),
+                ),
+                SizedBox(height: dimensions.height10,),
+                SizedBox(
+                  width: dimensions.width10*29.4,
+                  child: const Text(
+                    'You can pay at the time of delivery via Cash/UPI or ATM Card.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF444444),
+                      fontSize: 12,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                SizedBox(height: dimensions.height10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: dimensions.width10*11.5,
+                        height: dimensions.height10*3.5,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFF058FFF),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        ),
+                        child: Center(
+                          child: ReusableText(text: 'Cancel', fontSize: 14,fontWeight: FontWeight.w600, color:Colors.white,),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async{
+
+                      },
+                      child: Container(
+                        width: dimensions.width10*11.5,
+                        height: dimensions.height10*3.5,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        child: Center(
+                          child: ReusableText(text: 'Confirm Order', fontSize: 14,fontWeight: FontWeight.w600, color: Color(0xFF00579E),),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+
+      );
+
+    },
+  );
 }

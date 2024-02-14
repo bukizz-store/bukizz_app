@@ -191,6 +191,7 @@ class _Checkout2State extends State<Checkout2> {
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
                      ReusableText(text: 'Apply Coupon', fontSize: 16,color: Color(0xFF282828),fontWeight: FontWeight.w700,),
+                     SizedBox(height: dimensions.height10*1.5,),
                      Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        crossAxisAlignment: CrossAxisAlignment.center,

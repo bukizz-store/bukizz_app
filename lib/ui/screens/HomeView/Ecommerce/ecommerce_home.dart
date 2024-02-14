@@ -474,7 +474,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           width: dimensions.width146,
                           height: dimensions.height10,
                           decoration: ShapeDecoration(
-                            color: Colors.white,
+                            color: Color(0xFFE8E8E8),
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                 width: 0.50,
@@ -497,13 +497,29 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                width: dimensions.width146,
-                                height: dimensions.height10*9,
-                                child: ClipRRect(
-                                    borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
-                                  child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
-                                ),
+                              Stack(
+                                children: [
+                                  Opacity(
+                                    opacity: 0.5,
+                                    child: Container(
+                                      width: dimensions.width146,
+                                      height: dimensions.height10*9,
+                                      child: ClipRRect(
+                                          borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+                                          child: Image.asset('assets/stationary/${index+1}.jpg',fit: BoxFit.cover,)
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: dimensions.width10*1.7,
+                                    //right: dimensions.width10*2.3,
+                                    top: dimensions.height10*3.8,
+                                    child: Opacity(
+                                        opacity: 1,
+                                        child: ReusableText(text: 'Out of Stock', fontSize: 20,fontWeight: FontWeight.w600,color: Color(0xFFFC2A2A),)
+                                    )
+                                  )
+                                ],
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: dimensions.width24/3,vertical: dimensions.height10*2),
