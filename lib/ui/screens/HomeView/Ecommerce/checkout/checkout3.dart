@@ -634,7 +634,15 @@ class _Checkout3State extends State<Checkout3> {
                   Center(
                     child: InkWell(
                       onTap:  () {
-                        showCustomAboutDialog(context);
+                        showCustomAboutDialog(context ,(){
+                          context.read<OrderViewRespository>().setOrderModelData("cod_${generateTransactionId()}" , context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const TickScreen(
+                                      text: "Ordered Successfully",
+                                      secondaryText: "Your order has been placed successfully")));
+                        });
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -685,7 +693,7 @@ class _Checkout3State extends State<Checkout3> {
   }
 }
 
-void showCustomAboutDialog(BuildContext context) {
+void showCustomAboutDialog(BuildContext context , Function onTap) {
   Dimensions dimensions=Dimensions(context);
   showDialog(
     context: context,
@@ -744,17 +752,7 @@ void showCustomAboutDialog(BuildContext context) {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const TickScreen(
-                              text: 'Order Placed Successfully',
-                              secondaryText: 'Check your notifications for all updates!',
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: (){onTap;},
                       child: Container(
                         width: dimensions.width10*11.5,
                         height: dimensions.height10*3.5,
