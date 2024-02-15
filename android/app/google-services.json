@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "87504596017",
+    "firebase_url": "https://bukizz1-default-rtdb.firebaseio.com",
     "project_id": "bukizz1",
     "storage_bucket": "bukizz1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:87504596017:android:ea0c0af8b65b148ff1f910",
+        "mobilesdk_app_id": "1:87504596017:android:c4ca5486f9da70f0f1f910",
         "android_client_info": {
-          "package_name": "com.example.bukizz"
+          "package_name": "com.bukizz"
         }
       },
       "oauth_client": [
@@ -29,43 +30,13 @@
             {
               "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
               "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:87504596017:android:c678028905b45d1af1f910",
-        "android_client_info": {
-          "package_name": "com.example.bukizz_1"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "87504596017-7vbv5np5lf6d7n3qe1f396a54j6hpbc6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.bukizz_1",
-            "certificate_hash": "5cdefe197e7589bb825a65e43dbaf89210090e88"
-          }
-        },
-        {
-          "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAmx20-mEPRqrJqA-CeTB55DHGQgW0Eswo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
+            },
             {
-              "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
-              "client_type": 3
+              "client_id": "87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bukizz1.RunnerTests"
+              }
             }
           ]
         }
