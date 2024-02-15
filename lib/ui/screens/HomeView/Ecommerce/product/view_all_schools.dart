@@ -73,7 +73,7 @@ class _ViewAllState extends State<ViewAll> {
               Padding(
                 padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
                 child:  SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
+                  width: MediaQuery.of(context).size.width ,
                   height: dimensions.height10 * 4.4,
                   child: TextField(
                     onChanged: (value) => _runFilter(value),
@@ -101,30 +101,7 @@ class _ViewAllState extends State<ViewAll> {
           //   ],
           // ),
           SizedBox(height: dimensions.height8*1.5),
-          // Padding(
-          //   padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
-          //   child: Container(
-          //
-          //     height: dimensions.height8*5.2,
-          //     width: dimensions.width16*8.5,
-          //     decoration: ShapeDecoration(
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(100),
-          //         side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
-          //       ),
-          //     ),
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(12.0),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           ReusableText(text: 'Kurukshetra', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF444444),),
-          //           Icon(Icons.arrow_drop_down,color: Color(0xFF444444),)
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
+
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2, vertical: dimensions.height24/2),

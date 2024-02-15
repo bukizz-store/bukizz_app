@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Container(
               height: dimensions.height16,
-              color: Color(0xFFE0F0FF),
+              color:Color(0xFFF5FAFF),
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),

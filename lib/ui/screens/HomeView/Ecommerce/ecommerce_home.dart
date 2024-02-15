@@ -259,9 +259,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                shadows: const [
+                                shadows:  const [
                                   BoxShadow(
-                                    color: Color(0x4C00579E),
+                                    color: Color(0xFFF5FAFD),
                                     blurRadius: 12,
                                     offset: Offset(0, 4),
                                     spreadRadius: 0,
