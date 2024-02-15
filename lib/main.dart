@@ -13,8 +13,6 @@ void main() async {
   await Firebase.initializeApp();
   MainUserDetails? savedUser =
       await MainUserDetails.loadFromSharedPreferences();
-  // AppConstants.userData = savedUser!;
-
   runApp(
     const MyApp(),
   );
