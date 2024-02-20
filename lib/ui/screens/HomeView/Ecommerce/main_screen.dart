@@ -3,9 +3,11 @@ import 'package:bukizz/data/providers/stationary_provider.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/profile_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../constants/images.dart';
 import '../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../data/providers/school_repository.dart';
 import 'Cart/cart_screen.dart';
@@ -28,35 +30,38 @@ class _MainScreenState extends State<MainScreen> {
       return Scaffold(
         body: _buildCurrentScreen(),
         bottomNavigationBar: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
+              items:<BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: SvgPicture.asset(AppImage.homeIcon,color: context.watch<BottomNavigationBarProvider>().selectedIndex == 0 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart),
+                  icon: SvgPicture.asset(AppImage.cartIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 1 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Cart',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications),
+                  icon: SvgPicture.asset(AppImage.notificationIcon,color: context.watch<BottomNavigationBarProvider>().selectedIndex == 2 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Notification',
+
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.grid_view_rounded),
+                  icon: SvgPicture.asset(AppImage.categoriesIcons, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 3 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Categories',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
+                  icon: SvgPicture.asset(AppImage.profileIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 4 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Profile',
                 ),
+
               ],
               unselectedItemColor: AppColors.schoolTextColor,
-              unselectedFontSize: 8,
-              selectedFontSize: 10,
+              unselectedFontSize: 10,
+              selectedFontSize: 12,
               selectedItemColor: AppColors.productButtonSelectedBorder,
               currentIndex: bottomProvider.selectedIndex,
               showUnselectedLabels: true,
-              onTap: bottomProvider.setSelectedIndex, // Add this line
+              onTap: bottomProvider.setSelectedIndex,
+              type: BottomNavigationBarType.fixed,
             )
       );
     },);
