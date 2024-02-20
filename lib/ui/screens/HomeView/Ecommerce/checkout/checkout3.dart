@@ -752,7 +752,9 @@ void showCustomAboutDialog(BuildContext context , Function onTap) {
                       ),
                     ),
                     GestureDetector(
-                      onTap: (){onTap;},
+                      onTap: (){
+                        onTap();
+                        },
                       child: Container(
                         width: dimensions.width10*11.5,
                         height: dimensions.height10*3.5,

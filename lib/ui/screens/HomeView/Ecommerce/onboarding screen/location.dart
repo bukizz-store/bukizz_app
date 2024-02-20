@@ -160,11 +160,15 @@ class _LocationScreenState extends State<LocationScreen> {
           phone: AppConstants.userData.mobile,
           email: AppConstants.userData.email);
 
-      context.read<UpdateUserData>().updateUserAddress(address);
-
-      context.read<SchoolDataProvider>().loadData(context);
-
-      Navigator.pushNamedAndRemoveUntil(context, MainScreen.route, (route) => false);
+      navigateToPage(address);
     }
+  }
+
+  void navigateToPage(Address address){
+    context.read<UpdateUserData>().updateUserAddress(address);
+
+    context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+
+    Navigator.pushNamedAndRemoveUntil(context, MainScreen.route, (route) => false);
   }
 }

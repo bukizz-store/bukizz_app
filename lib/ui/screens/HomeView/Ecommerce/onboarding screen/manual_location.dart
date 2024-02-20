@@ -213,7 +213,9 @@ class _SelectLocationState extends State<SelectLocation> {
             height: dimensions.height10 * 5.4,
             onPressed: () {
               context.read<UpdateUserData>().saveLocationSetToSharedPreferences(selectedCities.toList());
-              Navigator.pushNamedAndRemoveUntil(context, MainScreen.route ,  (Route<dynamic> route) => false);
+              context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+              Navigator.pushNamedAndRemoveUntil(
+                  context, MainScreen.route, (route) => false);
             },
             buttonText: 'Save Locations'),
       ),
@@ -293,7 +295,7 @@ class _SelectLocationState extends State<SelectLocation> {
   
   void navigatePage(Address address){
     context.read<UpdateUserData>().updateUserAddress(address).then((value) => debugPrint("User Address Updated"));
-    context.read<SchoolDataProvider>().loadData(context).then((value) => "School Data Loaded");
+    context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
     Navigator.pushNamedAndRemoveUntil(
         context, MainScreen.route, (route) => false);
   }

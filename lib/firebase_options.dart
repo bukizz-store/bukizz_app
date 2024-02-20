@@ -61,6 +61,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'bukizz1.appspot.com',
     androidClientId: '87504596017-7vbv5np5lf6d7n3qe1f396a54j6hpbc6.apps.googleusercontent.com',
     iosClientId: '87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com',
-    iosBundleId: 'com.example.bukizz1.RunnerTests',
+    iosBundleId: 'com.bukizz.RunnerTests',
   );
 }
