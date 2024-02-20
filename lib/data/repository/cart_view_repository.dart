@@ -48,6 +48,16 @@ class CartViewRepository extends ChangeNotifier {
   Map<String , Map<String , Map<int , Map<int , int>>>>  get getCartData => cartData;
 
 
+  Map<String , Map<String , Map<int , Map<int , int>>>> _singleCartData = {};
+
+  Map<String , Map<String , Map<int , Map<int , int>>>>  get singleCartData => _singleCartData;
+
+  set singleCartData(value){
+    _singleCartData = value;
+    notifyListeners();
+  }
+
+
   void blankCart() async{
     cartData = {};
     products = [];
@@ -73,6 +83,15 @@ class CartViewRepository extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  bool _isSingleBuyNow = false;
+
+  bool get isSingleBuyNow => _isSingleBuyNow;
+
+  set isSingleBuyNow(value){
+    _isSingleBuyNow = value;
+    notifyListeners();
+  }
+
   void addProduct(ProductModel productModel) {
     if(!products.contains(productModel)){
     products.add(productModel);
@@ -82,22 +101,34 @@ class CartViewRepository extends ChangeNotifier {
 
 
   void addCartData(ProductModel productModel , String schoolName ,int set , int stream, int quantity) {
-    cartData.putIfAbsent(schoolName, () => {});
-    cartData[schoolName]!.putIfAbsent(productModel.productId, () => {});
-    cartData[schoolName]![productModel.productId]!.putIfAbsent(set, () => {});
-    cartData[schoolName]![productModel.productId]![set]!.putIfAbsent(stream, () => 0);
-    cartData[schoolName]![productModel.productId]![set]![stream] = (cartData[schoolName]![productModel.productId]![set]![stream] ?? 0) + quantity;
 
-    addProduct(productModel);
-    int length = 0;
+    if(isSingleBuyNow){
+      singleCartData.clear();
+      singleCartData.putIfAbsent(schoolName, () => {});
+      singleCartData[schoolName]!.putIfAbsent(productModel.productId, () => {});
+      singleCartData[schoolName]![productModel.productId]!.putIfAbsent(set, () => {});
+      singleCartData[schoolName]![productModel.productId]![set]!.putIfAbsent(stream, () => 0);
+      singleCartData[schoolName]![productModel.productId]![set]![stream] = (singleCartData[schoolName]![productModel.productId]![set]![stream] ?? 0) + quantity;
+      addProduct(productModel);
+      setCartVal(1);
+      print(singleCartData);
+    }else{
+      cartData.putIfAbsent(schoolName, () => {});
+      cartData[schoolName]!.putIfAbsent(productModel.productId, () => {});
+      cartData[schoolName]![productModel.productId]!.putIfAbsent(set, () => {});
+      cartData[schoolName]![productModel.productId]![set]!.putIfAbsent(stream, () => 0);
+      cartData[schoolName]![productModel.productId]![set]![stream] = (cartData[schoolName]![productModel.productId]![set]![stream] ?? 0) + quantity;
 
-    cartData.forEach((schoolName, productId) {
-      productId.forEach((key, set) {
-        length = length + set.length;
+      addProduct(productModel);
+      int length = 0;
+
+      cartData.forEach((schoolName, productId) {
+        productId.forEach((key, set) {
+          length = length + set.length;
+        });
       });
-    });
-
-    setCartVal(length);
+      setCartVal(length);
+    }
     notifyListeners();
   }
 
@@ -147,7 +178,7 @@ class CartViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getCartProduct(String productId , String schoolName ,int set , int stream ,  int quantity) async {
+  Future<void> getCartProduct(String productId , String schoolName ,int set , int stream ,  int quantity) async {
     setIsCartLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
       ProductModel product = await FirebaseFirestore.instance
@@ -155,11 +186,13 @@ class CartViewRepository extends ChangeNotifier {
           .where('productId', isEqualTo: productId)
           .get()
           .then((value) => ProductModel.fromMap(value.docs.first.data()));
-      addCartData(product, schoolName,set , stream , quantity);
+    addCartData(product, schoolName,set , stream , quantity);
     // }
     setIsCartLoaded(true);
     notifyListeners();
   }
+
+
 
 }
 

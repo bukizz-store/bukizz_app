@@ -26,7 +26,7 @@ class _Checkout1State extends State<Checkout1> {
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Delivery Address'),
+        title: const Text('Select Delivery Address'),
       ),
       body: SingleChildScrollView(
         child: Column(

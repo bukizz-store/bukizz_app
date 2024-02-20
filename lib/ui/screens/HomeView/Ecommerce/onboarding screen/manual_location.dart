@@ -71,8 +71,8 @@ class _SelectLocationState extends State<SelectLocation> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_back),
-                  Container(
+                  const Icon(Icons.arrow_back),
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: dimensions.height10 * 4.4,
                     child: TextField(

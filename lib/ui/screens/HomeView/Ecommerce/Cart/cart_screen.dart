@@ -199,6 +199,8 @@ class _CartState extends State<Cart> {
                   onTap: () {
                     // print('buy button is tapped');
                     context
+                        .read<CartViewRepository>().isSingleBuyNow = false;
+                    context
                         .read<CartViewRepository>()
                         .setTotalPrice(totalPrice.toInt());
                     context
@@ -357,7 +359,7 @@ class _CartState extends State<Cart> {
                               RichText(
                                 text: TextSpan(
                                   text: "${((price - totalSalePrice)/price *100).round().toString()}% off ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: AppColors.productButtonSelectedBorder,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16,
@@ -431,8 +433,24 @@ class _CartState extends State<Cart> {
                                 )),
                           ),
                           InkWell(
-                            onTap: () {
-                              print('Buy now button pressed');
+                            onTap: () async{
+                              context
+                                  .read<CartViewRepository>().isSingleBuyNow = true;
+                              context
+                                  .read<CartViewRepository>().setTotalPrice(price);
+                              context
+                                  .read<CartViewRepository>().setSalePrice(salePrice.toInt());
+
+                              await context.read<CartViewRepository>().getCartProduct(
+                                product,
+                                SchoolName,
+                                set,
+                                stream,
+                                1,);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Checkout1()),
+                              );
                             },
                             child: ReusableColoredBox(
                                 width: dimensions.width146,
