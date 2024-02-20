@@ -1,4 +1,5 @@
 import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/stationary_products.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
@@ -150,7 +151,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemBuilder: (context, index) {
                     return Container(
                       // color: Colors.green,
-                      padding: EdgeInsets.only(right: dimensions.width10 * 2.4),
+                      padding: EdgeInsets.only(right: dimensions.width10 * 1.6),
                       height: dimensions.height10 * 7.5,
                       child: Column(
                         children: [
@@ -550,14 +551,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          print('stationary button tapped');
+                          Navigator.pushNamed(context, BagViewAll.route);
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: dimensions.width16,bottom: dimensions.height10),
                           width: dimensions.width146,
                           height: dimensions.height10,
                           decoration: ShapeDecoration(
-                            color: Color(0xFFE8E8E8),
+                            color: Colors.white,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                 width: 0.50,
@@ -579,36 +580,17 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Stack(
-                                children: [
-                                  Opacity(
-                                    opacity: 0.5,
-                                    child: Container(
-                                      width: dimensions.width146,
-                                      height: dimensions.height10 * 9,
-                                      child: ClipRRect(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(12),
-                                              topRight: Radius.circular(12)),
-                                          child: Image.asset(
-                                            'assets/stationary/${index + 1}.jpg',
-                                            fit: BoxFit.cover,
-                                          )),
-                                    ),
-                                  ),
-                                  Positioned(
-                                      left: dimensions.width10 * 1.7,
-                                      //right: dimensions.width10*2.3,
-                                      top: dimensions.height10 * 3.8,
-                                      child: Opacity(
-                                          opacity: 1,
-                                          child: ReusableText(
-                                            text: 'Out of Stock',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFFFC2A2A),
-                                          )))
-                                ],
+                              Container(
+                                width: dimensions.width146,
+                                height: dimensions.height10 * 9,
+                                child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12)),
+                                    child: Image.asset(
+                                      'assets/stationary/${index + 1}.jpg',
+                                      fit: BoxFit.cover,
+                                    )),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
