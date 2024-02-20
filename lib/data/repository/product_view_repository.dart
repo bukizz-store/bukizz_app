@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/ui/firebase_sorted_list.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/ecommerce/products/product_model.dart';
@@ -89,6 +90,11 @@ class ProductViewRepository extends ChangeNotifier {
         .get()
         .then((value) =>
             value.docs.map((e) => ProductModel.fromMap(e.data())).toList());
+
+    mergeSort(productData , compare: (ProductModel a , ProductModel b){
+      return(a.classId.toLowerCase()).compareTo(b.classId.toLowerCase());
+    });
+
     setProductLoaded(true);
   }
 }

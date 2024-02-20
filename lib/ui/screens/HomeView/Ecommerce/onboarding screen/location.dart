@@ -13,6 +13,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../constants/font_family.dart';
 import '../../../../../data/models/ecommerce/address/address_model.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LocationScreenState extends State<LocationScreen> {
       body:Stack(
         children: [
         Positioned(
-            top: dimensions.height10*5.3,
+            top: dimensions.height10*7.5,
             left: dimensions.width24,
             right: dimensions.width24,
             child: SizedBox(
@@ -62,17 +63,21 @@ class _LocationScreenState extends State<LocationScreen> {
         Positioned(
           left: dimensions.width24,
           right: dimensions.width24,
-          bottom: dimensions.height10*11.8,
+          bottom: dimensions.height10*10.9,
           child: ReusableElevatedButton(
               width: dimensions.width342,
               height: dimensions.height10 * 5.4,
               onPressed: getLocation,
-              buttonText: 'Enable Device Loaction'),
+              buttonText: 'Enable Device Loaction',
+              fontWeight: FontWeight.w700,
+              fontFamily: FontFamily.nunito.name,
+              fontSize: 17,
+          ),
           ),
         Positioned(
           left: dimensions.width24,
           right: dimensions.width24,
-          bottom: dimensions.height48,
+          bottom: dimensions.height10*4.5,
           child: ReusableElevatedButton(
             width: dimensions.width342,
             height: dimensions.height10 * 5.4,
@@ -84,6 +89,9 @@ class _LocationScreenState extends State<LocationScreen> {
             buttonColor: Color(0xFFE0EFFF),
             textColor: Color(0xFF058FFF),
             borderColor: Color(0xFF058FFF),
+            fontWeight: FontWeight.w700,
+            fontFamily: FontFamily.nunito.name,
+            fontSize: 17,
           ),
         )
       ],

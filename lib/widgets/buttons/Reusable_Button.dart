@@ -1,3 +1,4 @@
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class ReusableElevatedButton extends StatelessWidget {
@@ -36,6 +37,7 @@ class ReusableElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Dimensions dimensions=Dimensions(context);
     return Container(
       width: width,
       height: height,
@@ -56,8 +58,8 @@ class ReusableElevatedButton extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Image.asset(
                   imagePath!,
-                  height: 24, // Adjust the height as needed
-                  width: 24, // Adjust the width as needed
+                  height: dimensions.height24, // Adjust the height as needed
+                  width: dimensions.width24, // Adjust the width as needed
                   // color: textColor,
                 ),
               ),

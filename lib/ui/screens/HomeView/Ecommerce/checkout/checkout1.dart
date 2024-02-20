@@ -120,7 +120,7 @@ class _Checkout1State extends State<Checkout1> {
                         setState(() {
                           selectedAddress = value;
                           context.read<OrderViewRespository>().setUserAddress(AppConstants.userData.address);
-                          print(selectedAddress);
+                          debugPrint(selectedAddress);
                         });
                       },
                     ),
@@ -155,19 +155,23 @@ class _Checkout1State extends State<Checkout1> {
                       ],
                     ),
                     SizedBox(width: dimensions.width16/3,),
-                    Padding(
-                      padding:  EdgeInsets.only(top: dimensions.height8),
-                      child: Container(
-                        width: dimensions.width16*4,
-                        height: dimensions.height8*4.5,
-
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
-                            borderRadius: BorderRadius.circular(6),
+                    GestureDetector(
+                      onTap: (){
+                        // Navigator.of(context).pushNamed(AddAddress.route);
+                      },
+                      child: Padding(
+                        padding:  EdgeInsets.only(top: dimensions.height8),
+                        child: Container(
+                          width: dimensions.width16*4,
+                          height: dimensions.height8*4.5,
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
                           ),
+                          child: Center(child: ReusableText(text: 'Change', fontSize: 14,color: Color(0xFF00579E),fontWeight: FontWeight.w600,),),
                         ),
-                        child: Center(child: ReusableText(text: 'Change', fontSize: 14,color: Color(0xFF00579E),fontWeight: FontWeight.w600,),),
                       ),
                     ),
                   ]

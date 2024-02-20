@@ -1,3 +1,4 @@
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/checkout1.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
@@ -99,6 +100,9 @@ class RouteGenerator{
         return MaterialPageRoute(
           builder: (_) => const RatingsScreen(),
         );
+
+      case AddAddress.route:
+        return MaterialPageRoute(builder: (_) => const AddAddress(),);
 
       case ReviewScreen.route:
         return MaterialPageRoute(
