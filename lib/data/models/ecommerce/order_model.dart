@@ -17,7 +17,7 @@ class OrderModel {
   int cartLength;
   String status;
   String reviewId;
-  
+  String transactionId;
 
   OrderModel({
     required this.orderId,
@@ -30,6 +30,7 @@ class OrderModel {
     required this.address,
     required this.cartLength,
     required this.status,
+    required this.transactionId,
     this.reviewId = '',
   });
 
@@ -46,6 +47,7 @@ class OrderModel {
       'status': status,
       'cartLength' : cartLength,
       'reviewId': reviewId,
+      'transactionId' : transactionId
     };
   }
 
@@ -62,6 +64,7 @@ class OrderModel {
       address: Address.fromMap(map['address']),
       status: map['status'] ?? deliveryStatus.Ordered.toString(),
       reviewId: map['reviewId'] ?? '',
+      transactionId: map['transactionId'] ?? '',
     );
   }
 
@@ -92,7 +95,7 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(orderId: $orderId, userId: $userId, orderName: $orderName, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address , status: $status)';
+    return 'OrderModel(orderId: $orderId, userId: $userId, orderName: $orderName, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address , status: $status , reviewId: $reviewId , transactionId: $transactionId)';
   }
 
   @override
@@ -109,6 +112,8 @@ class OrderModel {
     other.cartData == cartData &&
     other.cartLength == cartLength &&
     other.address == address &&
+    other.transactionId == transactionId &&
+    other.reviewId == reviewId &&
     other.status == status;
   }
 
@@ -123,6 +128,8 @@ class OrderModel {
     address.hashCode ^
     cartLength.hashCode ^
     status.hashCode ^
+    reviewId.hashCode ^
+    transactionId.hashCode ^
     cartData.hashCode;
 
   }
@@ -138,6 +145,8 @@ class OrderModel {
       cartData: snap['cartData'],
       cartLength: snap['cartLength'],
       status: snap['status'],
+      reviewId: snap['reviewId'],
+      transactionId: snap['transactionId'],
       address: Address.fromMap(snap['address']),
     );
   }
@@ -154,6 +163,8 @@ class OrderModel {
       'cartLength': cartLength,
       'status': status,
       'address': address,
+      'reviewId': reviewId,
+      'transactionId': transactionId,
     };
   }
 }

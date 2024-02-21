@@ -121,7 +121,7 @@ class SchoolDataProvider extends ChangeNotifier {
 
 
 
-  void loadData(BuildContext context) async {
+  Future loadData(BuildContext context) async {
   var stationaryData = Provider.of<StationaryProvider>(context, listen: false);
     await Future.delayed(Duration.zero, () {
       setIsSchoolDataLoaded(false);

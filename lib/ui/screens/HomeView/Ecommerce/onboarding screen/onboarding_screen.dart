@@ -1,4 +1,5 @@
 import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
@@ -42,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 3))
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 2300))
           ..addListener(() {
             setState(() {});
           })
@@ -51,11 +52,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         0.5; // Logo displayed for the first half second
     const double intervalEnd =
         1.0; // Button sliding in during the second half second
-    animation = Tween<double>(begin: 400.0, end: 40.0).animate(CurvedAnimation(
+    animation = Tween<double>(begin: 325.0, end: 40.0).animate(CurvedAnimation(
         parent: animationController,
         curve:
             const Interval(intervalStart, intervalEnd, curve: Curves.easeOutQuart)));
-
     navigateToNext();
   }
 
@@ -65,11 +65,19 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     });
 
     _pageController = PageController(initialPage: 0);
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page?.toInt() ?? 0;
-      });
-    });
+    // _pageController.addListener(() {
+    //   setState(() {
+    //     _currentPage = _pageController.page?.toInt() ?? 0;
+    //   });
+    // });
+    //todo why this??
+  }
+  Future<void> checkCurrentUser() async {
+    if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
+      context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+      Navigator.pushNamedAndRemoveUntil(
+          context, MainScreen.route, (Route<dynamic> route) => false);
+    }
   }
 
   @override
@@ -78,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     // Access MediaQuery and update animation values
     Dimensions dimensions = Dimensions(context);
     animation = Tween<double>(
-      begin: dimensions.height10 * 40,
+      begin: dimensions.height10 * 32.5,
       end: dimensions.height10 * 4,
     ).animate(
       CurvedAnimation(
@@ -88,29 +96,23 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-  Future<void> checkCurrentUser() async {
-    if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, MainScreen.route, (Route<dynamic> route) => false);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    schoolData.loadData(context);
     return Scaffold(
+      backgroundColor:  const Color(0xFFF5FAFF),
         body: Stack(
       alignment: Alignment.center,
       children: [
         Positioned(
             // left: dimensions.width10*11.5,
-            top: animation.value + dimensions.height10 * 3,
-            child: SvgPicture.asset('assets/logo.svg')),
+            top: animation.value + dimensions.height10 * 5.9,
+            child: SvgPicture.asset('assets/logo.svg')
+        ),
         Positioned(
             // left: dimensions.width10*2.4,
-            top: animation.value * 2 + dimensions.height10 * 15,
+            top: animation.value * 2 + dimensions.height10 * 14.9,
             child: Column(
               children: [
                 Container(
@@ -132,10 +134,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
                 SizedBox(
-                  height: dimensions.height16,
+                  height: dimensions.height10*2.9,
                 ),
                 SizedBox(
-                  width: dimensions.screenWidth - dimensions.width10 * 2,
+                  width: dimensions.screenWidth,
                   child: Text(
                     texts[_currentPage],
                     textAlign: TextAlign.center,
@@ -149,10 +151,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
                 SizedBox(
-                  height: dimensions.height16,
+                  height: dimensions.height10*2,
                 ),
                 SizedBox(
-                  width: dimensions.screenWidth - dimensions.width10 * 2,
+                  width: dimensions.width10*33.5,
                   child: Text(
                     subTexts[_currentPage],
                     textAlign: TextAlign.center,
@@ -166,7 +168,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
                 SizedBox(
-                  height: dimensions.height10,
+                  height: dimensions.height8,
                 ),
                 DotsIndicator(
                   dotsCount: 3,
@@ -184,14 +186,17 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 !AppConstants.isLogin ?  Positioned(
                     left: dimensions.width10*4,
                     right:dimensions.width10*4,
-                    top: animation.value*5+dimensions.height10*50,
+                    top: animation.value*5+dimensions.height10*51,
                     child: ReusableElevatedButton(
                       width: dimensions.width342,
                       height: dimensions.height16*3.5,
                       onPressed: () {
-                        Navigator.pushNamed(context, SignIn.route);
+                        Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (Route<dynamic> route) => false);
                       },
                       buttonText: 'Get Started',
+                      fontWeight: FontWeight.w700,
+                      fontFamily: FontFamily.nunito.name,
+                      fontSize: 17,
                     )
                 ): Container()
       ],

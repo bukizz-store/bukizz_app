@@ -40,7 +40,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             children: [
               Container(
                 height: dimensions.height16,
-                color: Color(0xFFE0F0FF),
+                color:Color(0xFFF5FAFF),
               ),
               Column(
                 children: [

@@ -23,46 +23,52 @@ class _EmptyCartState extends State<EmptyCart> {
   Widget build(BuildContext context) {
     BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
     Dimensions dimensions=Dimensions(context);
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // SizedBox(height: dimensions.height240,),
-              Container(
-                width: dimensions.width244,
-                height: dimensions.height40*4.5,
-                child: SvgPicture.asset('assets/cart/emptyCart.svg'),
-              ),
-               SizedBox(
-                width: dimensions.width10*22,
-                child: const Text(
-                  'Hmmm... looks like your cart is Empty.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF7A7A7A),
-                    fontSize: 20,
-                    fontFamily: 'Nunito',
-                    fontWeight: FontWeight.w700,
-                    height: 0,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (val){
+        context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+        return ;
+      },
+      child: Scaffold(
+        body: Container(
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // SizedBox(height: dimensions.height240,),
+                Container(
+                  width: dimensions.width244,
+                  height: dimensions.height40*4.5,
+                  child: SvgPicture.asset('assets/cart/emptyCart.svg'),
+                ),
+                 SizedBox(
+                  width: dimensions.width10*22,
+                  child: const Text(
+                    'Hmmm... looks like your cart is Empty.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF7A7A7A),
+                      fontSize: 20,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
                   ),
                 ),
-              ),
-               ElevatedButton(
-                  onPressed: (){
-                    Navigator.pushReplacementNamed(context,MainScreen.route);
-                    provider.selectedIndex=0;
-                  },
-                   style: ElevatedButton.styleFrom(
-                     backgroundColor: Colors.transparent,
-                       side: BorderSide(color: Color(0xFF00579E)),
-                   ),
-                 child: ReusableText(text: 'Keep Exploring', fontSize: 16,color: Color(0xFF00579E),fontWeight: FontWeight.w700,)
-               ),
-            ],
+                 ElevatedButton(
+                    onPressed: (){
+                      context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                    },
+                     style: ElevatedButton.styleFrom(
+                       backgroundColor: Colors.transparent,
+                         side: BorderSide(color: Color(0xFF00579E)),
+                     ),
+                   child: ReusableText(text: 'Keep Exploring', fontSize: 16,color: Color(0xFF00579E),fontWeight: FontWeight.w700,)
+                 ),
+              ],
+            ),
           ),
         ),
       ),

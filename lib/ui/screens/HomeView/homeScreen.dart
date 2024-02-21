@@ -1,4 +1,5 @@
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
+import 'package:bukizz/ui/screens/HomeView/MySchool/comingSoon.dart';
 import 'package:bukizz/ui/screens/HomeView/MySchool/main_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
-
-
-
   @override
   void initState() {
     super.initState();
@@ -45,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         physics: NeverScrollableScrollPhysics(), // Disable swiping
         children: const [
           EcommerceMain(),
-          MySchoolMain(),
+          ComingSoon(),
         ],
       ),
     );

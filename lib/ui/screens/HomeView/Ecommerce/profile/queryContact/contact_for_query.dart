@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../utils/dimensions.dart';
 import '../../../../../../widgets/buttons/Reusable_Button.dart';
-import '../../tick_screen/tick.dart';
+import '../../../../../../widgets/tick_screen/tick.dart';
 
 class KnowMoreScreen extends StatefulWidget {
   static const route = '/knowmore';

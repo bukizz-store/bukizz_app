@@ -71,8 +71,8 @@ class _SelectLocationState extends State<SelectLocation> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_back),
-                  Container(
+                  const Icon(Icons.arrow_back),
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: dimensions.height10 * 4.4,
                     child: TextField(
@@ -200,29 +200,24 @@ class _SelectLocationState extends State<SelectLocation> {
               SizedBox(
                 height: dimensions.height16 * 2,
               ),
-              ReusableElevatedButton(
-                  width: dimensions.width342,
-                  height: dimensions.height10 * 5.4,
-                  onPressed: () {
-                    context.read<UpdateUserData>().saveLocationSetToSharedPreferences(selectedCities.toList());
-                    Navigator.pushNamed(context, MainScreen.route);
-                  },
-                  buttonText: 'Save Locations'),
+
             ],
           ),
         ),
 
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.width24),
+        padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.width9),
         child: ReusableElevatedButton(
             width: dimensions.width342,
-            height: dimensions.height10*5.4,
-            onPressed: (){
-              Navigator.pushNamed(context, MainScreen.route);
+            height: dimensions.height10 * 5.4,
+            onPressed: () {
+              context.read<UpdateUserData>().saveLocationSetToSharedPreferences(selectedCities.toList());
+              context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+              Navigator.pushNamedAndRemoveUntil(
+                  context, MainScreen.route, (route) => false);
             },
-            buttonText: 'Enable Device Loaction'
-        ),
+            buttonText: 'Save Locations'),
       ),
     );
   }
@@ -246,24 +241,7 @@ class _SelectLocationState extends State<SelectLocation> {
 
       if (permission == LocationPermission.denied) {
         // Handle case when permission is not granted by showing a message or UI
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: Color(0xFFE0EFFF),
-              title: Text('Location Permission Denied'),
-              content: Text('Please enable your location or select manually.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
+        showDialogBox();
         return;
       }
     }
@@ -288,11 +266,37 @@ class _SelectLocationState extends State<SelectLocation> {
           pinCode: placemarks.first.postalCode!,
           phone: AppConstants.userData.mobile,
           email: AppConstants.userData.email);
-
-      context.read<UpdateUserData>().updateUserAddress(address);
-      context.read<SchoolDataProvider>().loadData(context);
-      Navigator.pushNamedAndRemoveUntil(
-          context, MainScreen.route, (route) => false);
+      
+      navigatePage(address);
+      
     }
+  }
+  
+  void showDialogBox(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFFE0EFFF),
+          title: Text('Location Permission Denied'),
+          content: Text('Please enable your location or select manually.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  
+  void navigatePage(Address address){
+    context.read<UpdateUserData>().updateUserAddress(address).then((value) => debugPrint("User Address Updated"));
+    context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+    Navigator.pushNamedAndRemoveUntil(
+        context, MainScreen.route, (route) => false);
   }
 }

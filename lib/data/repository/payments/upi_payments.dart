@@ -1,10 +1,11 @@
 import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/repository/order_view_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:upi_india/upi_india.dart';
-
-import '../../../ui/screens/HomeView/Ecommerce/tick_screen/tick.dart';
+import '../../../widgets/tick_screen/tick.dart';
 
 class UPIPayment extends ChangeNotifier {
   String _transactionRefId = '';
@@ -53,18 +54,21 @@ class UPIPayment extends ChangeNotifier {
     notifyListeners();
   }
 
-  void initiateTransaction(UpiApp app, BuildContext context ) async {
+  Future initiateTransaction(UpiApp app, BuildContext context) async {
+    print(transactionRefId);
+
     await _upiIndia
         .startTransaction(
           app: app,
           receiverUpiId: "8545892770@paytm",
-          receiverName: 'Sugam Tripathi',
+          receiverName: "Sugam Tripathi",
           transactionRefId: transactionRefId,
           transactionNote: transactionNote,
           amount: amount,
         )
         .then((value) => _checkTxnStatus(value.status!, context))
         .catchError((e) {
+          debugPrint(e);
       AppConstants.showSnackBar(context, _upiErrorHandler(e));
       Navigator.of(context).pop();
     });
@@ -90,6 +94,7 @@ class UPIPayment extends ChangeNotifier {
     switch (status) {
       case UpiPaymentStatus.SUCCESS:
         print('Transaction Successful');
+        context.read<OrderViewRespository>().setOrderModelData(transactionRefId , context);
         Navigator.push(
             context,
             MaterialPageRoute(

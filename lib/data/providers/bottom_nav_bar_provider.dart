@@ -10,11 +10,12 @@ class BottomNavigationBarProvider with ChangeNotifier {
     NavBar(null, Icons.category),
     NavBar(null, Icons.person),
   ];
+
   int _selectedIndex=0;
 
   int get selectedIndex => _selectedIndex;
 
-  set selectedIndex(int value){
+  void setSelectedIndex(int value){
     _selectedIndex=value;
     notifyListeners();
   }

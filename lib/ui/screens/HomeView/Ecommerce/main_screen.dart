@@ -1,9 +1,13 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/data/providers/stationary_provider.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/profile_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../constants/images.dart';
 import '../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../data/providers/school_repository.dart';
 import 'Cart/cart_screen.dart';
@@ -19,59 +23,53 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SchoolDataProvider>(builder: (context , schoolData , child){
-      schoolData.loadData(context);
+    return Consumer<BottomNavigationBarProvider>(builder: (context , bottomProvider , child){
       return Scaffold(
-        body: _buildCurrentScreen(context),
-        bottomNavigationBar: Consumer<BottomNavigationBarProvider>(
-          builder: (context, provider, child) {
-            return BottomNavigationBar(
-
-              items: const <BottomNavigationBarItem>[
+        body: _buildCurrentScreen(),
+        bottomNavigationBar: BottomNavigationBar(
+              items:<BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: SvgPicture.asset(AppImage.homeIcon,color: context.watch<BottomNavigationBarProvider>().selectedIndex == 0 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart),
+                  icon: SvgPicture.asset(AppImage.cartIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 1 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Cart',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications),
+                  icon: SvgPicture.asset(AppImage.notificationIcon,color: context.watch<BottomNavigationBarProvider>().selectedIndex == 2 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Notification',
+
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.category),
+                  icon: SvgPicture.asset(AppImage.categoriesIcons, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 3 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Categories',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
+                  icon: SvgPicture.asset(AppImage.profileIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 4 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
                   label: 'Profile',
                 ),
+
               ],
-              unselectedItemColor: Color(0xFFA6A6A6),
-              selectedItemColor: Color(0xFF058FFF),
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped, // Add this line
-            );
-          },
-        ),
+              unselectedItemColor: AppColors.schoolTextColor,
+              unselectedFontSize: 10,
+              selectedFontSize: 12,
+              selectedItemColor: AppColors.productButtonSelectedBorder,
+              currentIndex: bottomProvider.selectedIndex,
+              showUnselectedLabels: true,
+              onTap: bottomProvider.setSelectedIndex,
+              type: BottomNavigationBarType.fixed,
+            )
       );
     },);
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
-  Widget _buildCurrentScreen(BuildContext context) {
-    switch (_selectedIndex) {
+  Widget _buildCurrentScreen() {
+    switch (context.watch<BottomNavigationBarProvider>().selectedIndex) {
       case 0:
         return HomeScreen();
       case 1:

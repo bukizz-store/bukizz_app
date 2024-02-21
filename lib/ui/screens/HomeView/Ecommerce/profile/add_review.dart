@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../utils/dimensions.dart';
-import '../tick_screen/tick.dart';
+import '../../../../../widgets/tick_screen/tick.dart';
 
 class ReviewScreen extends StatefulWidget {
   static const route = '/review';

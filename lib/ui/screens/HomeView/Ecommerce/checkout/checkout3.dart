@@ -1,16 +1,21 @@
+import 'dart:math';
+
 import 'package:bukizz/data/repository/order_view_repository.dart';
 import 'package:bukizz/data/repository/payments/upi_payments.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/widgets/tick_screen/tick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../../../../constants/colors.dart';
 import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import 'package:upi_india/upi_india.dart';
 
 class Checkout3 extends StatefulWidget {
+  static const String route = '/checkout3';
   const Checkout3({super.key});
 
   @override
@@ -21,6 +26,7 @@ class _Checkout3State extends State<Checkout3> {
   String selectedUpiProvider = "google_pay";
   bool drop_down = true;
   bool upi = true;
+  bool cod = true;
 
   @override
   void setState(VoidCallback fn) {
@@ -295,37 +301,37 @@ class _Checkout3State extends State<Checkout3> {
                 ),
 
                 //upi
-                Container(
-                  height: dimensions.height24 * 2,
-                  margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/checkout/upi.svg'),
-                          SizedBox(
-                            width: dimensions.width24 / 3,
-                          ),
-                          ReusableText(
-                            text: 'UPI',
-                            fontSize: 16,
-                            color: Color(0xFF282828),
-                            fontWeight: FontWeight.w700,
-                          )
-                        ],
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              upi = !upi;
-                            });
-                          },
-                          child: Icon(upi ? Icons.remove : Icons.add,
-                              color: Color(0xFF282828))),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   height: dimensions.height24 * 2,
+                //   margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           SvgPicture.asset('assets/checkout/upi.svg'),
+                //           SizedBox(
+                //             width: dimensions.width24 / 3,
+                //           ),
+                //           ReusableText(
+                //             text: 'UPI',
+                //             fontSize: 16,
+                //             color: Color(0xFF282828),
+                //             fontWeight: FontWeight.w700,
+                //           )
+                //         ],
+                //       ),
+                //       GestureDetector(
+                //           onTap: () {
+                //             setState(() {
+                //               upi = !upi;
+                //             });
+                //           },
+                //           child: Icon(upi ? Icons.remove : Icons.add,
+                //               color: Color(0xFF282828))),
+                //     ],
+                //   ),
+                // ),
 
                 if (upiPayment.apps.isNotEmpty)
                   // Container(
@@ -494,103 +500,172 @@ class _Checkout3State extends State<Checkout3> {
                   // ),
 
                   //listview builder for the data of upiPayment.apps with the same ui as this upper container have
-                  if (upiPayment.apps!.isNotEmpty)
-                    Container(
-                      width: dimensions.screenWidth,
-                      height: dimensions.height8 * 23,
-                      color: Colors.white,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: dimensions.width24),
-                      padding: EdgeInsets.only(right: dimensions.width16),
-                      child: ListView.builder(
-                        itemCount: upiPayment.apps!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // UPI Provider Selection
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Radio(
-                                        value: upiPayment.apps[index].name,
-                                        groupValue: selectedUpiProvider,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedUpiProvider =
-                                                value.toString();
-                                          });
-                                        },
-                                      ),
-                                      ReusableText(
-                                        text: upiPayment.apps[index].name,
-                                        fontSize: 16,
-                                        color: Color(0xFF282828),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ],
-                                  ),
-                                  Image.memory(
-                                    upiPayment.apps[index].icon,
-                                    width: dimensions.width24 * 3,
-                                    height: dimensions.height8 * 3,
-                                    fit: BoxFit.cover,
-                                    filterQuality: FilterQuality.high,
-                                    cacheHeight: 100,
-                                    cacheWidth: 100,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Icon(Icons.error),
-                                  ),
-                                ],
-                              ),
-                              if (selectedUpiProvider ==
-                                  upiPayment.apps[index].name)
-                                SizedBox(
-                                  height: dimensions.height8 * 1.5,
-                                ),
-                              if (selectedUpiProvider ==
-                                  upiPayment.apps[index].name)
-                                Center(
-                                  child: InkWell(
-                                    onTap: () {
-                                      orderData
-                                          .pushOrderDataToFirebase(context);
-                                      upiPayment.setTransactionNote(orderData.orderModel.orderName);
-                                      upiPayment.setAmount(orderData.orderModel.saleAmount);
-                                      upiPayment.setTransactionRefId(orderData.orderModel.orderId);
-                                      upiPayment.initiateTransaction(
-                                          upiPayment.apps[index] , context);
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      width: dimensions.width24 * 12.38,
-                                      height: dimensions.height48,
-                                      decoration: ShapeDecoration(
-                                        color: Color(0xFF058FFF),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                        ),
-                                      ),
-                                      child: ReusableText(
-                                        text:
-                                            'Pay ₹${cartData.getSalePrice + 40}',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          );
-                        },
+                  // if (upiPayment.apps.isNotEmpty)
+                  //   Container(
+                  //     width: dimensions.screenWidth,
+                  //     height: dimensions.height8 * 23,
+                  //     color: Colors.white,
+                  //     margin:
+                  //         EdgeInsets.symmetric(horizontal: dimensions.width24),
+                  //     padding: EdgeInsets.only(right: dimensions.width16),
+                  //     child: ListView.builder(
+                  //       itemCount: upiPayment.apps!.length,
+                  //       itemBuilder: (context, index) {
+                  //         return Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             // UPI Provider Selection
+                  //             Row(
+                  //               mainAxisAlignment:
+                  //                   MainAxisAlignment.spaceBetween,
+                  //               children: [
+                  //                 Row(
+                  //                   children: [
+                  //                     Radio(
+                  //                       value: upiPayment.apps[index].name,
+                  //                       groupValue: selectedUpiProvider,
+                  //                       onChanged: (value) {
+                  //                         setState(() {
+                  //                           selectedUpiProvider =
+                  //                               value.toString();
+                  //                         });
+                  //                       },
+                  //                     ),
+                  //                     ReusableText(
+                  //                       text: upiPayment.apps[index].name,
+                  //                       fontSize: 16,
+                  //                       color: Color(0xFF282828),
+                  //                       fontWeight: FontWeight.w500,
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //                 Image.memory(
+                  //                   upiPayment.apps[index].icon,
+                  //                   width: dimensions.width24 * 3,
+                  //                   height: dimensions.height8 * 3,
+                  //                   fit: BoxFit.cover,
+                  //                   filterQuality: FilterQuality.high,
+                  //                   cacheHeight: 100,
+                  //                   cacheWidth: 100,
+                  //                   errorBuilder:
+                  //                       (context, error, stackTrace) =>
+                  //                           Icon(Icons.error),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             if (selectedUpiProvider ==
+                  //                 upiPayment.apps[index].name)
+                  //               SizedBox(
+                  //                 height: dimensions.height8 * 1.5,
+                  //               ),
+                  //             if (selectedUpiProvider ==
+                  //                 upiPayment.apps[index].name)
+                  //               Center(
+                  //                 child: InkWell(
+                  //                   onTap: () async{
+                  //                     upiPayment.setTransactionRefId(generateTransactionId());
+                  //                     upiPayment.setTransactionNote(orderData.orderName);
+                  //                     upiPayment.setAmount(orderData.saleAmount);
+                  //                     await upiPayment.initiateTransaction(upiPayment.apps[index] , context);
+                  //                   },
+                  //                   child: Container(
+                  //                     alignment: Alignment.center,
+                  //                     width: dimensions.width24 * 12.38,
+                  //                     height: dimensions.height48,
+                  //                     decoration: ShapeDecoration(
+                  //                       color: AppColors.productButtonSelectedBorder,
+                  //                       shape: RoundedRectangleBorder(
+                  //                         borderRadius:
+                  //                             BorderRadius.circular(100),
+                  //                       ),
+                  //                     ),
+                  //                     child: ReusableText(
+                  //                       text:
+                  //                           'Pay ₹${cartData.getSalePrice + 40}',
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.w700,
+                  //                       color: Colors.white,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //           ],
+                  //         );
+                  //       },
+                  //     ),
+                  //   ),
+
+                SizedBox(height: dimensions.height10,),
+                Container(
+                  height: dimensions.height24 * 2,
+                  margin: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.money),
+                          SizedBox(
+                            width: dimensions.width24 / 3,
+                          ),
+                          ReusableText(
+                            text: 'Cash on Delivery',
+                            fontSize: 16,
+                            color: Color(0xFF282828),
+                            fontWeight: FontWeight.w700,
+                          )
+                        ],
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              cod = !cod;
+                            });
+                          },
+                          child: Icon(cod ? Icons.remove : Icons.add,
+                              color: Color(0xFF282828))
+                      ),
+
+
+                    ],
+                  ),
+                ),
+                if(cod)
+                  Center(
+                    child: InkWell(
+                      onTap:  () {
+                        showCustomAboutDialog(context ,(){
+                          context.read<OrderViewRespository>().setOrderModelData("cod_${generateTransactionId()}" , context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const TickScreen(
+                                      text: "Ordered Successfully",
+                                      secondaryText: "Your order has been placed successfully")));
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: dimensions.width24 * 12.38,
+                        height: dimensions.height48,
+                        decoration: ShapeDecoration(
+                          color: AppColors.productButtonSelectedBorder,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: ReusableText(
+                          text:
+                          'Pay ₹${cartData.getSalePrice + 40}',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
+                  ),
+
               ],
             ),
           ),
@@ -598,4 +673,110 @@ class _Checkout3State extends State<Checkout3> {
       },
     );
   }
+
+
+
+  String generateTransactionId() {
+    // Get current timestamp
+    DateTime now = DateTime.now();
+
+    // Generate a random number between 1000 and 9999
+    int random = Random().nextInt(9000) + 1000;
+
+    // Format the timestamp as string (you can customize the format as needed)
+    String timestamp = '${now.microsecondsSinceEpoch}';
+
+    // Combine the timestamp and random number to create a unique transaction ID
+    String transactionId = '${timestamp}_$random';
+
+    return transactionId;
+  }
+}
+
+void showCustomAboutDialog(BuildContext context , Function onTap) {
+  Dimensions dimensions=Dimensions(context);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return  AlertDialog(
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: Colors.white,
+          title: Center(
+            child: ReusableText(text: 'Confirm Cash on Delivery Option', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
+          ),
+          content:Container(
+            // width: dimensions.width10*35.6,
+            height: dimensions.height10*15.5,
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Container(
+                  width: dimensions.width10*9.6,
+                  height: dimensions.height10*6.4,
+                  child: Image.asset('assets/payment/cod.jpg',),
+                ),
+                SizedBox(height: dimensions.height10,),
+                SizedBox(
+                  width: dimensions.width10*29.4,
+                  child: const Text(
+                    'You can pay at the time of delivery via Cash/UPI or ATM Card.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF444444),
+                      fontSize: 12,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                SizedBox(height: dimensions.height10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: dimensions.width10*11.5,
+                        height: dimensions.height10*3.5,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFF058FFF),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        ),
+                        child: Center(
+                          child: ReusableText(text: 'Cancel', fontSize: 14,fontWeight: FontWeight.w600, color:Colors.white,),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        onTap();
+                        },
+                      child: Container(
+                        width: dimensions.width10*11.5,
+                        height: dimensions.height10*3.5,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        child: Center(
+                          child: ReusableText(text: 'Confirm Order', fontSize: 14,fontWeight: FontWeight.w600, color: Color(0xFF00579E),),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+
+      );
+
+    },
+  );
 }

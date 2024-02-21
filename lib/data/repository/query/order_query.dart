@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../ui/screens/HomeView/Ecommerce/tick_screen/tick.dart';
 import '../../models/ecommerce/query/order_queryModel.dart';
 
 class OrderQueryRepository extends ChangeNotifier {

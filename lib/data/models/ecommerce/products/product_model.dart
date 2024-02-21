@@ -16,6 +16,7 @@ class ProductModel {
   String classId;
   String board;
   int salePrice;
+  String relatilerId;
   List<StreamData> stream;
   List<SetData> set;
   List<dynamic> reviewIdList;
@@ -33,6 +34,7 @@ class ProductModel {
     required this.stream,
     required this.set,
     required this.salePrice,
+    required this.relatilerId,
     required this.reviewIdList
   });
 
@@ -50,6 +52,7 @@ class ProductModel {
       'stream': stream.map((x) => x.toMap()).toList(),
       'set': set.map((x) => x.toMap()).toList(),
       'salePrice': salePrice,
+      'retailerId' : relatilerId,
       'reviewIdList': reviewIdList
     };
   }
@@ -59,12 +62,13 @@ class ProductModel {
       productId: map['productId'] ?? 0,
       name: map['name'] ?? '',
       description: map['description'] ?? '',
-      price: map['price'] ?? 0.0,
+      price: (map['price'] ?? 0).toDouble(),
       stockQuantity: map['stockQuantity'] ?? 0,
       categoryId: map['categoryId'] ?? 0,
       image: map['image'] ?? '',
       classId: map['classId'] ?? '',
       board: map['board'] ?? '',
+      relatilerId: map['retailerId'] ?? '',
       salePrice: map['salePrice'] ?? 0,
       stream: List<StreamData>.from(map['stream']?.map((x) => StreamData.fromMap(x))),
       set: List<SetData>.from(map['set']?.map((x) => SetData.fromMap(x))),

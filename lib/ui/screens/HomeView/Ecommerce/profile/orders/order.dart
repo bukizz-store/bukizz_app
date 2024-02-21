@@ -12,8 +12,6 @@ import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../utils/dimensions.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../shimmer loading/order shimmer.dart';
-
 // Import your other dependencies
 
 class OrderScreen extends StatefulWidget {
@@ -43,7 +41,7 @@ class _OrderScreenState extends State<OrderScreen> {
             children: [
               Container(
                 height: dimensions.height16,
-                color: Color(0xFFE0F0FF),
+                color: Color(0xFFF5FAFF),
               ),
               Column(
                 children: [
@@ -51,8 +49,8 @@ class _OrderScreenState extends State<OrderScreen> {
                       padding: EdgeInsets.only(left: dimensions.width16/2,),
                       width: dimensions.screenWidth,
                       height: dimensions.height10 *
-                          20 *
-                          (4),
+                          19 *
+                          (orderData.orders.length),
                       color: Colors.white,
                       child: ListView.builder(
                           itemCount:orderData.orders.length,
@@ -167,7 +165,7 @@ class _OrderScreenState extends State<OrderScreen> {
           ),
         )
 
-      ) : Center(child: CircularProgressIndicator(),);
+      ) : Scaffold(body: Center(child: CircularProgressIndicator(),));
     });
   }
 }

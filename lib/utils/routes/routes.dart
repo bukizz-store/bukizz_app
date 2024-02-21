@@ -1,3 +1,4 @@
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/checkout1.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
@@ -17,6 +18,8 @@ import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
 import '../../ui/screens/HomeView/Ecommerce/onboarding screen/location.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_description.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
@@ -100,6 +103,9 @@ class RouteGenerator{
           builder: (_) => const RatingsScreen(),
         );
 
+      case AddAddress.route:
+        return MaterialPageRoute(builder: (_) => const AddAddress(),);
+
       case ReviewScreen.route:
         return MaterialPageRoute(
           builder: (_) => const ReviewScreen(),
@@ -111,6 +117,14 @@ class RouteGenerator{
       case ViewAllStationaryScreen.route:
         return MaterialPageRoute(
           builder: (_) =>  ViewAllStationaryScreen(),
+        );
+      case BagViewAll.route:
+        return MaterialPageRoute(
+          builder: (_) =>  BagViewAll(),
+        );
+      case BagDescriptionScreen.route:
+        return MaterialPageRoute(
+          builder: (_) =>  BagDescriptionScreen(),
         );
       default:
         return _errorRoute();

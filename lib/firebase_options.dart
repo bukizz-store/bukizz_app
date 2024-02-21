@@ -17,13 +17,22 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
@@ -43,43 +52,15 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBbEk_1lDMvmMokbp7FVlA8BD1cApJb--M',
-    appId: '1:87504596017:web:ebb439d3c3002b7cf1f910',
-    messagingSenderId: '87504596017',
-    projectId: 'bukizz1',
-    authDomain: 'bukizz1.firebaseapp.com',
-    storageBucket: 'bukizz1.appspot.com',
-    measurementId: 'G-1XQ3QSXWD5',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAmx20-mEPRqrJqA-CeTB55DHGQgW0Eswo',
-    appId: '1:87504596017:android:c678028905b45d1af1f910',
-    messagingSenderId: '87504596017',
-    projectId: 'bukizz1',
-    storageBucket: 'bukizz1.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCkMZGo9aX68TOuMhqrppk1Kq9Qv3Cbxxs',
-    appId: '1:87504596017:ios:69b625da9b8a079df1f910',
-    messagingSenderId: '87504596017',
-    projectId: 'bukizz1',
-    storageBucket: 'bukizz1.appspot.com',
-    androidClientId: '87504596017-7vbv5np5lf6d7n3qe1f396a54j6hpbc6.apps.googleusercontent.com',
-    iosClientId: '87504596017-j7oq74j66apblga91lo8i05gdc5lji1c.apps.googleusercontent.com',
-    iosBundleId: 'com.example.bukizz1',
-  );
-
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCkMZGo9aX68TOuMhqrppk1Kq9Qv3Cbxxs',
     appId: '1:87504596017:ios:e254151ef8e12880f1f910',
     messagingSenderId: '87504596017',
     projectId: 'bukizz1',
+    databaseURL: 'https://bukizz1-default-rtdb.firebaseio.com',
     storageBucket: 'bukizz1.appspot.com',
     androidClientId: '87504596017-7vbv5np5lf6d7n3qe1f396a54j6hpbc6.apps.googleusercontent.com',
     iosClientId: '87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com',
-    iosBundleId: 'com.example.bukizz1.RunnerTests',
+    iosBundleId: 'com.bukizz.RunnerTests',
   );
 }

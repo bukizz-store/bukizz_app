@@ -461,6 +461,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     onTap: () async{
                       // context.read<CartProvider>().addProductInCart(
                       //     productView.selectedProduct.productId, context);
+                      context
+                          .read<CartViewRepository>().isSingleBuyNow = false;
                       productAdded ?Navigator.of(context).pushNamedAndRemoveUntil(Cart.route, (route) => false) : await context.read<CartProvider>().addProductInCart(
                           schoolData.selectedSchool.name,
                           value.getSelectedSetDataIndex,
@@ -512,19 +514,22 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-
-
-                      // context
-                      //     .read<CartViewRepository>()
-                      //     .setTotalPrice(value.selectedProduct.price.toInt());
-                      // context
-                      //     .read<CartViewRepository>()
-                      //     .setSalePrice(value.selectedProduct.salePrice.toInt());
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => Checkout1()),
-                      // );
+                    onTap: () async{
+                      var cartView = context
+                          .read<CartViewRepository>();
+                      cartView.isSingleBuyNow = true;
+                      cartView.setTotalPrice(value.selectedProduct.price.toInt());
+                      cartView.setSalePrice(value.selectedProduct.salePrice.toInt());
+                      await context.read<CartViewRepository>().getCartProduct(
+                          value.selectedProduct.productId,
+                          schoolData.selectedSchool.name,
+                          value.getSelectedSetDataIndex,
+                          value.getSelectedStreamDataIndex,
+                          1,);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Checkout1()),
+                      );
                     },
                     child: Container(
                       height: dimensions.height8 * 6,

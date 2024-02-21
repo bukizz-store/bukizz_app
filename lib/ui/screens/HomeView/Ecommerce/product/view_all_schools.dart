@@ -1,4 +1,5 @@
 import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/data/models/ecommerce/school_model.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -50,7 +51,7 @@ class _ViewAllState extends State<ViewAll> {
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
       appBar: AppBar(
-         title: Text('Select Your School'),
+         title: ReusableText(text: 'Select Your School', fontSize: 18,),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +74,7 @@ class _ViewAllState extends State<ViewAll> {
               Padding(
                 padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
                 child:  SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
+                  width: MediaQuery.of(context).size.width ,
                   height: dimensions.height10 * 4.4,
                   child: TextField(
                     onChanged: (value) => _runFilter(value),
@@ -83,7 +84,7 @@ class _ViewAllState extends State<ViewAll> {
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: dimensions.height8 * 2),
                       hintText: 'Enter School name (e.g., DAV School)',
-                      hintStyle: const TextStyle(color: Color(0xFF7A7A7A)),
+                      hintStyle: const TextStyle(color: Color(0xFF7A7A7A),fontFamily: 'nunito'),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                             dimensions.height10 * 4.4 / 2),
@@ -101,30 +102,7 @@ class _ViewAllState extends State<ViewAll> {
           //   ],
           // ),
           SizedBox(height: dimensions.height8*1.5),
-          Padding(
-            padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
-            child: Container(
 
-              height: dimensions.height8*5.2,
-              width: dimensions.width16*8.5,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                  side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ReusableText(text: 'Kurukshetra', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF444444),),
-                    Icon(Icons.arrow_drop_down,color: Color(0xFF444444),)
-                  ],
-                ),
-              ),
-            ),
-          ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: dimensions.width24/2, vertical: dimensions.height24/2),
@@ -182,16 +160,63 @@ class _ViewAllState extends State<ViewAll> {
                           ),
                         ),
                         Positioned(
-                          left: dimensions.width16/2,
-                          right: 0,
-                          bottom: dimensions.height8*5,
-                          child: ReusableText(
-                            text: foundedSchool[index].name,
-                            fontSize: 14,
-                            color: Color(0xFFF9F9F9),
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                            bottom: dimensions.width16,
+                            child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 12, top: 30),
+                                height: dimensions.height10*7,
+                                width: dimensions.width169,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: const Alignment(
+                                          0.00, -1.00),
+                                      end: const Alignment(0, 0),
+                                      colors: [
+                                        Colors.black.withOpacity(0),
+                                        Colors.black
+                                      ],
+                                    ),
+                                    borderRadius:
+                                    const BorderRadius.only(
+                                        bottomLeft:
+                                        Radius.circular(12),
+                                        bottomRight:
+                                        Radius.circular(12))),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    ReusableText(
+                                      text: foundedSchool[index].name,
+                                      fontSize: 14,
+                                      color: Color(0xFFF9F9F9),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    SizedBox(
+                                      height: dimensions.height10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                          size: 18,
+                                        ),
+                                        SizedBox(
+                                          width:
+                                          dimensions.width24 / 6,
+                                        ),
+                                        ReusableText(
+                                          text: schoolData
+                                              .schoolData[index].city,
+                                          fontSize: 12,
+                                          color: Color(0xFFF9F9F9),
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                )))
                       ],
                     ),
                   );
