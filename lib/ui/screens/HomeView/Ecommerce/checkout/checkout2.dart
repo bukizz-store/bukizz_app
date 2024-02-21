@@ -500,8 +500,7 @@ class _Checkout2State extends State<Checkout2> {
                           schoolData.forEach((product, productData) {
                             encodedData[school]![product] = {};
                             productData.forEach((set, setData) {
-                              encodedData[school]![product]![set.toString()] =
-                                  {};
+                              encodedData[school]![product]![set.toString()] = {};
                               setData.forEach((stream, streamData) {
                                 List<dynamic> temp = [];
                                 temp.add(streamData);
