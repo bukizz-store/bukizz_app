@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "87504596017-2oov149952gg2k3purvepf7nfk84niil.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bukizz",
+            "certificate_hash": "5cdefe197e7589bb825a65e43dbaf89210090e88"
+          }
+        },
+        {
           "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -35,7 +43,7 @@
               "client_id": "87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.bukizz.RunnerTests"
+                "bundle_id": "com.example.bukizz1.RunnerTests"
               }
             }
           ]
