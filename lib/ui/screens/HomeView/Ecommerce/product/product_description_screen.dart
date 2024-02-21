@@ -1,19 +1,19 @@
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
 import 'package:bukizz/data/repository/product_view_repository.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
-import '../../../../../constants/font_family.dart';
 import '../../../../../data/providers/stationary_provider.dart';
 import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/buttons/product_buttons.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../widgets/review widget/review.dart';
+import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../widgets/text and textforms/expandable_text_widget.dart';
 import '../checkout/checkout1.dart';
 
@@ -463,7 +463,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       //     productView.selectedProduct.productId, context);
                       context
                           .read<CartViewRepository>().isSingleBuyNow = false;
-                      productAdded ?Navigator.of(context).pushNamedAndRemoveUntil(Cart.route, (route) => false) : await context.read<CartProvider>().addProductInCart(
+                      productAdded ? send()
+                          : await context.read<CartProvider>().addProductInCart(
                           schoolData.selectedSchool.name,
                           value.getSelectedSetDataIndex,
                           value.getSelectedStreamDataIndex,
@@ -556,5 +557,11 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
         );
       },
     );
+  }
+
+  void send(){
+    context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        MainScreen.route, (route) => false);
   }
 }

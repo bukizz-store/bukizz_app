@@ -1,12 +1,16 @@
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../../../../../../Notifications/notifications.dart';
 import '../../../../../../../constants/colors.dart';
 import '../../../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../../../widgets/review widget/review.dart';
 import '../../../../../../../widgets/text and textforms/Reusable_text.dart';
 import '../../../../../../../widgets/text and textforms/expandable_text_widget.dart';
 import '../../../checkout/checkout1.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
 
 List setText=['Bag','Classmate Notebook'];
 class BagDescriptionScreen extends StatefulWidget {
@@ -18,6 +22,11 @@ class BagDescriptionScreen extends StatefulWidget {
 }
 
 class _BagDescriptionScreenState extends State<BagDescriptionScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+  }
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
@@ -314,11 +323,12 @@ class _BagDescriptionScreenState extends State<BagDescriptionScreen> {
               ),
               InkWell(
                 onTap: () {
-                  print('buy button is tapped');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Checkout1()),
-                  );
+                  Notifications.showBigTextNotifications(title: 'new notification', body: 'test', fln: flutterLocalNotificationsPlugin);
+                  // print('buy button is tapped');
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Checkout1()),
+                  // );
                 },
                 child: Container(
                   height: dimensions.height8 * 6,

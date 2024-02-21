@@ -36,7 +36,13 @@ class CustomTextForm extends StatelessWidget {
               : null,
           contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
           hintText: hintText,
-          hintStyle: TextStyle(color: Color(0xFF7A7A7A)),
+          hintStyle: const TextStyle(
+            color: Color(0xFF7A7A7A),
+            fontSize: 14,
+            fontFamily: 'Nunito',
+            fontWeight: FontWeight.w400,
+            height: 0,
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(height / 2),
             borderSide: BorderSide(color: Color(0xFF7A7A7A)),

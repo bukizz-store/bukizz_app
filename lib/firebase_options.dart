@@ -29,12 +29,12 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
+          'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
-      case TargetPlatform.macOS:
-        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,15 +52,15 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions macos = FirebaseOptions(
+  static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCkMZGo9aX68TOuMhqrppk1Kq9Qv3Cbxxs',
-    appId: '1:87504596017:ios:e254151ef8e12880f1f910',
+    appId: '1:87504596017:ios:230104633050e2cbf1f910',
     messagingSenderId: '87504596017',
     projectId: 'bukizz1',
     databaseURL: 'https://bukizz1-default-rtdb.firebaseio.com',
     storageBucket: 'bukizz1.appspot.com',
-    androidClientId: '87504596017-7vbv5np5lf6d7n3qe1f396a54j6hpbc6.apps.googleusercontent.com',
-    iosClientId: '87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com',
-    iosBundleId: 'com.bukizz.RunnerTests',
+    androidClientId: '87504596017-2oov149952gg2k3purvepf7nfk84niil.apps.googleusercontent.com',
+    iosClientId: '87504596017-umqe417qrk0anjucf9da15borunbsp6d.apps.googleusercontent.com',
+    iosBundleId: 'com.bukizz',
   );
 }
