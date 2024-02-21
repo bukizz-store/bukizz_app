@@ -105,7 +105,7 @@ class MainUserDetails {
     );
   }
   // Method to push user data to Firebase with an empty string for name, class, and section
-  Future<void> pushToFirebase(UserCredential authResult) async {
+  Future<void> pushToFirebase() async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await FirebaseFirestore.instance

@@ -216,7 +216,7 @@ class _SignInState extends State<SignIn> {
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () {
-                    authProvider.googleSignUp(context);
+                    authProvider.googleSignInMethod(context);
                   },
                   buttonText: 'Sign in with Google',
                   buttonColor: Colors.white,

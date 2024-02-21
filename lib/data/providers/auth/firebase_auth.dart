@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/models/user_details.dart';
@@ -17,8 +18,8 @@ class AuthProvider extends ChangeNotifier {
 
   User? get user => _auth.currentUser;
 
-  Future<void> signInWithEmailAndPassword(String email, String password,
-      BuildContext context) async {
+  Future<void> signInWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
     try {
       print("hash Password ${MainUserDetails.hashPassword(password)}");
       UserCredential authResult = await _auth.signInWithEmailAndPassword(
@@ -27,7 +28,6 @@ class AuthProvider extends ChangeNotifier {
       );
 
       print("uid ${authResult.user!.uid}");
-
 
       MainUserDetails userDetails = MainUserDetails(
         name: '',
@@ -62,10 +62,10 @@ class AuthProvider extends ChangeNotifier {
 
       if (authResult.user!.uid.isNotEmpty) {
         QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await FirebaseFirestore.instance
-            .collection('userDetails')
-            .where('email', isEqualTo: email)
-            .get();
+            await FirebaseFirestore.instance
+                .collection('userDetails')
+                .where('email', isEqualTo: email)
+                .get();
 
         userDetails = MainUserDetails.fromMap(querySnapshot.docs.first.data());
 
@@ -74,17 +74,15 @@ class AuthProvider extends ChangeNotifier {
         print(userDetails);
 
         // // Push user data to Firebase
-        await userDetails.pushToFirebase(authResult);
+        await userDetails.pushToFirebase();
 
         await userDetails.saveToSharedPreferences();
 
-        if(context.mounted)
-          {
-            Navigator.pushNamedAndRemoveUntil(
-                context, LocationScreen.route, (route) => false);
-          }
-      }
-      else {
+        if (context.mounted) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, LocationScreen.route, (route) => false);
+        }
+      } else {
         const snackBar = SnackBar(
           content: Text("Failed to Login"),
         );
@@ -106,93 +104,106 @@ class AuthProvider extends ChangeNotifier {
         }
       }
 
-      if(context.mounted)
-        {
-          AppConstants.showSnackBar(context, errorMessage);
-          Navigator.of(context).pop();
-        }
+      if (context.mounted) {
+        AppConstants.showSnackBar(context, errorMessage);
+        Navigator.of(context).pop();
+      }
       print("Error signing in: $e");
     }
   }
 
-  Future<void> googleSignUp(BuildContext context) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn
-        .signIn();
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+  Future<void> googleSignInMethod(BuildContext context) async{
+    try{
+      final GoogleSignInAccount? googleSignInAccount =
+          await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleSignInAuthentication =
+          await googleSignInAccount?.authentication;
       final AuthCredential authCredential = GoogleAuthProvider.credential(
-          idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken);
-
-      // Getting users credential
-      UserCredential result = await _auth.signInWithCredential(authCredential);
-      User? user = result.user;
-
-      MainUserDetails userDetails = MainUserDetails(
-        name: result.user!.displayName!,
-        email: result.user!.email!,
-        password: '',
-        address: Address(
-          houseNo: '',
-          city: '',
-          state: '',
-          pinCode: '',
-          street: '',
-          phone: '',
-          email: '',
-          name: '',
-        ),
-        uid: result.user!.uid,
-        dob: DateTime.now().toIso8601String(),
-        mobile: result.user!.phoneNumber ?? '',
-        alternateAddress: Address(
-          houseNo: '',
-          city: '',
-          state: '',
-          pinCode: '',
-          street: '',
-          phone: '',
-          email: '',
-          name: '',
-        ),
-        studentsUID: [],
-        orderID: [],
-      );
-
-      if (result.user!.uid.isNotEmpty) {
-        // // Push user data to Firebase
-        await userDetails.pushToFirebase(result);
-
-        QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-            .collection('userDetails')
-            .where('email', isEqualTo: result.user!.email)
-            .get();
-
-        userDetails = MainUserDetails.fromMap(querySnapshot.docs.first.data());
-
-        AppConstants.userData = userDetails;
-        await userDetails.saveToSharedPreferences();
-
-        if(context.mounted)
-          {
-            Navigator.pushNamedAndRemoveUntil(
-                context, LocationScreen.route, (route) => false);
-          }
-      }
-      else {
-        if(context.mounted)
-          {
-            AppConstants.showSnackBar(
-                context, "Error signing in with Google. Please try again later");
-        }
-      } // if result not null we simply call the MaterialpageRoute,
-      // for go to the HomePage scree
-      notifyListeners();
+          idToken: googleSignInAuthentication?.idToken,
+          accessToken: googleSignInAuthentication?.accessToken);
+      await googleSignUp(context , authCredential);
+    }
+    catch(e){
+      debugPrint(e.toString());
+      AppConstants.showSnackBar(context, "Unable to Continue with Google");
     }
   }
 
+  Future<void> googleSignUp(BuildContext context ,  AuthCredential authCredential) async {
+      // Getting users credential
+    try{
+      await _auth.signInWithCredential(authCredential).then((value) async {
+        if (value.user != null) {
+          MainUserDetails userDetails = MainUserDetails(
+            name: value.user!.displayName!,
+            email: value.user!.email!,
+            password: '',
+            address: Address(
+              houseNo: '',
+              city: '',
+              state: '',
+              pinCode: '',
+              street: '',
+              phone: '',
+              email: '',
+              name: '',
+            ),
+            uid: value.user!.uid,
+            dob: DateTime.now().toIso8601String(),
+            mobile: value.user!.phoneNumber ?? '',
+            alternateAddress: Address(
+              houseNo: '',
+              city: '',
+              state: '',
+              pinCode: '',
+              street: '',
+              phone: '',
+              email: '',
+              name: '',
+            ),
+            studentsUID: [],
+            orderID: [],
+          );
+
+          if (_auth.currentUser != null) {
+            // // Push user data to Firebase
+            await userDetails.pushToFirebase();
+
+            QuerySnapshot<Map<String, dynamic>> querySnapshot =
+            await FirebaseFirestore.instance
+                .collection('userDetails')
+                .where('email', isEqualTo: value.user!.email)
+                .get();
+
+            userDetails =
+                MainUserDetails.fromMap(querySnapshot.docs.first.data());
+
+            AppConstants.userData = userDetails;
+            await userDetails.saveToSharedPreferences();
+
+            if (context.mounted) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, LocationScreen.route, (route) => false);
+            }
+          } else {
+            if (context.mounted) {
+              AppConstants.showSnackBar(context,
+                  "Error signing in with Google. Please try again later");
+            }
+          }
+        }
+      });
+    }
+    catch(e){
+      AppConstants.showSnackBar(context, e.toString());
+      GoogleSignIn().signOut();
+    }
+
+
+      // if result not null we simply call the MaterialpageRoute,
+      // for go to the HomePage scree
+      notifyListeners();
+  }
 
   Future<void> signUpWithEmailAndPassword({
     required String name,
@@ -254,7 +265,7 @@ class AuthProvider extends ChangeNotifier {
 
         try {
           // Push user data to Firebase
-          await userDetails.pushToFirebase(authResult);
+          await userDetails.pushToFirebase();
           // Save user details to shared preferences
           await userDetails.saveToSharedPreferences();
         } catch (e) {
@@ -262,10 +273,10 @@ class AuthProvider extends ChangeNotifier {
         }
 
         // Navigate to the home screen
-        if(context.mounted) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, LocationScreen.route, (route) => false);
-          }
+        if (context.mounted) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, LocationScreen.route, (route) => false);
+        }
 
         notifyListeners();
       } else {
@@ -287,52 +298,51 @@ class AuthProvider extends ChangeNotifier {
         }
       }
 
-      if(context.mounted)
-        {
-          AppConstants.showSnackBar(context, errorMessage);
-          Navigator.of(context).pop();
-        }
+      if (context.mounted) {
+        AppConstants.showSnackBar(context, errorMessage);
+        Navigator.of(context).pop();
+      }
     }
   }
 
   Future<void> signOut(BuildContext context) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.clear();
-      AppConstants.userData = MainUserDetails(
-        name: '',
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    AppConstants.userData = MainUserDetails(
+      name: '',
+      email: '',
+      password: '',
+      address: Address(
+        houseNo: '',
+        city: '',
+        state: '',
+        pinCode: '',
+        street: '',
+        phone: '',
         email: '',
-        password: '',
-        address: Address(
-          houseNo: '',
-          city: '',
-          state: '',
-          pinCode: '',
-          street: '',
-          phone: '',
-          email: '',
-          name: '',
-        ),
-        uid: '',
-        dob: DateTime.now().toIso8601String(),
-        mobile: '',
-        alternateAddress: Address(
-          houseNo: '',
-          city: '',
-          state: '',
-          pinCode: '',
-          street: '',
-          phone: '',
-          email: '',
-          name: '',
-        ),
-        studentsUID: [],
-        orderID: [],
-      );
-      await _auth.signOut().then((value) =>
-      {
-        Navigator.pushNamedAndRemoveUntil(
-            context, SignIn.route, (route) => false)
-      });
-      notifyListeners();
-    }
+        name: '',
+      ),
+      uid: '',
+      dob: DateTime.now().toIso8601String(),
+      mobile: '',
+      alternateAddress: Address(
+        houseNo: '',
+        city: '',
+        state: '',
+        pinCode: '',
+        street: '',
+        phone: '',
+        email: '',
+        name: '',
+      ),
+      studentsUID: [],
+      orderID: [],
+    );
+    await GoogleSignIn().signOut();
+    await _auth.signOut().then((value) => {
+          Navigator.pushNamedAndRemoveUntil(
+              context, SignIn.route, (route) => false)
+        });
+    notifyListeners();
   }
+}
