@@ -1,9 +1,14 @@
+import 'dart:math';
+
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
 import 'package:bukizz/data/repository/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
@@ -29,6 +34,7 @@ class ProductDescriptionScreen extends StatefulWidget {
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
   bool productAdded = false;
+  TextEditingController pinController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -136,14 +142,11 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   ),
                 ),
 
-                SizedBox(
-                  height: dimensions.height24 / 3,
-                ),
 
                 // ProductButtons(title: "Set", length: 2, selectedIndex: 0,),
                 value.selectedProduct.set.isNotEmpty ? Container(
                   // width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24 , vertical: dimensions.height16),
+                  padding: EdgeInsets.only(left: dimensions.width24,bottom: dimensions.height16),
                   // height: 200,
                   color: AppColors.white,
                   child: Column(
@@ -263,13 +266,85 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 ): Container(),
 
                 //expandable text
+                SizedBox(height: dimensions.height16/2,),
                 ExpandableTextWidget(
                     title: "Description",
-                    text: value.selectedProduct.description),
+                    text: value.selectedProduct.description
+                ),
                 SizedBox(
                   height: dimensions.height24 / 3,
                 ),
 
+                Container(
+                  width: dimensions.screenWidth,
+                  height: dimensions.height10*12.9,
+                  color: Colors.white,
+                  padding: EdgeInsets.only(left: dimensions.width24,top: dimensions.height16,bottom: dimensions.height16,right: dimensions.width24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ReusableText(text:  'Delivery & Services', fontSize: 18,fontWeight: FontWeight.w700,color:  Color(0xFF121212),),
+                      SizedBox(height: dimensions.height8*3,),
+                      ReusableText(text:  'Enter Delivery Pincode', fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xFF444444),),
+                      SizedBox(height: dimensions.height8,),
+                      Container(
+                         width: dimensions.screenWidth,
+                         height: dimensions.height10*2.7,
+
+                         child: TextField(
+                           maxLength: 6,
+                           keyboardType: TextInputType.number,
+                           controller: pinController,
+                           decoration: InputDecoration(
+                             contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
+                             border:OutlineInputBorder(
+                               borderRadius: BorderRadius.circular(6),
+                               borderSide: const BorderSide(width: 0.50, color: Color(0xFFB7B7B7)),
+
+                             ),
+                             focusedBorder: OutlineInputBorder(
+                               borderRadius: BorderRadius.circular(6),
+                               borderSide: const BorderSide(width: 0.50, color: Color(0xFFB7B7B7)),
+                             ),
+
+                         suffixIcon: GestureDetector(
+                           onTap: (){
+                             log(10);
+                           },
+                           child: const Padding(
+                             padding: EdgeInsets.only(right: 8.0,top: 4),
+                             child: Text(
+                               'Check',
+                               style: TextStyle(
+                                 color: Color(0xFF058FFF),
+                                 fontSize: 14,
+                                 fontFamily: 'Nunito',
+                                 fontWeight: FontWeight.w500,
+                                 height: 0,
+                               ),
+                             ),
+                           ),
+                         ),
+                           counterText: '',
+                           ),
+
+                         ),
+
+                       ),
+                      SizedBox(height: dimensions.height8,),
+                      Row(
+                        children: [
+                          Icon(Icons.local_shipping,color:Color(0xFF39A7FF),),
+                          SizedBox(width: dimensions.width10/2,),
+                          ReusableText(text: 'Estimated delivery by 21st March', fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF444444),)
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: dimensions.height8,),
+                
                 // accesories
                 ReusableColoredBox(
                   width: dimensions.screenWidth,

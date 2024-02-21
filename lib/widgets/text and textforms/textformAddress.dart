@@ -25,6 +25,7 @@ class CustomTextForm extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+
           prefixIcon: icon != null
               ? Padding(
             padding: EdgeInsets.only(left: dimensions.height8 * 2),
@@ -52,6 +53,7 @@ class CustomTextForm extends StatelessWidget {
             borderSide: BorderSide(color: Colors.black38),
           ),
         ),
+
       ),
     );
   }
