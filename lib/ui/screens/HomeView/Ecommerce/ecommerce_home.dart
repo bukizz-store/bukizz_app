@@ -1,5 +1,5 @@
 import 'package:bukizz/data/repository/product_view_repository.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/stationary_products.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
@@ -151,7 +151,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemBuilder: (context, index) {
                     return Container(
                       // color: Colors.green,
-                      padding: EdgeInsets.only(right: dimensions.width10 * 1.6),
+                      padding: EdgeInsets.only(right: dimensions.width10*1.3),
                       height: dimensions.height10 * 7.5,
                       child: Column(
                         children: [
@@ -194,7 +194,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                 ),
               ),
 
-              SizedBox(height: dimensions.height16),
+              SizedBox(height: dimensions.height16/2),
 
               //hardcoded text pick  your school
               Container(

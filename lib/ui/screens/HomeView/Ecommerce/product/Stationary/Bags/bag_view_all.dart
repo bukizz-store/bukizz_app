@@ -1,3 +1,4 @@
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_description.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,7 @@ class _BagViewAllState extends State<BagViewAll> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: (){
-
+                      Navigator.pushNamed(context, BagDescriptionScreen.route);
                   },
                   child: Container(
                     height: dimensions.height105,
