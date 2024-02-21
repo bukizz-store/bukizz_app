@@ -84,6 +84,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/bags/bag1/
     - assets/checkout/
     - assets/category/
     - assets/school/

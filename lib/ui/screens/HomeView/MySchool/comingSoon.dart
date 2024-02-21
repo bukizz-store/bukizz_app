@@ -1,3 +1,4 @@
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -54,9 +55,9 @@ class _ComingSoonState extends State<ComingSoon> {
             ),
             SizedBox(height: dimensions.height29,),
 
-            InkWell(
+            GestureDetector(
               onTap: (){
-                context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+               Navigator.of(context).pushNamedAndRemoveUntil(MainScreen.route, (route) => false);
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -49,189 +49,196 @@ class _CartState extends State<Cart> {
       if (cartViewData.getCartData.isEmpty) {
         return const EmptyCart();
       }else {
-        return Scaffold(
-        appBar: AppBar(
-          title: const Text('Cart'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-            },
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (val){
+            context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+            return ;
+          },
+          child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Cart'),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+              },
+            ),
           ),
-        ),
-        body: cartProvider.isCartLoadedProvider
-            ? SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: dimensions.height24 / 2,
-                    ),
-                    //1st container with address info
-                   (AppConstants.userData.address.pinCode.isNotEmpty) ?  Container(
-                      height: dimensions.height40 * 2,
-                      width: dimensions.screenWidth,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: dimensions.height24 / 2,
-                          horizontal: dimensions.width24,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    ReusableText(
-                                      text: 'Deliver to: ',
-                                      fontSize: 16,
+          body: cartProvider.isCartLoadedProvider
+              ? SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: dimensions.height24 / 2,
+                      ),
+                      //1st container with address info
+                     (AppConstants.userData.address.pinCode.isNotEmpty) ?  Container(
+                        height: dimensions.height40 * 2,
+                        width: dimensions.screenWidth,
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: dimensions.height24 / 2,
+                            horizontal: dimensions.width24,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      ReusableText(
+                                        text: 'Deliver to: ',
+                                        fontSize: 16,
+                                        height: 0,
+                                        color: Color(0xFF282828),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      ReusableText(
+                                        text: AppConstants.userData.name,
+                                        fontSize: 16,
+                                        height: 0,
+                                        color: Color(0xFF121212),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ],
+                                  ),
+                                  // SizedBox(
+                                  //   height: dimensions.height8/2,
+                                  // ),
+                                  Flexible(
+                                      child: Container(
+                                    width: dimensions.width24 * 9.5,
+                                    child: ReusableText(
+                                      text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                                      fontSize: 14,
                                       height: 0,
-                                      color: Color(0xFF282828),
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    ReusableText(
-                                      text: AppConstants.userData.name,
-                                      fontSize: 16,
-                                      height: 0,
-                                      color: Color(0xFF121212),
+                                      color: Color(0xFF7A7A7A),
                                       fontWeight: FontWeight.w600,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ],
-                                ),
-                                // SizedBox(
-                                //   height: dimensions.height8/2,
-                                // ),
-                                Flexible(
-                                    child: Container(
-                                  width: dimensions.width24 * 9.5,
-                                  child: ReusableText(
-                                    text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                                  )),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  print('change button is tapped');
+                                },
+                                child: Container(
+                                  width: dimensions.width65,
+                                  height: dimensions.height36,
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 0.50, color: Color(0xFFD6D6D6)),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  ),
+                                  child: Center(
+                                      child: ReusableText(
+                                    text: 'Change',
                                     fontSize: 14,
                                     height: 0,
-                                    color: Color(0xFF7A7A7A),
+                                    color: Color(0xFF00579E),
                                     fontWeight: FontWeight.w600,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                )),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                print('change button is tapped');
-                              },
-                              child: Container(
-                                width: dimensions.width65,
-                                height: dimensions.height36,
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        width: 0.50, color: Color(0xFFD6D6D6)),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
+                                  )),
                                 ),
-                                child: Center(
-                                    child: ReusableText(
-                                  text: 'Change',
-                                  fontSize: 14,
-                                  height: 0,
-                                  color: Color(0xFF00579E),
-                                  fontWeight: FontWeight.w600,
-                                )),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ): Container(),
+                      ): Container(),
 
-                    SizedBox(
-                      height: dimensions.height24 / 2,
-                    ),
-
-                    //repeated cart products
-                    Column(children: _cartItems(dimensions, cartViewData)),
-
-                    SizedBox(height: dimensions.height8 * 23.85),
-                  ],
-                ),
-              )
-            : const Center(
-                child: CircularProgressIndicator(),
-              ),
-        bottomNavigationBar: Container(
-          height: dimensions.height8 * 9,
-          width: dimensions.screenWidth,
-          color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 24,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      totalPrice.toString(),
-                      style: TextStyle(
-                        color: Color(0xFFB7B7B7),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        decoration: TextDecoration.lineThrough,
+                      SizedBox(
+                        height: dimensions.height24 / 2,
                       ),
-                    ),
-                    Text(
-                      '₹$salePrice',
-                      style: TextStyle(
-                        color: Color(0xFF121212),
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.none,
-                        fontSize: 16,
-                      ),
-                    )
-                  ],
-                ),
-                InkWell(
-                  onTap: () {
-                    // print('buy button is tapped');
-                    context
-                        .read<CartViewRepository>().isSingleBuyNow = false;
-                    context
-                        .read<CartViewRepository>()
-                        .setTotalPrice(totalPrice.toInt());
-                    context
-                        .read<CartViewRepository>()
-                        .setSalePrice(salePrice.toInt());
 
-                    Navigator.pushNamed(context, Checkout1.route);
-                  },
-                  child: Container(
-                    height: dimensions.height8 * 6,
-                    width: dimensions.width146,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Color(0xFF058FFF),
-                    ),
-                    child: Center(
-                      child: ReusableText(
-                        text: 'Buy Now',
-                        fontSize: 16,
-                        height: 0.11,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
+                      //repeated cart products
+                      Column(children: _cartItems(dimensions, cartViewData)),
+
+                      SizedBox(height: dimensions.height8 * 23.85),
+                    ],
                   ),
                 )
-              ],
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
+          bottomNavigationBar: Container(
+            height: dimensions.height8 * 9,
+            width: dimensions.screenWidth,
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        totalPrice.toString(),
+                        style: TextStyle(
+                          color: Color(0xFFB7B7B7),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      Text(
+                        '₹$salePrice',
+                        style: TextStyle(
+                          color: Color(0xFF121212),
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.none,
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // print('buy button is tapped');
+                      context
+                          .read<CartViewRepository>().isSingleBuyNow = false;
+                      context
+                          .read<CartViewRepository>()
+                          .setTotalPrice(totalPrice.toInt());
+                      context
+                          .read<CartViewRepository>()
+                          .setSalePrice(salePrice.toInt());
+
+                      Navigator.pushNamed(context, Checkout1.route);
+                    },
+                    child: Container(
+                      height: dimensions.height8 * 6,
+                      width: dimensions.width146,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Color(0xFF058FFF),
+                      ),
+                      child: Center(
+                        child: ReusableText(
+                          text: 'Buy Now',
+                          fontSize: 16,
+                          height: 0.11,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      );
+                ),
+        );
       }
     });
   }
