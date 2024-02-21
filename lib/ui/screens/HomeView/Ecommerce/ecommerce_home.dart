@@ -268,13 +268,13 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                     height: dimensions.height10*14,
                                     width: dimensions.width169,
                                     decoration: ShapeDecoration(
-                                      // gradient: LinearGradient(
-                                      //   begin: Alignment(-0.00, -1.00),
-                                      //   end: Alignment(0, 1),
-                                      //   colors: [Colors.black.withOpacity(0.4), Colors.black],
-                                      // ),
+                                      gradient: LinearGradient(
+                                        begin: Alignment(-0.00, -1.00),
+                                        end: Alignment(0, 1),
+                                        colors: [Colors.black.withOpacity(0.4), Colors.black],
+                                      ),
                                       shape: RoundedRectangleBorder(
-                                        side: BorderSide(
+                                        side: const BorderSide(
                                           width: 0.50,
                                           strokeAlign:
                                               BorderSide.strokeAlignOutside,
@@ -282,13 +282,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                         ),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      shadows: const [
+                                       shadows: const [
                                         BoxShadow(
-                                          color: Color(0x4C00579E),
-                                          blurRadius: 12,
-                                          offset: Offset(0, 4),
-                                          spreadRadius: 0,
-                                        )
+                                          blurStyle: BlurStyle.solid,
+                                          color: Color(0x4C00579E), // Shadow color
+                                          spreadRadius: 0, // Spread radius
+                                          blurRadius: 7, // Blur radius
+                                          offset: Offset(0, 3), // Changes position of shadow
+                                        ),
                                       ],
                                     ),
                                     child: ClipRRect(
