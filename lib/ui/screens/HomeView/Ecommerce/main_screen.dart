@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
                   label: 'Categories',
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(AppImage.profileIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 4 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
+                  icon: SvgPicture.asset(AppImage.profileIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 4 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor),
                   label: 'Profile',
                 ),
 

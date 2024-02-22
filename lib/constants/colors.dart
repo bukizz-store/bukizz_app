@@ -10,7 +10,7 @@ class AppColors{
   static const Color schoolTextColor = Color(0xFF7A7A7A);
   static const Color black = Color(0xFF121212);
   static const Color white = Color(0xFFFFFFFF);
-  static const Color productButtonSelectedBorder = Color(0xFF39A7FF);
+  static const Color productButtonSelectedBorder = Color(0xFF3398F9);
   static Color productButtonSelectedBG = const Color(0xFF39A7FF).withOpacity(0.12);
   static const Color productButtonUnSelectedBorder = Color(0xFFE8E8E8);
   static const Color productButtonUnSelectedBG =  Color(0xFFFAFAFA);

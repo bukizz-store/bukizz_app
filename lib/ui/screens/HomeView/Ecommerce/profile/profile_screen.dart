@@ -186,9 +186,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     SizedBox(height: dimensions.height24/3,),
-                    TextButton(onPressed: (){
-
-                    }, child: ReusableText(text: 'Save Changes', fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF00579E),)),
+                    // TextButton(onPressed: (){
+                    //
+                    // }, child: ReusableText(text: 'Save Changes', fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF00579E),)),
                     SizedBox(height: dimensions.height24/2,),
                     //address
                     Container(

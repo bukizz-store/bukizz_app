@@ -1,3 +1,4 @@
+import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
@@ -7,6 +8,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/font_family.dart';
@@ -74,6 +76,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    var banner= context.read<BannerRepository>();
     // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
@@ -85,60 +88,79 @@ class _EcommerceMainState extends State<EcommerceMain> {
           child: Column(
             children: [
               // Slider 1
-              Container(
-                // padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
-                // color: Colors.red,
-                child: Stack(
-                  children: [
-                    CarouselSlider(
-                      items: [
-                        RoundedImage(
-                          width: dimensions.screenWidth,
-                          height: dimensions.height192,
-                          isNetworkImage: true,
-                          imageUrl:' https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner1.jpg?alt=media&token=07a8dbea-31e2-43d6-bce8-90223eb13cc0'
-                        ),
-                        RoundedImage(
-                          width: dimensions.screenWidth,
-                          height: dimensions.height192,
-                          isNetworkImage: true,
-                          imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner3.jpg?alt=media&token=0cf88ad2-203f-468b-8a8b-1c037da3713a',
-                        ),
-                      ],
-                      options: CarouselOptions(
-                        viewportFraction: 1,
-                        aspectRatio: 2.0,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 4),
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currPageValue = index.toDouble();
-                          });
+              Builder(
+                builder: (context) {
+
+                  if(banner.banners1.isEmpty){
+                    return Center(
+                      child: SpinKitChasingDots(
+                        size: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  }
+                  return Stack(
+                    children: [
+                      CarouselSlider.builder(
+                        itemCount: 2,
+                        itemBuilder: (BuildContext context, int index, int realIndex) {
+                          return RoundedImage(
+                              width: dimensions.screenWidth,
+                              height:dimensions.height192,
+                              isNetworkImage: true,
+                              imageUrl: banner.banners1[index].image,
+                          );
                         },
-                      ),
-                    ),
-                    Positioned(
-                      bottom:
-                          dimensions.height10, // Adjust the position as needed
-                      left: 0.0,
-                      right: 0.0,
-                      child: DotsIndicator(
-                        dotsCount: 2,
-                        position: _currPageValue.toInt(),
-                        decorator: DotsDecorator(
-                          activeColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                5.0), // Adjust radius to make it circular
-                          ),
-                          size: const Size.square(4.50),
-                          activeSize: const Size.square(
-                              9.0), // Make active dot circular
+                        // items: [
+                        //   RoundedImage(
+                        //     width: dimensions.screenWidth,
+                        //     height: dimensions.height192,
+                        //     isNetworkImage: true,
+                        //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner1.jpg?alt=media&token=07a8dbea-31e2-43d6-bce8-90223eb13cc0',
+                        //   ),
+                        //   RoundedImage(
+                        //     width: dimensions.screenWidth,
+                        //     height: dimensions.height192,
+                        //     isNetworkImage: true,
+                        //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner3.jpg?alt=media&token=0cf88ad2-203f-468b-8a8b-1c037da3713a',
+                        //   ),
+                        // ],
+
+                        options: CarouselOptions(
+                          viewportFraction: 1,
+                          aspectRatio: 2.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 4),
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currPageValue = index.toDouble();
+                            });
+                          },
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                      Positioned(
+                        bottom:
+                            dimensions.height10, // Adjust the position as needed
+                        left: 0.0,
+                        right: 0.0,
+                        child: DotsIndicator(
+                          dotsCount:2,
+                          position: _currPageValue.toInt(),
+                          decorator: DotsDecorator(
+                            activeColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  5.0), // Adjust radius to make it circular
+                            ),
+                            size: const Size.square(4.50),
+                            activeSize: const Size.square(
+                                9.0), // Make active dot circular
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
               ),
 
               SizedBox(height: dimensions.height16),
@@ -221,7 +243,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         children: [
                           ReusableText(
                             text: 'View all',
-                            fontSize: 14,
+                            fontSize: 16,
                             height: 0,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF00579E),
@@ -448,60 +470,79 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
 
               //2nd slider
-              Container(
-                // padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
-                // color: Colors.red,
-                child: Stack(
-                  children: [
-                    CarouselSlider(
-                      items: [
-                        RoundedImage(
-                          width: dimensions.screenWidth,
-                          height: dimensions.height192,
-                          isNetworkImage: false,
-                          assetImage: 'assets/ecommerce home/banner1.jpg',
+              Builder(
+                  builder: (context) {
+
+                    if(banner.banners2.isEmpty){
+                      return Center(
+                        child: SpinKitChasingDots(
+                          size: 24,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
-                        RoundedImage(
-                          width: dimensions.screenWidth,
-                          height: dimensions.height192,
-                          isNetworkImage: false,
-                          assetImage: 'assets/ecommerce home/banner2.png',
+                      );
+                    }
+                    return Stack(
+                      children: [
+                        CarouselSlider.builder(
+                          itemCount: 2,
+                          itemBuilder: (BuildContext context, int index, int realIndex) {
+                            return RoundedImage(
+                              width: dimensions.screenWidth,
+                              height:dimensions.height192,
+                              isNetworkImage: true,
+                              imageUrl: banner.banners2[index].image,
+                            );
+                          },
+                          // items: [
+                          //   RoundedImage(
+                          //     width: dimensions.screenWidth,
+                          //     height: dimensions.height192,
+                          //     isNetworkImage: true,
+                          //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner1.jpg?alt=media&token=07a8dbea-31e2-43d6-bce8-90223eb13cc0',
+                          //   ),
+                          //   RoundedImage(
+                          //     width: dimensions.screenWidth,
+                          //     height: dimensions.height192,
+                          //     isNetworkImage: true,
+                          //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner3.jpg?alt=media&token=0cf88ad2-203f-468b-8a8b-1c037da3713a',
+                          //   ),
+                          // ],
+
+                          options: CarouselOptions(
+                            viewportFraction: 1,
+                            aspectRatio: 2.0,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 4),
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _currPageValue = index.toDouble();
+                              });
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          bottom:
+                          dimensions.height10, // Adjust the position as needed
+                          left: 0.0,
+                          right: 0.0,
+                          child: DotsIndicator(
+                            dotsCount: 2,
+                            position: _currPageValue.toInt(),
+                            decorator: DotsDecorator(
+                              activeColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    5.0), // Adjust radius to make it circular
+                              ),
+                              size: const Size.square(4.50),
+                              activeSize: const Size.square(
+                                  9.0), // Make active dot circular
+                            ),
+                          ),
                         ),
                       ],
-                      options: CarouselOptions(
-                        viewportFraction: 1,
-                        aspectRatio: 2.0,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 4),
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currPageValue = index.toDouble();
-                          });
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      bottom:
-                          dimensions.height10, // Adjust the position as needed
-                      left: 0.0,
-                      right: 0.0,
-                      child: DotsIndicator(
-                        dotsCount: 2,
-                        position: _currPageValue.toInt(),
-                        decorator: DotsDecorator(
-                          activeColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                5.0), // Adjust radius to make it circular
-                          ),
-                          size: const Size.square(4.50),
-                          activeSize: const Size.square(
-                              9.0), // Make active dot circular
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                    );
+                  }
               ),
 
               SizedBox(height: dimensions.height16),

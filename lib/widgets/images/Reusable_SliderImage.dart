@@ -1,4 +1,5 @@
 import 'package:bukizz/utils/dimensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,8 +50,8 @@ class RoundedImage extends StatelessWidget {
               ? BorderRadius.circular(borderRadius)
               : BorderRadius.zero,
           child: isNetworkImage
-              ? Image.network(
-            imageUrl!,
+              ? Image(
+            image: CachedNetworkImageProvider(imageUrl!,scale: 0.5),
             fit: fit ?? BoxFit.contain,
           )
               : Image.asset(

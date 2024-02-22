@@ -282,79 +282,80 @@ class _BagDescriptionScreenState extends State<BagDescriptionScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        height: dimensions.height8 * 9,
-        width: dimensions.screenWidth,
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-
-                },
-                child: Container(
-                  height: dimensions.height8 * 6,
-                  width: dimensions.width146,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ReusableText(
-                        text: 'Add to Cart',
-                        fontSize: 16,
-                        height: 0.11,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF00579E),
-                      ),
-                      Icon(
-                        Icons.shopping_cart,
-                        color: Color(0xFF00579E),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Notifications.showBigTextNotifications(title: 'new notification', body: 'test', fln: flutterLocalNotificationsPlugin);
-                  // print('buy button is tapped');
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Checkout1()),
-                  // );
-                },
-                child: Container(
-                  height: dimensions.height8 * 6,
-                  width: dimensions.width146,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Color(0xFF058FFF),
-                  ),
-                  child: Center(
-                    child: ReusableText(
-                      text: 'Buy Now',
-                      fontSize: 16,
-                      height: 0.11,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      //todo  add it after publishing
+      // bottomNavigationBar: Container(
+      //   height: dimensions.height8 * 9,
+      //   width: dimensions.screenWidth,
+      //   color: Colors.white,
+      //   child: Padding(
+      //     padding: const EdgeInsets.symmetric(
+      //       horizontal: 24,
+      //     ),
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: [
+      //         InkWell(
+      //           onTap: () {
+      //
+      //           },
+      //           child: Container(
+      //             height: dimensions.height8 * 6,
+      //             width: dimensions.width146,
+      //             decoration: ShapeDecoration(
+      //               shape: RoundedRectangleBorder(
+      //                 side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
+      //                 borderRadius: BorderRadius.circular(100),
+      //               ),
+      //             ),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.center,
+      //               children: [
+      //                 ReusableText(
+      //                   text: 'Add to Cart',
+      //                   fontSize: 16,
+      //                   height: 0.11,
+      //                   fontWeight: FontWeight.w700,
+      //                   color: Color(0xFF00579E),
+      //                 ),
+      //                 Icon(
+      //                   Icons.shopping_cart,
+      //                   color: Color(0xFF00579E),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //         InkWell(
+      //           onTap: () {
+      //             Notifications.showBigTextNotifications(title: 'new notification', body: 'test', fln: flutterLocalNotificationsPlugin);
+      //             // print('buy button is tapped');
+      //             // Navigator.push(
+      //             //   context,
+      //             //   MaterialPageRoute(builder: (context) => Checkout1()),
+      //             // );
+      //           },
+      //           child: Container(
+      //             height: dimensions.height8 * 6,
+      //             width: dimensions.width146,
+      //             decoration: BoxDecoration(
+      //               borderRadius: BorderRadius.circular(100),
+      //               color: Color(0xFF058FFF),
+      //             ),
+      //             child: Center(
+      //               child: ReusableText(
+      //                 text: 'Buy Now',
+      //                 fontSize: 16,
+      //                 height: 0.11,
+      //                 fontWeight: FontWeight.w700,
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //           ),
+      //         )
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

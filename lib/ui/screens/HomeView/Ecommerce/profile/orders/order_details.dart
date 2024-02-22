@@ -5,6 +5,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/queryContact/contact_for_query.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -503,7 +504,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               ),
             ],
           ),
-        ) : Center(child: CircularProgressIndicator(),),
+        ) : Center(child: SpinKitChasingDots(size: 24 ,),),
       );
     });
   }
@@ -545,184 +546,194 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     List<Widget> list = [];
     // totalPrice = 0;
     // salePrice = 0;
-    orderData.selectedOrder.forEach((schoolName, productData) {
-      productData.forEach((product, setData) {
-        setData.forEach((set, streamData) {
-          streamData.forEach((stream, data) {
-            ProductModel productModel = orderData.orderedProduct
-                .where((element) => element.productId == product)
-                .first;
-            String productName =
-                setProductName(schoolName, set, stream, productModel);
-            int totalSalePrice = setTotalSalePrice(productModel, set, stream);
-            int price = setTotalPrice(productModel, set, stream);
-            // totalPrice += price * quantity;
-            // salePrice += totalSalePrice * quantity;
-            list.add(Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: dimensions.height8 * 2,
-                  vertical: dimensions.width10 * 1.8),
-              child: Container(
-                width: dimensions.width10 * 39.3,
-                // height: dimensions.height10*20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        ReusableText(
-                          text: 'Your order is',
-                          fontSize: 16,
-                          color: Color(0xFF444444),
-                          fontWeight: FontWeight.w700,
-                        ),
-                        SizedBox(
-                          width: dimensions.width10 / 2,
-                        ),
-                        ReusableText(
-                          text: data[2],
-                          fontSize: 16,
-                          color: Color(0xFF444444),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: dimensions.height8 * 2,
-                    ),
-                    ReusableText(
-                      text: '${DateTime.now().difference(DateTime.parse(orderData.selectedOrderModel.orderDate)).inDays.abs()} Day ago',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF7A7A7A),
-                    ),
-                    SizedBox(
-                      height: dimensions.height8 * 2,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: dimensions.width10 * 7.6,
-                          height: dimensions.height10 * 7.6,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              dimensions.width10,
-                            ),
+    if(orderData.isOrderDataLoaded) {
+      orderData.selectedOrder.forEach((schoolName, productData) {
+        productData.forEach((product, setData) {
+          setData.forEach((set, streamData) {
+            streamData.forEach((stream, data) {
+              ProductModel productModel = orderData.orderedProduct
+                  .where((element) => element.productId == product)
+                  .first;
+              String productName =
+                  setProductName(schoolName, set, stream, productModel);
+              int totalSalePrice = setTotalSalePrice(productModel, set, stream);
+              int price = setTotalPrice(productModel, set, stream);
+              // totalPrice += price * quantity;
+              // salePrice += totalSalePrice * quantity;
+              list.add(Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: dimensions.height8 * 2,
+                    vertical: dimensions.width10 * 1.8),
+                child: Container(
+                  width: dimensions.width10 * 39.3,
+                  // height: dimensions.height10*20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          ReusableText(
+                            text: 'Your order is',
+                            fontSize: 16,
+                            color: Color(0xFF444444),
+                            fontWeight: FontWeight.w700,
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              dimensions.width10,
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/school/booksets/${1}.svg',
-                              fit: BoxFit.cover,
-                              color: Colors.red,
-                            ),
+                          SizedBox(
+                            width: dimensions.width10 / 2,
                           ),
-                        ),
-                        SizedBox(
-                          width: dimensions.width16,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: dimensions.width10 * 25.2,
-                              child: Text(
-                                'Your product $productName is delivered',
-                                style: TextStyle(
-                                  color: Color(0xFF444444),
-                                  fontSize: 12,
-                                  fontFamily: 'Nunito',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
+                          ReusableText(
+                            text: data[2],
+                            fontSize: 16,
+                            color: Color(0xFF444444),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: dimensions.height8 * 2,
+                      ),
+                      ReusableText(
+                        text:
+                            '${DateTime.now().difference(DateTime.parse(orderData.selectedOrderModel.orderDate)).inDays.abs()} Day ago',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF7A7A7A),
+                      ),
+                      SizedBox(
+                        height: dimensions.height8 * 2,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: dimensions.width10 * 7.6,
+                            height: dimensions.height10 * 7.6,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                dimensions.width10,
                               ),
                             ),
-                            SizedBox(
-                              height: dimensions.height16,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                dimensions.width10,
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/school/booksets/${1}.svg',
+                                fit: BoxFit.cover,
+                                color: Colors.red,
+                              ),
                             ),
-                            ReusableText(
-                              text: '₹ $price',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF121212),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: dimensions.height8 * 2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {
-
-                            //Sending Initial data to orderQuery Repository
-                            context.read<OrderQueryRepository>().setInitialData(
-                                orderData.selectedOrderModel.orderId,
-                                productName,
-                                orderData.selectedOrderModel.address.phone);
-                            Navigator.pushNamed(context, KnowMoreScreen.route);
-                          },
-                          style: OutlinedButton.styleFrom(
+                          ),
+                          SizedBox(
+                            width: dimensions.width16,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: dimensions.width10 * 25.2,
+                                child: Text(
+                                  'Your product $productName is delivered',
+                                  style: TextStyle(
+                                    color: Color(0xFF444444),
+                                    fontSize: 12,
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: dimensions.height16,
+                              ),
+                              ReusableText(
+                                text: '₹ $price',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF121212),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: dimensions.height8 * 2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () {
+                              //Sending Initial data to orderQuery Repository
+                              context
+                                  .read<OrderQueryRepository>()
+                                  .setInitialData(
+                                      orderData.selectedOrderModel.orderId,
+                                      productName,
+                                      orderData
+                                          .selectedOrderModel.address.phone);
+                              Navigator.pushNamed(
+                                  context, KnowMoreScreen.route);
+                            },
+                            style: OutlinedButton.styleFrom(
+                                shape: const RoundedRectangleBorder(
+                                  side: BorderSide(color: Color(0xFF7A7A7A)),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: dimensions.width10 * 4)),
+                            child: ReusableText(
+                              text: 'Contact Us',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF7A7A7A),
+                            ),
+                          ),
+                          OutlinedButton(
+                            onPressed: () {
+                              context.read<ReviewRepository>().productName =
+                                  productName;
+                              context.read<ReviewRepository>().deliveryStatus =
+                                  data[2];
+                              context.read<ReviewRepository>().productId =
+                                  product;
+                              context.read<ReviewRepository>().orderId =
+                                  orderData.selectedOrderModel.orderId;
+                              Navigator.pushNamed(context, RatingsScreen.route);
+                            },
+                            style: OutlinedButton.styleFrom(
                               shape: const RoundedRectangleBorder(
                                 side: BorderSide(color: Color(0xFF7A7A7A)),
                               ),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: dimensions.width10 * 4)),
-                          child: ReusableText(
-                            text: 'Contact Us',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF7A7A7A),
-                          ),
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            context.read<ReviewRepository>().productName = productName;
-                            context.read<ReviewRepository>().deliveryStatus = data[2];
-                            context.read<ReviewRepository>().productId = product;
-                            context.read<ReviewRepository>().orderId = orderData.selectedOrderModel.orderId;
-                            Navigator.pushNamed(context, RatingsScreen.route);
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              side: BorderSide(color: Color(0xFF7A7A7A)),
+                                  horizontal: dimensions.width10 * 4),
+                              backgroundColor: Color(0xFF058FFF),
                             ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: dimensions.width10 * 4),
-                            backgroundColor: Color(0xFF058FFF),
+                            child: ReusableText(
+                              text: 'Add Review',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
-                          child: ReusableText(
-                            text: 'Add Review',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: dimensions.height10 * 2,
-                    ),
-                    Container(
-                      width: dimensions.screenWidth,
-                      height: 1,
-                      color: Color(0xFFD6D6D6),
-                    ),
-                  ],
+                        ],
+                      ),
+                      SizedBox(
+                        height: dimensions.height10 * 2,
+                      ),
+                      Container(
+                        width: dimensions.screenWidth,
+                        height: 1,
+                        color: Color(0xFFD6D6D6),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ));
+              ));
+            });
           });
         });
       });
-    });
+    }
     return list;
   }
 }
