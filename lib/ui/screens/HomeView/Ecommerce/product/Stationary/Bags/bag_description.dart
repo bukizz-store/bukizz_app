@@ -332,8 +332,6 @@ class _BagDescriptionScreenState extends State<BagDescriptionScreen> {
                   //   context,
                   //   MaterialPageRoute(builder: (context) => Checkout1()),
                   // );
-
-                  context.read<BannerRepository>().getbanner1();
                 },
                 child: Container(
                   height: dimensions.height8 * 6,

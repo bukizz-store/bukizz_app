@@ -11,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/school_repository.dart';
+import '../../../../../data/repository/banners/banners.dart';
 import '../main_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -100,6 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
+    context.read<BannerRepository>().getBanners();
     return Scaffold(
       backgroundColor:  const Color(0xFFF5FAFF),
         body: Stack(
