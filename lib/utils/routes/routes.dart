@@ -26,6 +26,7 @@ import '../../ui/screens/HomeView/Ecommerce/product/tab views/form_view.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
 import '../../ui/screens/Signup and SignIn/Signup_Screen.dart';
+import '../../ui/screens/Signup and SignIn/reset_password.dart';
 
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -135,6 +136,10 @@ class RouteGenerator{
       case Forms2.route:
         return MaterialPageRoute(
           builder: (_) =>  Forms2(),
+        );
+      case ForgotPasswordScreen.route:
+        return MaterialPageRoute(
+          builder: (_) =>  ForgotPasswordScreen(),
         );
       default:
         return _errorRoute();

@@ -110,7 +110,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           image: DecorationImage(
-                            image: AssetImage('assets/category/${index + 1}.pn'),
+                            image: AssetImage('assets/category/${index + 1}.png'),
                             fit: BoxFit.fill,
                           ),
                         ),

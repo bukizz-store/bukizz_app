@@ -3,6 +3,7 @@ import 'package:bukizz/utils/helper/providers.dart';
 import 'package:bukizz/utils/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'Notifications/notifications.dart';
@@ -15,7 +16,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin=FlutterLoc
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Notifications.initialize(flutterLocalNotificationsPlugin);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(MyApp()));
   MainUserDetails? savedUser =
       await MainUserDetails.loadFromSharedPreferences();
   runApp(
