@@ -153,7 +153,7 @@ class _Checkout2State extends State<Checkout2> {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       ReusableText(
-                                        text: AppConstants.userData.name,
+                                        text: context.watch<OrderViewRespository>().getUserAddress.name,
                                         fontSize: 16,
                                         color: Color(0xFF121212),
                                         fontWeight: FontWeight.w700,
@@ -506,8 +506,11 @@ class _Checkout2State extends State<Checkout2> {
                                 temp.add(streamData);
                                 temp.add("");
                                 temp.add(deliveryStatus.Ordered.name);
+
                                 encodedData[school]![product]![set.toString()]![
                                     stream.toString()] = temp;
+
+
                               });
                             });
                           });
