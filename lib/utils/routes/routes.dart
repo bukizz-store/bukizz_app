@@ -5,6 +5,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/locatio
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view_2.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
@@ -21,6 +22,7 @@ import '../../ui/screens/HomeView/Ecommerce/onboarding screen/location.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_description.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/tab views/form_view.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
 import '../../ui/screens/Signup and SignIn/Signup_Screen.dart';
@@ -125,6 +127,14 @@ class RouteGenerator{
       case BagDescriptionScreen.route:
         return MaterialPageRoute(
           builder: (_) =>  BagDescriptionScreen(),
+        );
+      case Forms.route:
+        return MaterialPageRoute(
+          builder: (_) =>  Forms(),
+        );
+      case Forms2.route:
+        return MaterialPageRoute(
+          builder: (_) =>  Forms2(),
         );
       default:
         return _errorRoute();

@@ -3,6 +3,7 @@ import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/about_school.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view_2.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/uniform_view.dart';
 import 'package:bukizz/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz/widgets/custom_tab/custom_tab2.dart';
@@ -58,7 +59,7 @@ class _TabScreenState extends State<TabScreen>
         children: const [
           Books(),
 
-          Forms(),
+          Forms2(),
 
           UniformScreen(),
 

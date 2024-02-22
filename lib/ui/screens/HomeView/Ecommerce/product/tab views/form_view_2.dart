@@ -5,15 +5,15 @@ import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:flutter/material.dart';
 
 
-class Forms extends StatefulWidget {
+class Forms2 extends StatefulWidget {
   static const String route = '/forms';
-  const Forms({super.key});
+  const Forms2({super.key});
 
   @override
-  State<Forms> createState() => _FormsState();
+  State<Forms2> createState() => _Forms2State();
 }
 
-class _FormsState extends State<Forms> {
+class _Forms2State extends State<Forms2> {
   TextEditingController nameController=TextEditingController();
   TextEditingController emailController=TextEditingController();
   TextEditingController addressController=TextEditingController();
@@ -25,47 +25,12 @@ class _FormsState extends State<Forms> {
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: ReusableText(text: 'Admission Forms', fontSize: 18),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                constraints: BoxConstraints(maxWidth: dimensions.width342,maxHeight: dimensions.height40),
-                decoration: ShapeDecoration(
-                  color: Color(0xFFF9F9F9),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-                child: DropdownButtonFormField(
-                  items: list.map((e) {
-                    return DropdownMenuItem(child: Text(e), value: e);
-                  }).toList(),
-                  value: dropdownValue,
-                  hint: ReusableText(
-                    text: list[0],
-                    fontSize: 16,
-                    color: Color(0xFF121212),
-                    fontWeight: FontWeight.w700,
-                  ),
-                  onChanged: (val) {
-                    setState(() {
-                      dropdownValue = val!;
-                    });
-                  },
-                  decoration:  InputDecoration(
-                    border:InputBorder.none,
-                    contentPadding: EdgeInsets.only(bottom: dimensions.height8,left: dimensions.width10,right: dimensions.height10), // Adjust vertical padding
-                  ),
-                ),
-              ),
-              SizedBox(height: dimensions.height8*2,),
               ReusableText(
                 text: 'Admission Open',
                 fontSize: 16,
@@ -179,10 +144,10 @@ class _FormsState extends State<Forms> {
               ),
               SizedBox(height: dimensions.height16,),
               ReusableElevatedButton(
-                width: dimensions.width342,
-                height: dimensions.height48,
-                onPressed: (){},
-                buttonText: 'Apply Now'
+                  width: dimensions.width342,
+                  height: dimensions.height48,
+                  onPressed: (){},
+                  buttonText: 'Apply Now'
               )
             ],
           ),
