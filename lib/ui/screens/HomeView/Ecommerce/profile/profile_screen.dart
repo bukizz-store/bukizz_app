@@ -12,6 +12,8 @@ import '../../../../../constants/constants.dart';
 import '../../../../../constants/font_family.dart';
 import '../../../../../data/providers/auth/firebase_auth.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
+import '../../../../../data/repository/address/update_address.dart';
+import '../../../../../widgets/address/update_address.dart';
 import '../main_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -184,7 +186,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     SizedBox(height: dimensions.height24/3,),
-                    TextButton(onPressed: (){}, child: ReusableText(text: 'Save Changes', fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF00579E),)),
+                    TextButton(onPressed: (){
+
+                    }, child: ReusableText(text: 'Save Changes', fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF00579E),)),
                     SizedBox(height: dimensions.height24/2,),
                     //address
                     Container(
@@ -210,7 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Container(
                                       width: dimensions.width24 * 9.5,
                                       child: ReusableText(
-                                        text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                                        text: "${context.watch<UpdateAddressRepository>().address.houseNo}, ${context.watch<UpdateAddressRepository>().address.street}, ${context.watch<UpdateAddressRepository>().address.city}, ${context.watch<UpdateAddressRepository>().address.state}, ${context.watch<UpdateAddressRepository>().address.pinCode}",
                                         fontSize: 14,
                                         height: 0,
                                         color: Color(0xFF7A7A7A),
@@ -224,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 SizedBox(width: dimensions.width16/3,),
                                 GestureDetector(
                                   onTap: (){
-                                    print('change button tapped');
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateAddress(address: context.watch<UpdateAddressRepository>().address , keyAddress: true,)));
                                   },
                                   child: Padding(
                                     padding:  EdgeInsets.only(top: dimensions.height8),

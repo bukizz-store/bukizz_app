@@ -1,26 +1,30 @@
 <svg width="58" height="57" viewBox="0 0 58 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_2792_7767)">
+<g clip-path="url(#clip0_3344_2313)">
 <rect x="0.5" width="57" height="57" rx="28.5" fill="#0590FF"/>
-<g filter="url(#filter0_f_2792_7767)">
-<circle cx="17.5" cy="45" r="27" fill="white" fill-opacity="0.5"/>
-</g>
 <path d="M37.75 20V35C37.75 35.1989 37.671 35.3897 37.5303 35.5303C37.3897 35.671 37.1989 35.75 37 35.75H24.25C23.8522 35.75 23.4706 35.908 23.1893 36.1893C22.908 36.4706 22.75 36.8522 22.75 37.25H35.5C35.6989 37.25 35.8897 37.329 36.0303 37.4697C36.171 37.6103 36.25 37.8011 36.25 38C36.25 38.1989 36.171 38.3897 36.0303 38.5303C35.8897 38.671 35.6989 38.75 35.5 38.75H22C21.8011 38.75 21.6103 38.671 21.4697 38.5303C21.329 38.3897 21.25 38.1989 21.25 38V22.25C21.25 21.4544 21.5661 20.6913 22.1287 20.1287C22.6913 19.5661 23.4544 19.25 24.25 19.25H37C37.1989 19.25 37.3897 19.329 37.5303 19.4697C37.671 19.6103 37.75 19.8011 37.75 20Z" fill="white"/>
-<g filter="url(#filter1_f_2792_7767)">
-<rect x="-6.80078" y="-50" width="8" height="67.8758" transform="rotate(32.7288 -6.80078 -50)" fill="#FAFAFA"/>
+<g filter="url(#filter0_f_3344_2313)">
+<rect x="-6.80176" y="-50" width="8" height="67.8758" transform="rotate(32.7288 -6.80176 -50)" fill="#FAFAFA"/>
+</g>
+<g filter="url(#filter1_f_3344_2313)">
+<circle cx="10" cy="45" r="27" fill="url(#paint0_radial_3344_2313)" fill-opacity="0.8"/>
 </g>
 </g>
 <defs>
-<filter id="filter0_f_2792_7767" x="-41.5" y="-14" width="118" height="118" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_f_3344_2313" x="-55.5" y="-62" width="67.4277" height="85.4248" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-<feGaussianBlur stdDeviation="16" result="effect1_foregroundBlur_2792_7767"/>
+<feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_3344_2313"/>
 </filter>
-<filter id="filter1_f_2792_7767" x="-55.498" y="-62" width="67.4277" height="85.4253" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter1_f_3344_2313" x="-49" y="-14" width="118" height="118" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-<feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_2792_7767"/>
+<feGaussianBlur stdDeviation="16" result="effect1_foregroundBlur_3344_2313"/>
 </filter>
-<clipPath id="clip0_2792_7767">
+<radialGradient id="paint0_radial_3344_2313" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(10 45) rotate(90) scale(27)">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</radialGradient>
+<clipPath id="clip0_3344_2313">
 <rect x="0.5" width="57" height="57" rx="28.5" fill="white"/>
 </clipPath>
 </defs>

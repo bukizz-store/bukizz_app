@@ -1,5 +1,6 @@
 import 'package:bukizz/data/repository/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
@@ -15,6 +16,7 @@ import '../../../../widgets/images/Reusable_SliderImage.dart';
 import '../../../../widgets/text and textforms/Reusable_text.dart';
 
 class EcommerceMain extends StatefulWidget {
+
   const EcommerceMain({Key? key}) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
   List routes = [
     ViewAll.route,
     ViewAll.route,
-    ViewAll.route,
+    Forms.route,
     ViewAllStationaryScreen.route,
     ViewAllStationaryScreen.route
   ];
@@ -150,7 +152,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Container(
-                      // color: Colors.green,
+
                       padding: EdgeInsets.only(right: dimensions.width10*1.3),
                       height: dimensions.height10 * 7.5,
                       child: Column(
@@ -161,14 +163,16 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             },
                             child: CircleAvatar(
                                 radius: dimensions.height48 / 2,
-                                // backgroundColor: Color(0xFFCCE8FF),
+                                backgroundColor: Color(0xFFCCE8FF),
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(
                                         dimensions.height48 / 2),
                                     child: SvgPicture.asset(
                                       'assets/ecommerce home/icons/${iconSeq[index]}.svg',
                                       alignment: Alignment.center,
-                                    ))),
+                                    )
+                                )
+                            ),
                           ),
                           SizedBox(
                             height: dimensions.height16 / 2,

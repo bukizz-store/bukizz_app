@@ -1,6 +1,7 @@
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/reset_password.dart';
 import 'package:bukizz/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -136,14 +137,20 @@ class _SignInState extends State<SignIn> {
                 //forgot password
                 GestureDetector(
                     onTap: () {
-                      print('tapped');
+                      Navigator.pushNamed(context, ForgotPasswordScreen.route);
+                      print('hello');
                     },
-                    child: ReusableText(
-                      text: 'Forgot Password ?',
-                      fontSize: 14,
-                      height: 0.10,
-                      color: Color(0xFF03045E),
-                      fontWeight: FontWeight.w500,
+                    child: Container(
+                      height: dimensions.height40,
+                      color: Colors.white,
+                      padding: EdgeInsets.only(top: dimensions.height16),
+                      child: ReusableText(
+                        text: 'Forgot Password ?',
+                        fontSize: 14,
+                        height: 0.10,
+                        color: Color(0xFF03045E),
+                        fontWeight: FontWeight.w500,
+                      ),
                     )),
 
                 SizedBox(

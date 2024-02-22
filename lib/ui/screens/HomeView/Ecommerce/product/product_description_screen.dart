@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
 import 'package:bukizz/data/repository/product_view_repository.dart';
@@ -7,9 +7,12 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../data/providers/stationary_provider.dart';
@@ -34,7 +37,15 @@ class ProductDescriptionScreen extends StatefulWidget {
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
   bool productAdded = false;
-  TextEditingController pinController=TextEditingController();
+  TextEditingController pinController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pinController.text = AppConstants.userData.address.pinCode;
+    checkDeliverable();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +124,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             //listing price
                             Text(
                               value.totalPrice.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
@@ -126,10 +137,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             //discounted price
                             Text(
-                              value.selectedProduct.salePrice == ''
-                                  ? 800.toString()
-                                  : value.getTotalSalePrice.toString(),
-                              style: TextStyle(
+                              value.selectedProduct.salePrice.toString(),
+                              style: const TextStyle(
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
@@ -272,12 +281,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     text: value.selectedProduct.description
                 ),
                 SizedBox(
-                  height: dimensions.height24 / 3,
+                  height: 1.h,
                 ),
-
                 Container(
-                  width: dimensions.screenWidth,
-                  height: dimensions.height10*12.9,
+                  width: 100.w,
                   color: Colors.white,
                   padding: EdgeInsets.only(left: dimensions.width24,top: dimensions.height16,bottom: dimensions.height16,right: dimensions.width24),
                   child: Column(
@@ -288,9 +295,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       ReusableText(text:  'Enter Delivery Pincode', fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xFF444444),),
                       SizedBox(height: dimensions.height8,),
                       Container(
+                        alignment: Alignment.center,
                          width: dimensions.screenWidth,
-                         height: dimensions.height10*2.7,
-
+                         height: 27.sp,
                          child: TextField(
                            maxLength: 6,
                            keyboardType: TextInputType.number,
@@ -309,10 +316,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
                          suffixIcon: GestureDetector(
                            onTap: (){
-                             log(10);
+                             checkDeliverable();
                            },
                            child: const Padding(
-                             padding: EdgeInsets.only(right: 8.0,top: 4),
+                             padding: EdgeInsets.symmetric(vertical: 10.0),
                              child: Text(
                                'Check',
                                style: TextStyle(
@@ -332,11 +339,19 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
                        ),
                       SizedBox(height: dimensions.height8,),
-                      Row(
+                      isDeliverable ? Row(
                         children: [
                           Icon(Icons.local_shipping,color:Color(0xFF39A7FF),),
                           SizedBox(width: dimensions.width10/2,),
+                          //code for displaying the delivery date two day after the today date and time
                           ReusableText(text: 'Estimated delivery by 21st March', fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF444444),)
+                        ],
+                      ) : Row(
+                        children: [
+                          Icon(Icons.warning_rounded,color:AppColors.red,),
+                          SizedBox(width: dimensions.width10/2,),
+                          //code for displaying the delivery date two day after the today date and time
+                          ReusableText(text: 'Delivery Unavailable at this Pin code', fontSize: 14,fontWeight: FontWeight.w500,color: AppColors.red,)
                         ],
                       )
                     ],
@@ -435,7 +450,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                             // Plus minus button functional
                                             ReusableColoredBox(
                                               width: dimensions.width80 / 1.25,
-                                              height: dimensions.height24,
+                                              height: 24.sp,
                                               backgroundColor: Colors.white,
                                               borderColor: Colors.black,
                                               child: Row(
@@ -476,10 +491,6 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                                   GestureDetector(
                                                     child: Icon(Icons.add),
                                                     onTap: () async{
-
-                                                      // setState(() {
-                                                      //   setCartQuantities[index]++;
-                                                      // });
                                                       await context
                                                           .read<CartProvider>()
                                                           .addProductInCart(
@@ -533,7 +544,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () async{
+                    onTap: isDeliverable ? () async{
                       // context.read<CartProvider>().addProductInCart(
                       //     productView.selectedProduct.productId, context);
                       context
@@ -560,7 +571,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       //         .getCartData
                       //         .productsId[productView.selectedProduct.productId]!,
                       //     productView.selectedProduct.productId);
-                    },
+                    } : (){},
                     child: Container(
                       height: dimensions.height8 * 6,
                       width: dimensions.width146,
@@ -638,5 +649,43 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
     Navigator.of(context).pushNamedAndRemoveUntil(
         MainScreen.route, (route) => false);
+  }
+
+  bool isDeliverable = false;
+
+  Future<void> checkDeliverable()async {
+    await FirebaseDatabase.instance.ref().child('pincode').child(context.read<SchoolDataProvider>().selectedSchool.city).get().then((DataSnapshot snapshot) {
+      if(snapshot.value != null){
+        if(snapshot.value.toString().contains(pinController.text)){
+          setState(() {
+            isDeliverable = true;
+          });
+          print('pincode found');
+        }
+        else{
+          setState(() {
+            isDeliverable = false;
+          });
+          print('pincode not found');
+        }}else{
+        setState(() {
+          isDeliverable = false;
+        });
+        print('Location not Exist');
+      }
+    });
+  }
+
+  void checkDeliveryDate(){
+    DateTime now = DateTime.now();
+
+    // Calculate delivery date
+    DateTime deliveryDate = now.add(Duration(days: 2));
+
+    // Format the delivery date
+    String formattedDeliveryDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
+
+    // Display the delivery date
+    print('Delivery Date: $formattedDeliveryDate');
   }
 }
