@@ -104,7 +104,7 @@ class KeyboardButton extends StatelessWidget {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        primary: color,
+        //primary: color,
       ),
     );
   }
@@ -134,7 +134,7 @@ class BackspaceButton extends StatelessWidget {
         child: Icon(Icons.backspace),
       ),
       style: ElevatedButton.styleFrom(
-        primary: color,
+       // primary: color,
       ),
     );
   }
