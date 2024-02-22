@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'Notifications/notifications.dart';
 import 'data/models/user_details.dart';
 import 'constants/strings.dart';
@@ -36,16 +37,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: providers,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightThemeData,
-        title: AppString.appName,
-        initialRoute: OnboardingScreen.route,
-        onGenerateRoute: RouteGenerator.generateRoute,
-      ),
-    );
+    return ResponsiveSizer(builder: (context, orientation, screenType){
+      return MultiProvider(
+        providers: providers,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightThemeData,
+          title: AppString.appName,
+          initialRoute: OnboardingScreen.route,
+          onGenerateRoute: RouteGenerator.generateRoute,
+        ),
+      );
+    });
   }
 }
 //

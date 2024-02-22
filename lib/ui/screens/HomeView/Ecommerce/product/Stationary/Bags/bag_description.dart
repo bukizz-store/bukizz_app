@@ -1,6 +1,8 @@
+import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../../Notifications/notifications.dart';
 import '../../../../../../../constants/colors.dart';
@@ -330,6 +332,8 @@ class _BagDescriptionScreenState extends State<BagDescriptionScreen> {
                   //   context,
                   //   MaterialPageRoute(builder: (context) => Checkout1()),
                   // );
+
+                  context.read<BannerRepository>().getbanner1();
                 },
                 child: Container(
                   height: dimensions.height8 * 6,

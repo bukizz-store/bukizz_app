@@ -119,7 +119,10 @@ class OrderViewRespository extends ChangeNotifier {
       FirebaseFirestore.instance
           .collection('orderDetails')
           .doc(orderModel.orderId)
-          .set(order).then((value) => print("Added in Order")).catchError((e) => {AppConstants.showSnackBar(context, 'Error in Placing Order')});
+          .set(order).then((value) => print("Added in Order")).catchError((e) {
+            AppConstants.showSnackBar(context, 'Error in Placing Order');
+            return ;
+          });
 
     // DatabaseReference ordersRef =
     // FirebaseDatabase.instance.ref().child('orderDetails');
@@ -135,12 +138,11 @@ class OrderViewRespository extends ChangeNotifier {
           .doc(AppConstants.userData.uid)
           .update({
         'orderID': FieldValue.arrayUnion([orderModel.orderId]),
-      }).then((value) => debugPrint('Order ID added to user details')).catchError((e)=>{AppConstants.showSnackBar(context, 'Error in Placing Order')});
-
-
+      }).then((value) => debugPrint('Order ID added to user details')).catchError((e){
+        AppConstants.showSnackBar(context, 'Error in Placing Order');
+        return ;
+      });
       //instead of pushing this whole data in firebase fireStore database , now i have to change it to realtime database , so that i can fetch the data in the order screen
-
-
     context.read<CartProvider>().blankCart();
     context.read<CartViewRepository>().blankCart();
       AppConstants.userData.orderID.add(orderModel.orderId);

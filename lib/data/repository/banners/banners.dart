@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 
@@ -22,9 +25,17 @@ class BannerRepository extends ChangeNotifier{
     _banners2 = value;
     notifyListeners();
   }
-  
+
   void getbanner1() async{
-    var data = FirebaseDatabase.instance.ref().child("banners").child("slider1");
-    print(data.parent.)
+    var data = FirebaseDatabase.instance.ref().child("banners").child("slider1").get();
+    data.then((DataSnapshot snapshot){
+      // var temp = jsonDecode(snapshot.children.first.children.first.value.toString());
+      for (var value1 in snapshot.children) {
+        // debugPrint(value1.children.indexed);
+        // _banners1.add(BannerModel(image: value1.value.toString(), link: value1..toString()))
+      }
+
+      debugPrint(snapshot.children.first.children.first.value.toString());
+    });
   }
 }

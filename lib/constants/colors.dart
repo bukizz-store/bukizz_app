@@ -14,4 +14,6 @@ class AppColors{
   static Color productButtonSelectedBG = const Color(0xFF39A7FF).withOpacity(0.12);
   static const Color productButtonUnSelectedBorder = Color(0xFFE8E8E8);
   static const Color productButtonUnSelectedBG =  Color(0xFFFAFAFA);
+  static const Color red =  Color(0xFFFC2A2A);
+
 }
