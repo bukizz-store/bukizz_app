@@ -42,8 +42,9 @@ class _TabScreenState extends State<TabScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: Size.fromHeight(65),
           child: CustomTabBar2(
             tabController: tabController,
             onIndexChanged: (index) {
