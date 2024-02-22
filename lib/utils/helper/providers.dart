@@ -1,4 +1,5 @@
 import 'package:bukizz/data/providers/auth/updateUserData.dart';
+import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/data/repository/payments/upi_payments.dart';
 import 'package:bukizz/data/repository/retailer/retailer_repository.dart';
@@ -46,4 +47,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => ProductReview()),
   ChangeNotifierProvider(create: (_) => UPIPayment()),
   ChangeNotifierProvider(create: (_) => Retailer()),
+  ChangeNotifierProvider(create: (_) => BannerRepository()),
 ];

@@ -95,14 +95,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         RoundedImage(
                           width: dimensions.screenWidth,
                           height: dimensions.height192,
-                          isNetworkImage: false,
-                          assetImage: 'assets/ecommerce home/banner1.jpg',
+                          isNetworkImage: true,
+                          imageUrl:' https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner1.jpg?alt=media&token=07a8dbea-31e2-43d6-bce8-90223eb13cc0'
                         ),
                         RoundedImage(
                           width: dimensions.screenWidth,
                           height: dimensions.height192,
-                          isNetworkImage: false,
-                          assetImage: 'assets/ecommerce home/banner2.png',
+                          isNetworkImage: true,
+                          imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner3.jpg?alt=media&token=0cf88ad2-203f-468b-8a8b-1c037da3713a',
                         ),
                       ],
                       options: CarouselOptions(
