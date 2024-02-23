@@ -121,6 +121,7 @@ class MyOrders with ChangeNotifier{
         // Map<String, dynamic> map = element.data()['cartData'];
       });
     });
+    tempOrders.sort((a, b) => b.orderDate.compareTo(a.orderDate));
     setOrders(tempOrders);
     setIsOrdersLoaded(true);
     notifyListeners();

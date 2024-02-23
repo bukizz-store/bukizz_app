@@ -161,7 +161,7 @@ class _ViewAllState extends State<ViewAll> {
                           ),
                         ),
                         Positioned(
-                            top: dimensions.height10*6.5,
+                            top: dimensions.height10*6.6,
                             child: Container(
                                 padding: const EdgeInsets.only(
                                     left: 8, top: 30),
