@@ -2,7 +2,7 @@ import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/data/repository/cart_view_repository.dart';
-import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/buttons/cart_button.dart';

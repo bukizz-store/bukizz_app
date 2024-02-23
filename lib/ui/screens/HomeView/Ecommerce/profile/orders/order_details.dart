@@ -8,12 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../../constants/font_family.dart';
 import '../../../../../../data/models/ecommerce/products/product_model.dart';
 import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../utils/dimensions.dart';
-import '../../main_screen.dart';
+
 
 class OrderDetailsScreen extends StatefulWidget {
   static const route = '/orderdetails';

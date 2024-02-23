@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:bukizz/data/models/ecommerce/products/variation/set_model.dart';
 import 'package:bukizz/data/models/ecommerce/products/variation/stream_model.dart';
+import 'package:bukizz/data/models/ecommerce/products/variation/variation.dart';
 import 'package:bukizz/data/models/ecommerce/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProductModel {
+class GeneralProductModel {
   String productId;
   String name;
   String description;
@@ -13,15 +14,12 @@ class ProductModel {
   int stockQuantity;
   String categoryId;
   String image;
-  String classId;
-  String board;
   int salePrice;
   String relatilerId;
-  List<StreamData> stream;
-  List<SetData> set;
+  List<VariationGeneral> variation;
   List<dynamic> reviewIdList;
 
-  ProductModel({
+  GeneralProductModel({
     required this.productId,
     required this.name,
     required this.description,
@@ -29,10 +27,7 @@ class ProductModel {
     required this.stockQuantity,
     required this.categoryId,
     required this.image,
-    required this.classId,
-    required this.board,
-    required this.stream,
-    required this.set,
+    required this.variation,
     required this.salePrice,
     required this.relatilerId,
     required this.reviewIdList
@@ -47,37 +42,31 @@ class ProductModel {
       'stockQuantity': stockQuantity,
       'categoryId': categoryId,
       'image': image,
-      'classId': classId,
-      'board': board,
-      'stream': stream.map((x) => x.toMap()).toList(),
-      'set': set.map((x) => x.toMap()).toList(),
+      'variation': variation.map((x) => x.toMap()).toList(),
       'salePrice': salePrice,
       'retailerId' : relatilerId,
       'reviewIdList': reviewIdList
     };
   }
 
-  factory ProductModel.fromMap(Map<String, dynamic> map) {
-    return ProductModel(
-      productId: map['productId'] ?? 0,
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      price: (map['price'] ?? 0).toDouble(),
-      stockQuantity: map['stockQuantity'] ?? 0,
-      categoryId: map['categoryId'] ?? 0,
-      image: map['image'] ?? '',
-      classId: map['classId'] ?? '',
-      board: map['board'] ?? '',
-      relatilerId: map['retailerId'] ?? '',
-      salePrice: map['salePrice'] ?? 0,
-      stream: List<StreamData>.from(map['stream']?.map((x) => StreamData.fromMap(x))),
-      set: List<SetData>.from(map['set']?.map((x) => SetData.fromMap(x))),
-      reviewIdList: map['reviewIdList'] ?? []
+  factory GeneralProductModel.fromMap(Map<String, dynamic> map) {
+    return GeneralProductModel(
+        productId: map['productId'] ?? 0,
+        name: map['name'] ?? '',
+        description: map['description'] ?? '',
+        price: (map['price'] ?? 0).toDouble(),
+        stockQuantity: map['stockQuantity'] ?? 0,
+        categoryId: map['categoryId'] ?? 0,
+        image: map['image'] ?? '',
+        relatilerId: map['retailerId'] ?? '',
+        salePrice: map['salePrice'] ?? 0,
+        variation: List<VariationGeneral>.from(map['variation']?.map((x) => VariationGeneral.fromMap(x))),
+        reviewIdList: map['reviewIdList'] ?? []
     );
   }
 
 
-  static Future<void> updateProductData() async {
+  static Future<void> updateGeneralProduct() async {
     //function to update the current product data by finding the product where productId is equals to "BSCL6" and i want to add a new field for list of stream and set
     await FirebaseFirestore.instance
         .collection('products')

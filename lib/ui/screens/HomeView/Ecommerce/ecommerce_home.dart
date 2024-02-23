@@ -1,5 +1,5 @@
 import 'package:bukizz/data/repository/banners/banners.dart';
-import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';

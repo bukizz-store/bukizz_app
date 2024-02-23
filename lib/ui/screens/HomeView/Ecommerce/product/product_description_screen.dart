@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
-import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';

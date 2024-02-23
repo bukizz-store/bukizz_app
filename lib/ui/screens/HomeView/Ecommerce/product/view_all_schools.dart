@@ -6,7 +6,7 @@ import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../data/providers/school_repository.dart';
-import '../../../../../data/repository/product_view_repository.dart';
+import '../../../../../data/repository/product/product_view_repository.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 
 class ViewAll extends StatefulWidget {

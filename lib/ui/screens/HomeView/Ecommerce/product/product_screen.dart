@@ -1,5 +1,5 @@
 import 'package:bukizz/constants/colors.dart';
-import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/containers/Reusable_ColouredBox.dart';

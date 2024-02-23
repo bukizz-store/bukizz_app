@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../data/providers/product_provider.dart';
 import '../../../../../../data/providers/school_repository.dart';
-import '../../../../../../data/repository/product_view_repository.dart';
+import '../../../../../../data/repository/product/product_view_repository.dart';
 import '../../../../../../data/repository/review/product_Reviews.dart';
 
 

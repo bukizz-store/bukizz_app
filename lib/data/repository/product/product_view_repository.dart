@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/ui/firebase_sorted_list.dart';
 import 'package:flutter/foundation.dart';
 
-import '../models/ecommerce/products/product_model.dart';
-import '../models/ecommerce/products/set_model.dart';
-import '../models/ecommerce/products/stream_model.dart';
+import '../../models/ecommerce/products/product_model.dart';
+import '../../models/ecommerce/products/variation/set_model.dart';
+import '../../models/ecommerce/products/variation/stream_model.dart';
 
 class ProductViewRepository extends ChangeNotifier {
   bool isProductAdded = false;

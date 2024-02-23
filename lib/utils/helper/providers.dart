@@ -13,7 +13,7 @@ import 'package:bukizz/data/providers/school_repository.dart';
 import 'package:bukizz/data/providers/stationary_provider.dart';
 import 'package:bukizz/data/repository/auth_view_repository.dart';
 import 'package:bukizz/data/repository/cart_view_repository.dart';
-import 'package:bukizz/data/repository/product_view_repository.dart';
+import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/data/repository/user_repository.dart';
 import '../../data/providers/auth/firebase_auth.dart';
 import '../../data/providers/bottom_nav_bar_provider.dart';
