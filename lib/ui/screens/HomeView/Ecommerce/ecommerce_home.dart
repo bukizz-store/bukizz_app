@@ -1,6 +1,6 @@
 import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/general_product_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
+import '../../../../data/repository/product/general_product.dart';
 import '../../../../utils/dimensions.dart';
 import '../../../../widgets/images/Reusable_SliderImage.dart';
 import '../../../../widgets/text and textforms/Reusable_text.dart';
@@ -48,6 +49,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
     ViewAllStationaryScreen.route,
     ViewAllStationaryScreen.route
   ];
+
+  List<String> category = ['Bag', 'NoteBook', 'LunchBox', 'Art&Craft', 'Extras'];
 
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
@@ -570,7 +573,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       children: [
                         GestureDetector(
                             onTap: () {
-
+                              // context.read<GeneralProductRepository>().sendGeneralProductToFirebase();
                               Navigator.pushNamed(
                                   context, ViewAllStationaryScreen.route);
                             },
@@ -604,7 +607,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, BagViewAll.route);
+                          context.read<GeneralProductRepository>().getGeneralProductFromFirebase('BG');
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const GeneralProductScreen(product: 'Bags')));
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: dimensions.width16,bottom: dimensions.height10),

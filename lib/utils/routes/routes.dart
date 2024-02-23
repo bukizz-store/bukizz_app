@@ -19,8 +19,8 @@ import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
 import '../../ui/screens/HomeView/Ecommerce/onboarding screen/location.dart';
-import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_description.dart';
-import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/general_product_description_screen.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/general_product_screen.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/form_view.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
@@ -121,13 +121,13 @@ class RouteGenerator{
         return MaterialPageRoute(
           builder: (_) =>  ViewAllStationaryScreen(),
         );
-      case BagViewAll.route:
+      // case GeneralProductScreen.route:
+      //   return MaterialPageRoute(
+      //     builder: (_) =>  GeneralProductScreen(),
+      //   );
+      case GeneralProductDescriptionScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  BagViewAll(),
-        );
-      case BagDescriptionScreen.route:
-        return MaterialPageRoute(
-          builder: (_) =>  BagDescriptionScreen(),
+          builder: (_) =>  GeneralProductDescriptionScreen(),
         );
       case Forms.route:
         return MaterialPageRoute(
