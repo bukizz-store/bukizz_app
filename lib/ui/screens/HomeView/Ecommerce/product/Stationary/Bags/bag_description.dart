@@ -26,7 +26,6 @@ class BagDescriptionScreen extends StatefulWidget {
 class _BagDescriptionScreenState extends State<BagDescriptionScreen> {
   @override
   void initState() {
-    Notifications.initialize(flutterLocalNotificationsPlugin);
     // TODO: implement initState
     super.initState();
   }

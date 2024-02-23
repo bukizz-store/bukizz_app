@@ -1,23 +1,19 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-class Notifications {
-  static Future initialize(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    var androidInitialize = AndroidInitializationSettings('mipmap/ic_launcher');
-    // var iosInitialize = IOSInitializationSettings();
-    var initializationSettings =
-    InitializationSettings(android: androidInitialize,);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+class FirebaseApi{
+
+  final _firebaseMessaging=FirebaseMessaging.instance;
+
+  Future<void>initNotifications()async{
+    await _firebaseMessaging.requestPermission();
+    final fcmToken=await _firebaseMessaging.getToken();
+    print('Token : $fcmToken');
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
   }
-  static Future showBigTextNotifications({var id=0,required String title,required String body,var payload,required FlutterLocalNotificationsPlugin fln})async{
-    AndroidNotificationDetails androidPlatformChannelSpecifies=new AndroidNotificationDetails(
-        'you can name it whatever',
-        'channel_name',
-        playSound: true,
-      importance: Importance.max,
-      priority: Priority.high,
-    );
-    var not=NotificationDetails(android: androidPlatformChannelSpecifies,);
-    await fln.show(0,title,body,not);
-  }
+}
+
+Future<void>handleBackgroundMessage(RemoteMessage message)async{
+  print('Title :${message.notification?.title}');
+  print('Body :${message.notification?.body}');
+  print('Payload :${message.data}');
 }
