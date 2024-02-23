@@ -33,9 +33,8 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-
+        backgroundColor: Color(0xFFF5FAFF),
       ),
-      backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

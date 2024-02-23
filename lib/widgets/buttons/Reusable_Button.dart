@@ -62,9 +62,9 @@ class ReusableElevatedButton extends StatelessWidget {
             // side: BorderSide(width: 1, color:buttonColor!),
             borderRadius: BorderRadius.circular(40),
           ),
-          elevation: 11,
-          shadowColor: Colors.grey,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          //elevation: 11,
+          // shadowColor: Colors.grey,
+          // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
 
         ),
         child: Row(

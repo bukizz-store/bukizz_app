@@ -1,4 +1,5 @@
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/buttons/Reusable_Button.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
@@ -71,7 +72,12 @@ class _SelectLocationState extends State<SelectLocation> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(Icons.arrow_back),
+                  GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushNamedAndRemoveUntil(LocationScreen.route, (route) => false);
+                      },
+                      child: const Icon(Icons.arrow_back)
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: dimensions.height10 * 4.4,

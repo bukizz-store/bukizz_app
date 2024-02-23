@@ -52,10 +52,9 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
 
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
       appBar: AppBar(
         // title: Text('Sign In'),
-
+        backgroundColor: Color(0xFFF5FAFF),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -220,7 +219,7 @@ class _SignInState extends State<SignIn> {
 
                 //Sign in with google
                 ReusableElevatedButton(
-                  shadowColor: Colors.grey.withOpacity(0.3),
+                  shadowColor: Colors.grey.withOpacity(0.6),
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () {
@@ -250,7 +249,7 @@ class _SignInState extends State<SignIn> {
                   fontFamily: FontFamily.nunito.name,
                   fontWeight: FontWeight.w400,
                   borderColor: Colors.black38,
-                  shadowColor: Colors.grey.withOpacity(0.3),
+                  shadowColor: Colors.grey.withOpacity(0.6),
                 ),
               ],
             ),
