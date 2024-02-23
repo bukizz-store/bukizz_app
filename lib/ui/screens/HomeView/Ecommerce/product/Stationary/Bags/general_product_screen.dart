@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../../widgets/text and textforms/Reusable_text.dart';
 
-List bagImages = ['bag1', 'bag1', 'bag1', 'bag1', 'bag1', 'bag1'];
 
 class GeneralProductScreen extends StatefulWidget {
   static const route = '/stationary view';

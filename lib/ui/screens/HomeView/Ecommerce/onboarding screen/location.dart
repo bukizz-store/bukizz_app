@@ -79,6 +79,7 @@ class _LocationScreenState extends State<LocationScreen> {
           right: dimensions.width24,
           bottom: dimensions.height10*4.5,
           child: ReusableElevatedButton(
+            shadowColor: Color(0xFFE0EFFF).withOpacity(0.9),
             width: dimensions.width342,
             height: dimensions.height10 * 5.4,
             onPressed: () {

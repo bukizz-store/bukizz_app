@@ -8,6 +8,7 @@ class ReusableElevatedButton extends StatelessWidget {
   final String buttonText;
   final Color ?buttonColor;
   final Color textColor;
+  final  Color shadowColor;
   final double fontSize;
   final String fontFamily;
   final FontWeight fontWeight;
@@ -25,6 +26,7 @@ class ReusableElevatedButton extends StatelessWidget {
     required this.buttonText,
     this.buttonColor = const Color(0xFF058FFF),
     this.textColor = Colors.white,
+    this.shadowColor=const Color(0xFF0466b5),
     this.fontSize = 16,
     this.fontFamily = 'Open Sans',
     this.fontWeight = FontWeight.w700,
@@ -41,14 +43,29 @@ class ReusableElevatedButton extends StatelessWidget {
     return Container(
       width: width,
       height: height,
+      decoration: BoxDecoration(
+       color: buttonColor,
+       borderRadius: BorderRadius.circular(40),
+       boxShadow: [
+         BoxShadow(
+           color: shadowColor,
+           offset:Offset(0,4),
+
+         )
+       ]
+      ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor,
           shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1, color:borderColor),
+            // side: BorderSide(width: 1, color:buttonColor!),
             borderRadius: BorderRadius.circular(40),
           ),
+          elevation: 11,
+          shadowColor: Colors.grey,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

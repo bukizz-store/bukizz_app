@@ -220,6 +220,7 @@ class _SignInState extends State<SignIn> {
 
                 //Sign in with google
                 ReusableElevatedButton(
+                  shadowColor: Colors.grey.withOpacity(0.3),
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () {
@@ -235,7 +236,7 @@ class _SignInState extends State<SignIn> {
                   borderColor: Colors.black38,
                 ),
                 SizedBox(
-                  height: dimensions.height8,
+                  height: dimensions.height8*2,
                 ),
                 ReusableElevatedButton(
                   width: dimensions.width327,
@@ -249,6 +250,7 @@ class _SignInState extends State<SignIn> {
                   fontFamily: FontFamily.nunito.name,
                   fontWeight: FontWeight.w400,
                   borderColor: Colors.black38,
+                  shadowColor: Colors.grey.withOpacity(0.3),
                 ),
               ],
             ),

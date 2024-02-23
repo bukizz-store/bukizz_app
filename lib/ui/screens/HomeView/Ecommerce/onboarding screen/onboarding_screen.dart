@@ -189,7 +189,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     left: dimensions.width10*4,
                     right:dimensions.width10*4,
                     top: animation.value*5+dimensions.height10*51,
-                    child: ReusableElevatedButton(
+                child: ReusableElevatedButton(
                       width: dimensions.width342,
                       height: dimensions.height16*3.5,
                       onPressed: () {
