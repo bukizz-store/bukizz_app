@@ -3,6 +3,7 @@ import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/data/models/ecommerce/school_model.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../data/providers/school_repository.dart';
@@ -150,8 +151,8 @@ class _ViewAllState extends State<ViewAll> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              foundedSchool[index].banner,
+                            child: CachedNetworkImage(
+                              imageUrl: foundedSchool[index].banner,
                               fit: BoxFit.cover,
                               filterQuality: FilterQuality.low,
                               height: dimensions.height151,
@@ -160,11 +161,11 @@ class _ViewAllState extends State<ViewAll> {
                           ),
                         ),
                         Positioned(
-                            bottom: dimensions.width16,
+                            top: dimensions.height10*6.5,
                             child: Container(
                                 padding: const EdgeInsets.only(
-                                    left: 12, top: 30),
-                                height: dimensions.height10*7,
+                                    left: 8, top: 30),
+                                height: dimensions.height10*8.5,
                                 width: dimensions.width169,
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -185,15 +186,21 @@ class _ViewAllState extends State<ViewAll> {
                                 child: Column(
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ReusableText(
-                                      text: foundedSchool[index].name,
-                                      fontSize: 14,
-                                      color: Color(0xFFF9F9F9),
-                                      fontWeight: FontWeight.w700,
+                                    Text(
+                                      schoolData.schoolData[index].name,
+                                      style: const TextStyle(
+                                          fontFamily: 'nunito',
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFFF9F9F9),
+                                          fontSize: 14,
+                                          overflow: TextOverflow.ellipsis
+                                      ),
                                     ),
+
                                     SizedBox(
-                                      height: dimensions.height10,
+                                      height: dimensions.height10/4,
                                     ),
                                     Row(
                                       children: [

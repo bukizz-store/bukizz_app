@@ -64,7 +64,7 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
                 radius: dimensions.height48 / 2,
                 child: SvgPicture.asset('assets/tab icons/${index + 1}.svg')
               ),
-              SizedBox(height: 8,),
+              SizedBox(height:12,),
               ReusableText(
                 text: emojiText[index],
                 fontSize: 14,

@@ -91,10 +91,35 @@ class ProductViewRepository extends ChangeNotifier {
         .then((value) =>
             value.docs.map((e) => ProductModel.fromMap(e.data())).toList());
 
-    mergeSort(productData , compare: (ProductModel a , ProductModel b){
-      return(a.classId.toLowerCase()).compareTo(b.classId.toLowerCase());
-    });
+    productData.sort((a, b) => compareClassIds(a.classId, b.classId));
+
 
     setProductLoaded(true);
   }
+}
+
+
+// Custom comparison function to sort classIds
+int compareClassIds(String a, String b) {
+  int aIndex = getClassIndex(a);
+  int bIndex = getClassIndex(b);
+
+  return aIndex.compareTo(bIndex);
+}
+
+// Helper function to get the index of classId
+int getClassIndex(String classId) {
+  // Parse the numerical part of the classId
+  int numericValue = int.tryParse(classId.replaceAll(RegExp(r'\D'), '')) ?? 0;
+
+  // Custom mapping for 10th, 11th, and 12th
+  if (classId.toLowerCase().contains('10th')) {
+    numericValue += 100; // Shift 10th to come after 1st to 9th
+  } else if (classId.toLowerCase().contains('11th')) {
+    numericValue += 200; // Shift 11th to come after 1st to 10th
+  } else if (classId.toLowerCase().contains('12th')) {
+    numericValue += 300; // Shift 12th to come after 1st to 11th
+  }
+
+  return numericValue;
 }

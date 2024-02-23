@@ -5,6 +5,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_vi
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -320,8 +321,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(12),
-                                      child: Image.network(
-                                        schoolData.schoolData[index].banner,
+                                      child: CachedNetworkImage(
+                                        imageUrl:  schoolData.schoolData[index].banner,
                                         fit: BoxFit.cover,
                                         filterQuality: FilterQuality.low,
                                         height: dimensions.height151,
@@ -330,11 +331,11 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                     ),
                                   ),
                                   Positioned(
-                                      top: dimensions.height10*7,
+                                      top: dimensions.height10*6.5,
                                       child: Container(
                                           padding: const EdgeInsets.only(
-                                              left: 12, top: 30),
-                                          height: dimensions.height10*7,
+                                              left: 8, top: 30),
+                                          height: dimensions.height10*8.5,
                                           width: dimensions.width169,
                                           decoration: BoxDecoration(
                                               gradient: LinearGradient(
@@ -347,35 +348,40 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                                 ],
                                               ),
                                               borderRadius:
-                                                  const BorderRadius.only(
-                                                      bottomLeft:
-                                                          Radius.circular(12),
-                                                      bottomRight:
-                                                          Radius.circular(12))),
+                                              const BorderRadius.only(
+                                                  bottomLeft:
+                                                  Radius.circular(12),
+                                                  bottomRight:
+                                                  Radius.circular(12))),
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              ReusableText(
-                                                text: schoolData
-                                                    .schoolData[index].name,
-                                                fontSize: 14,
-                                                color: Color(0xFFF9F9F9),
-                                                fontWeight: FontWeight.w700,
+                                              Text(
+                                                schoolData.schoolData[index].name,
+                                                style: const TextStyle(
+                                                    fontFamily: 'nunito',
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Color(0xFFF9F9F9),
+                                                    fontSize: 14,
+                                                    overflow: TextOverflow.ellipsis
+                                                ),
                                               ),
+
                                               SizedBox(
-                                                height: dimensions.height10,
+                                                height: dimensions.height10/4,
                                               ),
                                               Row(
                                                 children: [
-                                                 const Icon(
+                                                  const Icon(
                                                     Icons.location_on,
                                                     color: Colors.white,
                                                     size: 18,
                                                   ),
                                                   SizedBox(
                                                     width:
-                                                        dimensions.width24 / 6,
+                                                    dimensions.width24 / 6,
                                                   ),
                                                   ReusableText(
                                                     text: schoolData
@@ -564,6 +570,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       children: [
                         GestureDetector(
                             onTap: () {
+
                               Navigator.pushNamed(
                                   context, ViewAllStationaryScreen.route);
                             },
