@@ -12,8 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../../../constants/colors.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
+import '../../../../data/repository/category/category_repository.dart';
 import '../../../../data/repository/product/general_product.dart';
 import '../../../../utils/dimensions.dart';
 import '../../../../widgets/images/Reusable_SliderImage.dart';
@@ -62,6 +64,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
   @override
   void initState() {
     super.initState();
+    context.read<BannerRepository>().getBanners();
+    context.read<CategoryRepository>().getCategoryFromFirebase();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -80,7 +84,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
+    var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     var banner= context.read<BannerRepository>();
+    var general= Provider.of<GeneralProductRepository>(context, listen: false);
     // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
@@ -109,6 +115,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemCount: 2,
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
+                            onPressed: (){
+                             general.sendGeneralProductToFirebase();
+                            },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
                               isNetworkImage: true,
@@ -596,19 +605,23 @@ class _EcommerceMainState extends State<EcommerceMain> {
               ),
 
               SizedBox(height: dimensions.height16),
+              categoryRepo.category.isNotEmpty?
               Container(
                 height: dimensions.height10 * 17,
                 width: dimensions.screenWidth,
                 // color: Colors.red,
                 padding: EdgeInsets.only(left: dimensions.width16),
                 child: ListView.builder(
-                    itemCount: 2,
+                    itemCount: categoryRepo.category.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
+                        // print(categoryRepo.category.length);
+                      var selectedModel=categoryRepo.category[index];
                       return GestureDetector(
                         onTap: () {
-                          context.read<GeneralProductRepository>().getGeneralProductFromFirebase('BG');
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const GeneralProductScreen(product: 'Bags')));
+                          context.read<CategoryRepository>().selectedCategory = selectedModel;
+                          context.read<GeneralProductRepository>().getGeneralProductFromFirebase(selectedModel.categoryId);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>   GeneralProductScreen(product: selectedModel.name)));
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: dimensions.width16,bottom: dimensions.height10),
@@ -644,9 +657,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                     borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(12),
                                         topRight: Radius.circular(12)),
-                                    child: Image.asset(
-                                      'assets/stationary/${index + 1}.jpg',
-                                      fit: BoxFit.cover,
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.fitHeight, imageUrl: selectedModel.image,
                                     )),
                               ),
                               Padding(
@@ -657,7 +669,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ReusableText(
-                                      text: stationaryText[2 * index],
+                                      text: selectedModel.name,
                                       fontSize: 14,
                                       color: Color(0xFF444444),
                                       fontWeight: FontWeight.w500,
@@ -666,7 +678,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                       height: dimensions.height10 * 2,
                                     ),
                                     ReusableText(
-                                      text: stationaryText[2 * index + 1],
+                                      text: selectedModel.offers,
                                       fontSize: 14,
                                       color: Color(0xFF121212),
                                       fontWeight: FontWeight.w700,
@@ -679,7 +691,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         ),
                       );
                     }),
-              ),
+              ):Center(child: SpinKitChasingDots(color: AppColors.primaryColor, size: 24,)),
               SizedBox(height: dimensions.height36),
             ],
           ),

@@ -90,6 +90,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                             child: Image(
                               image: CachedNetworkImageProvider(
                                   value.generalProduct[index].variation[0].image[0]),
+                                  fit: BoxFit.cover,
                               ),
                             ),
                           SizedBox(height: dimensions.height24 / 5),
@@ -98,6 +99,15 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                SizedBox(height: dimensions.height16,),
+                                ReusableText(
+                                  text: '${value.generalProduct[index].brand}',
+                                  fontSize: 14,
+                                  height: 0.11,
+                                  color: Color(0xFF058FFF),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                SizedBox(height: dimensions.height16,),
                                 RichText(
                                   text: TextSpan(
                                     text: '${value.generalProduct[index].variation[0].price} ',
@@ -122,13 +132,6 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                                   ),
                                 ),
                                 SizedBox(height: dimensions.height24 / 3),
-                                // ReusableText(
-                                //   text: '20 % off',
-                                //   fontSize: 12,
-                                //   height: 0.11,
-                                //   color: Color(0xFF058FFF),
-                                //   fontWeight: FontWeight.w700,
-                                // ),
                                 // SizedBox(height: dimensions.height24 / 3),
                                 // Row(
                                 //   children: List.generate(

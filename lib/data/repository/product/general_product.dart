@@ -50,13 +50,12 @@ class GeneralProductRepository extends ChangeNotifier{
       })
     });
     isProductLoaded = true;
-    notifyListeners();
   }
 
   //push a random general product to the firebase
   Future<void> sendGeneralProductToFirebase()async {
     VariationGeneral variation = VariationGeneral( name: 'Black',
-    image: ['https://m.media-amazon.com/images/I/71QejemtPCL._SX679_.jpg', 'https://m.media-amazon.com/images/I/71QejemtPCL._SX679_.jpg', 'https://m.media-amazon.com/images/I/61bPwPFvdqL._SX679_.jpg', 'https://m.media-amazon.com/images/I/81iUZdSsyoL._SX679_.jpg', 'https://m.media-amazon.com/images/I/81iUZdSsyoL._SX679_.jpg', 'https://m.media-amazon.com/images/I/81iUZdSsyoL._SX679_.jpg', 'https://m.media-amazon.com/images/I/714xjxj1FFL._SX679_.jpg'],
+    image: ['https://m.media-amazon.com/images/I/81hMj8os7XL._SX679_.jpg', ],
     sku: 10,
     salePrice: 1995,
     reviewIdList: [],
@@ -69,11 +68,11 @@ class GeneralProductRepository extends ChangeNotifier{
     price: 3999);
 
       GeneralProductModel product = GeneralProductModel(
-        productId: 'BAG101',
-        name: 'Gear Elevate Faux Leather 20L Water Resistant Anti-Theft Backpack/Laptop Bag/Office Bag with RainCover for Men/Women (Black-Red)',
-        description: 'Ergonomic Design : Spacious with Multiple Compartments & Pockets : Intuitive Access : Optimized Back Panel with Premium Cushioning with Airflow Mechanism : Padded & Adjustable Shoulder Straps : Padded Base : Lightweight : Bar-Tacked Load Points : Water Resistant Fabric : Heavy Duty Long Lasting Zippers : Padded Sleeve Fits Up To 15.6″ Laptop & Tab : Elasticated Trolley Sleeve on Back Panel : Concealed Anti-theft Pocket',
-        brand: 'Gear',
-        categoryId: 'BG',
+        productId: 'Stationary101',
+        name: 'Apsara Kit, Premium 14 Color Pencils, 24 Wax Crayons, Skater Sparkle Gel Pen, Premium Dark Pencils, Briefcase Shaped Pack For Convenient Storage, Fun Kit For Children, Multicolor',
+        description:'MY APSARA KIT: My Apsara Kit is a Comprehensive Stationery Collection Perfect for Back-to-school Needs. It Includes Premium Color Pencils, Wax Crayons, a Sparkling Gel Pen, Dark Pencils, Erasers, and a Scale, Offering a Complete Set of High-quality Tools for Students and Creative Individuals.',
+        brand: 'Apsara',
+        categoryId: 'Stationary Kit',
         relatilerId: '1',
         variation: [
           variation,

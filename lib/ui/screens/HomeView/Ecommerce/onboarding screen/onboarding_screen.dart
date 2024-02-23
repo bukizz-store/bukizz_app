@@ -1,5 +1,7 @@
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/constants/font_family.dart';
+import 'package:bukizz/data/repository/category/category_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/categories/CategoryScreen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
@@ -101,7 +103,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    context.read<BannerRepository>().getBanners();
     return Scaffold(
       backgroundColor:  const Color(0xFFF5FAFF),
         body: Stack(

@@ -45,7 +45,6 @@ class BannerRepository extends ChangeNotifier{
         _banners1.add(BannerModel(image: value['image'], link: value['link']));
       });
     }
-      notifyListeners();
   }
   Future<void> getBanner2() async{
     _banners2 = [];
@@ -57,7 +56,6 @@ class BannerRepository extends ChangeNotifier{
         _banners2.add(BannerModel(image: value['image'], link: value['link']));
       });
     }
-    notifyListeners();
   }
 
   Future getBanners() async{

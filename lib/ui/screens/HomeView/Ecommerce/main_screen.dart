@@ -10,6 +10,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../constants/images.dart';
 import '../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../data/providers/school_repository.dart';
+import '../../../../data/repository/banners/banners.dart';
+import '../../../../data/repository/category/category_repository.dart';
 import 'Cart/cart_screen.dart';
 import 'categories/CategoryScreen.dart';
 import 'notification/notification_screen.dart';
@@ -25,8 +27,15 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<BottomNavigationBarProvider>(builder: (context , bottomProvider , child){
+
       return Scaffold(
         body: _buildCurrentScreen(),
         bottomNavigationBar: BottomNavigationBar(

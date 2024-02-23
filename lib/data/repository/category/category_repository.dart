@@ -22,29 +22,28 @@ class CategoryRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> getCategoryFromFirebase()async {
-    isCategoryLoaded = false;
-    category.clear();
+  Future<void> getCategoryFromFirebase() async{
+    category = [];
     await FirebaseFirestore.instance.collection('category').get().then((value) => {
       value.docs.forEach((element) {
         category.add(CategoryModel.fromMap(element.data()));
       })
     });
-    isCategoryLoaded = true;
-    notifyListeners();
+    category.sort((a, b) => a.name.compareTo(b.name));
   }
 
   Future<void> pushCategoryData() async{
     CategoryModel categoryModel = CategoryModel(
-      categoryId: "Bag",
-      name: 'Bag',
-      image: 'https://m.media-amazon.com/images/I/71QejemtPCL._SX679_.jpg',
-      description: 'This is the category for all the electronics items',
-      offers: "10% off",
+      categoryId: "Stationary Kit",
+      name: 'Stationary Kit',
+      image: 'https://m.media-amazon.com/images/I/71ZwHhBuKPL._SL1500_.jpg',
+      description: 'This is the category for all the Stationary items',
+      offers: "25% off",
     );
 
     await FirebaseFirestore.instance.collection('category').add(categoryModel.toMap()).then((value) => {
       print('Category added')
     });
+
   }
 }
