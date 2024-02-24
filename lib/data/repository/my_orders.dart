@@ -38,7 +38,6 @@ class MyOrders with ChangeNotifier{
 
   void setOrder(int index)
   {
-    setIsOrderDataLoaded(false);
     selectedOrderModel = orders[index];
     Map<String , Map<String , Map<int , Map<int , List<dynamic>>>>> productsIdMap = {};
     selectedOrderModel.cartData.forEach((school, schoolData) {
@@ -55,7 +54,6 @@ class MyOrders with ChangeNotifier{
       });
     });
     selectedOrder = productsIdMap;
-    setIsOrderDataLoaded(true);
     notifyListeners();
   }
 

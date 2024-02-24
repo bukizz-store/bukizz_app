@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/data/repository/query/order_query.dart';
 import 'package:bukizz/data/repository/review/review_repository.dart';
@@ -22,6 +23,8 @@ class OrderDetailsScreen extends StatefulWidget {
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+  double totalPrice = 0;
+  double salePrice = 0;
   int itemCount = 2;
   bool dropDown = false;
   @override
@@ -30,6 +33,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         context.read<BottomNavigationBarProvider>();
     Dimensions dimensions = Dimensions(context);
     return Consumer<MyOrders>(builder: (context, orderData, child) {
+
+      if(!orderData.isOrderDataLoaded){
+        return Scaffold(
+          body: Center(
+            child: SpinKitChasingDots(
+              size: 24,
+              color: AppColors.primaryColor,
+            ),
+          ),
+        );
+      }
       return Scaffold(
         appBar: AppBar(
           title: const Text('My Orders'),
@@ -285,7 +299,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       ],
                     ),
                     ReusableText(
-                      text: '₹${orderData.selectedOrderModel.saleAmount}',
+                      text: '₹${orderData.selectedOrderModel.saleAmount + 40}',
                       fontSize: 16,
                       color: Color(0xFF121212),
                       fontWeight: FontWeight.w500,
@@ -468,7 +482,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                           ReusableText(
                             text:
-                                '₹${orderData.selectedOrderModel.totalAmount}',
+                                '₹${orderData.selectedOrderModel.saleAmount + 40}',
                             fontSize: 12,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
@@ -488,7 +502,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         height: dimensions.height8 * 1.5,
                       ),
                       ReusableText(
-                        text: 'You will save ₹40 on this order',
+                        text: 'You will save ₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount} on this order',
                         fontSize: 12,
                         color: Color(0xFF038B10),
                         fontWeight: FontWeight.w600,
@@ -541,6 +555,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   List<Widget> _buildWidget(
       MyOrders orderData, BuildContext context, dimensions) {
+    // orderData.setIsOrderDataLoaded(false);
     List<Widget> list = [];
     // totalPrice = 0;
     // salePrice = 0;
@@ -556,8 +571,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   setProductName(schoolName, set, stream, productModel);
               int totalSalePrice = setTotalSalePrice(productModel, set, stream);
               int price = setTotalPrice(productModel, set, stream);
-              // totalPrice += price * quantity;
-              // salePrice += totalSalePrice * quantity;
+              totalPrice += price * data[0];
+              salePrice += totalSalePrice * data[0];
               list.add(Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: dimensions.height8 * 2,
@@ -595,7 +610,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             '${DateTime.now().difference(DateTime.parse(orderData.selectedOrderModel.orderDate)).inDays.abs()} Day ago',
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFF7A7A7A),
+                        color: const Color(0xFF7A7A7A),
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -732,6 +747,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         });
       });
     }
+    // orderData.setIsOrderDataLoaded(true);
     return list;
   }
 }

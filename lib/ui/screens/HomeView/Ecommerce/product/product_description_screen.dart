@@ -1,13 +1,10 @@
-import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
-import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,7 +67,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     children: [
                       Container(
                         // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
-                        child: Image.network(value.selectedProduct.image),
+                        child: CachedNetworkImage(imageUrl: value.selectedProduct.image,),
                       ),
                       // Container(
                       //   child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),

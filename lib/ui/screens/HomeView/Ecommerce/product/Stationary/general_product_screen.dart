@@ -1,13 +1,13 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/data/repository/product/general_product.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/general_product_description_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/general_product_description_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../../widgets/text and textforms/Reusable_text.dart';
+import '../../../../../../widgets/text and textforms/Reusable_text.dart';
 
 
 class GeneralProductScreen extends StatefulWidget {

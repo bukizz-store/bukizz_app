@@ -1,6 +1,6 @@
 import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/Bags/general_product_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/general_product_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
@@ -13,6 +13,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../constants/colors.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
@@ -102,9 +103,19 @@ class _EcommerceMainState extends State<EcommerceMain> {
 
                   if(banner.banners1.isEmpty){
                     return Center(
-                      child: SpinKitChasingDots(
-                        size: 24,
-                        color: Theme.of(context).colorScheme.primary,
+                      child: Shimmer.fromColors(
+
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          width: 330,
+                          height: 178,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)
+                          ),
+
+                        ),
                       ),
                     );
                   }
@@ -196,7 +207,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             },
                             child: CircleAvatar(
                                 radius: dimensions.height48 / 2,
-                                backgroundColor: Color(0xFFCCE8FF),
+                                backgroundColor: const Color(0xFFCCE8FF),
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(
                                         dimensions.height48 / 2),
@@ -489,10 +500,18 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   builder: (context) {
 
                     if(banner.banners2.isEmpty){
-                      return Center(
-                        child: SpinKitChasingDots(
-                          size: 24,
-                          color: Theme.of(context).colorScheme.primary,
+                      return Shimmer.fromColors(
+
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          width: 330,
+                          height: 178,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+
                         ),
                       );
                     }
