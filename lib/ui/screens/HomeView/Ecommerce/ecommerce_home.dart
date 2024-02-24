@@ -286,9 +286,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
               // ListView of schools
               context.watch<SchoolDataProvider>().schoolData.isNotEmpty
                   ? Container(
-                      height: dimensions.height151,
+                      height: 50.sp,
                       width: dimensions.width195,
-                      margin: EdgeInsets.only(left: dimensions.width16),
+                      margin: EdgeInsets.only(left: 3.8.w),
                       // color: Colors.red,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -351,11 +351,11 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                     ),
                                   ),
                                   Positioned(
-                                      top: dimensions.height10*6.5,
+                                      bottom: 0,
                                       child: Container(
                                           padding: const EdgeInsets.only(
                                               left: 8, top: 30),
-                                          height: dimensions.height10*8.5,
+                                          height: 40.sp,
                                           width: dimensions.width169,
                                           decoration: BoxDecoration(
                                               gradient: LinearGradient(

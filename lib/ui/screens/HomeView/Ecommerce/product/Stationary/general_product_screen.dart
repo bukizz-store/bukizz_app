@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../../widgets/text and textforms/Reusable_text.dart';
 
@@ -57,7 +58,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: dimensions.width24 / 1.5,
                     mainAxisSpacing: dimensions.height8 * 2,
-                    mainAxisExtent: dimensions.height10 * 17),
+                    mainAxisExtent:55.sp),
                 itemCount: value.generalProduct.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -66,7 +67,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                       Navigator.pushNamed(context, GeneralProductDescriptionScreen.route);
                     },
                     child: Container(
-                      height: dimensions.height105,
+                      // height: dimensions.height105,
                       width: dimensions.width169,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
