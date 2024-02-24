@@ -35,7 +35,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return Consumer<MyOrders>(builder: (context, orderData, child) {
 
       if(!orderData.isOrderDataLoaded){
-        return Scaffold(
+        return const Scaffold(
           body: Center(
             child: SpinKitChasingDots(
               size: 24,
