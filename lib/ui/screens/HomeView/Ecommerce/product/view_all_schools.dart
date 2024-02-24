@@ -6,6 +6,7 @@ import 'package:bukizz/utils/dimensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../../../../data/repository/product/product_view_repository.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
@@ -112,6 +113,7 @@ class _ViewAllState extends State<ViewAll> {
                   crossAxisCount: 2,
                   crossAxisSpacing: dimensions.width24/3,
                   mainAxisSpacing: dimensions.height8,
+                  mainAxisExtent: 50.sp,
                 ),
                 itemCount: foundedSchool.length,
                 itemBuilder: (context, index) {
@@ -161,11 +163,11 @@ class _ViewAllState extends State<ViewAll> {
                           ),
                         ),
                         Positioned(
-                            top: dimensions.height10*6.6,
+                            bottom: 0,
                             child: Container(
                                 padding: const EdgeInsets.only(
                                     left: 8, top: 30),
-                                height: dimensions.height10*8.5,
+                                height: 40.sp,
                                 width: dimensions.width169,
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
