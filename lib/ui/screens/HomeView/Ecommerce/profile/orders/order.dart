@@ -105,7 +105,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               width: dimensions.width10 * 25.2,
                                               child: Text(
                                                 orderData.orders[index].orderName,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color(0xFF444444),
                                                   fontSize: 12,
                                                   fontFamily: 'Nunito',

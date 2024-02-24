@@ -30,29 +30,31 @@ class OrderViewRespository extends ChangeNotifier {
     transactionId: '',
   );
 
-  double totalAmount = 0;
-  double saleAmount = 0;
-  Map<String , dynamic> cartData = {};
+  List<OrderModel> orders = [];
+
+  List<double> totalAmount = [];
+  List<double> saleAmount = [];
+  List<Map<String , dynamic>> cartData = [];
   int cartLength = 0;
   String orderName = '';
 
-  double get getTotalAmount => totalAmount;
-  double get getSaleAmount => saleAmount;
-  Map<String , dynamic> get getCartData => cartData;
+  List<double> get getTotalAmount => totalAmount;
+  List<double> get getSaleAmount => saleAmount;
+  List<Map<String , dynamic>> get getCartData => cartData;
   int get getCartLength => cartLength;
   String get getOrderName => orderName;
 
-  set setTotalAmount(double value){
+  set setTotalAmount(List<double> value){
     totalAmount = value;
     notifyListeners();
   }
 
-  set setSaleAmount(double value){
+  set setSaleAmount(List<double> value){
     saleAmount = value;
     notifyListeners();
   }
 
-  set setCartData(Map<String , dynamic> value){
+  set setCartData(List<Map<String , dynamic>> value){
     cartData = value;
     notifyListeners();
   }
@@ -67,10 +69,10 @@ class OrderViewRespository extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setData(double totalAmount, double saleAmount, Map<String , dynamic> cartData , int cartLength , String orderName){
+  void setData(List<double> totalAmount, List<double> saleAmount, List<Map<String , dynamic>> orders , int cartLength , String orderName){
     setTotalAmount = totalAmount;
     setSaleAmount = saleAmount;
-    setCartData = cartData;
+    setCartData = orders;
     setCartLength = cartLength;
     setOrderName = orderName;
 
@@ -92,20 +94,28 @@ class OrderViewRespository extends ChangeNotifier {
 
   void setOrderModelData(String transactionId , BuildContext context) async{
 
-    orderModel = OrderModel(
+    for (int i = 0 ; i< cartData.length ; i++) {
+      var orderModelTemp = OrderModel(
         orderId: uuid.v1(),
         userId: AppConstants.userData.uid,
         orderDate: DateTime.now().toIso8601String(),
-        totalAmount: totalAmount,
-        saleAmount: saleAmount,
+        totalAmount: totalAmount.elementAt(i),
+        saleAmount: saleAmount.elementAt(i),
         orderName: orderName,
-        cartData: cartData,
+        cartData: cartData.elementAt(i),
         address: getUserAddress,
-        cartLength: cartLength,
+        cartLength: 1,
         status: deliveryStatus.Ordered.toString(),
         reviewId: '',
-      transactionId: transactionId,
-    );
+        transactionId: transactionId,
+      );
+
+      orders.add(orderModelTemp);
+    }
+
+    orders.forEach((element) {
+      print(element.toJson());
+    });
 
     await pushOrderDataToFirebase(context);
     notifyListeners();
@@ -115,14 +125,28 @@ class OrderViewRespository extends ChangeNotifier {
     try
     {
     // print(orderModel.toMap());
-    Map<String , dynamic> order = orderModel.toMap();
+    // Map<String , dynamic> order = orderModel.toMap();
+
+    orders.forEach((element) {
       FirebaseFirestore.instance
           .collection('orderDetails')
-          .doc(orderModel.orderId)
-          .set(order).then((value) => print("Added in Order")).catchError((e) {
-            AppConstants.showSnackBar(context, 'Error in Placing Order');
-            return ;
-          });
+          .doc(element.orderId)
+          .set(element.toMap()).then((value) => print("Added in Order")).catchError((e) {
+        AppConstants.showSnackBar(context, 'Error in Placing Order');
+        return ;
+      });
+      FirebaseFirestore.instance
+          .collection('userDetails')
+          .doc(AppConstants.userData.uid)
+          .update({
+        'orderID': FieldValue.arrayUnion([element.orderId]),
+      }).then((value) => debugPrint("Delivery Added in User Model")).catchError((e){
+        AppConstants.showSnackBar(context, 'Error in Placing Order');
+        return ;
+      });
+      AppConstants.userData.orderID.add(element.orderId);
+    });
+
 
     // DatabaseReference ordersRef =
     // FirebaseDatabase.instance.ref().child('orderDetails');
@@ -133,22 +157,13 @@ class OrderViewRespository extends ChangeNotifier {
     //   print("Error in Placing Order: $error");
     // });
 
-      FirebaseFirestore.instance
-          .collection('userDetails')
-          .doc(AppConstants.userData.uid)
-          .update({
-        'orderID': FieldValue.arrayUnion([orderModel.orderId]),
-      }).then((value) => debugPrint('Order ID added to user details')).catchError((e){
-        AppConstants.showSnackBar(context, 'Error in Placing Order');
-        return ;
-      });
+
       //instead of pushing this whole data in firebase fireStore database , now i have to change it to realtime database , so that i can fetch the data in the order screen
     context.read<CartProvider>().blankCart();
     context.read<CartViewRepository>().blankCart();
-      AppConstants.userData.orderID.add(orderModel.orderId);
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
-      AppConstants.showSnackBar(context, 'Order Placed Successfully');
       notifyListeners();
     }
     catch(e){

@@ -35,6 +35,8 @@ class _Checkout2State extends State<Checkout2> {
 
   double totalPrice = 0;
   double salePrice = 0;
+  List<double> cartTotalPrice = [];
+  List<double> cartSalePrice = [];
   @override
   void initState() {
     super.initState();
@@ -467,7 +469,7 @@ class _Checkout2State extends State<Checkout2> {
                       ),
                       Text(
                         '₹${salePrice + 40}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xFF121212),
                           fontWeight: FontWeight.w700,
                           decoration: TextDecoration.none,
@@ -488,38 +490,43 @@ class _Checkout2State extends State<Checkout2> {
                         );
                       } else {
                         // Navigate to the next screen or perform other actions
+                        // Map<String, dynamic> encodedData = {};
 
-                        Map<String, dynamic> encodedData = {};
+                        List<Map<String , dynamic>> orders = [];
 
                         var cart = cartData.isSingleBuyNow
                             ? cartData.singleCartData
                             : cartData.getCartData;
 
                         cart.forEach((school, schoolData) {
-                          encodedData[school] = {};
+                          // encodedData[school] = {};
                           schoolData.forEach((product, productData) {
-                            encodedData[school]![product] = {};
+                            // encodedData[school]![product] = {};
                             productData.forEach((set, setData) {
-                              encodedData[school]![product]![set.toString()] = {};
+                              // encodedData[school]![product]![set.toString()] = {};
                               setData.forEach((stream, streamData) {
+                                Map<String , dynamic> data = {};
                                 List<dynamic> temp = [];
                                 temp.add(streamData);
                                 temp.add("");
                                 temp.add(deliveryStatus.Ordered.name);
 
-                                encodedData[school]![product]![set.toString()]![
-                                    stream.toString()] = temp;
-
-
+                                data[school] = {};
+                                data[school][product] = {};
+                                data[school][product][set.toString()] = {};
+                                data[school][product][set.toString()][stream.toString()] = temp;
+                                // print(data);
+                                orders.add(data);
+                                // encodedData[school]![product]![set.toString()]![stream.toString()] = temp;
                               });
                             });
                           });
                         });
 
                         context.read<OrderViewRespository>().setData(
-                            cartData.getTotalPrice + 40,
-                            cartData.getSalePrice + 40,
-                            encodedData,
+                            cartTotalPrice,
+                            cartSalePrice,
+                            orders,
                             cartData.isSingleBuyNow ? 1 : cartData.cart_val,
                             cartData.orderName);
                         // context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData ,cartData.cart_val , cartData.orderName);
@@ -529,7 +536,6 @@ class _Checkout2State extends State<Checkout2> {
                         context
                             .read<CartViewRepository>()
                             .setSalePrice(salePrice.toInt());
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Checkout3()),
@@ -600,6 +606,8 @@ class _Checkout2State extends State<Checkout2> {
     List<Widget> list = [];
     totalPrice = 0;
     salePrice = 0;
+    cartTotalPrice = [];
+    cartSalePrice = [];
     var cart = cartData.isSingleBuyNow ? cartData.singleCartData : cartData.cartData;
     cart.forEach((schoolName, productData) {
       productData.forEach((product, setData) {
@@ -615,6 +623,8 @@ class _Checkout2State extends State<Checkout2> {
               int price = setTotalPrice(productModel, set, stream);
               totalPrice += price * quantity;
               salePrice += totalSalePrice * quantity;
+              cartTotalPrice.add(totalPrice);
+              cartSalePrice.add(salePrice);
               list.add(
                 Container(
                   // height: dimensions.height192,

@@ -27,14 +27,8 @@ class _SelectLocationState extends State<SelectLocation> {
   Set<String> selectedCities = Set(); // Keep track of selected cities
 
   List<String> cities = [
-    'New Delhi',
-    'Kurukshetra',
-    'Kanpur',
-    'Panipath',
     'Gurugram',
-    'Patna',
-    'Sonipath',
-    'Lucknow',
+    'Kanpur',
   ];
 
   List<String> foundedCities = [];

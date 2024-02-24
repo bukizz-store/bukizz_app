@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../constants/colors.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
@@ -64,8 +65,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
   @override
   void initState() {
     super.initState();
-    context.read<BannerRepository>().getBanners();
-    context.read<CategoryRepository>().getCategoryFromFirebase();
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -179,7 +178,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
               //listview of icons
               Container(
-                height: dimensions.height10 * 11,
+                height: 46.sp,
                 padding: EdgeInsets.only(left: dimensions.width16),
                 // color: Colors.red,
                 child: ListView.builder(
@@ -187,8 +186,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Container(
-
-                      padding: EdgeInsets.only(right: dimensions.width10*1.3),
+                      padding: EdgeInsets.only(right: 20.sp),
                       height: dimensions.height10 * 7.5,
                       child: Column(
                         children: [
@@ -213,7 +211,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             height: dimensions.height16 / 2,
                           ),
                           SizedBox(
-                            width: dimensions.width10 * 7,
+                            width: 18.w,
                             child: Text(
                               emojiText[index],
                               textAlign: TextAlign.center,
@@ -261,7 +259,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF00579E),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward,
                             color: Color(0xFF00579E),
                             size: 18,
@@ -274,7 +272,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
               ),
 
               SizedBox(height: dimensions.height16),
-
               // ListView of schools
               context.watch<SchoolDataProvider>().schoolData.isNotEmpty
                   ? Container(

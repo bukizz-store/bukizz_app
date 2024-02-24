@@ -35,7 +35,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<BottomNavigationBarProvider>(builder: (context , bottomProvider , child){
-
       return Scaffold(
         body: _buildCurrentScreen(),
         bottomNavigationBar: BottomNavigationBar(
