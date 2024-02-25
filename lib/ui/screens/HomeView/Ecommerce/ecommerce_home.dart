@@ -48,13 +48,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     '18 Notebook Set',
     '@ Rs. 200/-'
   ];
-  List routes = [
-    ViewAll.route,
-    ViewAll.route,
-    Forms.route,
-    ViewAllStationaryScreen.route,
-    ViewAllStationaryScreen.route
-  ];
+
 
 
 
@@ -205,8 +199,26 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              context.read<TabProvider>().navigateToTab(index);
-                              Navigator.pushNamed(context, routes[index]);
+                              if(index==0){
+                                context.read<TabProvider>().navigateToTab(0);
+                                Navigator.pushNamed(context,ViewAll.route );
+                              }
+                              else if(index==1){
+                                Navigator.pushNamed(context, ViewAllStationaryScreen.route);
+                              }
+                              else if(index==2){
+                                context.read<TabProvider>().navigateToTab(1);
+                                Navigator.pushNamed(context, ViewAll.route);
+                              }
+                              else if(index==3){
+                                context.read<TabProvider>().navigateToTab(2);
+                                Navigator.pushNamed(context, ViewAll.route);
+                              }
+                              else{
+                                context.read<TabProvider>().navigateToTab(3);
+                                Navigator.pushNamed(context, ViewAll.route);
+                              }
+
                             },
                             child: CircleAvatar(
                                 radius: dimensions.height48 / 2,
@@ -307,6 +319,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                   .read<ProductViewRepository>()
                                   .getProductData(
                                       schoolData.schoolDetails.productsId);
+                              context.read<TabProvider>().navigateToTab(0);
                               Navigator.pushNamed(context, TabScreen.route);
                             },
                             //

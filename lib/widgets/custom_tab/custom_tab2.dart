@@ -54,13 +54,11 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(
-
         4,
             (index) => InkWell(
           onTap: () {
-            setState(() {
-              tabProvider.navigateToTab(index);
-            });
+            tabProvider.navigateToTab(index);
+            widget.tabController.animateTo(index);
           },
 
           child: Column(

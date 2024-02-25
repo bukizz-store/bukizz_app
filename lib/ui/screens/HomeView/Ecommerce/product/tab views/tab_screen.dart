@@ -9,6 +9,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/uniform
 import 'package:bukizz/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz/widgets/custom_tab/custom_tab2.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -33,8 +34,10 @@ class _TabScreenState extends State<TabScreen>
     super.initState();
 
     tabController = TabController(length: 4, vsync: this);
+    tabController.index = context.read<TabProvider>().currentIndex;
 
     tabController.addListener(() {
+      // print("object");
       context.read<TabProvider>().navigateToTab(tabController.index);
       tabController.animateTo(tabController.index);
     });
@@ -67,6 +70,7 @@ class _TabScreenState extends State<TabScreen>
             tabController: tabController,
             onIndexChanged: (index) {
               // Handle tab index change if needed
+              print(index);
               context.read<TabProvider>().navigateToTab(index);
               tabController.animateTo(index);
             },
@@ -74,6 +78,7 @@ class _TabScreenState extends State<TabScreen>
         ),
       ),
       body: TabBarView(
+
         // physics: NeverScrollableScrollPhysics(),
         controller: tabController,
         children: const [
