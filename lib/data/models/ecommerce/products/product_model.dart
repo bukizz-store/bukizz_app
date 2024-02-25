@@ -80,40 +80,63 @@ class ProductModel {
 
     var streamData = StreamData(
       name: 'PCM',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
       sku: 10,
-      price: 1000,
-      salePrice: 800,
+      price: 2100,
+      salePrice: 1700,
+      reviewIdList: [],
+    );
+    var streamData2 = StreamData(
+      name: 'PCB',
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+      sku: 10,
+      price: 1800,
+      salePrice: 1600,
+      reviewIdList: [],
+    );var streamData3 = StreamData(
+      name: 'Commerce',
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+      sku: 10,
+      price: 1400,
+      salePrice: 1200,
+      reviewIdList: [],
+    );
+    var streamData4= StreamData(
+      name: 'Arts',
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+      sku: 10,
+      price: 30000,
+      salePrice: 1400,
       reviewIdList: [],
     );
 
     var setData = SetData(
       name: 'BookSet',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
       sku: 10,
-      price: 1000,
-      salePrice: 800,
+      price: 2102,
+      salePrice: 990,
       reviewIdList: [],
     );
     var setData2 = SetData(
       name: 'BookSet + NotebookSet',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
       sku: 10,
-      price: 2000,
-      salePrice: 1800,
+      price: 3160,
+      salePrice: 2890,
       reviewIdList: [],
     );
 
     return ProductModel(
-      productId: 'BSCL1',
-      name: 'Class 1st',
-      description: 'All the books for Class 1 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
+      productId: 'BSCL12',
+      name: 'Class 12th',
+      description: 'All the books for Class 12 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
       categoryId: 'BookSet',
-      classId: 'CLA1',
+      classId: 'CLA12',
       board: 'CBSE',
       retailerId: '',
-      stream: [],
-      set: [setData, setData2]
+      stream: [streamData,streamData2,streamData3,streamData4],
+      set: [setData2, setData]
     );
   }
 

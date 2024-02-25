@@ -4,6 +4,6 @@ class SharedPrefHelper{
   static const String password = 'password';
   static const String userData = 'userData';
   static const String uid = 'uid';
-  static const String locationSet = 'locationSet';
+  static const String location = 'location';
 
 }

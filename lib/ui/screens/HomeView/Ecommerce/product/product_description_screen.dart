@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/font_family.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
@@ -91,9 +92,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         SizedBox(
                           width: 345,
                           child: Text(
-                            value.productName == ''
-                                ? 'English Book Set - Wisdom World School - Class 1st'
-                                : value.productName,
+                            value.productName,
                             style: const TextStyle(
                               color: Color(0xFF121212),
                               fontSize: 20,
@@ -104,29 +103,31 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: dimensions.height24 / 2,
+                          height: dimensions.height24 / 4,
                         ),
                         Row(
                           children: [
                             //discount text
                             ReusableText(
-                              text: '20% Off',
-                              fontSize: 16,
+                              text: '${((value.data.price - value.data.salePrice)*100/value.data.price).round().toString()}% Off',
+                              fontSize: 20,
                               color: Color(0xFF058FFF),
                               fontWeight: FontWeight.w700,
                               height: 0.11,
+                              fontFamily: FontFamily.nunito,
                             ),
                             SizedBox(
                               width: dimensions.width24 / 4,
                             ),
                             //listing price
                             Text(
-                              value.totalPrice.toString(),
+                             value.totalPrice.toString(),
                               style: const TextStyle(
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                                 decoration: TextDecoration.lineThrough,
+                                fontFamily:'nunito',
                               ),
                             ),
 
@@ -135,11 +136,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             //discounted price
                             Text(
-                              value.data.salePrice.toString(),
+                              '₹ ${value.data.salePrice.toString()}',
                               style: const TextStyle(
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w700,
-                                fontSize: 16,
+                                fontSize: 20,
+                                // fontFamily: 'nunito'
                               ),
                             ),
                           ],

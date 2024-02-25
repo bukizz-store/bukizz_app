@@ -149,7 +149,7 @@ class MainUserDetails {
     String? password = prefs.getString(SharedPrefHelper.password) ?? '';
     String? userData = prefs.getString(SharedPrefHelper.userData) ?? '';
     String? uid = prefs.getString(SharedPrefHelper.uid) ?? '';
-    AppConstants.locationSet = prefs.getStringList(SharedPrefHelper.locationSet) ?? [];
+    AppConstants.location = prefs.getString(SharedPrefHelper.location) ?? '';
 
     // print(AppConstants.locationSet);
     bool? isLogin = prefs.getBool('isLogin') ?? false;

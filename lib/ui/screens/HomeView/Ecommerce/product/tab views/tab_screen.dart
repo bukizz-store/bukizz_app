@@ -56,11 +56,19 @@ class _TabScreenState extends State<TabScreen>
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            SizedBox(height: 12,),
-            ReusableText(text: schoolData.selectedSchool.name, fontSize: 18,fontWeight: FontWeight.bold,),
-            SizedBox(height: 18.sp,),
+            Text(
+              schoolData.selectedSchool.name,
+              style: const TextStyle(
+                color: Color(0xFF121212),
+                fontSize: 16,
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.w700,
+                height: 0,
+              ),
+            ),
+            SizedBox(height: 10.sp,),
             ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,)
           ],
         ),

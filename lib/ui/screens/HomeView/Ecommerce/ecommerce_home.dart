@@ -79,6 +79,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     _height = dimensions.pageViewContainer;
+    // var func = Provider.of<ProductModel>(context, listen: false);
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
     var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     var banner= context.read<BannerRepository>();
@@ -122,7 +123,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
                             onPressed: (){
-
+                                ProductModel.sendRandomProductData();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,

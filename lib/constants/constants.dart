@@ -21,7 +21,7 @@ enum deliveryStatus{
 class AppConstants{
   static late MainUserDetails userData ;
   static bool isLogin = false;
-  static List<String> locationSet = [];
+  static String location = '';
 
   static buildShowDialog(BuildContext context) {
     return showDialog(

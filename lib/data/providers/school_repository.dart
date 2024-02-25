@@ -150,8 +150,8 @@ class SchoolDataProvider extends ChangeNotifier {
     });
     stationaryData.fetchStationaryItems(context);
 
-    AppConstants.locationSet.isNotEmpty ? await FirebaseFirestore.instance
-        .collection('schools').where('city', whereIn: AppConstants.locationSet).get()
+    AppConstants.location != '' ? await FirebaseFirestore.instance
+        .collection('schools').where('city', isEqualTo: AppConstants.location).get()
         .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList()) : await FirebaseFirestore.instance
         .collection('schools').get()
         .then((value) => schoolData = value.docs.map((e) => SchoolModel.fromMap(e.data())).toList());
