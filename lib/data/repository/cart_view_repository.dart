@@ -43,14 +43,14 @@ class CartViewRepository extends ChangeNotifier {
 
   List<ProductModel> products = [];
 
-  Map<String , Map<String , Map<int , Map<int , int>>>> cartData = {};
+  Map<String , Map<String , Map<String , Map<String , int>>>> cartData = {};
 
-  Map<String , Map<String , Map<int , Map<int , int>>>>  get getCartData => cartData;
+  Map<String , Map<String , Map<String , Map<String , int>>>>  get getCartData => cartData;
 
 
-  Map<String , Map<String , Map<int , Map<int , int>>>> _singleCartData = {};
+  Map<String , Map<String , Map<String , Map<String , int>>>> _singleCartData = {};
 
-  Map<String , Map<String , Map<int , Map<int , int>>>>  get singleCartData => _singleCartData;
+  Map<String , Map<String , Map<String , Map<String , int>>>>  get singleCartData => _singleCartData;
 
   set singleCartData(value){
     _singleCartData = value;
@@ -100,7 +100,7 @@ class CartViewRepository extends ChangeNotifier {
   }
 
 
-  void addCartData(ProductModel productModel , String schoolName ,int set , int stream, int quantity) {
+  void addCartData(ProductModel productModel , String schoolName ,String set , String stream, int quantity) {
 
     if(isSingleBuyNow){
       singleCartData.clear();
@@ -133,7 +133,7 @@ class CartViewRepository extends ChangeNotifier {
   }
 
 
-  void removeCartData(String schoolName , String productId , int set, int stream){
+  void removeCartData(String schoolName , String productId , String set, String stream){
 
     if(cartData[schoolName]![productId]![set]!.length == 1){
       cartData[schoolName]![productId]!.remove(set);
@@ -161,7 +161,7 @@ class CartViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSingleCartData(String schoolName ,int set , int stream, String productId){
+  void removeSingleCartData(String schoolName ,String set , String stream, String productId){
     // print(schoolName + " " + productId);
 
     if(cartData[schoolName]![productId]![set]![stream]! > 1){
@@ -178,7 +178,7 @@ class CartViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCartProduct(String productId , String schoolName ,int set , int stream ,  int quantity) async {
+  Future<void> getCartProduct(String productId , String schoolName ,String set , String stream ,  int quantity) async {
     setIsCartLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
       ProductModel product = await FirebaseFirestore.instance

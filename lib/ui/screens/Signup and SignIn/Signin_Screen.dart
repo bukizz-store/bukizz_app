@@ -50,7 +50,6 @@ class _SignInState extends State<SignIn> {
     Dimensions dimensions = Dimensions(context);
     var authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         // title: Text('Sign In'),

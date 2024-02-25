@@ -9,33 +9,23 @@ class ProductModel {
   String productId;
   String name;
   String description;
-  double price;
-  int stockQuantity;
   String categoryId;
-  String image;
   String classId;
   String board;
-  int salePrice;
-  String relatilerId;
+  String retailerId;
   List<StreamData> stream;
   List<SetData> set;
-  List<dynamic> reviewIdList;
 
   ProductModel({
     required this.productId,
     required this.name,
     required this.description,
-    required this.price,
-    required this.stockQuantity,
     required this.categoryId,
-    required this.image,
     required this.classId,
     required this.board,
     required this.stream,
     required this.set,
-    required this.salePrice,
-    required this.relatilerId,
-    required this.reviewIdList
+    required this.retailerId,
   });
 
   Map<String, dynamic> toMap() {
@@ -43,17 +33,12 @@ class ProductModel {
       'productId': productId,
       'name': name,
       'description': description,
-      'price': price,
-      'stockQuantity': stockQuantity,
       'categoryId': categoryId,
-      'image': image,
       'classId': classId,
       'board': board,
       'stream': stream.map((x) => x.toMap()).toList(),
       'set': set.map((x) => x.toMap()).toList(),
-      'salePrice': salePrice,
-      'retailerId' : relatilerId,
-      'reviewIdList': reviewIdList
+      'retailerId': retailerId,
     };
   }
 
@@ -62,17 +47,12 @@ class ProductModel {
       productId: map['productId'] ?? 0,
       name: map['name'] ?? '',
       description: map['description'] ?? '',
-      price: (map['price'] ?? 0).toDouble(),
-      stockQuantity: map['stockQuantity'] ?? 0,
       categoryId: map['categoryId'] ?? 0,
-      image: map['image'] ?? '',
       classId: map['classId'] ?? '',
       board: map['board'] ?? '',
-      relatilerId: map['retailerId'] ?? '',
-      salePrice: map['salePrice'] ?? 0,
       stream: List<StreamData>.from(map['stream']?.map((x) => StreamData.fromMap(x))),
       set: List<SetData>.from(map['set']?.map((x) => SetData.fromMap(x))),
-      reviewIdList: map['reviewIdList'] ?? []
+      retailerId: map['retailerId'] ?? '',
     );
   }
 
@@ -96,37 +76,58 @@ class ProductModel {
     });
 
   }
-  // static ProductModel randomProductData() {
+  static ProductModel randomProductData() {
 
-  //   return ProductModel(
-  //     productId: 'BSCL1',
-  //     name: 'Class 1st',
-  //     description: 'All the books for Class 1 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
-  //     price: 3750,
-  //     stockQuantity: 90,
-  //     categoryId: 'BK',
-  //     image: 'https://lh3.googleusercontent.com/d/1sDnxyoQk-fYp--UfZb5ciImfrNFSnLeM',
-  //     classId: 'CLA1',
-  //
-  //     board: 'CBSE',
-  //     salePrice: 3700,
-  //     reviewIdList: [
-  //
-  //     ],
-  //   );
-  // }
+    var streamData = StreamData(
+      name: 'PCM',
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      sku: 10,
+      price: 1000,
+      salePrice: 800,
+      reviewIdList: [],
+    );
+
+    var setData = SetData(
+      name: 'BookSet',
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      sku: 10,
+      price: 1000,
+      salePrice: 800,
+      reviewIdList: [],
+    );
+    var setData2 = SetData(
+      name: 'BookSet + NotebookSet',
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      sku: 10,
+      price: 2000,
+      salePrice: 1800,
+      reviewIdList: [],
+    );
+
+    return ProductModel(
+      productId: 'BSCL1',
+      name: 'Class 1st',
+      description: 'All the books for Class 1 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
+      categoryId: 'BookSet',
+      classId: 'CLA1',
+      board: 'CBSE',
+      retailerId: '',
+      stream: [],
+      set: [setData, setData2]
+    );
+  }
 
   //Create a function to send this random product data to firebase in new collection named "products"
-// static Future<void> sendRandomProductData() async {
-//     ProductModel product = ProductModel.randomProductData();
-//     await FirebaseFirestore.instance
-//         .collection('products')
-//         .add(product.toMap()).then((value) => {
-//           print('Product added successfully')
-//         }).catchError((error) => {
-//           print('Failed to add product: $error')
-//         });
-// }
+static Future<void> sendRandomProductData() async {
+    ProductModel product = ProductModel.randomProductData();
+    await FirebaseFirestore.instance
+        .collection('products')
+        .add(product.toMap()).then((value) => {
+          print('Product added successfully')
+        }).catchError((error) => {
+          print('Failed to add product: $error')
+        });
+}
 
 
 

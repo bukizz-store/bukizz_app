@@ -1,3 +1,4 @@
+import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/general_product_screen.dart';
@@ -126,7 +127,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
                             onPressed: (){
-                             general.sendGeneralProductToFirebase();
+                             // ProductModel.sendRandomProductData();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
@@ -299,6 +300,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               schoolData.setSchoolName(
                                   schoolData.schoolData[index].name,
                                   schoolData.schoolData[index].schoolId);
+
                               context
                                   .read<ProductViewRepository>()
                                   .getProductData(

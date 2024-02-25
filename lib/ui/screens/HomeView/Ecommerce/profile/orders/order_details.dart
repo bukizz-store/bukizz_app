@@ -522,34 +522,34 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   }
 
   String setProductName(
-      String school, int set, int stream, ProductModel product) {
+      String school, String set, String stream, ProductModel product) {
     String streamName = product.stream.isNotEmpty
-        ? "- ${product.stream[stream].name}" ?? ''
+        ? "- $stream" ?? ''
         : '';
     String setName =
-        product.set.isNotEmpty ? "(${product.set[set].name})" ?? '' : '';
+        product.set.isNotEmpty ? "($set)" ?? '' : '';
     return "$school - ${product.name}$streamName $setName";
   }
 
-  int setTotalSalePrice(ProductModel product, int set, int stream) {
-    int totalSalePrice = product.salePrice;
-    product.set.isNotEmpty
-        ? totalSalePrice += int.parse(product.set[set].price)
-        : 0;
-    product.stream.isNotEmpty
-        ? totalSalePrice += int.parse(product.stream[stream].price ?? "0")
-        : 0;
+  int setTotalSalePrice(ProductModel product, String set, String stream) {
+    int totalSalePrice = product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.salePrice : product.set.where((element) => element.name == set).first.salePrice;
+    // product.set.isNotEmpty
+    //     ? totalSalePrice += product.set.where((element) => element.name == set).first.salePrice
+    //     : 0;
+    // product.stream.isNotEmpty
+    //     ? totalSalePrice += product.stream.where((element) => element.name == stream).first.salePrice
+    //     : 0;
     return totalSalePrice;
   }
 
-  int setTotalPrice(ProductModel product, int set, int stream) {
-    int totalPrice = product.price.floor();
-    product.set.isNotEmpty
-        ? totalPrice += int.parse(product.set[set].price)
-        : 0;
-    product.stream.isNotEmpty
-        ? totalPrice += int.parse(product.stream[stream].price ?? "0")
-        : 0;
+  int setTotalPrice(ProductModel product, String set, String stream) {
+    int totalPrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.price : product.set.where((element) => element.name == set).first.price;
+    // product.set.isNotEmpty
+    //     ? totalPrice += product.set.where((element) => element.name == set).first.price
+    //     : 0;
+    // product.stream.isNotEmpty
+    //     ? totalPrice += product.stream.where((element) => element.name == stream).first.price
+    //     : 0;
     return totalPrice;
   }
 

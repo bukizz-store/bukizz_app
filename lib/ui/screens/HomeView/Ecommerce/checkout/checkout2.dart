@@ -570,34 +570,34 @@ class _Checkout2State extends State<Checkout2> {
   }
 
   String setProductName(
-      String school, int set, int stream, ProductModel product) {
+      String school, String set, String stream, ProductModel product) {
     String streamName = product.stream.isNotEmpty
-        ? "- ${product.stream[stream].name}" ?? ''
+        ? "- $stream" ?? ''
         : '';
     String setName =
-        product.set.isNotEmpty ? "(${product.set[set].name})" ?? '' : '';
+        product.set.isNotEmpty ? "($set)" ?? '' : '';
     return "$school - ${product.name}$streamName $setName";
   }
 
-  int setTotalSalePrice(ProductModel product, int set, int stream) {
-    int totalSalePrice = product.salePrice;
-    product.set.isNotEmpty
-        ? totalSalePrice += int.parse(product.set[set].price)
-        : 0;
-    product.stream.isNotEmpty
-        ? totalSalePrice += int.parse(product.stream[stream].price ?? "0")
-        : 0;
+  int setTotalSalePrice(ProductModel product, String set, String stream) {
+    int totalSalePrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.salePrice : product.set.where((element) => element.name == set).first.salePrice;
+    // product.set.isNotEmpty
+    //     ? totalSalePrice += product.set.where((element) => element.name == set).first.salePrice
+    //     : 0;
+    // product.stream.isNotEmpty
+    //     ? totalSalePrice += product.stream.where((element) => element.name == stream).first.salePrice
+    //     : 0;
     return totalSalePrice;
   }
 
-  int setTotalPrice(ProductModel product, int set, int stream) {
-    int totalPrice = product.price.floor();
-    product.set.isNotEmpty
-        ? totalPrice += int.parse(product.set[set].price)
-        : 0;
-    product.stream.isNotEmpty
-        ? totalPrice += int.parse(product.stream[stream].price ?? "0")
-        : 0;
+  int setTotalPrice(ProductModel product, String set, String stream) {
+    int totalPrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.price : product.set.where((element) => element.name == set).first.price;
+    // product.set.isNotEmpty
+    //     ? totalPrice += product.set.where((element) => element.name == set).first.price
+    //     : 0;
+    // product.stream.isNotEmpty
+    //     ? totalPrice += product.stream.where((element) => element.name == stream).first.price
+    //     : 0;
     return totalPrice;
   }
 
@@ -609,10 +609,11 @@ class _Checkout2State extends State<Checkout2> {
     cartTotalPrice = [];
     cartSalePrice = [];
     var cart = cartData.isSingleBuyNow ? cartData.singleCartData : cartData.cartData;
+    print(cart);
     cart.forEach((schoolName, productData) {
       productData.forEach((product, setData) {
         setData.forEach((set, streamData) {
-          try{
+          // try{
             streamData.forEach((stream, quantity) {
               ProductModel productModel = cartData.products
                   .where((element) => element.productId == product)
@@ -657,7 +658,7 @@ class _Checkout2State extends State<Checkout2> {
                                         .where((element) =>
                                     element.productId == product)
                                         .first
-                                        .image)),
+                                        .set.first.image.first)),
                                 SizedBox(height: dimensions.height8),
                                 !cartData.isSingleBuyNow
                                     ? ReusableQuantityButton(
@@ -803,10 +804,11 @@ class _Checkout2State extends State<Checkout2> {
               );
             });
           }
-          catch(e){
-            debugPrint(e.toString());
-          }
-        });
+          // catch(e){
+          //   debugPrint(e.toString());
+          // }
+        // }
+        );
       });
     });
     return list;

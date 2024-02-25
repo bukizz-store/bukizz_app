@@ -58,14 +58,25 @@ class ProductViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  late var data;
+
+  late int selectedIndex = 0;
+
+  int get getSelectedIndex => selectedIndex;
+
+  void setSelectedIndex(){
+    selectedIndex = selectedProduct.stream.isNotEmpty ? _selectedStreamDataIndex : _selectedSetDataIndex;
+    data = selectedProduct.stream.isNotEmpty ? selectedProduct.stream[_selectedStreamDataIndex] : selectedProduct.set[_selectedSetDataIndex];
+    notifyListeners();
+  }
+
+
   int totalSalePrice = 0;
 
   int get getTotalSalePrice => totalSalePrice;
 
   setTotalSalePrice(){
-    totalSalePrice = selectedProduct.salePrice;
-    selectedProduct.set.isNotEmpty ? totalSalePrice += int.parse(selectedProduct.set[_selectedSetDataIndex].price): 0;
-    selectedProduct.stream.isNotEmpty ? totalSalePrice += int.parse(selectedProduct.stream[_selectedStreamDataIndex].price ?? "0"): 0;
+    totalSalePrice = selectedProduct.stream.isNotEmpty ? selectedProduct.stream[_selectedStreamDataIndex].salePrice: selectedProduct.set[_selectedSetDataIndex].salePrice;
     notifyListeners();
   }
 
@@ -74,15 +85,13 @@ class ProductViewRepository extends ChangeNotifier {
   int get getTotalPrice => totalSalePrice;
 
   setTotalPrice(){
-    totalPrice = selectedProduct.price.floor();
-    selectedProduct.set.isNotEmpty ? totalPrice += int.parse(selectedProduct.set[_selectedSetDataIndex].price): 0;
-    selectedProduct.stream.isNotEmpty ? totalPrice += int.parse(selectedProduct.stream[_selectedStreamDataIndex].price ?? "0"): 0;
+    totalPrice = selectedProduct.stream.isNotEmpty ? selectedProduct.stream[_selectedStreamDataIndex].price: selectedProduct.set[_selectedSetDataIndex].price;
     notifyListeners();
   }
 
   Future<void> getProductData(List<dynamic> productId) async {
     print(productId.toString());
-    //Create a method to fetch the product data from firebase whch is stored in products collection where productId is equals to the productId list which is coming from school model nd store it in productData list.
+    //Create a method to fetch the product data from firebase which is stored in products collection where productId is equals to the productId list which is coming from school model nd store it in productData list.
     setProductLoaded(false);
     productData = await FirebaseFirestore.instance
         .collection('products')

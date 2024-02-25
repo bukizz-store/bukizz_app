@@ -34,21 +34,21 @@ class MyOrders with ChangeNotifier{
     notifyListeners();
   }
   // Map<SchoolName , Map<productId , Map<set , Map<stream , quantity>>>>
-  Map<String , Map<String , Map<int , Map<int , List<dynamic>>>>> selectedOrder = {};
+  Map<String , Map<String , Map<String , Map<String , List<dynamic>>>>> selectedOrder = {};
 
   void setOrder(int index)
   {
     selectedOrderModel = orders[index];
-    Map<String , Map<String , Map<int , Map<int , List<dynamic>>>>> productsIdMap = {};
+    Map<String , Map<String , Map<String , Map<String , List<dynamic>>>>> productsIdMap = {};
     selectedOrderModel.cartData.forEach((school, schoolData) {
       productsIdMap[school] = {};
       schoolData.forEach((product, productData) {
         productsIdMap[school]![product] = {};
         productData.forEach((key1, innerMap) {
-          productsIdMap[school]![product]![int.parse(key1)] = {};
+          productsIdMap[school]![product]![key1] = {};
           innerMap.forEach((key2, value) {
-            productsIdMap[school]![product]![int.parse(key1)]![int.parse(key2)] = value;
-            getCartProduct(product, school , int.parse(key1) , int.parse(key2) ,  value);
+            productsIdMap[school]![product]![key1]![key2] = value;
+            getCartProduct(product, school , key1 , key2 ,  value);
           });
         });
       });
@@ -67,7 +67,7 @@ class MyOrders with ChangeNotifier{
   }
 
 
-  void getCartProduct(String productId , String schoolName ,int set , int stream ,  List<dynamic> quantity) async {
+  void getCartProduct(String productId , String schoolName ,String set , String stream ,  List<dynamic> quantity) async {
     setIsOrderDataLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
     ProductModel product = await FirebaseFirestore.instance
@@ -75,7 +75,7 @@ class MyOrders with ChangeNotifier{
         .where('productId', isEqualTo: productId)
         .get()
         .then((value) => ProductModel.fromMap(value.docs.first.data()));
-    addCartData(product, schoolName,set , stream , quantity);
+    addCartData(product);
     // }
     setIsOrderDataLoaded(true);
     notifyListeners();
@@ -92,17 +92,9 @@ class MyOrders with ChangeNotifier{
   }
 
 
-  void addCartData(ProductModel productModel , String schoolName ,int set , int stream, List<dynamic> quantity) {
+  void addCartData(ProductModel productModel) {
     addProduct(productModel);
     int length = 0;
-
-    // cartData.forEach((schoolName, productId) {
-    //   productId.forEach((key, set) {
-    //     length = length + set.length;
-    //   });
-    // });
-
-    // setCartVal(length);
     notifyListeners();
   }
 

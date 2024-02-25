@@ -14,8 +14,8 @@ class ReusableQuantityButton extends StatelessWidget {
   final double width;
   final String productId;
   final String schoolName;
-  final int set;
-  final int stream;
+  final String set;
+  final String stream;
 
   ReusableQuantityButton({
     required this.quantity,

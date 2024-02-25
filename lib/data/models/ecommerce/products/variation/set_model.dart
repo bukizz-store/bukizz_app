@@ -1,16 +1,34 @@
 class SetData{
   String name;
-  String price;
+  List<String> image;
+  int sku;
+  int price;
+  int salePrice;
+  List<dynamic> reviewIdList;
 
-  SetData({required this.name, required this.price});
+  SetData({
+    required this.name,
+    required this.price,
+    required this.image,
+    required this.salePrice,
+    required this.sku,
+    required this.reviewIdList,});
 
   SetData.fromJson(Map<String, dynamic> json) :
-    name = json['name'],
-    price = json['price'];
+        name = json['name'],
+        image = json['image'],
+        salePrice = json['salePrice'],
+        sku = json['sku'],
+        reviewIdList = json['reviewIdList'],
+        price = json['price'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
+    data['image'] = image;
+    data['sku'] = sku;
+    data['salePrice'] = salePrice;
+    data['reviewIdList'] = reviewIdList;
     data['price'] = price;
     return data;
   }
@@ -19,6 +37,10 @@ class SetData{
   Map<String, dynamic> toMap() {
     return {
       'name': name,
+      'image': image,
+      'sku': sku,
+      'salePrice': salePrice,
+      'reviewIdList': reviewIdList,
       'price': price,
     };
   }
@@ -27,7 +49,11 @@ class SetData{
   factory SetData.fromMap(Map<String, dynamic> map) {
     return SetData(
       name: map['name'] ?? '',
-      price: map['price'] ?? '',
+      image: List<String>.from(map['image'] ?? []),
+      sku: map['sku'] ?? 0,
+      salePrice: map['salePrice'] ?? 0,
+      reviewIdList: map['reviewIdList'] ?? [],
+      price: map['price'] ?? 0,
     );
   }
 }

@@ -75,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       SizedBox(height: 18,),
                       ReusableText(text: product.name, fontSize: 16, height: 0.10),
                       SizedBox(height: 18,),
-                      ReusableText(text: 'Rs ${product.price.toStringAsFixed(2)}', fontSize: 16, height: 0.10),
+                      ReusableText(text: 'Rs ${product.set.first.price}', fontSize: 16, height: 0.10),
                       SizedBox(height: 18,),
                       Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
