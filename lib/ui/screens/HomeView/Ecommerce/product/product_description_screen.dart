@@ -540,7 +540,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
+                  GestureDetector(
                     onTap: isDeliverable ? () async{
                       // context.read<CartProvider>().addProductInCart(
                       //     productView.selectedProduct.productId, context);
@@ -553,7 +553,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                           value.getSelectedStreamDataIndex,
                           1,
                           value.selectedProduct.productId,
-                          context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
+                          context).then((value) => AppConstants.showCartSnackBar(context));
 
                       setState(() {
                         productAdded = true;
@@ -597,7 +597,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       ),
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () async{
                       var cartView = context
                           .read<CartViewRepository>();

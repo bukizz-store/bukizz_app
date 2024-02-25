@@ -6,7 +6,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view_2.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_review.dart';

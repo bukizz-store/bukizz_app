@@ -1,8 +1,9 @@
+import 'package:bukizz/data/providers/tabController/TabController_provider.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/general_product_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -32,12 +33,12 @@ class EcommerceMain extends StatefulWidget {
 }
 
 class _EcommerceMainState extends State<EcommerceMain> {
-  List iconSeq = [1, 4, 3, 2, 5];
+
   List<String> emojiText = [
     "School BookSets",
-    "Uniform",
-    "School Admission",
     "Stationary",
+    "School Admission",
+    "Uniform",
     "Extras",
   ];
   List<String> stationaryText = [
@@ -54,7 +55,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     ViewAllStationaryScreen.route
   ];
 
-  List<String> category = ['Bag', 'NoteBook', 'LunchBox', 'Art&Craft', 'Extras'];
+
 
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
@@ -126,7 +127,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
                             onPressed: (){
-                             general.sendGeneralProductToFirebase();
+                             // general.sendGeneralProductToFirebase();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
@@ -203,6 +204,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         children: [
                           GestureDetector(
                             onTap: () {
+                              context.read<TabProvider>().navigateToTab(index);
                               Navigator.pushNamed(context, routes[index]);
                             },
                             child: CircleAvatar(
@@ -212,7 +214,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                     borderRadius: BorderRadius.circular(
                                         dimensions.height48 / 2),
                                     child: SvgPicture.asset(
-                                      'assets/ecommerce home/icons/${iconSeq[index]}.svg',
+                                      'assets/ecommerce home/icons/${index + 1}.svg',
                                       alignment: Alignment.center,
                                     )
                                 )
@@ -347,6 +349,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                         filterQuality: FilterQuality.low,
                                         height: dimensions.height151,
                                         width: dimensions.width195,
+
                                       ),
                                     ),
                                   ),
@@ -382,9 +385,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                                 schoolData.schoolData[index].name,
                                                 style: const TextStyle(
                                                     fontFamily: 'nunito',
-                                                    fontWeight: FontWeight.w700,
+                                                    fontWeight: FontWeight.bold,
                                                     color: Color(0xFFF9F9F9),
-                                                    fontSize: 14,
+                                                    fontSize: 16,
                                                     overflow: TextOverflow.ellipsis
                                                 ),
                                               ),
@@ -404,12 +407,13 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                                     dimensions.width24 / 6,
                                                   ),
                                                   ReusableText(
-                                                    text: schoolData
-                                                        .schoolData[index].city,
+                                                    text: schoolData.schoolData[index].address,
                                                     fontSize: 12,
                                                     color: Color(0xFFF9F9F9),
                                                     fontWeight: FontWeight.w500,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
+
                                                 ],
                                               )
                                             ],

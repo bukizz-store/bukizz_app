@@ -1,4 +1,5 @@
 import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/data/providers/tabController/TabController_provider.dart';
 
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/about_school.dart';
@@ -10,9 +11,11 @@ import 'package:bukizz/widgets/custom_tab/custom_tab2.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 
-import 'tab views/books_view.dart';
+import '../../../../../../data/providers/school_repository.dart';
+import 'books_view.dart';
 
 
 class TabScreen extends StatefulWidget {
@@ -30,6 +33,11 @@ class _TabScreenState extends State<TabScreen>
     super.initState();
 
     tabController = TabController(length: 4, vsync: this);
+
+    tabController.addListener(() {
+      context.read<TabProvider>().navigateToTab(tabController.index);
+      tabController.animateTo(tabController.index);
+    });
   }
 
   @override
@@ -40,15 +48,26 @@ class _TabScreenState extends State<TabScreen>
 
   @override
   Widget build(BuildContext context) {
+    var schoolData = context.read<SchoolDataProvider>();
     return Scaffold(
       appBar: AppBar(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
 
+          children: [
+            SizedBox(height: 12,),
+            ReusableText(text: schoolData.selectedSchool.name, fontSize: 18,fontWeight: FontWeight.bold,),
+            SizedBox(height: 18.sp,),
+            ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,)
+          ],
+        ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(65),
+          preferredSize: Size.fromHeight(40.sp),
           child: CustomTabBar2(
             tabController: tabController,
             onIndexChanged: (index) {
               // Handle tab index change if needed
+              context.read<TabProvider>().navigateToTab(index);
               tabController.animateTo(index);
             },
           ),

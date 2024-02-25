@@ -1,6 +1,6 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/containers/class_number.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
