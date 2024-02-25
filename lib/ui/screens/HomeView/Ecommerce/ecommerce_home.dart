@@ -123,7 +123,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
                             onPressed: (){
-                                ProductModel.sendRandomProductData();
+                                // ProductModel.sendRandomProductData();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,

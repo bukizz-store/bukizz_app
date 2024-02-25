@@ -7,7 +7,6 @@ class StreamData {
   int sku;
   int price;
   int salePrice;
-  List<dynamic> reviewIdList;
 
   StreamData({
     required this.name,
@@ -15,7 +14,6 @@ class StreamData {
     required this.image,
     required this.salePrice,
     required this.sku,
-    required this.reviewIdList,
   });
 
   StreamData.fromJson(Map<String, dynamic> json) :
@@ -23,7 +21,6 @@ class StreamData {
         image = json['image'],
         salePrice = json['salePrice'],
         sku = json['sku'],
-        reviewIdList = json['reviewIdList'],
         price = json['price'];
 
   Map<String, dynamic> toJson() {
@@ -32,7 +29,6 @@ class StreamData {
     data['image'] = image;
     data['sku'] = sku;
     data['salePrice'] = salePrice;
-    data['reviewIdList'] = reviewIdList;
     data['price'] = price;
     return data;
   }
@@ -44,7 +40,6 @@ class StreamData {
       'image': image,
       'sku': sku,
       'salePrice': salePrice,
-      'reviewIdList': reviewIdList,
       'price': price,
     };
   }
@@ -56,7 +51,6 @@ class StreamData {
       image: List<String>.from(map['image'] ?? []),
       sku: map['sku'] ?? 0,
       salePrice: map['salePrice'] ?? 0,
-      reviewIdList: map['reviewIdList'] ?? [],
       price: map['price'] ?? 0,
     );
   }
