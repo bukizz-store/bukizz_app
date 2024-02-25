@@ -71,7 +71,7 @@ class AuthProvider extends ChangeNotifier {
 
         AppConstants.userData = userDetails;
 
-        print(userDetails);
+        // print(userDetails);
 
         // // Push user data to Firebase
         await userDetails.pushToFirebase();
@@ -132,6 +132,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> googleSignUp(BuildContext context ,  AuthCredential authCredential) async {
       // Getting users credential
     try{
+      AppConstants.buildShowDialog(context);
       await _auth.signInWithCredential(authCredential).then((value) async {
         if (value.user != null) {
           MainUserDetails userDetails = MainUserDetails(

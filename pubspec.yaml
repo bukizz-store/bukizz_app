@@ -90,7 +90,6 @@ flutter:
 
   assets:
     - assets/
-    - assets/bags/bag1/
     - assets/checkout/
     - assets/category/
     - assets/school/
@@ -100,7 +99,6 @@ flutter:
     - assets/uniform/
     - assets/tab icons/
     - assets/school/booksets/
-    - assets/school/perticular bookset/
     - assets/cart/
     - assets/images/
     - assets/ecommerce home/

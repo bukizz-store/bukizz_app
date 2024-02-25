@@ -1,6 +1,8 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../data/models/user_details.dart';
@@ -27,7 +29,7 @@ class AppConstants{
         barrierDismissible: false,
         builder: (BuildContext context) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitChasingDots(size: 24,color: AppColors.primaryColor,),
           );
         });
   }
