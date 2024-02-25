@@ -16,6 +16,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../constants/colors.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
@@ -122,8 +123,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemCount: 2,
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
-                            onPressed: (){
-                                // ProductModel.sendRandomProductData();
+                            onPressed: ()async{
+                              print(banner.banners1[index].link);
+                              Uri url = Uri.parse(banner.banners1[index].link);
+                              await launchUrl(url);
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
@@ -541,6 +544,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           itemCount: 2,
                           itemBuilder: (BuildContext context, int index, int realIndex) {
                             return RoundedImage(
+                              onPressed: ()async{
+                                Uri url = Uri.parse(banner.banners2[index].link);
+                                await launchUrl(url);
+                              },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
                               isNetworkImage: true,
