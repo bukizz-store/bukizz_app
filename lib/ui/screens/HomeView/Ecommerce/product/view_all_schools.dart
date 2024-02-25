@@ -165,14 +165,12 @@ class _ViewAllState extends State<ViewAll> {
                         Positioned(
                             bottom: 0,
                             child: Container(
-                                padding: const EdgeInsets.only(
-                                    left: 8, top: 30),
+                                padding: const EdgeInsets.only(left: 8, top: 30),
                                 height: 40.sp,
                                 width: dimensions.width169,
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      begin: const Alignment(
-                                          0.00, -1.00),
+                                      begin: const Alignment(0.00, -1.00),
                                       end: const Alignment(0, 0),
                                       colors: [
                                         Colors.black.withOpacity(0),
@@ -191,7 +189,7 @@ class _ViewAllState extends State<ViewAll> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      schoolData.schoolData[index].name,
+                                      foundedSchool[index].name,
                                       style: const TextStyle(
                                           fontFamily: 'nunito',
                                           fontWeight: FontWeight.w700,
@@ -216,8 +214,7 @@ class _ViewAllState extends State<ViewAll> {
                                           dimensions.width24 / 6,
                                         ),
                                         ReusableText(
-                                          text: schoolData
-                                              .schoolData[index].city,
+                                          text: foundedSchool[index].city,
                                           fontSize: 12,
                                           color: Color(0xFFF9F9F9),
                                           fontWeight: FontWeight.w500,

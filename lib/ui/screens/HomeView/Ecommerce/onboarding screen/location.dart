@@ -169,6 +169,7 @@ class _LocationScreenState extends State<LocationScreen> {
           phone: AppConstants.userData.mobile,
           email: AppConstants.userData.email);
 
+      AppConstants.locationSet.add(placemarks.first.locality!);
       navigateToPage(address);
     }
   }
