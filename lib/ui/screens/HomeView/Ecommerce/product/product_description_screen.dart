@@ -697,9 +697,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () async {
-                      var cartView = context.read<CartViewRepository>();
+                  GestureDetector(
+                    onTap: () async{
+                      var cartView = context
+                          .read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
                       cartView.setTotalPrice(value.data.price.toInt());
                       cartView.setSalePrice(value.data.salePrice.toInt());
