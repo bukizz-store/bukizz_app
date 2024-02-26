@@ -51,6 +51,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     Dimensions dimensions = Dimensions(context);
     return Consumer<ProductViewRepository>(
       builder: (context, value, child) {
+
+        // print(value.selectedProduct.variation);
         return Scaffold(
           appBar: AppBar(
             title: Text(schoolData.selectedSchool.name),
@@ -109,7 +111,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                           children: [
                             //discount text
                             ReusableText(
-                              text: '${((value.data.price - value.data.salePrice)*100/value.data.price).round().toString()}% Off',
+                              text:
+                                  '${(((value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price - value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice) * 100 / value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price).round().toString())}% Off',
                               fontSize: 20,
                               color: Color(0xFF058FFF),
                               fontWeight: FontWeight.w700,
@@ -121,13 +124,15 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             //listing price
                             Text(
-                             value.totalPrice.toString(),
+// '',
+                                value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price.toString(),
                               style: const TextStyle(
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                                 decoration: TextDecoration.lineThrough,
-                                fontFamily:'nunito',
+                                fontFamily: 'nunito',
+
                               ),
                             ),
 
@@ -136,8 +141,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             //discounted price
                             Text(
-                              '₹ ${value.data.salePrice.toString()}',
-                              style: const TextStyle(
+                                value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice.toString(),
+                                style: const TextStyle(
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
@@ -280,7 +285,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 16),
                                             child: Text(value.getProductDetail
-                                                .stream[index].name!),
+                                                .stream[index].name),
                                           ),
                                         ),
                                       ),
@@ -647,11 +652,13 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                             .selectedProduct
                                             .set[value.getSelectedSetDataIndex]
                                             .name,
-                                        value.selectedProduct.stream.isNotEmpty ? value
-                                            .selectedProduct
-                                            .stream[value
-                                                .getSelectedStreamDataIndex]
-                                            .name : '0',
+                                        value.selectedProduct.stream.isNotEmpty
+                                            ? value
+                                                .selectedProduct
+                                                .stream[value
+                                                    .getSelectedStreamDataIndex]
+                                                .name
+                                            : '0',
                                         1,
                                         value.selectedProduct.productId,
                                         context)
@@ -700,9 +707,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () async{
-                      var cartView = context
-                          .read<CartViewRepository>();
+                    onTap: () async {
+                      var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
                       cartView.setTotalPrice(value.data.price.toInt());
                       cartView.setSalePrice(value.data.salePrice.toInt());

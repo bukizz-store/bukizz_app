@@ -22,6 +22,7 @@ class AppConstants{
   static late MainUserDetails userData ;
   static bool isLogin = false;
   static String location = '';
+  static String fcmToken = '';
 
   static buildShowDialog(BuildContext context) {
     return showDialog(
