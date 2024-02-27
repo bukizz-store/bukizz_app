@@ -35,7 +35,7 @@ class AppConstants{
         });
   }
 
-  static Future<void> showSnackBar(BuildContext context , String text) async {
+  static void showSnackBar(BuildContext context , String text) async {
     var snackBar = SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,

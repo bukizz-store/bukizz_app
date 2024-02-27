@@ -19,7 +19,7 @@ class ProductModel {
   List<StreamData> stream;
   List<SetData> set;
   List<dynamic> reviewIdList;
-  Map<String , Map<String , Variation>> variation ;
+  Map<String , Map<String , Variation>> variation;
 
   ProductModel({
     required this.productId,
@@ -71,6 +71,32 @@ class ProductModel {
       board: map['board'] ?? '',
       stream: List<StreamData>.from(map['stream']?.map((x) => StreamData.fromMap(x)) ?? []),
       set: List<SetData>.from(map['set']?.map((x) => SetData.fromMap(x)) ?? []),
+      retailerId: map['retailerId'] ?? '',
+      reviewIdList: List<dynamic>.from(map['reviewIdList'] ?? []),
+      variation: convertedVariationMap,
+    );
+  }
+
+  factory ProductModel.fromGeneralMap(Map<String, dynamic> map) {
+    var variationMap = map['variation'] ?? {};
+    Map<String, Map<String, Variation>> convertedVariationMap = {};
+    int p = 0;
+
+    variationMap.forEach((set) {
+      convertedVariationMap[(p).toString()] = {};
+      convertedVariationMap[p.toString()]![0.toString()] = Variation.fromMap(set);
+      p++;
+    });
+
+    return ProductModel(
+      productId: map['productId'] ?? '',
+      name: map['name'] ?? '',
+      description: map['description'] ?? '',
+      categoryId: map['categoryId'] ?? '',
+      classId: '',
+      board:  map['brand'] ?? '',
+      set: List<SetData>.from(map['variation']?.map((x) => SetData.fromMap(x)) ?? []),
+      stream: [],
       retailerId: map['retailerId'] ?? '',
       reviewIdList: List<dynamic>.from(map['reviewIdList'] ?? []),
       variation: convertedVariationMap,
@@ -132,123 +158,127 @@ class ProductModel {
   //   });
   //
   // }
-  static ProductModel randomProductData() {
-
-    var streamData = StreamData(
-      name: 'PCM',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
-      sku: 10,
-      price: 2100,
-      salePrice: 1700,
-    );
-    var streamData2 = StreamData(
-      name: 'PCB',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
-      sku: 10,
-      price: 1800,
-      salePrice: 1600,
-    );var streamData3 = StreamData(
-      name: 'Commerce',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
-      sku: 10,
-      price: 1400,
-      salePrice: 1200,
-    );
-    var streamData4= StreamData(
-      name: 'Arts',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
-      sku: 10,
-      price: 30000,
-      salePrice: 1400,
-    );
-
-    var setData = SetData(
-      name: 'BookSet',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
-      sku: 10,
-      price: 2102,
-      salePrice: 990,
-    );
-    var setData2 = SetData(
-      name: 'BookSet + NotebookSet',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
-      sku: 10,
-      price: 3160,
-      salePrice: 2890,
-    );
-
-    var variation =  Variation(
-      price: 2100,
-      salePrice: 1700,
-      sku: 10,
-      image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
-      costPerItem: 200,
-    );
-
-    var variation2 =  Variation(
-      price: 2200,
-      salePrice: 1900,
-      sku: 10,
-      image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
-      costPerItem: 200,
-    );
-
-    return ProductModel(
-      productId: 'BSCL12',
-      name: 'Class 12th',
-      description: 'All the books for Class 12 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
-      categoryId: 'BookSet',
-      classId: 'CLA12',
-      board: 'CBSE',
-      retailerId: '',
-      stream: [streamData,streamData2,streamData3,streamData4],
-      set: [setData2, setData],
-      reviewIdList: [],
-      variation: {
-      },
-    );
-  }
+  // static ProductModel randomProductData() {
+  //
+  //   var streamData = StreamData(
+  //     name: 'PCM',
+  //     image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+  //     sku: 10,
+  //     price: 2100,
+  //     salePrice: 1700,
+  //   );
+  //   var streamData2 = StreamData(
+  //     name: 'PCB',
+  //     image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+  //     sku: 10,
+  //     price: 1800,
+  //     salePrice: 1600,
+  //   );var streamData3 = StreamData(
+  //     name: 'Commerce',
+  //     image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+  //     sku: 10,
+  //     price: 1400,
+  //     salePrice: 1200,
+  //   );
+  //   var streamData4= StreamData(
+  //     name: 'Arts',
+  //     image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+  //     sku: 10,
+  //     price: 30000,
+  //     salePrice: 1400,
+  //   );
+  //
+  //   var setData = SetData(
+  //     name: 'BookSet',
+  //     image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
+  //     sku: 10,
+  //     price: 2102,
+  //     salePrice: 990,
+  //   );
+  //   var setData2 = SetData(
+  //     name: 'BookSet + NotebookSet',
+  //     image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
+  //     sku: 10,
+  //     price: 3160,
+  //     salePrice: 2890,
+  //   );
+  //
+  //   var variation =  Variation(
+  //     price: 2100,
+  //     salePrice: 1700,
+  //     sku: 10,
+  //     image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
+  //     costPerItem: 200,
+  //     reviewIdList: [],
+  //   );
+  //
+  //   var variation2 =  Variation(
+  //     price: 2200,
+  //     salePrice: 1900,
+  //     sku: 10,
+  //     image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
+  //     costPerItem: 200,
+  //     reviewIdList: [],
+  //   );
+  //
+  //   return ProductModel(
+  //     productId: 'BSCL12',
+  //     name: 'Class 12th',
+  //     description: 'All the books for Class 12 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
+  //     categoryId: 'BookSet',
+  //     classId: 'CLA12',
+  //     board: 'CBSE',
+  //     retailerId: '',
+  //     stream: [streamData,streamData2,streamData3,streamData4],
+  //     set: [setData2, setData],
+  //     reviewIdList: [],
+  //     variation: {
+  //     },
+  //   );
+  // }
 
   //update a particular product data by finding the product where productId is equals to "BSCL6" and i want to add a new field of variation in it
-  static void updateProductData() {
-    var variation =  Variation(
-      price: 1580,
-      salePrice: 1240,
-      sku: 25,
-      image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
-      costPerItem: 263,
-    );
-
-    var variation2 =  Variation(
-      price: 6099,
-      salePrice: 5110,
-      sku: 10,
-      image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
-      costPerItem: 200,
-    );
-
-    Map<String , dynamic> variationMap = {
-      '0': {'0': variation.toMap(), '1': variation2.toMap(),'2':variation.toMap(),'3':variation.toMap()},
-      '1': {'0': variation2.toMap(), '1': variation.toMap(),'2':variation.toMap(),'3':variation2.toMap()},
-    };
-
-    // List<Variation> variationList = [variation.toMap(), variation2];
-
-    FirebaseFirestore.instance
-        .collection('products')
-        .where('productId', isEqualTo: 'BSCL12')
-        .get()
-        .then((value) {
-      value.docs.forEach((element) {
-        FirebaseFirestore.instance
-            .collection('products')
-            .doc(element.id)
-            .update({
-          'variation': variationMap,
-        }).then((value) => print('Product updated successfully'));
-      });
-    });
-  }
+  // static void updateProductData() {
+  //   var variation =  Variation(
+  //     price: 1580,
+  //     salePrice: 1240,
+  //     sku: 25,
+  //     image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
+  //     costPerItem: 263,
+  //     reviewIdList:  [],
+  //   );
+  //
+  //   var variation2 =  Variation(
+  //     price: 6099,
+  //     salePrice: 5110,
+  //     sku: 10,
+  //     image: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2',
+  //     costPerItem: 200,
+  //     reviewIdList: [],
+  //   );
+  //
+  //   Map<String , dynamic> variationMap = {
+  //     '0': {'0': variation.toMap(), '1': variation2.toMap(),'2':variation.toMap(),'3':variation.toMap()},
+  //     '1': {'0': variation2.toMap(), '1': variation.toMap(),'2':variation.toMap(),'3':variation2.toMap()},
+  //   };
+  //
+  //   // List<Variation> variationList = [variation.toMap(), variation2];
+  //
+  //   FirebaseFirestore.instance
+  //       .collection('products')
+  //       .where('productId', isEqualTo: 'BSCL12')
+  //       .get()
+  //       .then((value) {
+  //     value.docs.forEach((element) {
+  //       FirebaseFirestore.instance
+  //           .collection('products')
+  //           .doc(element.id)
+  //           .update({
+  //         'variation': variationMap,
+  //       }).then((value) => print('Product updated successfully'));
+  //     });
+  //   });
+  // }
 
 
 

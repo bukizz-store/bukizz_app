@@ -2,8 +2,9 @@ class Variation{
   int price;
   int salePrice;
   int sku;
-  String image;
+  List<String> image;
   double costPerItem;
+  List<String> reviewIdList;
 
   Variation({
     required this.price,
@@ -11,6 +12,7 @@ class Variation{
     required this.sku,
     required this.image,
     required this.costPerItem,
+    required this.reviewIdList,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +22,7 @@ class Variation{
       'sku': sku,
       'image': image,
       'costPerItem': costPerItem,
+      'reviewIdList': reviewIdList,
     };
   }
 
@@ -28,8 +31,9 @@ class Variation{
       price: map['price'] ?? 0,
       salePrice: map['salePrice'] ?? 0,
       sku: map['sku'] ?? 0,
-      image: map['image'] ?? '',
+      image: List<String>.from(map['image'] ?? []),
       costPerItem: map['costPerItem'] ?? 0.0,
+      reviewIdList: List<String>.from(map['reviewIdList'] ?? []),
     );
   }
 

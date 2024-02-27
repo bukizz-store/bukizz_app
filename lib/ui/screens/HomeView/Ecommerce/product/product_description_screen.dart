@@ -1,4 +1,5 @@
 import 'package:bukizz/constants/font_family.dart';
+import 'package:bukizz/constants/strings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
@@ -661,7 +662,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                             : '0',
                                         1,
                                         value.selectedProduct.productId,
-                                        context)
+                                        context , 'bookset')
                                     .then((value) => AppConstants.showSnackBar(
                                         context, 'Product added to cart'));
 
@@ -710,8 +711,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     onTap: () async {
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
-                      cartView.setTotalPrice(value.data.price.toInt());
-                      cartView.setSalePrice(value.data.salePrice.toInt());
+                      cartView.setTotalPrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price);
+                      cartView.setSalePrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice);
                       await context.read<CartViewRepository>().getCartProduct(
                             value.selectedProduct.productId,
                             schoolData.selectedSchool.name,
@@ -723,7 +724,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                     .stream[value.getSelectedStreamDataIndex]
                                     .name
                                 : '0',
-                            1,
+                            1, AppString.bookSetType
                           );
                       Navigator.push(
                         context,

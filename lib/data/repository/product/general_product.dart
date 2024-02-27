@@ -1,3 +1,4 @@
+import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/models/ecommerce/products/variation/variation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -5,11 +6,11 @@ import 'package:flutter/foundation.dart';
 import '../../models/ecommerce/products/general_product_model.dart';
 
 class GeneralProductRepository extends ChangeNotifier{
-  List<GeneralProductModel> generalProduct =[];
+  List<ProductModel> generalProduct =[];
 
-  late GeneralProductModel selectedGeneralProduct ;
+  late ProductModel selectedGeneralProduct ;
 
-  void addGeneralProduct(GeneralProductModel product){
+  void addGeneralProduct(ProductModel product){
     generalProduct.add(product);
     notifyListeners();
   }
@@ -23,11 +24,11 @@ class GeneralProductRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  late GeneralProductModel _selectedProduct ;
+  late ProductModel _selectedProduct ;
 
-  GeneralProductModel get selectedProduct => _selectedProduct;
+  ProductModel get selectedProduct => _selectedProduct;
 
-  set selectedProduct(GeneralProductModel value) {
+  set selectedProduct(ProductModel value) {
     _selectedProduct = value;
     notifyListeners();
   }
@@ -46,7 +47,7 @@ class GeneralProductRepository extends ChangeNotifier{
     generalProduct.clear();
     await FirebaseFirestore.instance.collection('generalProduct').where('categoryId' , isEqualTo: categoryId).get().then((value) => {
       value.docs.forEach((element) {
-        generalProduct.add(GeneralProductModel.fromMap(element.data()));
+        generalProduct.add(ProductModel.fromGeneralMap(element.data()));
       })
     });
     isProductLoaded = true;

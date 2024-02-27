@@ -127,7 +127,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               // print(banner.banners1[index].link);
                               // Uri url = Uri.parse(banner.banners1[index].link);
                               // await launchUrl(url);
-                              ProductModel.updateProductData();
+                              // ProductModel.updateProductData();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,

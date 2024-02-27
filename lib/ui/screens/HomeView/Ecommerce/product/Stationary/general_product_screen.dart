@@ -90,7 +90,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                             height: dimensions.height105 * 0.95,
                             child: Image(
                               image: CachedNetworkImageProvider(
-                                  value.generalProduct[index].variation[0].image[0]),
+                                  value.generalProduct[index].set[0].image[0]),
                                   fit: BoxFit.cover,
                               ),
                             ),
@@ -102,7 +102,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                               children: [
                                 SizedBox(height: dimensions.height16,),
                                 ReusableText(
-                                  text: '${value.generalProduct[index].brand}',
+                                  text: '${value.generalProduct[index].board}',
                                   fontSize: 14,
                                   height: 0.11,
                                   color: Color(0xFF058FFF),
@@ -111,7 +111,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                                 SizedBox(height: dimensions.height16,),
                                 RichText(
                                   text: TextSpan(
-                                    text: '${value.generalProduct[index].variation[0].price} ',
+                                    text: '${value.generalProduct[index].set[0].price} ',
                                     style: const TextStyle(
                                       color: Color(0xFFB7B7B7),
                                       fontWeight: FontWeight.w500,
@@ -121,7 +121,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: ' ₹ ${value.generalProduct[index].variation[0].salePrice}',
+                                        text: ' ₹ ${value.generalProduct[index].set[0].salePrice}',
                                         style: const TextStyle(
                                           color: Color(0xFF121212),
                                           fontWeight: FontWeight.w700,

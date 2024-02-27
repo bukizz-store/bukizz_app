@@ -9,10 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class GeneralProductModel {
   String productId;
   String name;
-  String brand;
   String description;
   String categoryId;
   String relatilerId;
+  String brand;
   List<VariationGeneral> variation;
 
   GeneralProductModel({

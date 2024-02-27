@@ -1,6 +1,8 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/constants/font_family.dart';
+import 'package:bukizz/constants/strings.dart';
+import 'package:bukizz/data/models/ecommerce/products/variation/set_model.dart';
 import 'package:bukizz/data/repository/cart_view_repository.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../data/models/ecommerce/products/product_model.dart';
+import '../../../../../data/models/ecommerce/products/variation/stream_model.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/providers/cart_provider.dart';
 import '../checkout/checkout1.dart';
@@ -250,14 +253,15 @@ class _CartState extends State<Cart> {
   }
 
   int setTotalSalePrice(ProductModel product , String set , String stream){
-    int totalSalePrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.salePrice : product.set.where((element) => element.name == set).first.salePrice;
+    SetData setData = product.set.where((element) => element.name == set).first;
+    int totalSalePrice = product.variation[product.set.indexOf(setData).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.salePrice;
     // product.set.isNotEmpty ? totalSalePrice += product.set.where((element) => element.name == set).first.salePrice: 0;
     // product.stream.isNotEmpty ? totalSalePrice += product.stream.where((element) => element.name == stream).first.salePrice: 0;
     return totalSalePrice;
   }
 
   int setTotalPrice(ProductModel product , String set , String stream){
-    int totalPrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.price : product.set.where((element) => element.name == set).first.price;
+    int totalPrice = product.variation[product.set.indexOf(product.set.where((element) => element.name == set).first).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.price;
     // product.set.isNotEmpty ? totalPrice += product.set.where((element) => element.name == set).first.price: 0;
     // product.stream.isNotEmpty ? totalPrice += product.stream.where((element) => element.name == stream).first.price: 0;
     return totalPrice;
@@ -267,7 +271,7 @@ class _CartState extends State<Cart> {
     List<Widget> items = [];
     totalPrice = 0;
     salePrice = 0;
-    try {
+    // try {
       cartData.getCartData.forEach((SchoolName, productData) {
         productData.forEach((product, setData) {
           setData.forEach((set, streamData) {
@@ -453,7 +457,7 @@ class _CartState extends State<Cart> {
                                 SchoolName,
                                 set,
                                 stream,
-                                1,);
+                                1,stream == 'null' ? AppString.generalType : AppString.bookSetType,);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => Checkout1()),
@@ -499,9 +503,9 @@ class _CartState extends State<Cart> {
           });
         });
       });
-    } catch (e) {
-      print(e);
-    }
+    // } catch (e) {
+    //   print(e);
+    // }
 
     return items.isNotEmpty ? items : [Container()];
   }

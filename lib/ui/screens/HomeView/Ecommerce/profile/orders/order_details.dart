@@ -10,6 +10,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../data/models/ecommerce/products/product_model.dart';
+import '../../../../../../data/models/ecommerce/products/variation/set_model.dart';
 import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../utils/dimensions.dart';
 
@@ -95,7 +96,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ),
                             ReusableText(
                                 text:
-                                    '${orderData.selectedOrderModel.cartLength} items',
+                                    '${itemCount} items',
                                 fontSize: 12),
                             SizedBox(
                               height: dimensions.height10,
@@ -132,133 +133,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       width: dimensions.screenWidth,
                       height: dimensions.height10 * 23 * itemCount,
                       color: Colors.white,
-                      // child:ListView.builder(
-                      //     itemCount: itemCount,
-                      //     physics: NeverScrollableScrollPhysics(),
-                      //     scrollDirection: Axis.vertical,
-                      //     itemBuilder:(context,index){
-                      // return Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal:dimensions.height8*2,vertical: dimensions.width10*1.8),
-                      //   child: Container(
-                      //     width: dimensions.width10*39.3,
-                      //     // height: dimensions.height10*20,
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         Row(
-                      //           children: [
-                      //             ReusableText(text: 'Your order is', fontSize: 16,color: Color(0xFF444444),fontWeight: FontWeight.w700,),
-                      //             SizedBox(width: dimensions.width10/2,),
-                      //             ReusableText(text: 'Delivered', fontSize: 16,color: Color(0xFF444444),fontWeight: FontWeight.w700,),
-                      //           ],
-                      //         ),
-                      //         SizedBox(height: dimensions.height8*2,),
-                      //         ReusableText(text: '1 Day ago', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF7A7A7A),),
-                      //         SizedBox(height: dimensions.height8*2,),
-                      //         Row(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             Container(
-                      //               width: dimensions.width10 * 7.6,
-                      //               height: dimensions.height10 * 7.6,
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius: BorderRadius.circular(
-                      //                   dimensions.width10 ,
-                      //                 ),
-                      //
-                      //               ),
-                      //               child: ClipRRect(
-                      //                 borderRadius: BorderRadius.circular(
-                      //                   dimensions.width10 ,
-                      //                 ),
-                      //                 child: SvgPicture.asset(
-                      //                   'assets/school/booksets/${index + 1}.svg',
-                      //                   fit: BoxFit.cover,
-                      //                   color: Colors.red,
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //
-                      //             SizedBox(width: dimensions.width16,),
-                      //             Column(
-                      //               crossAxisAlignment: CrossAxisAlignment.start,
-                      //               children: [
-                      //                 SizedBox(
-                      //                   width: dimensions.width10*25.2,
-                      //                   child: const Text(
-                      //                     'Your product English Book Set - Wisdom World School - Class 1st is delivered',
-                      //                     style: TextStyle(
-                      //                       color: Color(0xFF444444),
-                      //                       fontSize: 12,
-                      //                       fontFamily: 'Nunito',
-                      //                       fontWeight: FontWeight.w400,
-                      //                       height: 0,
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //                 SizedBox(height: dimensions.height16,),
-                      //                 ReusableText(text: '₹ 240', fontSize: 12,fontWeight: FontWeight.w700,color: Color(0xFF121212),)
-                      //               ],
-                      //             ),
-                      //
-                      //           ],
-                      //         ),
-                      //         SizedBox(height: dimensions.height8*2,),
-                      //         Row(
-                      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //           children: [
-                      //             OutlinedButton(
-                      //               onPressed: () {
-                      //                 Navigator.pushNamed(context, KnowMoreScreen.route);
-                      //               },
-                      //               style: OutlinedButton.styleFrom(
-                      //                   shape: const RoundedRectangleBorder(
-                      //                     side: BorderSide(color: Color(0xFF7A7A7A) ),
-                      //                   ),
-                      //                   padding: EdgeInsets.symmetric(horizontal: dimensions.width10*4)
-                      //               ),
-                      //               child: ReusableText(
-                      //                 text: 'Contact Us',
-                      //                 fontSize: 14,
-                      //                 fontWeight: FontWeight.w600,
-                      //                 color: Color(0xFF7A7A7A),
-                      //               ),
-                      //             ),
-                      //             OutlinedButton(
-                      //               onPressed: () {
-                      //                 Navigator.pushNamed(context, RatingsScreen.route);
-                      //               },
-                      //               style: OutlinedButton.styleFrom(
-                      //
-                      //                 shape: const RoundedRectangleBorder(
-                      //                   side: BorderSide(color: Color(0xFF7A7A7A) ),
-                      //                 ),
-                      //                 padding: EdgeInsets.symmetric(horizontal: dimensions.width10*4),
-                      //                 backgroundColor: Color(0xFF058FFF),
-                      //
-                      //               ),
-                      //               child: ReusableText(
-                      //                 text: 'Add Review',
-                      //                 fontSize: 14,
-                      //                 fontWeight: FontWeight.w600,
-                      //                 color:Colors.white,
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //         SizedBox(height: dimensions.height10*2,),
-                      //         Container(
-                      //           width: dimensions.screenWidth,
-                      //           height: 1,
-                      //           color: Color(0xFFD6D6D6),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // );
-
-                      //   return _buildWidget(orderData, context, dimensions);
-                      // }
                       child: Container(
                         child: SingleChildScrollView(
                           child: Column(
@@ -299,7 +173,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       ],
                     ),
                     ReusableText(
-                      text: '₹${orderData.selectedOrderModel.saleAmount + 40}',
+                      text: '₹${salePrice + 40}',
                       fontSize: 16,
                       color: Color(0xFF121212),
                       fontWeight: FontWeight.w500,
@@ -318,74 +192,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //1st product
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     SizedBox(
-                      //       width: dimensions.width10*26.4,
-                      //       child: const Text(
-                      //         'English Book Set - Wisdom World School - Class 1st, Stationary Kit, School Bag, Wisdom world school',
-                      //         style: TextStyle(
-                      //             color: Color(0xFF7A7A7A),
-                      //             fontSize: 12,
-                      //             fontFamily: 'Nunito',
-                      //             fontWeight: FontWeight.w500,
-                      //             height: 0,
-                      //             overflow: TextOverflow.ellipsis
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     ReusableText(text: '₹2080', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500, )
-                      //   ],
-                      // ),
-                      // SizedBox(height: dimensions.height8,),
-
-                      //2nd product
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     SizedBox(
-                      //       width: dimensions.width10*26.4,
-                      //       child: const Text(
-                      //         'Notebook Set',
-                      //         style: TextStyle(
-                      //             color: Color(0xFF7A7A7A),
-                      //             fontSize: 12,
-                      //             fontFamily: 'Nunito',
-                      //             fontWeight: FontWeight.w500,
-                      //             height: 0,
-                      //             overflow: TextOverflow.ellipsis
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     ReusableText(text: '₹2080', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500, )
-                      //   ],
-                      // ),
-                      // SizedBox(height: dimensions.height8,),
-
-                      //3rd
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     SizedBox(
-                      //       width: dimensions.width10*26.4,
-                      //       child: const Text(
-                      //         'Uniform',
-                      //         style: TextStyle(
-                      //             color: Color(0xFF7A7A7A),
-                      //             fontSize: 12,
-                      //             fontFamily: 'Nunito',
-                      //             fontWeight: FontWeight.w500,
-                      //             height: 0,
-                      //             overflow: TextOverflow.ellipsis
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     ReusableText(text: '₹2080', fontSize: 12,color: Color(0xFF121212),fontWeight: FontWeight.w500, )
-                      //   ],
-                      // ),
-                      // SizedBox(height: dimensions.height8,),
 
                       //total price
                       Row(
@@ -394,7 +200,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           SizedBox(
                             width: dimensions.width10 * 26.4,
                             child: Text(
-                              'Price(${orderData.selectedOrderModel.cartLength} items)',
+                              'Price($itemCount items)',
                               style: const TextStyle(
                                   color: Color(0xFF7A7A7A),
                                   fontSize: 12,
@@ -406,7 +212,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                           ReusableText(
                             text:
-                                '₹${orderData.selectedOrderModel.totalAmount}',
+                                '₹$totalPrice',
                             fontSize: 12,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
@@ -429,7 +235,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                           ReusableText(
                               text:
-                                  '-₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount}',
+                                  '-₹${totalPrice - salePrice}',
                               fontSize: 12,
                               color: Color(0xFF038B10),
                               fontWeight: FontWeight.w500)
@@ -482,7 +288,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                           ReusableText(
                             text:
-                                '₹${orderData.selectedOrderModel.saleAmount + 40}',
+                                '₹${salePrice + 40}',
                             fontSize: 12,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
@@ -502,7 +308,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         height: dimensions.height8 * 1.5,
                       ),
                       ReusableText(
-                        text: 'You will save ₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount} on this order',
+                        text: 'You will save ₹${totalPrice - salePrice} on this order',
                         fontSize: 12,
                         color: Color(0xFF038B10),
                         fontWeight: FontWeight.w600,
@@ -531,30 +337,23 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return "$school - ${product.name}$streamName $setName";
   }
 
-  int setTotalSalePrice(ProductModel product, String set, String stream) {
-    int totalSalePrice = product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.salePrice : product.set.where((element) => element.name == set).first.salePrice;
-    // product.set.isNotEmpty
-    //     ? totalSalePrice += product.set.where((element) => element.name == set).first.salePrice
-    //     : 0;
-    // product.stream.isNotEmpty
-    //     ? totalSalePrice += product.stream.where((element) => element.name == stream).first.salePrice
-    //     : 0;
+
+  int setTotalSalePrice(ProductModel product , String set , String stream){
+    SetData setData = product.set.where((element) => element.name == set).first;
+    int totalSalePrice = product.variation[product.set.indexOf(setData).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.salePrice;
     return totalSalePrice;
   }
 
-  int setTotalPrice(ProductModel product, String set, String stream) {
-    int totalPrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.price : product.set.where((element) => element.name == set).first.price;
-    // product.set.isNotEmpty
-    //     ? totalPrice += product.set.where((element) => element.name == set).first.price
-    //     : 0;
-    // product.stream.isNotEmpty
-    //     ? totalPrice += product.stream.where((element) => element.name == stream).first.price
-    //     : 0;
+  int setTotalPrice(ProductModel product , String set , String stream){
+    int totalPrice = product.variation[product.set.indexOf(product.set.where((element) => element.name == set).first).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.price;
     return totalPrice;
   }
 
   List<Widget> _buildWidget(
       MyOrders orderData, BuildContext context, dimensions) {
+    itemCount = 0;
+    totalPrice = 0;
+    salePrice = 0;
     // orderData.setIsOrderDataLoaded(false);
     List<Widget> list = [];
     // totalPrice = 0;
@@ -571,6 +370,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   setProductName(schoolName, set, stream, productModel);
               int totalSalePrice = setTotalSalePrice(productModel, set, stream);
               int price = setTotalPrice(productModel, set, stream);
+              itemCount += int.parse(data[0].toString());
               totalPrice += price * data[0];
               salePrice += totalSalePrice * data[0];
               list.add(Padding(

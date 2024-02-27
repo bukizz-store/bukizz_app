@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/strings.dart';
 import '../models/ecommerce/products/product_model.dart';
 import '../providers/cart_provider.dart';
 
@@ -178,15 +179,33 @@ class CartViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCartProduct(String productId , String schoolName ,String set , String stream ,  int quantity) async {
+  Future<void> getCartProduct(String productId , String schoolName ,String set , String stream ,  int quantity , String type) async {
     setIsCartLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
-      ProductModel product = await FirebaseFirestore.instance
-          .collection('products')
-          .where('productId', isEqualTo: productId)
-          .get()
-          .then((value) => ProductModel.fromMap(value.docs.first.data()));
-    addCartData(product, schoolName,set , stream , quantity);
+    switch(type){
+      case AppString.bookSetType:
+        ProductModel product = await FirebaseFirestore.instance
+            .collection('products')
+            .where('productId', isEqualTo: productId)
+            .get()
+            .then((value) => ProductModel.fromMap(value.docs.first.data()));
+        addCartData(product, schoolName,set , stream , quantity);
+        break;
+      case AppString.generalType:
+        ProductModel product = await FirebaseFirestore.instance
+            .collection('generalProduct')
+            .where('productId', isEqualTo: productId)
+            .get()
+            .then((value) => ProductModel.fromGeneralMap(value.docs.first.data()));
+        addCartData(product, schoolName,set , stream , quantity);
+        break;
+    }
+    //   ProductModel product = await FirebaseFirestore.instance
+    //       .collection('products')
+    //       .where('productId', isEqualTo: productId)
+    //       .get()
+    //       .then((value) => ProductModel.fromMap(value.docs.first.data()));
+    // addCartData(product, schoolName,set , stream , quantity);
     // }
     setIsCartLoaded(true);
     notifyListeners();

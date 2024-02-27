@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import '../models/ecommerce/cart_model.dart';
+import '../../constants/strings.dart';
 import '../models/ecommerce/products/product_model.dart';
 
 class CartProvider extends ChangeNotifier {
@@ -34,7 +35,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addProductInCart(String schoolName,String set , String stream , int quantity, String productId, BuildContext context) async {
+  Future addProductInCart(String schoolName,String set , String stream , int quantity, String productId, BuildContext context , String type) async {
     setCartLoaded(false);
 
     cartData.putIfAbsent(schoolName, () => {});
@@ -44,7 +45,7 @@ class CartProvider extends ChangeNotifier {
     cartData[schoolName]![productId]![set]!.putIfAbsent(stream, () => 0);
     cartData[schoolName]![productId]![set]![stream] = (cartData[schoolName]![productId]![set]![stream] ?? 0) + quantity;
 
-    context.read<CartViewRepository>().getCartProduct(productId, schoolName ,set , stream ,  quantity);
+    context.read<CartViewRepository>().getCartProduct(productId, schoolName ,set , stream ,  quantity , type);
 
     await storeCartData();
 
@@ -148,7 +149,7 @@ class CartProvider extends ChangeNotifier {
                   productsIdMap[school]![product]![key1] = {};
                   innerMap.forEach((key2, value) {
                     productsIdMap[school]![product]![key1]![key2] = value;
-                    context.read<CartViewRepository>().getCartProduct(product, school , key1 , key2 ,  value);
+                    context.read<CartViewRepository>().getCartProduct(product, school , key1 , key2 ,  value , key2 == 'null' ? AppString.generalType : AppString.bookSetType);
                   });
                 });
               });

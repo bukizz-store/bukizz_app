@@ -70,12 +70,30 @@ class MyOrders with ChangeNotifier{
   void getCartProduct(String productId , String schoolName ,String set , String stream ,  List<dynamic> quantity) async {
     setIsOrderDataLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
-    ProductModel product = await FirebaseFirestore.instance
-        .collection('products')
-        .where('productId', isEqualTo: productId)
-        .get()
-        .then((value) => ProductModel.fromMap(value.docs.first.data()));
-    addCartData(product);
+    switch (stream) {
+      case 'null':
+        ProductModel product = await FirebaseFirestore.instance
+            .collection('generalProduct')
+            .where('productId', isEqualTo: productId)
+            .get()
+            .then((value) => ProductModel.fromGeneralMap(value.docs.first.data()));
+        addCartData(product);
+        break;
+      default:
+        ProductModel product = await FirebaseFirestore.instance
+            .collection('products')
+            .where('productId', isEqualTo: productId)
+            .get()
+            .then((value) => ProductModel.fromMap(value.docs.first.data()));
+        addCartData(product);
+        break;
+    }
+    // ProductModel product = await FirebaseFirestore.instance
+    //     .collection('products')
+    //     .where('productId', isEqualTo: productId)
+    //     .get()
+    //     .then((value) => ProductModel.fromMap(value.docs.first.data()));
+    // addCartData(product);
     // }
     setIsOrderDataLoaded(true);
     notifyListeners();

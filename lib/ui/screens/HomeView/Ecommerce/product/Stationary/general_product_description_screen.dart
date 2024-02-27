@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/strings.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/general_product.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -54,12 +55,12 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                 width: dimensions.screenWidth,
                 height: dimensions.height16 * 13.75,
                 child: PageView.builder(
-                  itemCount: value.selectedProduct.variation[value.selectedVariationIndex].image.length,
+                  itemCount: value.selectedProduct.set[value.selectedVariationIndex].image.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       child: Image(
-                          image: CachedNetworkImageProvider(value.selectedProduct.variation[value.selectedVariationIndex].image[index]
+                          image: CachedNetworkImageProvider(value.selectedProduct.set[value.selectedVariationIndex].image[index]
                       )
                     ),
                     );
@@ -109,7 +110,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                           ),
                           //listing price
                           Text(
-                            'Rs ${value.selectedProduct.variation[value.selectedVariationIndex].price}',
+                            'Rs ${value.selectedProduct.set[value.selectedVariationIndex].price}',
                             style: const TextStyle(
                               color: Color(0xFF7A7A7A),
                               fontWeight: FontWeight.w500,
@@ -123,7 +124,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                           ),
                           //discounted price
                           Text(
-                            'Rs ${value.selectedProduct.variation[value.selectedVariationIndex].salePrice}',
+                            'Rs ${value.selectedProduct.set[value.selectedVariationIndex].salePrice}',
                             style: const TextStyle(
                               color: Color(0xFF121212),
                               fontWeight: FontWeight.w700,
@@ -149,7 +150,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                                 ),
                               ),
                               TextSpan(
-                                text: value.selectedProduct.variation[value.selectedVariationIndex].name,
+                                text: value.selectedProduct.set[value.selectedVariationIndex].name,
                                 style: const TextStyle(
                                   color: Color(0xFF121212),
                                   fontSize: 16,
@@ -189,13 +190,13 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                                           radius: 30,
                                           child: ClipOval(
                                             child: CachedNetworkImage(
-                                              imageUrl: value.selectedProduct.variation[index].image[0],
+                                              imageUrl: value.selectedProduct.variation[index.toString()]!['0']!.image[0],
                                               fit: BoxFit.cover,
                                         ))),
                                       ),
                                     ),
                                     SizedBox(height: dimensions.height10,),
-                                    ReusableText(text: value.selectedProduct.variation[index].name, fontSize: 16,)
+                                    ReusableText(text: value.selectedProduct.set[index].name, fontSize: 16,)
                                   ],
                                 ),
                               );
@@ -454,11 +455,11 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                     var schoolData = context.read<SchoolDataProvider>();
                     await context.read<CartProvider>().addProductInCart(
                         'all',
-                        value.selectedProduct.variation[value.selectedVariationIndex].name,
+                        value.selectedProduct.set[value.selectedVariationIndex].name,
                         'null',
                         1,
                         value.selectedProduct.productId,
-                        context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
+                        context , AppString.generalType).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
                   },
                   child: Container(
                     height: dimensions.height8 * 6,

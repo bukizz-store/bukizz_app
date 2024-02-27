@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../data/models/ecommerce/products/product_model.dart';
+import '../../../../../data/models/ecommerce/products/variation/set_model.dart';
 import '../../../../../data/providers/cart_provider.dart';
 import '../../../../../widgets/buttons/cart_button.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
@@ -579,28 +580,18 @@ class _Checkout2State extends State<Checkout2> {
     return "$school - ${product.name}$streamName $setName";
   }
 
-  int setTotalSalePrice(ProductModel product, String set, String stream) {
-    int totalSalePrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.salePrice : product.set.where((element) => element.name == set).first.salePrice;
-    // product.set.isNotEmpty
-    //     ? totalSalePrice += product.set.where((element) => element.name == set).first.salePrice
-    //     : 0;
-    // product.stream.isNotEmpty
-    //     ? totalSalePrice += product.stream.where((element) => element.name == stream).first.salePrice
-    //     : 0;
+  int setTotalSalePrice(ProductModel product , String set , String stream){
+    SetData setData = product.set.where((element) => element.name == set).first;
+    int totalSalePrice = product.variation[product.set.indexOf(setData).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.salePrice;
     return totalSalePrice;
   }
 
-  int setTotalPrice(ProductModel product, String set, String stream) {
-    int totalPrice =  product.stream.isNotEmpty ? product.stream.where((element) => element.name == stream).first.price : product.set.where((element) => element.name == set).first.price;
-    // product.set.isNotEmpty
-    //     ? totalPrice += product.set.where((element) => element.name == set).first.price
-    //     : 0;
-    // product.stream.isNotEmpty
-    //     ? totalPrice += product.stream.where((element) => element.name == stream).first.price
-    //     : 0;
+  int setTotalPrice(ProductModel product , String set , String stream){
+    int totalPrice = product.variation[product.set.indexOf(product.set.where((element) => element.name == set).first).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.price;
+    // product.set.isNotEmpty ? totalPrice += product.set.where((element) => element.name == set).first.price: 0;
+    // product.stream.isNotEmpty ? totalPrice += product.stream.where((element) => element.name == stream).first.price: 0;
     return totalPrice;
   }
-
   List<Widget> _buildWidget(
       CartViewRepository cartData, BuildContext context, dimensions) {
     List<Widget> list = [];
@@ -609,7 +600,6 @@ class _Checkout2State extends State<Checkout2> {
     cartTotalPrice = [];
     cartSalePrice = [];
     var cart = cartData.isSingleBuyNow ? cartData.singleCartData : cartData.cartData;
-    print(cart);
     cart.forEach((schoolName, productData) {
       productData.forEach((product, setData) {
         setData.forEach((set, streamData) {

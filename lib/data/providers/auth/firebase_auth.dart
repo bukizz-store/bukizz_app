@@ -5,6 +5,7 @@ import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/models/user_details.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,7 +81,7 @@ class AuthProvider extends ChangeNotifier {
 
         if (context.mounted) {
           Navigator.pushNamedAndRemoveUntil(
-              context, LocationScreen.route, (route) => false);
+              context, SelectLocation.route, (route) => false);
         }
       } else {
         const snackBar = SnackBar(
@@ -184,7 +185,7 @@ class AuthProvider extends ChangeNotifier {
 
             if (context.mounted) {
               Navigator.pushNamedAndRemoveUntil(
-                  context, LocationScreen.route, (route) => false);
+                  context, SelectLocation.route, (route) => false);
             }
           } else {
             if (context.mounted) {
@@ -276,7 +277,7 @@ class AuthProvider extends ChangeNotifier {
         // Navigate to the home screen
         if (context.mounted) {
           Navigator.pushNamedAndRemoveUntil(
-              context, LocationScreen.route, (route) => false);
+              context, SelectLocation.route, (route) => false);
         }
 
         notifyListeners();
