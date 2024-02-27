@@ -83,6 +83,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
           ),
           body: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //image for pageview container
                 Container(
@@ -646,11 +647,13 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 ),
 
                 SizedBox(
-                  height: dimensions.height24 / 3,
+                  height: dimensions.height24 ,
                 ),
 
-                ReusableText(text: 'Frequently Brought Togather', fontSize: 16,fontWeight: FontWeight.w500,),
-                SizedBox(height: dimensions.height16,),
+                Padding(
+                    padding: EdgeInsets.only(left: dimensions.width24),
+                    child: ReusableText(text: 'Frequently Brought Together', fontSize: 18,fontWeight: FontWeight.w700,color: Color(0xFF121212),)),
+                SizedBox(height: dimensions.height24,),
                 categoryRepo.category.isNotEmpty?
                 Container(
                   height: dimensions.height10 * 17,
