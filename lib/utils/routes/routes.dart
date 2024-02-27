@@ -4,6 +4,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Uniform/uniform_description_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view_2.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
@@ -140,6 +141,10 @@ class RouteGenerator{
       case ForgotPasswordScreen.route:
         return MaterialPageRoute(
           builder: (_) =>  ForgotPasswordScreen(),
+        );
+      case UniformDescriptionScreen.route:
+        return MaterialPageRoute(
+          builder: (_) =>  UniformDescriptionScreen(),
         );
       default:
         return _errorRoute();
