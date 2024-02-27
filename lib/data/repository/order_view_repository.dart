@@ -132,7 +132,7 @@ class OrderViewRespository extends ChangeNotifier {
           .collection('orderDetails')
           .doc(element.orderId)
           .set(element.toMap()).then((value) => print("Added in Order")).catchError((e) {
-        AppConstants.showSnackBar(context, 'Error in Placing Order');
+        AppConstants.showSnackBar(context, 'Error in Placing Order' , Colors.red , Icons.error_outline_rounded);
         return ;
       });
       FirebaseFirestore.instance
@@ -141,7 +141,7 @@ class OrderViewRespository extends ChangeNotifier {
           .update({
         'orderID': FieldValue.arrayUnion([element.orderId]),
       }).then((value) => debugPrint("Delivery Added in User Model")).catchError((e){
-        AppConstants.showSnackBar(context, 'Error in Placing Order');
+        AppConstants.showSnackBar(context, 'Error in Placing Order' , Colors.red , Icons.error_outline_rounded);
         return ;
       });
       AppConstants.userData.orderID.add(element.orderId);

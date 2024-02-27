@@ -113,7 +113,7 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
               onPressed: (){
                 if(dropdownValue == null || messageController.text.isEmpty)
                   {
-                    AppConstants.showSnackBar(context, "Please select the Query");
+                    AppConstants.showSnackBar(context, "Please select the Query", Colors.red , Icons.error_outline_rounded);
                   }else{
                   queryData.setOrderQuery(messageController.text, dropdownValue!, context);
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Query Raised Successfully!" , secondaryText: "We will get back to you soon",)));

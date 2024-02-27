@@ -106,7 +106,7 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage);
+        AppConstants.showSnackBar(context, errorMessage , Colors.red , Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
       print("Error signing in: $e");
@@ -126,7 +126,7 @@ class AuthProvider extends ChangeNotifier {
     }
     catch(e){
       debugPrint(e.toString());
-      AppConstants.showSnackBar(context, "Unable to Continue with Google");
+      AppConstants.showSnackBar(context, "Unable to Continue with Google" , Colors.red , Icons.error_outline_rounded);
     }
   }
 
@@ -190,14 +190,14 @@ class AuthProvider extends ChangeNotifier {
           } else {
             if (context.mounted) {
               AppConstants.showSnackBar(context,
-                  "Error signing in with Google. Please try again later");
+                  "Error signing in with Google. Please try again later" , Colors.red , Icons.error_outline_rounded);
             }
           }
         }
       });
     }
     catch(e){
-      AppConstants.showSnackBar(context, e.toString());
+      AppConstants.showSnackBar(context, e.toString() , Colors.red , Icons.error_outline_rounded);
       GoogleSignIn().signOut();
     }
 
@@ -301,7 +301,7 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage);
+        AppConstants.showSnackBar(context, errorMessage , Colors.red , Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
     }

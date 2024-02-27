@@ -57,7 +57,6 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     Dimensions dimensions = Dimensions(context);
     return Consumer<ProductViewRepository>(
       builder: (context, value, child) {
-
         // print(value.selectedProduct.variation);
         return Scaffold(
           appBar: AppBar(
@@ -137,7 +136,6 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
                             ReusableText(text: 'MRP ', fontSize: 12,fontWeight: FontWeight.w400,),
                             Text(
-
                                 value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price.toString(),
                               style: const TextStyle(
                                 color: Color(0xFF7A7A7A),
@@ -145,7 +143,6 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                 fontSize: 16,
                                 decoration: TextDecoration.lineThrough,
                                 fontFamily: 'nunito',
-
                               ),
                             ),
 
@@ -207,8 +204,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                     return GestureDetector(
                                       onTap: () {
                                         value.setSelectedSetData(index);
-                                        value.setProductName(
-                                            schoolData.selectedSchool.name);
+                                        // value.setProductName(
+                                        //     schoolData.selectedSchool.name);
                                         value.setSelectedIndex();
                                         value.setTotalSalePrice();
                                         value.setTotalPrice();
@@ -283,8 +280,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                     return GestureDetector(
                                       onTap: () {
                                         value.setSelectedStreamData(index);
-                                        value.setProductName(
-                                            schoolData.selectedSchool.name);
+                                        // value.setProductName(
+                                        //     schoolData.selectedSchool.name);
                                         value.setSelectedIndex();
                                         value.setTotalSalePrice();
                                         value.setTotalPrice();
@@ -759,48 +756,44 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: isDeliverable
-                        ? () async {
-                            // context.read<CartProvider>().addProductInCart(
-                            //     productView.selectedProduct.productId, context);
-                            context.read<CartViewRepository>().isSingleBuyNow =
-                                false;
-                            productAdded
-                                ? send()
-                                : await context
-                                    .read<CartProvider>()
-                                    .addProductInCart(
-                                        schoolData.selectedSchool.name,
-                                        value
-                                            .selectedProduct
-                                            .set[value.getSelectedSetDataIndex]
-                                            .name,
-                                        value.selectedProduct.stream.isNotEmpty
-                                            ? value
-                                                .selectedProduct
-                                                .stream[value
-                                                    .getSelectedStreamDataIndex]
-                                                .name
-                                            : '0',
-                                        1,
-                                        value.selectedProduct.productId,
-                                        context , 'bookset')
-                                    .then((value) => AppConstants.showCartSnackBar(
-                                        context));
+                    onTap: () async {
+                      // context.read<CartProvider>().addProductInCart(
+                      //     productView.selectedProduct.productId, context);
+                      context.read<CartViewRepository>().isSingleBuyNow = false;
+                      productAdded
+                          ? send()
+                          : await context
+                              .read<CartProvider>()
+                              .addProductInCart(
+                                  schoolData.selectedSchool.name,
+                                  value.selectedProduct
+                                      .set[value.getSelectedSetDataIndex].name,
+                                  value.selectedProduct.stream.isNotEmpty
+                                      ? value
+                                          .selectedProduct
+                                          .stream[
+                                              value.getSelectedStreamDataIndex]
+                                          .name
+                                      : '0',
+                                  1,
+                                  value.selectedProduct.productId,
+                                  context,
+                                  'bookset')
+                              .then((value) =>
+                                  AppConstants.showCartSnackBar(context));
 
-                            setState(() {
-                              productAdded = true;
-                            });
+                      setState(() {
+                        productAdded = true;
+                      });
 
-                            // context.read<CartViewRepository>().setCartData(
-                            //     schoolData.schoolName,
-                            //     context
-                            //         .read<CartProvider>()
-                            //         .getCartData
-                            //         .productsId[productView.selectedProduct.productId]!,
-                            //     productView.selectedProduct.productId);
-                          }
-                        : () {},
+                      // context.read<CartViewRepository>().setCartData(
+                      //     schoolData.schoolName,
+                      //     context
+                      //         .read<CartProvider>()
+                      //         .getCartData
+                      //         .productsId[productView.selectedProduct.productId]!,
+                      //     productView.selectedProduct.productId);
+                    },
                     child: Container(
                       height: dimensions.height8 * 6,
                       width: dimensions.width146,
@@ -834,22 +827,27 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
-                      cartView.setTotalPrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price);
-                      cartView.setSalePrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice);
+                      cartView.setTotalPrice(value
+                          .selectedProduct
+                          .variation[value.getSelectedSetDataIndex.toString()]![
+                              value.getSelectedStreamDataIndex.toString()]!
+                          .price);
+                      cartView.setSalePrice(value
+                          .selectedProduct
+                          .variation[value.getSelectedSetDataIndex.toString()]![
+                              value.getSelectedStreamDataIndex.toString()]!
+                          .salePrice);
                       await context.read<CartViewRepository>().getCartProduct(
-                            value.selectedProduct.productId,
-                            schoolData.selectedSchool.name,
-                            value.selectedProduct
-                                .set[value.getSelectedSetDataIndex].name,
-                            value.selectedProduct.stream.isNotEmpty
-                                ? value
-                                    .selectedProduct
-                                    .stream[value.getSelectedStreamDataIndex]
-                                    .name
-                                : '0',
-                            1, AppString.bookSetType
-                          );
-
+                          value.selectedProduct.productId,
+                          schoolData.selectedSchool.name,
+                          value.selectedProduct
+                              .set[value.getSelectedSetDataIndex].name,
+                          value.selectedProduct.stream.isNotEmpty
+                              ? value.selectedProduct
+                                  .stream[value.getSelectedStreamDataIndex].name
+                              : '0',
+                          1,
+                          AppString.bookSetType);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Checkout1()),
@@ -922,7 +920,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     DateTime now = DateTime.now();
 
     // Calculate delivery date
-    DateTime deliveryDate = now.add(Duration(days: 2));
+    DateTime deliveryDate = now.add(const Duration(days: 2));
 
     // Format the delivery date
     String formattedDeliveryDate =

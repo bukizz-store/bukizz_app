@@ -75,6 +75,10 @@ class SchoolDataProvider extends ChangeNotifier {
         'BSCL11',
         'BSCL12',
       ],
+      uniformId: [
+        'uniform_1',
+        'uniform_2',
+      ],
     );
 
     SchoolModel temporarySchool1 = SchoolModel(
@@ -91,6 +95,11 @@ class SchoolDataProvider extends ChangeNotifier {
       logo: 'sample_logo.png',
       banner: 'assets/school/vsec.jpg',
       aboutUs: 'This is a sample school for testing purposes.',
+      mission: 'To provide quality education to students.',
+      uniformId: [
+        'uniform_1',
+        'uniform_2',
+      ],
       productsId: [
         'bookset_1_1',
         'bookset_1_2',
@@ -118,6 +127,10 @@ class SchoolDataProvider extends ChangeNotifier {
       banner: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/school_image%2FShalom%20Hills%2FShalom_Banner.png?alt=media&token=5e48daa3-3414-45fb-ad0f-bfc3a57da365',
       aboutUs: 'In today\'s fast changing and rapidly evolving world, the lowered attention span and threshold of students has become a key problem area for parents and educationists. Thus, it is imperative that education is innovative and at the same time, stimulates and retains the interest of students. Shalom Hills International School has accepted the challenge to be constantly creative, to employ the latest IT tools and to embrace innovative learning facilities that will enhance and enrich the educational process and also enthuse and empower the students. Shalom Hills International School provides 360 degree new age digital education and thus, is the school that lives up to its motto, Your Aspirations, Our Commitments.',
       mission: 'To create a caring environment with a stimulating and comprehensive program to foster, nurture and secure the socio-emotional, physical, intellectual, spiritual development of each child and endowing them with patriotic feelings and civic-minded spirit.',
+      uniformId: [
+        'uniform_1',
+        'uniform_2',
+      ],
       productsId: [
         'BSCL1',
         'BSCL2',
@@ -132,6 +145,7 @@ class SchoolDataProvider extends ChangeNotifier {
         'BSCL11',
         'BSCL12',
       ],
+
     );
 
     FirebaseFirestore.instance.collection('schools').add(temporarySchool.toMap()).then((value) => {

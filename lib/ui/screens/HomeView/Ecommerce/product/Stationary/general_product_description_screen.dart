@@ -459,7 +459,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                         'null',
                         1,
                         value.selectedProduct.productId,
-                        context , AppString.generalType).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
+                        context , AppString.generalType).then((value) => AppConstants.showCartSnackBar(context,));
                   },
                   child: Container(
                     height: dimensions.height8 * 6,
