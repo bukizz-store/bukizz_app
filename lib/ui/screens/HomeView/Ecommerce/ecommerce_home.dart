@@ -124,9 +124,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
                             onPressed: ()async{
-                              print(banner.banners1[index].link);
-                              Uri url = Uri.parse(banner.banners1[index].link);
-                              await launchUrl(url);
+                              // print(banner.banners1[index].link);
+                              // Uri url = Uri.parse(banner.banners1[index].link);
+                              // await launchUrl(url);
+                              ProductModel.updateProductData();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,

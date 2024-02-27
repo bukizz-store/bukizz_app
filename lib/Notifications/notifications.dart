@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -10,6 +11,7 @@ class FirebaseApi {
     await _firebaseMessaging.requestPermission();
     final fcmToken = await _firebaseMessaging.getToken();
     print('Token : $fcmToken');
+    AppConstants.fcmToken=fcmToken!;
 
     FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
 
@@ -69,6 +71,5 @@ class FirebaseApi {
     print('Title: ${message.notification?.title}');
     print('Body: ${message.notification?.body}');
     print('Payload: ${message.data}');
-
   }
 }
