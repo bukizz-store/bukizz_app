@@ -125,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                   text: 'Password',
                   fontSize: 14,
                   height: 0.10,
-                  color: Color(0xFF121212),
+                  color:  Color(0xFF121212),
                   fontWeight: FontWeight.w500,
                 ),
 
@@ -144,7 +144,7 @@ class _SignUpState extends State<SignUp> {
                 ReusableElevatedButton(
                   width: dimensions.width327,
                   height: dimensions.height48,
-                  onPressed: () async{
+                  onPressed: () async {
                     AppConstants.buildShowDialog(context);
                     String email = _emailTextController.text.trim();
                     String password = _passwordTextController.text.trim();

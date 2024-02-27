@@ -105,7 +105,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               // width: dimensions.width10 * 25.2,
                               child: Text(
                                 'Your product ${orderData.selectedOrderModel.orderName} is delivered',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(0xFF444444),
                                   fontSize: 12,
                                   fontFamily: 'Nunito',
