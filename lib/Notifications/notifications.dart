@@ -65,7 +65,7 @@ class FirebaseApi {
     );
   }
 
-  //functions to navigate notifications when the app is in the foreground.
+  //functions to navigate   when the app is in the foreground.
   void _handleNotificationTapped(RemoteMessage message) {
     print('Notification Tapped:');
     print('Title: ${message.notification?.title}');
