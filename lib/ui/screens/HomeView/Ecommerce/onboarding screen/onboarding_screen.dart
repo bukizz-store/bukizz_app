@@ -48,13 +48,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     context.read<BannerRepository>().getBanners();
     context.read<CategoryRepository>().getCategoryFromFirebase();
     animationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 2300))
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 2000))
           ..addListener(() {
             setState(() {});
           })
           ..forward();
     const double intervalStart =
-        0.5; // Logo displayed for the first half second
+        0.7; // Logo displayed for the first half second
     const double intervalEnd =
         1.0; // Button sliding in during the second half second
     animation = Tween<double>(begin: 325.0, end: 40.0).animate(CurvedAnimation(

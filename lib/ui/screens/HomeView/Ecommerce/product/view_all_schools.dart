@@ -174,7 +174,7 @@ class _ViewAllState extends State<ViewAll> {
                                       end: const Alignment(0, 0),
                                       colors: [
                                         Colors.black.withOpacity(0),
-                                        Colors.black
+                                        Colors.black.withOpacity(0.75)
                                       ],
                                     ),
                                     borderRadius:

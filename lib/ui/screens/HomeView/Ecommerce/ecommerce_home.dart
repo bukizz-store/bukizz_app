@@ -387,7 +387,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                                 end: const Alignment(0, 0),
                                                 colors: [
                                                   Colors.black.withOpacity(0),
-                                                  Colors.black
+                                                  Colors.black.withOpacity(0.75)
                                                 ],
                                               ),
                                               borderRadius:
@@ -470,7 +470,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                         end: const Alignment(0, 1),
                                         colors: [
                                           Colors.black.withOpacity(0),
-                                          Colors.black
+                                          Colors.black.withOpacity(0.6)
                                         ],
                                       ),
                                       shape: RoundedRectangleBorder(
