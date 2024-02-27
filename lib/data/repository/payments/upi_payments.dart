@@ -69,7 +69,7 @@ class UPIPayment extends ChangeNotifier {
         .then((value) => _checkTxnStatus(value.status!, context))
         .catchError((e) {
           debugPrint(e);
-      AppConstants.showSnackBar(context, _upiErrorHandler(e));
+      AppConstants.showSnackBar(context, _upiErrorHandler(e) , Colors.red , Icons.error);
       Navigator.of(context).pop();
     });
     notifyListeners();

@@ -35,9 +35,7 @@ class ProductViewRepository extends ChangeNotifier {
   setProductName(String school){
     String schoolName = school;
     String productName = selectedProduct.name;
-    String streamName =  selectedProduct.stream.isNotEmpty ?  "- ${selectedProduct.stream[_selectedStreamDataIndex].name}" ?? '' : '';
-    String setName = "(${selectedProduct.set[_selectedSetDataIndex].name})" ?? '';
-    _productName = "$schoolName - $productName$streamName $setName";
+    _productName = "$schoolName - $productName";
     notifyListeners();
   }
   int _selectedSetDataIndex = 0;

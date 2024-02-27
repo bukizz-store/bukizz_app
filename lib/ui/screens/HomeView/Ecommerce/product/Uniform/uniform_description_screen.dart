@@ -24,7 +24,6 @@ import '../../../../../../widgets/review widget/review.dart';
 import '../../../../../../widgets/text and textforms/expandable_text_widget.dart';
 import '../../checkout/checkout1.dart';
 
-
 class UniformDescriptionScreen extends StatefulWidget {
   static const String route = '/uniform';
   const UniformDescriptionScreen({super.key});
@@ -36,7 +35,7 @@ class UniformDescriptionScreen extends StatefulWidget {
 
 class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
   bool productAdded = false;
-  bool sizeChart=false;
+  bool sizeChart = false;
   TextEditingController pinController = TextEditingController();
 
   @override
@@ -53,7 +52,6 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
     Dimensions dimensions = Dimensions(context);
     return Consumer<ProductViewRepository>(
       builder: (context, value, child) {
-
         // print(value.selectedProduct.variation);
         return Scaffold(
           appBar: AppBar(
@@ -114,7 +112,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                             //discount text
                             ReusableText(
                               text:
-                              '${(((value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price - value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice) * 100 / value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price).round().toString())}% Off',
+                                  '${(((value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price - value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice) * 100 / value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price).round().toString())}% Off',
                               fontSize: 20,
                               color: Color(0xFF058FFF),
                               fontWeight: FontWeight.w700,
@@ -127,14 +125,20 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                             //listing price
                             Text(
 // '',
-                              value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price.toString(),
+                              value
+                                  .selectedProduct
+                                  .variation[value.getSelectedSetDataIndex
+                                          .toString()]![
+                                      value.getSelectedStreamDataIndex
+                                          .toString()]!
+                                  .price
+                                  .toString(),
                               style: const TextStyle(
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                                 decoration: TextDecoration.lineThrough,
                                 fontFamily: 'nunito',
-
                               ),
                             ),
 
@@ -143,7 +147,14 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                             ),
                             //discounted price
                             Text(
-                              value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice.toString(),
+                              value
+                                  .selectedProduct
+                                  .variation[value.getSelectedSetDataIndex
+                                          .toString()]![
+                                      value.getSelectedStreamDataIndex
+                                          .toString()]!
+                                  .salePrice
+                                  .toString(),
                               style: const TextStyle(
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w700,
@@ -164,58 +175,70 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                         alignment: Alignment.topCenter,
                         color: Colors.white,
                         width: dimensions.screenWidth,
-                        height: dimensions.height36*2.5,
-                        padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                        height: dimensions.height36 * 2.5,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: dimensions.width24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: dimensions.height10,),
+                            SizedBox(
+                              height: dimensions.height10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ReusableText(text: 'Size: 30', fontSize: 16,fontWeight: FontWeight.w700,),
-                                SizedBox(width: dimensions.width16,),
+                                ReusableText(
+                                  text: 'Size: 30',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                SizedBox(
+                                  width: dimensions.width16,
+                                ),
                                 GestureDetector(
-                                  onTap: (){
+                                  onTap: () {
                                     setState(() {
-                                      sizeChart=!sizeChart;
+                                      sizeChart = !sizeChart;
                                     });
                                   },
                                   child: Container(
                                     width: 25.w,
                                     height: 15.sp,
-                                    child: ReusableText(text: 'Size Chart', fontSize: 16,color: Color(0xFF058FFF),fontWeight: FontWeight.w500,),
+                                    child: ReusableText(
+                                      text: 'Size Chart',
+                                      fontSize: 16,
+                                      color: Color(0xFF058FFF),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
-
-
                               ],
                             ),
-                            SizedBox(height: dimensions.height8,),
-                            if(sizeChart)
+                            SizedBox(
+                              height: dimensions.height8,
+                            ),
+                            if (sizeChart)
                               Container(
                                   width: dimensions.screenWidth,
                                   height: 25.sp,
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemCount: 4,
-                                      itemBuilder: (context,index){
+                                      itemBuilder: (context, index) {
                                         return Container(
-
                                           decoration: BoxDecoration(
-                                              border: Border.all(color: AppColors.black)
-                                          ),
+                                              border: Border.all(
+                                                  color: AppColors.black)),
                                           margin: EdgeInsets.only(right: 16),
-                                          width: dimensions.width10*5,
-                                          height: dimensions.height10*2,
+                                          width: dimensions.width10 * 5,
+                                          height: dimensions.height10 * 2,
                                           child: Center(
-                                            child: ReusableText(text: '32', fontSize: 16),
+                                            child: ReusableText(
+                                                text: '32', fontSize: 16),
                                           ),
                                         );
-                                      }
-                                  )
-                              )
+                                      }))
                           ],
                         ),
                       )
@@ -224,48 +247,60 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                 // SizedBox(height: 8,),
                 value.selectedProduct.stream.isNotEmpty
                     ? Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: dimensions.width24,
-                      vertical: dimensions.height8),
-                  // height: dimensions.height10*8.2,
-                  width: dimensions.screenWidth,
-                  child: ListView.builder(
-                      itemCount: value.selectedProduct.variation.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context,index){
-                        return Padding(
-                          padding:  EdgeInsets.only(right: dimensions.width16),
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: (){
-                                  value.setSelectedSetData(index);
-                                },
-                                child: Container(
-                                  decoration:BoxDecoration(
-                                      border:Border.all(color: index==value.getSelectedSetDataIndex?Colors.blue:Colors.black38,width:2),
-                                      borderRadius: BorderRadius.circular(30)
-                                  ),
-                                  child: CircleAvatar(
-
-                                      backgroundColor: Colors.transparent,
-                                      radius: 30,
-                                      child: ClipOval(
-                                          child: CachedNetworkImage(
-                                            imageUrl: value.selectedProduct.set[index].image[0],
-                                            fit: BoxFit.cover,
-                                          ))),
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: dimensions.width24,
+                            vertical: dimensions.height8),
+                        // height: dimensions.height10*8.2,
+                        width: dimensions.screenWidth,
+                        child: ListView.builder(
+                            itemCount: value.selectedProduct.variation.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    EdgeInsets.only(right: dimensions.width16),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        value.setSelectedSetData(index);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: index ==
+                                                        value
+                                                            .getSelectedSetDataIndex
+                                                    ? Colors.blue
+                                                    : Colors.black38,
+                                                width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: 30,
+                                            child: ClipOval(
+                                                child: CachedNetworkImage(
+                                              imageUrl: value.selectedProduct
+                                                  .set[index].image[0],
+                                              fit: BoxFit.cover,
+                                            ))),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: dimensions.height10,
+                                    ),
+                                    ReusableText(
+                                      text:
+                                          value.selectedProduct.set[index].name,
+                                      fontSize: 16,
+                                    )
+                                  ],
                                 ),
-                              ),
-                              SizedBox(height: dimensions.height10,),
-                              ReusableText(text: value.selectedProduct.set[index].name, fontSize: 16,)
-                            ],
-                          ),
-                        );
-                      }
-                  ),
-                )
+                              );
+                            }),
+                      )
                     : Container(),
 
                 //expandable text
@@ -355,41 +390,41 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                       ),
                       isDeliverable
                           ? Row(
-                        children: [
-                          Icon(
-                            Icons.local_shipping,
-                            color: Color(0xFF39A7FF),
-                          ),
-                          SizedBox(
-                            width: dimensions.width10 / 2,
-                          ),
-                          //code for displaying the delivery date two day after the today date and time
-                          ReusableText(
-                            text: 'Estimated delivery by 21st March',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF444444),
-                          )
-                        ],
-                      )
+                              children: [
+                                Icon(
+                                  Icons.local_shipping,
+                                  color: Color(0xFF39A7FF),
+                                ),
+                                SizedBox(
+                                  width: dimensions.width10 / 2,
+                                ),
+                                //code for displaying the delivery date two day after the today date and time
+                                ReusableText(
+                                  text: 'Estimated delivery by 21st March',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF444444),
+                                )
+                              ],
+                            )
                           : Row(
-                        children: [
-                          Icon(
-                            Icons.warning_rounded,
-                            color: AppColors.red,
-                          ),
-                          SizedBox(
-                            width: dimensions.width10 / 2,
-                          ),
-                          //code for displaying the delivery date two day after the today date and time
-                          ReusableText(
-                            text: 'Delivery Unavailable at this Pin code',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.red,
-                          )
-                        ],
-                      )
+                              children: [
+                                Icon(
+                                  Icons.warning_rounded,
+                                  color: AppColors.red,
+                                ),
+                                SizedBox(
+                                  width: dimensions.width10 / 2,
+                                ),
+                                //code for displaying the delivery date two day after the today date and time
+                                ReusableText(
+                                  text: 'Delivery Unavailable at this Pin code',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.red,
+                                )
+                              ],
+                            )
                     ],
                   ),
                 ),
@@ -397,7 +432,6 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                 SizedBox(
                   height: dimensions.height8,
                 ),
-
 
                 ReusableColoredBox(
                   width: dimensions.screenWidth,
@@ -427,11 +461,11 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount:
-                            stationaryData.stationaryListItems.length,
+                                stationaryData.stationaryListItems.length,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding:
-                                EdgeInsets.only(right: dimensions.width16),
+                                    EdgeInsets.only(right: dimensions.width16),
                                 child: ReusableColoredBox(
                                   width: dimensions.width169,
                                   height: dimensions.height172,
@@ -439,7 +473,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                   borderColor: Colors.transparent,
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       // Image container
                                       Container(
@@ -474,11 +508,11 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             ReusableText(
                                               text:
-                                              '₹ ${stationaryData.stationaryListItems[index].price}',
+                                                  '₹ ${stationaryData.stationaryListItems[index].price}',
                                               fontSize: 12,
                                               height: 0.11,
                                               fontWeight: FontWeight.w500,
@@ -493,8 +527,8 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                               borderColor: Colors.black,
                                               child: Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   GestureDetector(
                                                     child: Icon(Icons.remove),
@@ -522,31 +556,31 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                                   ),
                                                   ReusableText(
                                                     text: context
-                                                        .watch<
-                                                        CartProvider>()
-                                                        .cartData
-                                                        .containsKey('all')
+                                                            .watch<
+                                                                CartProvider>()
+                                                            .cartData
+                                                            .containsKey('all')
                                                         ? context
-                                                        .watch<
-                                                        CartProvider>()
-                                                        .cartData[
-                                                    'all']!
-                                                        .containsKey(stationaryData
-                                                        .stationaryListItems[
-                                                    index]
-                                                        .productId)
-                                                        ? context
-                                                        .watch<
-                                                        CartProvider>()
-                                                        .cartData[
-                                                    'all']![
-                                                    stationaryData
-                                                        .stationaryListItems[
-                                                    index]
-                                                        .productId]![
-                                                    0]![0]
-                                                        .toString()
-                                                        : '0'
+                                                                .watch<
+                                                                    CartProvider>()
+                                                                .cartData[
+                                                                    'all']!
+                                                                .containsKey(stationaryData
+                                                                    .stationaryListItems[
+                                                                        index]
+                                                                    .productId)
+                                                            ? context
+                                                                .watch<
+                                                                    CartProvider>()
+                                                                .cartData[
+                                                                    'all']![
+                                                                    stationaryData
+                                                                        .stationaryListItems[
+                                                                            index]
+                                                                        .productId]![
+                                                                    0]![0]
+                                                                .toString()
+                                                            : '0'
                                                         : '0',
                                                     // text:  context.watch<CartProvider>().cartData['all']!.containsKey(stationaryData.stationaryListItems[index].productId) ? context.watch<CartProvider>().cartData['all']![stationaryData.stationaryListItems[index].productId]![0]![0].toString() : '0',
                                                     fontSize: 12,
@@ -609,45 +643,46 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                   InkWell(
                     onTap: isDeliverable
                         ? () async {
-                      // context.read<CartProvider>().addProductInCart(
-                      //     productView.selectedProduct.productId, context);
-                      context.read<CartViewRepository>().isSingleBuyNow =
-                      false;
-                      productAdded
-                          ? send()
-                          : await context
-                          .read<CartProvider>()
-                          .addProductInCart(
-                          schoolData.selectedSchool.name,
-                          value
-                              .selectedProduct
-                              .set[value.getSelectedSetDataIndex]
-                              .name,
-                          value.selectedProduct.stream.isNotEmpty
-                              ? value
-                              .selectedProduct
-                              .stream[value
-                              .getSelectedStreamDataIndex]
-                              .name
-                              : '0',
-                          1,
-                          value.selectedProduct.productId,
-                          context , 'bookset')
-                          .then((value) => AppConstants.showSnackBar(
-                          context, 'Product added to cart'));
+                            // context.read<CartProvider>().addProductInCart(
+                            //     productView.selectedProduct.productId, context);
+                            context.read<CartViewRepository>().isSingleBuyNow =
+                                false;
+                            productAdded
+                                ? send()
+                                : await context
+                                    .read<CartProvider>()
+                                    .addProductInCart(
+                                        schoolData.selectedSchool.name,
+                                        value
+                                            .selectedProduct
+                                            .set[value.getSelectedSetDataIndex]
+                                            .name,
+                                        value.selectedProduct.stream.isNotEmpty
+                                            ? value
+                                                .selectedProduct
+                                                .stream[value
+                                                    .getSelectedStreamDataIndex]
+                                                .name
+                                            : '0',
+                                        1,
+                                        value.selectedProduct.productId,
+                                        context,
+                                        'bookset')
+                                    .then((value) =>
+                                        AppConstants.showCartSnackBar(context));
 
-                      setState(() {
-                        productAdded = true;
-                      });
+                            setState(() {
+                              productAdded = true;
+                            });
 
-                      // context.read<CartViewRepository>().setCartData(
-                      //     schoolData.schoolName,
-                      //     context
-                      //         .read<CartProvider>()
-                      //         .getCartData
-                      //         .productsId[productView.selectedProduct.productId]!,
-                      //     productView.selectedProduct.productId);
-                    }
+                            // context.read<CartViewRepository>().setCartData(
+                            //     schoolData.schoolName,
+                            //     context
+                            //         .read<CartProvider>()
+                            //         .getCartData
+                            //         .productsId[productView.selectedProduct.productId]!,
+                            //     productView.selectedProduct.productId);
+                          }
                         : () {},
                     child: Container(
                       height: dimensions.height8 * 6,
@@ -655,7 +690,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side:
-                          BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                              BorderSide(width: 0.50, color: Color(0xFF00579E)),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -681,21 +716,27 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                     onTap: () async {
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
-                      cartView.setTotalPrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price);
-                      cartView.setSalePrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice);
+                      cartView.setTotalPrice(value
+                          .selectedProduct
+                          .variation[value.getSelectedSetDataIndex.toString()]![
+                              value.getSelectedStreamDataIndex.toString()]!
+                          .price);
+                      cartView.setSalePrice(value
+                          .selectedProduct
+                          .variation[value.getSelectedSetDataIndex.toString()]![
+                              value.getSelectedStreamDataIndex.toString()]!
+                          .salePrice);
                       await context.read<CartViewRepository>().getCartProduct(
                           value.selectedProduct.productId,
                           schoolData.selectedSchool.name,
                           value.selectedProduct
                               .set[value.getSelectedSetDataIndex].name,
                           value.selectedProduct.stream.isNotEmpty
-                              ? value
-                              .selectedProduct
-                              .stream[value.getSelectedStreamDataIndex]
-                              .name
+                              ? value.selectedProduct
+                                  .stream[value.getSelectedStreamDataIndex].name
                               : '0',
-                          1, AppString.bookSetType
-                      );
+                          1,
+                          AppString.bookSetType);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Checkout1()),
@@ -772,7 +813,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
 
     // Format the delivery date
     String formattedDeliveryDate =
-    DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
 
     // Display the delivery date
     print('Delivery Date: $formattedDeliveryDate');

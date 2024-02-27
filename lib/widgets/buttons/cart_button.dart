@@ -63,7 +63,7 @@ required this.productId
             onTap: () async {
               if (onChanged != null) {
                 onChanged!(quantity + 1);
-                await context.read<CartProvider>().addProductInCart(schoolName,set , stream, 1, productId, context , stream == 'null' ? AppString.generalType : AppString.bookSetType).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
+                await context.read<CartProvider>().addProductInCart(schoolName,set , stream, 1, productId, context , stream == 'null' ? AppString.generalType : AppString.bookSetType).then((value) => AppConstants.showCartSnackBar(context));
               }
             },
           ),

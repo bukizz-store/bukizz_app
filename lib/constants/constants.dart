@@ -35,19 +35,51 @@ class AppConstants{
         });
   }
 
-  static void showSnackBar(BuildContext context , String text) async {
+  static Future<void> showSnackBar(BuildContext context , String text , Color color , IconData icon) async {
     var snackBar = SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
-      content: Text(text),
+      content: GestureDetector(
+        onTap: (){
+          context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
+          Navigator.pushNamed(context,  MainScreen.route);
+        },
+        child: Container(
+          width: 270,
+          height: 60,
+          padding: const EdgeInsets.all(16),
+          clipBehavior: Clip.antiAlias,
+          decoration: ShapeDecoration(
+            color: Color(0xFF444444),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            shadows: [
+              BoxShadow(
+                color: color,
+                // blurRadius: 12,
+                offset: Offset(0, 5),
+                // spreadRadius: 0,
+              )
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(icon ,color: color,size: 24,),
+              ReusableText(text: text, fontSize: 16,fontWeight: FontWeight.w600,color: AppColors.white,),
+            ],
+          ),
+        ),
+      ),
       duration: const Duration(seconds: 5),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static Future<void> showCartSnackBar(BuildContext context ) async {
-    
     var snackBar = SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,
@@ -82,7 +114,6 @@ class AppConstants{
             children: [
               ReusableText(text: 'Added to Cart', fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFFF9F9F9),),
               ReusableText(text: 'Go to Cart', fontSize: 16,fontWeight: FontWeight.w700,color:Color(0xFF39A7FF),)
-
             ],
           ),
         ),

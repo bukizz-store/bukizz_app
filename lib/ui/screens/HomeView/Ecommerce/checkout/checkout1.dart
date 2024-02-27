@@ -5,10 +5,12 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/checkout2.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/school_repository.dart';
 import '../../../../../widgets/address/update_address.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 
@@ -23,6 +25,29 @@ class Checkout1 extends StatefulWidget {
 
 class _Checkout1State extends State<Checkout1> {
   String? selectedAddress;
+  Future<void> checkDeliverable() async {
+    await FirebaseDatabase.instance
+        .ref()
+        .child('pincode')
+        .child(AppConstants.location)
+        .get()
+        .then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        if (snapshot.value.toString().contains(context.read<OrderViewRespository>().getUserAddress.pinCode)) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Checkout2()),
+          );
+        } else {
+          AppConstants.showSnackBar(context , 'Delivery not available at this pinCode' , Colors.red , Icons.error_outline_rounded);
+          print('Delivery not available at this location');
+        }
+      } else {
+        AppConstants.showSnackBar(context, 'Delivery not available at this location', Colors.red, Icons.error_outline_rounded);
+        print('Delivery not available at this location  - 2');
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
@@ -274,10 +299,7 @@ class _Checkout1State extends State<Checkout1> {
               );
             } else {
               // Navigate to the next screen or perform other actions
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Checkout2()),
-              );
+              checkDeliverable();
             }
           },
           child: Container(
@@ -298,6 +320,9 @@ class _Checkout1State extends State<Checkout1> {
           ),
         ),
       );
+
     },);
+
   }
+
 }
