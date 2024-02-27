@@ -663,8 +663,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                         1,
                                         value.selectedProduct.productId,
                                         context , 'bookset')
-                                    .then((value) => AppConstants.showSnackBar(
-                                        context, 'Product added to cart'));
+                                    .then((value) => AppConstants.showCartSnackBar(
+                                        context));
 
                             setState(() {
                               productAdded = true;
@@ -709,6 +709,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
+
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
                       cartView.setTotalPrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price);
@@ -726,6 +727,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                 : '0',
                             1, AppString.bookSetType
                           );
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Checkout1()),
