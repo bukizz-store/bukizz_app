@@ -58,19 +58,22 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
             title: Text(schoolData.selectedSchool.name),
           ),
           body: SingleChildScrollView(
+
             child: Column(
               children: [
                 //image for pageview container
                 Container(
                   width: dimensions.screenWidth,
-                  height: dimensions.height16 * 13.75,
+                  height: dimensions.height16 * 18.75,
+
                   child: PageView(
                     scrollDirection: Axis.horizontal,
                     children: [
                       Container(
                         // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
                         child: CachedNetworkImage(
-                          imageUrl: value.data.image.first,
+                          fit: BoxFit.cover,
+                          imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2FVallavi_House.png?alt=media&token=6b66ad66-a3db-44b3-9d7c-c126b04d1e62',
                         ),
                       ),
                       // Container(

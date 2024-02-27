@@ -1,6 +1,7 @@
 import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/constants/strings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
@@ -16,6 +17,8 @@ import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../data/providers/stationary_provider.dart';
 import '../../../../../data/repository/cart_view_repository.dart';
+import '../../../../../data/repository/category/category_repository.dart';
+import '../../../../../data/repository/product/general_product.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/buttons/product_buttons.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
@@ -23,6 +26,7 @@ import '../../../../../widgets/review widget/review.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../widgets/text and textforms/expandable_text_widget.dart';
 import '../checkout/checkout1.dart';
+import 'Stationary/general_product_screen.dart';
 
 class ProductDescriptionScreen extends StatefulWidget {
   static const String route = '/productdescription';
@@ -47,6 +51,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     var schoolData = context.read<SchoolDataProvider>();
     var stationaryData = context.read<StationaryProvider>();
     Dimensions dimensions = Dimensions(context);
@@ -55,7 +60,25 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
         // print(value.selectedProduct.variation);
         return Scaffold(
           appBar: AppBar(
-            title: Text(schoolData.selectedSchool.name),
+
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  schoolData.selectedSchool.name,
+                  style: const TextStyle(
+                    color: Color(0xFF121212),
+                    fontSize: 16,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+                SizedBox(height: 10.sp,),
+                ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,)
+              ],
+            ),
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -97,9 +120,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             value.productName,
                             style: const TextStyle(
                               color: Color(0xFF121212),
-                              fontSize: 20,
+                              fontSize: 18,
                               fontFamily: 'Nunito',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               height: 0,
                             ),
                           ),
@@ -109,30 +132,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         ),
                         Row(
                           children: [
-                            //discount text
-                            ReusableText(
-                              text:
-                                  '${(((value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price - value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice) * 100 / value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price).round().toString())}% Off',
-                              fontSize: 20,
-                              color: Color(0xFF058FFF),
-                              fontWeight: FontWeight.w700,
-                              height: 0.11,
-                              fontFamily: FontFamily.nunito,
-                            ),
-                            SizedBox(
-                              width: dimensions.width24 / 4,
-                            ),
-                            //listing price
+
+                            ReusableText(text: 'MRP ', fontSize: 12,fontWeight: FontWeight.w400,),
                             Text(
-// '',
-                              value
-                                  .selectedProduct
-                                  .variation[value.getSelectedSetDataIndex
-                                          .toString()]![
-                                      value.getSelectedStreamDataIndex
-                                          .toString()]!
-                                  .price
-                                  .toString(),
+                                value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price.toString(),
                               style: const TextStyle(
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
@@ -147,21 +150,25 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             //discounted price
                             Text(
-                              value
-                                  .selectedProduct
-                                  .variation[value.getSelectedSetDataIndex
-                                          .toString()]![
-                                      value.getSelectedStreamDataIndex
-                                          .toString()]!
-                                  .salePrice
-                                  .toString(),
-                              style: const TextStyle(
+                                '₹${value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice.toString()}',
+                                style: const TextStyle(
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
                                 // fontFamily: 'nunito'
                               ),
                             ),
+                            SizedBox(width: dimensions.width16/2,),
+                            ReusableText(
+                              text:
+                              '${(((value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price - value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice) * 100 / value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price).round().toString())}% Off',
+                              fontSize: 20,
+                              color: Color(0xFF058FFF),
+                              fontWeight: FontWeight.w700,
+                              height: 0.11,
+                              fontFamily: FontFamily.nunito,
+                            ),
+
                           ],
                         )
                       ],
@@ -181,12 +188,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Set",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                            const SizedBox(height: 8),
+                            // Text("Set",
+                            //     style: TextStyle(
+                            //       fontSize: 18,
+                            //       fontWeight: FontWeight.w700,
+                            //     )),
+                            // const SizedBox(height: 8),
                             Container(
                               height: 40,
                               child: ListView.builder(
@@ -227,7 +234,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10),
                                             child: Text(value.getProductDetail
-                                                .set[index].name),
+                                                .set[index].name,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'nunito'
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -370,7 +382,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                               borderSide: const BorderSide(
                                   width: 0.50, color: Color(0xFFB7B7B7)),
                             ),
-                            suffixIcon: GestureDetector(
+                            suffixIcon:    InkWell(
+
                               onTap: () {
                                 checkDeliverable();
                               },
@@ -407,7 +420,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                 ),
                                 //code for displaying the delivery date two day after the today date and time
                                 ReusableText(
-                                  text: 'Estimated delivery by 21st March',
+                                  text: 'Estimated delivery within 2 days',
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF444444),
@@ -633,6 +646,97 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   height: dimensions.height24 / 3,
                 ),
 
+                ReusableText(text: 'Frequently Brought Togather', fontSize: 16,fontWeight: FontWeight.w500,),
+                SizedBox(height: dimensions.height16,),
+                categoryRepo.category.isNotEmpty?
+                Container(
+                  height: dimensions.height10 * 17,
+                  width: dimensions.screenWidth,
+                  // color: Colors.red,
+                  padding: EdgeInsets.only(left: dimensions.width16),
+                  child: ListView.builder(
+                      itemCount: categoryRepo.category.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        // print(categoryRepo.category.length);
+                        var selectedModel=categoryRepo.category[index];
+                        return GestureDetector(
+                          onTap: () {
+                            context.read<CategoryRepository>().selectedCategory = selectedModel;
+                            context.read<GeneralProductRepository>().getGeneralProductFromFirebase(selectedModel.categoryId);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>   GeneralProductScreen(product: selectedModel.name)));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: dimensions.width16,bottom: dimensions.height10),
+                            width: dimensions.width146,
+                            height: dimensions.height10,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0.50,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Color(0xFFD6D6D6),
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x2600579E),
+                                  blurRadius: 12,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: dimensions.width146,
+                                  height: dimensions.height10 * 9,
+                                  child: ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(12),
+                                          topRight: Radius.circular(12)),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fitHeight, imageUrl: selectedModel.image,
+                                      )),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: dimensions.width24 / 3,
+                                      vertical: dimensions.height10 * 2),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ReusableText(
+                                        text: selectedModel.name,
+                                        fontSize: 14,
+                                        color: Color(0xFF444444),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: dimensions.height10 * 2,
+                                      ),
+                                      ReusableText(
+                                        text: selectedModel.offers,
+                                        fontSize: 14,
+                                        color: Color(0xFF121212),
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ):Center(child: SpinKitChasingDots(color: AppColors.primaryColor, size: 24,)),
+                SizedBox(height: dimensions.height8),
+
                 ReviewListWidget(),
               ],
             ),
@@ -717,6 +821,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
+
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
                       cartView.setTotalPrice(value

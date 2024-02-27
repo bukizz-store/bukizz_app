@@ -54,6 +54,7 @@ class _TabScreenState extends State<TabScreen>
     var schoolData = context.read<SchoolDataProvider>();
     return Scaffold(
       appBar: AppBar(
+
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,

@@ -55,7 +55,7 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(
         4,
-            (index) => InkWell(
+            (index) => GestureDetector(
           onTap: () {
             tabProvider.navigateToTab(index);
             widget.tabController.animateTo(index);
@@ -64,6 +64,7 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
           child: Column(
             children: [
               CircleAvatar(
+                backgroundColor: Colors.transparent,
                 radius: dimensions.height48 / 2,
                 child: SvgPicture.asset('assets/tab icons/${index + 1}.svg')
               ),

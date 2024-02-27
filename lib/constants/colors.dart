@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class AppColors{
   static const Color primaryColor = Color(0xFF03045E);
   static const Color secondaryColor = Color(0xFF48CAE4);
@@ -12,7 +14,7 @@ class AppColors{
   static const Color white = Color(0xFFFFFFFF);
   static const Color productButtonSelectedBorder = Color(0xFF3398F9);
   static Color productButtonSelectedBG = const Color(0xFF39A7FF).withOpacity(0.12);
-  static const Color productButtonUnSelectedBorder = Color(0xFFE8E8E8);
+  static const Color productButtonUnSelectedBorder = Colors.grey;//Color(0xFFE8E8E9)
   static const Color productButtonUnSelectedBG =  Color(0xFFFAFAFA);
   static const Color red =  Color(0xFFFC2A2A);
 
