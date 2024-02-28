@@ -26,6 +26,23 @@ class UniformRepository extends ChangeNotifier{
     notifyListeners();
   }
 
+  int _selectedSetDataIndex = 0;
+
+  int get getSelectedSetDataIndex => _selectedSetDataIndex;
+
+  setSelectedSetData(int value){
+    _selectedSetDataIndex = value;
+    notifyListeners();
+  }
+
+int _selectedStreamDataIndex = 0;
+
+  int get getSelectedStreamDataIndex => _selectedStreamDataIndex;
+
+  setSelectedStreamData(int value){
+    _selectedStreamDataIndex = value;
+    notifyListeners();
+  }
 
 
 

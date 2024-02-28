@@ -1,5 +1,6 @@
 import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/constants/strings.dart';
+import 'package:bukizz/data/repository/product/uniform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
@@ -50,7 +51,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
     var schoolData = context.read<SchoolDataProvider>();
     var stationaryData = context.read<StationaryProvider>();
     Dimensions dimensions = Dimensions(context);
-    return Consumer<ProductViewRepository>(
+    return Consumer<UniformRepository>(
       builder: (context, value, child) {
         // print(value.selectedProduct.variation);
         return Scaffold(
@@ -128,7 +129,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                 ),
 
                 // ProductButtons(title: "Set", length: 2, selectedIndex: 0,),
-                value.selectedProduct.set.isNotEmpty
+                value.selectedUniform.set.isNotEmpty
                     ? Container(
                         alignment: Alignment.topCenter,
                         color: Colors.white,
@@ -182,7 +183,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                   height: 25.sp,
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: 4,
+                                      itemCount: value.selectedUniform.stream.length,
                                       itemBuilder: (context, index) {
                                         return Container(
                                           decoration: BoxDecoration(
@@ -193,7 +194,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                           height: dimensions.height10 * 2,
                                           child: Center(
                                             child: ReusableText(
-                                                text: '32', fontSize: 16),
+                                                text: value.selectedUniform.stream[index].name, fontSize: 16),
                                           ),
                                         );
                                       }))
@@ -203,7 +204,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                     : Container(),
 
                 // SizedBox(height: 8,),
-                value.selectedProduct.stream.isNotEmpty
+                value.selectedUniform.stream.isNotEmpty
                     ? Container(
                         color: Colors.white,
                         padding: EdgeInsets.symmetric(
@@ -212,7 +213,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                         // height: dimensions.height10*8.2,
                         width: dimensions.screenWidth,
                         child: ListView.builder(
-                            itemCount: value.selectedProduct.variation.length,
+                            itemCount: value.selectedUniform.set.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return Padding(
@@ -240,7 +241,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                             radius: 30,
                                             child: ClipOval(
                                                 child: CachedNetworkImage(
-                                              imageUrl: value.selectedProduct
+                                              imageUrl: value.selectedUniform
                                                   .set[index].image[0],
                                               fit: BoxFit.cover,
                                             ))),
@@ -251,7 +252,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                     ),
                                     ReusableText(
                                       text:
-                                          value.selectedProduct.set[index].name,
+                                          value.selectedUniform.set[index].name,
                                       fontSize: 16,
                                     )
                                   ],
@@ -267,7 +268,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                 ),
                 ExpandableTextWidget(
                     title: "Description",
-                    text: value.selectedProduct.description),
+                    text: value.selectedUniform.description),
                 SizedBox(
                   height: 1.h,
                 ),
@@ -612,18 +613,18 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                     .addProductInCart(
                                         schoolData.selectedSchool.name,
                                         value
-                                            .selectedProduct
+                                            .selectedUniform
                                             .set[value.getSelectedSetDataIndex]
                                             .name,
-                                        value.selectedProduct.stream.isNotEmpty
+                                        value.selectedUniform.stream.isNotEmpty
                                             ? value
-                                                .selectedProduct
+                                                .selectedUniform
                                                 .stream[value
                                                     .getSelectedStreamDataIndex]
                                                 .name
                                             : '0',
                                         1,
-                                        value.selectedProduct.productId,
+                                        value.selectedUniform.productId,
                                         context,
                                         'bookset')
                                     .then((value) =>
@@ -675,22 +676,22 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
                       cartView.setTotalPrice(value
-                          .selectedProduct
+                          .selectedUniform
                           .variation[value.getSelectedSetDataIndex.toString()]![
                               value.getSelectedStreamDataIndex.toString()]!
                           .price);
                       cartView.setSalePrice(value
-                          .selectedProduct
+                          .selectedUniform
                           .variation[value.getSelectedSetDataIndex.toString()]![
                               value.getSelectedStreamDataIndex.toString()]!
                           .salePrice);
                       await context.read<CartViewRepository>().getCartProduct(
-                          value.selectedProduct.productId,
+                          value.selectedUniform.productId,
                           schoolData.selectedSchool.name,
-                          value.selectedProduct
+                          value.selectedUniform
                               .set[value.getSelectedSetDataIndex].name,
-                          value.selectedProduct.stream.isNotEmpty
-                              ? value.selectedProduct
+                          value.selectedUniform.stream.isNotEmpty
+                              ? value.selectedUniform
                                   .stream[value.getSelectedStreamDataIndex].name
                               : '0',
                           1,
