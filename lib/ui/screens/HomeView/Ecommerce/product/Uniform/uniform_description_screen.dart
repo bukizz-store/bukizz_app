@@ -35,7 +35,7 @@ class UniformDescriptionScreen extends StatefulWidget {
 
 class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
   bool productAdded = false;
-  bool sizeChart = false;
+  // bool sizeChart = false;
   TextEditingController pinController = TextEditingController();
 
   @override
@@ -54,35 +54,49 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
       builder: (context, value, child) {
         // print(value.selectedProduct.variation);
         return Scaffold(
-          appBar: AppBar(
-            title: Text(schoolData.selectedSchool.name),
-          ),
           body: SingleChildScrollView(
 
             child: Column(
               children: [
+                SizedBox(height: 28.sp,),
                 //image for pageview container
-                Container(
-                  width: dimensions.screenWidth,
-                  height: dimensions.height16 * 18.75,
-
-                  child: PageView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Container(
-                        // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2FVallavi_House.png?alt=media&token=6b66ad66-a3db-44b3-9d7c-c126b04d1e62',
-                        ),
+                Stack(
+                  children: [
+                    Container(
+                      width: dimensions.screenWidth,
+                      height: dimensions.height16 * 20.75,
+                      child: PageView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context,index){
+                          return  Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2FVallavi_House.png?alt=media&token=6b66ad66-a3db-44b3-9d7c-c126b04d1e62',
+                               fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      // Container(
-                      //   child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
-                      // ),
-                    ],
-                  ),
+                    ),
+                    Positioned(
+                      left: 6.w,
+                      top: 10.sp,
+                      child: GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back,size: 25,)
+                      ),
+                    )
+                  ],
                 ),
-
                 //book description container
                 Container(
                   // height: dimensions.height8 * 13,
@@ -93,80 +107,21 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                         vertical: dimensions.height8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        SizedBox(
-                          width: 345,
-                          child: Text(
-                            value.productName,
-                            style: const TextStyle(
+                        Text(
+                          schoolData.selectedSchool.name,
+                          style: const TextStyle(
                               color: Color(0xFF121212),
-                              fontSize: 20,
+                              fontSize: 18,
                               fontFamily: 'Nunito',
                               fontWeight: FontWeight.w700,
                               height: 0,
-                            ),
+                              overflow: TextOverflow.ellipsis
                           ),
                         ),
-                        SizedBox(
-                          height: dimensions.height24 / 4,
-                        ),
-                        Row(
-                          children: [
-                            //discount text
-                            ReusableText(
-                              text:
-                                  '${(((value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price - value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice) * 100 / value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price).round().toString())}% Off',
-                              fontSize: 20,
-                              color: Color(0xFF058FFF),
-                              fontWeight: FontWeight.w700,
-                              height: 0.11,
-                              fontFamily: FontFamily.nunito,
-                            ),
-                            SizedBox(
-                              width: dimensions.width24 / 4,
-                            ),
-                            //listing price
-                            Text(
-// '',
-                              value
-                                  .selectedProduct
-                                  .variation[value.getSelectedSetDataIndex
-                                          .toString()]![
-                                      value.getSelectedStreamDataIndex
-                                          .toString()]!
-                                  .price
-                                  .toString(),
-                              style: const TextStyle(
-                                color: Color(0xFF7A7A7A),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                decoration: TextDecoration.lineThrough,
-                                fontFamily: 'nunito',
-                              ),
-                            ),
-
-                            SizedBox(
-                              width: dimensions.width24 / 4,
-                            ),
-                            //discounted price
-                            Text(
-                              value
-                                  .selectedProduct
-                                  .variation[value.getSelectedSetDataIndex
-                                          .toString()]![
-                                      value.getSelectedStreamDataIndex
-                                          .toString()]!
-                                  .salePrice
-                                  .toString(),
-                              style: const TextStyle(
-                                color: Color(0xFF121212),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                // fontFamily: 'nunito'
-                              ),
-                            ),
-                          ],
-                        )
+                        SizedBox(height: 10.sp,),
+                        ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,)
                       ],
                     ),
                   ),
@@ -202,7 +157,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      sizeChart = !sizeChart;
+
                                     });
                                   },
                                   child: Container(
@@ -221,7 +176,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                             SizedBox(
                               height: dimensions.height8,
                             ),
-                            if (sizeChart)
+
                               Container(
                                   width: dimensions.screenWidth,
                                   height: 25.sp,

@@ -19,7 +19,7 @@ class ProductModel {
   List<StreamData> stream;
   List<SetData> set;
   List<dynamic> reviewIdList;
-  Map<String , Map<String , Variation>> variation;
+  Map<String , dynamic> variation;
 
   ProductModel({
     required this.productId,
@@ -161,53 +161,40 @@ class ProductModel {
   static ProductModel randomProductData() {
 
     var streamData = StreamData(
-      name: 'PCM',
+      name: '28',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
       sku: 10,
-      price: 2100,
-      salePrice: 1700,
+      price: 0,
+      salePrice: 0,
     );
     var streamData2 = StreamData(
-      name: 'PCB',
+      name: '30',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
       sku: 10,
       price: 1800,
       salePrice: 1600,
-    );var streamData3 = StreamData(
-      name: 'Commerce',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
-      sku: 10,
-      price: 1400,
-      salePrice: 1200,
-    );
-    var streamData4= StreamData(
-      name: 'Arts',
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
-      sku: 10,
-      price: 30000,
-      salePrice: 1400,
     );
 
     var setData = SetData(
-      name: 'BookSet',
+      name: 'Yellow',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
       sku: 10,
-      price: 2102,
-      salePrice: 990,
+      price: 0,
+      salePrice: 0,
     );
     var setData2 = SetData(
-      name: 'BookSet + NotebookSet',
+      name: 'Blue',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
       sku: 10,
-      price: 3160,
-      salePrice: 2890,
+      price: 0,
+      salePrice: 0,
     );
 
     var variation =  Variation(
-      price: 2100,
-      salePrice: 1700,
+      price: 600,
+      salePrice: 500,
       sku: 10,
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F1.png?alt=media&token=bd5ecdd3-93e3-4fc7-8fdb-a6dfc1414018'],
       costPerItem: 200,
       reviewIdList: [],
     );
@@ -216,25 +203,41 @@ class ProductModel {
       price: 2200,
       salePrice: 1900,
       sku: 10,
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F1.png?alt=media&token=bd5ecdd3-93e3-4fc7-8fdb-a6dfc1414018'],
+      costPerItem: 200,
+      reviewIdList: [],
+    );
+    var variation3 =  Variation(
+      price: 2200,
+      salePrice: 1900,
+      sku: 10,
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F2.png?alt=media&token=90b4f822-7223-4ca9-ba93-77e54a570b5d'],
+      costPerItem: 200,
+      reviewIdList: [],
+    );
+    var variation4 =  Variation(
+      price: 2200,
+      salePrice: 1900,
+      sku: 10,
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F2.png?alt=media&token=90b4f822-7223-4ca9-ba93-77e54a570b5d'],
       costPerItem: 200,
       reviewIdList: [],
     );
 
     return ProductModel(
-      productId: 'BSCL12',
-      name: 'Class 12th',
+      productId: 'VSECSUNHD',
+      name: 'House T-Shirts',
       description: 'All the books for Class 12 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
-      categoryId: 'BookSet',
-      classId: 'CLA12',
-      board: 'CBSE',
+      categoryId: 'Uniform',
+      classId: '',
+      board: 'POLO',
       retailerId: '',
-      stream: [streamData,streamData2,streamData3,streamData4],
-      set: [setData2, setData],
+      stream: [streamData,streamData2],
+      set: [setData, setData2],
       reviewIdList: [],
       variation: {
-        // '0': {'0': variation.toMap(), '1': variation2.toMap()},
-        // '1': {'0': variation2.toMap(), '1': variation.toMap()},
+        '0': {'0': variation.toMap(), '1': variation2.toMap()},
+        '1': {'0': variation3.toMap(), '1': variation4.toMap()},
       },
     );
   }

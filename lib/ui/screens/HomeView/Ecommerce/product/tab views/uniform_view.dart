@@ -1,5 +1,9 @@
+import 'package:bukizz/data/models/ecommerce/school_model.dart';
+import 'package:bukizz/data/repository/product/uniform.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Uniform/uniform_description_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../utils/dimensions.dart';
 import '../../../../../../widgets/text and textforms/Reusable_text.dart';
@@ -30,6 +34,7 @@ class _UniformScreenState extends State<UniformScreen> {
     // ];
     TextEditingController formController=TextEditingController();
     Dimensions dimensions=Dimensions(context);
+    var uniformData = context.read<UniformRepository>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -47,7 +52,7 @@ class _UniformScreenState extends State<UniformScreen> {
                     // crossAxisSpacing: dimensions.width24/3,
                     mainAxisSpacing: dimensions.height8,
                   ),
-                  itemCount: 4,
+                  itemCount: uniformData.uniform.length,
                   itemBuilder: (context, index) {
 
                     return GestureDetector(
@@ -85,7 +90,9 @@ class _UniformScreenState extends State<UniformScreen> {
                               height: dimensions.height10*9.5,
                               child: ClipRRect(
                                   borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
-                                  child: Image.asset('assets/uniform/${index+1}.jpg',fit: BoxFit.cover,)
+                                  child: CachedNetworkImage(
+                                    imageUrl: uniformData.uniform[index].variation['0']['0'].image[0],
+                                  )
                               ),
                             ),
                             Padding(
@@ -93,7 +100,7 @@ class _UniformScreenState extends State<UniformScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ReusableText(text: stationaryText[index], fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
+                                  ReusableText(text: uniformData.uniform[index].name, fontSize: 14,color: Color(0xFF444444),fontWeight: FontWeight.w500,),
                                   SizedBox(height: dimensions.height10*2,),
                                   ReusableText(text: 'Min 50% Off', fontSize: 14,color:  Color(0xFF121212),fontWeight: FontWeight.w700,),
                                 ],

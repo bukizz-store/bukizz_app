@@ -35,7 +35,7 @@ class AppConstants{
         });
   }
 
-  static Future<void> showSnackBar(BuildContext context , String text , Color color , IconData icon) async {
+  static Future<void> showSnackBar(BuildContext context , String text , Color color , IconData icon , {int time = 5}) async {
     var snackBar = SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,
@@ -74,7 +74,7 @@ class AppConstants{
           ),
         ),
       ),
-      duration: const Duration(seconds: 5),
+      duration: Duration(seconds: time),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

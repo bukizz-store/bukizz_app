@@ -20,7 +20,6 @@ import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../data/repository/category/category_repository.dart';
 import '../../../../../data/repository/product/general_product.dart';
 import '../../../../../utils/dimensions.dart';
-import '../../../../../widgets/buttons/product_buttons.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../widgets/review widget/review.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
@@ -59,50 +58,54 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
       builder: (context, value, child) {
         // print(value.selectedProduct.variation);
         return Scaffold(
-          appBar: AppBar(
 
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  schoolData.selectedSchool.name,
-                  style: const TextStyle(
-                    color: Color(0xFF121212),
-                    fontSize: 16,
-                    fontFamily: 'Nunito',
-                    fontWeight: FontWeight.w700,
-                    height: 0,
-                  ),
-                ),
-                SizedBox(height: 10.sp,),
-                ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,)
-              ],
-            ),
-          ),
+
+
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 28.sp,),
                 //image for pageview container
-                Container(
-                  width: dimensions.screenWidth,
-                  height: dimensions.height16 * 13.75,
-                  child: PageView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Container(
-                        // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
-                        child: CachedNetworkImage(
-                          imageUrl: value.data.image.first,
-                        ),
+                Stack(
+                  children: [
+                    Container(
+                      width: dimensions.screenWidth,
+                      height: dimensions.height16 * 20.75,
+                      child: PageView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context,index){
+                          return  Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                imageUrl: value.data.image.first,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      // Container(
-                      //   child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
-                      // ),
-                    ],
-                  ),
+                    ),
+                    Positioned(
+                        left: 6.w,
+                        top: 10.sp,
+                        child: GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Icon(Icons.arrow_back,size: 25,)
+                        ),
+                    )
+                  ],
                 ),
+
+
+
 
                 //book description container
                 Container(
@@ -115,13 +118,64 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              schoolData.selectedSchool.name,
+                              style: const TextStyle(
+                                color: Color(0xFF121212),
+                                fontSize: 18,
+                                fontFamily: 'Nunito',
+                                fontWeight: FontWeight.w700,
+                                height: 0,
+                                overflow: TextOverflow.ellipsis
+                              ),
+                            ),
+                            SizedBox(height: 10.sp,),
+                            ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,)
+                          ],
+                        ),
+                        // SizedBox(
+                        //   width: 345,
+                        //   child: Text(
+                        //     schoolData.selectedSchool.name,
+                        //     style: const TextStyle(
+                        //       color: Color(0xFF121212),
+                        //       fontSize: 18,
+                        //       fontFamily: 'Nunito',
+                        //       fontWeight: FontWeight.w600,
+                        //       height: 0,
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: dimensions.height24 / 10,
+                        // ),
+                        // SizedBox(
+                        //   width: 345,
+                        //   child: Text(
+                        //     'Branch : ${schoolData.selectedSchool.address},',
+                        //     style: const TextStyle(
+                        //       color: Colors.grey,
+                        //       fontSize: 16,
+                        //       fontFamily: 'Nunito',
+                        //       fontWeight: FontWeight.w600,
+                        //       height: 0,
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: dimensions.height24 /2,
+                        ),
                         SizedBox(
                           width: 345,
                           child: Text(
-                            value.productName,
+                            value.selectedProduct.name,
                             style: const TextStyle(
                               color: Color(0xFF121212),
-                              fontSize: 18,
+                              fontSize: 20,
                               fontFamily: 'Nunito',
                               fontWeight: FontWeight.w600,
                               height: 0,
@@ -189,12 +243,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Text("Set",
-                            //     style: TextStyle(
-                            //       fontSize: 18,
-                            //       fontWeight: FontWeight.w700,
-                            //     )),
-                            // const SizedBox(height: 8),
+                            Text("Choose Set",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            const SizedBox(height: 8),
                             Container(
                               height: 40,
                               child: ListView.builder(
@@ -211,7 +265,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                         value.setTotalPrice();
                                       },
                                       child: Container(
-                                        height: 40,
+                                        height: 30,
                                         margin: const EdgeInsets.only(left: 8),
                                         decoration: BoxDecoration(
                                             color: value.getSelectedSetDataIndex ==
@@ -258,13 +312,13 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         // width: double.infinity,
                         padding: EdgeInsets.symmetric(
                             horizontal: dimensions.width24,
-                            vertical: dimensions.height16),
+                            ),
                         // height: 200,
                         color: AppColors.white,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Stream",
+                            Text("Select Stream",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
@@ -889,6 +943,11 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   bool isDeliverable = false;
 
   Future<void> checkDeliverable() async {
+    if(pinController.text.length < 6)
+      {
+        AppConstants.showSnackBar(context, "Please Enter Valid Pincode", Colors.red, Icons.error_outline_rounded , time: 1);
+        return;
+      }
     await FirebaseDatabase.instance
         .ref()
         .child('pincode')

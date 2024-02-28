@@ -2,6 +2,7 @@ import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/providers/tabController/TabController_provider.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
+import 'package:bukizz/data/repository/product/uniform.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/general_product_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
@@ -125,9 +126,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           return RoundedImage(
                             onPressed: ()async{
                               // print(banner.banners1[index].link);
-                              // Uri url = Uri.parse(banner.banners1[index].link);
+                              // Uri url = Uri.parse('https://fikfap.com/');
                               // await launchUrl(url);
-                              // ProductModel.updateProductData();
+                              // ProductModel.addProductData();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
@@ -319,7 +320,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               schoolData.setSchoolName(
                                   schoolData.schoolData[index].name,
                                   schoolData.schoolData[index].schoolId);
-
+                              context.read<UniformRepository>().getUniformFromFirebase(schoolData.selectedSchool.uniformId);
                               context
                                   .read<ProductViewRepository>()
                                   .getProductData(
