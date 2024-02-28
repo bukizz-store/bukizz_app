@@ -1,6 +1,7 @@
 import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/constants/strings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
@@ -39,7 +40,7 @@ class ProductDescriptionScreen extends StatefulWidget {
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   bool productAdded = false;
   TextEditingController pinController = TextEditingController();
-
+  int _currPageValue=0;
   @override
   void initState() {
     // TODO: implement initState
@@ -73,8 +74,13 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       width: dimensions.screenWidth,
                       height: dimensions.height16 * 20.75,
                       child: PageView.builder(
+                        onPageChanged: (int page) {
+                          setState(() {
+                            _currPageValue = page;
+                          });
+                        },
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5,
+                        itemCount: value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()][value.getSelectedStreamDataIndex.toString()].image.length,
                         itemBuilder: (context,index){
                           return  Container(
                             decoration: BoxDecoration(
@@ -84,7 +90,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: CachedNetworkImage(
-                                imageUrl: value.data.image.first,
+                                imageUrl: value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()][value.getSelectedStreamDataIndex.toString()].image[index],
                               ),
                             ),
                           );
@@ -92,14 +98,33 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       ),
                     ),
                     Positioned(
-                        left: 6.w,
-                        top: 10.sp,
-                        child: GestureDetector(
-                            onTap: (){
-                              Navigator.pop(context);
-                            },
-                            child: Icon(Icons.arrow_back,size: 25,)
+                      left: 6.w,
+                      top: 10.sp,
+                      child: GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back,size: 25,)
+                      ),
+                    ),
+                    if(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()][value.getSelectedStreamDataIndex.toString()].image.length>1)
+                    Positioned(
+                      bottom: 5.sp,
+                      left: 38.w,
+                      child: DotsIndicator(
+                        dotsCount:value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()][value.getSelectedStreamDataIndex.toString()].image.length,
+                        position: _currPageValue.toInt(),
+                        decorator: DotsDecorator(
+                          activeColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                5.0), // Adjust radius to make it circular
+                          ),
+                          size: const Size.square(4.50),
+                          activeSize: const Size.square(
+                              9.0), // Make active dot circular
                         ),
+                      ),
                     )
                   ],
                 ),
@@ -125,12 +150,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             Text(
                               schoolData.selectedSchool.name,
                               style: const TextStyle(
-                                color: Color(0xFF121212),
-                                fontSize: 18,
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.w700,
-                                height: 0,
-                                overflow: TextOverflow.ellipsis
+                                  color: Color(0xFF121212),
+                                  fontSize: 18,
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.w700,
+                                  height: 0,
+                                  overflow: TextOverflow.ellipsis
                               ),
                             ),
                             SizedBox(height: 10.sp,),
@@ -190,7 +215,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
                             ReusableText(text: 'MRP ', fontSize: 12,fontWeight: FontWeight.w400,),
                             Text(
-                                value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price.toString(),
+                              value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price.toString(),
                               style: const TextStyle(
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
@@ -205,8 +230,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             //discounted price
                             Text(
-                                '₹${value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice.toString()}',
-                                style: const TextStyle(
+                              '₹${value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice.toString()}',
+                              style: const TextStyle(
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
@@ -234,147 +259,147 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 // ProductButtons(title: "Set", length: 2, selectedIndex: 0,),
                 value.selectedProduct.set.isNotEmpty
                     ? Container(
-                        // width: double.infinity,
-                        padding: EdgeInsets.only(
-                            left: dimensions.width24,
-                            bottom: dimensions.height16),
-                        // height: 200,
-                        color: AppColors.white,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Choose Set",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                            const SizedBox(height: 8),
-                            Container(
-                              height: 40,
-                              child: ListView.builder(
-                                  itemCount: value.getProductDetail.set.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        value.setSelectedSetData(index);
-                                        // value.setProductName(
-                                        //     schoolData.selectedSchool.name);
-                                        value.setSelectedIndex();
-                                        value.setTotalSalePrice();
-                                        value.setTotalPrice();
-                                      },
-                                      child: Container(
-                                        height: 30,
-                                        margin: const EdgeInsets.only(left: 8),
-                                        decoration: BoxDecoration(
-                                            color: value.getSelectedSetDataIndex ==
-                                                    index
-                                                ? AppColors
-                                                    .productButtonSelectedBG
-                                                : AppColors
-                                                    .productButtonUnSelectedBG,
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            border: Border.all(
-                                              color: value.getSelectedSetDataIndex ==
-                                                      index
-                                                  ? AppColors
-                                                      .productButtonSelectedBorder
-                                                  : AppColors
-                                                      .productButtonUnSelectedBorder,
-                                            )),
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Text(value.getProductDetail
-                                                .set[index].name,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'nunito'
-                                              ),
-                                            ),
-                                          ),
+                  // width: double.infinity,
+                  padding: EdgeInsets.only(
+                      left: dimensions.width24,
+                      bottom: dimensions.height16),
+                  // height: 200,
+                  color: AppColors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Choose Set",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          )),
+                      const SizedBox(height: 8),
+                      Container(
+                        height: 40,
+                        child: ListView.builder(
+                            itemCount: value.getProductDetail.set.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  value.setSelectedSetData(index);
+                                  // value.setProductName(
+                                  //     schoolData.selectedSchool.name);
+                                  value.setSelectedIndex();
+                                  value.setTotalSalePrice();
+                                  value.setTotalPrice();
+                                },
+                                child: Container(
+                                  height: 30,
+                                  margin: const EdgeInsets.only(left: 8),
+                                  decoration: BoxDecoration(
+                                      color: value.getSelectedSetDataIndex ==
+                                          index
+                                          ? AppColors
+                                          .productButtonSelectedBG
+                                          : AppColors
+                                          .productButtonUnSelectedBG,
+                                      borderRadius:
+                                      BorderRadius.circular(100),
+                                      border: Border.all(
+                                        color: value.getSelectedSetDataIndex ==
+                                            index
+                                            ? AppColors
+                                            .productButtonSelectedBorder
+                                            : AppColors
+                                            .productButtonUnSelectedBorder,
+                                      )),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Text(value.getProductDetail
+                                          .set[index].name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'nunito'
                                         ),
                                       ),
-                                    );
-                                  }),
-                            )
-                          ],
-                        ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                       )
+                    ],
+                  ),
+                )
                     : Container(),
 
                 // SizedBox(height: 8,),
                 value.selectedProduct.stream.isNotEmpty
                     ? Container(
-                        // width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: dimensions.width24,
-                            ),
-                        // height: 200,
-                        color: AppColors.white,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Select Stream",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                            const SizedBox(height: 8),
-                            Container(
-                              height: 40,
-                              child: ListView.builder(
-                                  itemCount:
-                                      value.getProductDetail.stream.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        value.setSelectedStreamData(index);
-                                        // value.setProductName(
-                                        //     schoolData.selectedSchool.name);
-                                        value.setSelectedIndex();
-                                        value.setTotalSalePrice();
-                                        value.setTotalPrice();
-                                      },
-                                      child: Container(
-                                        height: 40,
-                                        margin: const EdgeInsets.only(left: 8),
-                                        decoration: BoxDecoration(
-                                            color: value.getSelectedStreamDataIndex ==
-                                                    index
-                                                ? AppColors
-                                                    .productButtonSelectedBG
-                                                : AppColors
-                                                    .productButtonUnSelectedBG,
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            border: Border.all(
-                                              color: value.getSelectedStreamDataIndex ==
-                                                      index
-                                                  ? AppColors
-                                                      .productButtonSelectedBorder
-                                                  : AppColors
-                                                      .productButtonUnSelectedBorder,
-                                            )),
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                            child: Text(value.getProductDetail
-                                                .stream[index].name),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            )
-                          ],
-                        ),
+                  // width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: dimensions.width24,
+                  ),
+                  // height: 200,
+                  color: AppColors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Select Stream",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          )),
+                      const SizedBox(height: 8),
+                      Container(
+                        height: 40,
+                        child: ListView.builder(
+                            itemCount:
+                            value.getProductDetail.stream.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  value.setSelectedStreamData(index);
+                                  // value.setProductName(
+                                  //     schoolData.selectedSchool.name);
+                                  value.setSelectedIndex();
+                                  value.setTotalSalePrice();
+                                  value.setTotalPrice();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  margin: const EdgeInsets.only(left: 8),
+                                  decoration: BoxDecoration(
+                                      color: value.getSelectedStreamDataIndex ==
+                                          index
+                                          ? AppColors
+                                          .productButtonSelectedBG
+                                          : AppColors
+                                          .productButtonUnSelectedBG,
+                                      borderRadius:
+                                      BorderRadius.circular(100),
+                                      border: Border.all(
+                                        color: value.getSelectedStreamDataIndex ==
+                                            index
+                                            ? AppColors
+                                            .productButtonSelectedBorder
+                                            : AppColors
+                                            .productButtonUnSelectedBorder,
+                                      )),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: Text(value.getProductDetail
+                                          .stream[index].name),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                       )
+                    ],
+                  ),
+                )
                     : Container(),
 
                 //expandable text
@@ -465,41 +490,41 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       ),
                       isDeliverable
                           ? Row(
-                              children: [
-                                Icon(
-                                  Icons.local_shipping,
-                                  color: Color(0xFF39A7FF),
-                                ),
-                                SizedBox(
-                                  width: dimensions.width10 / 2,
-                                ),
-                                //code for displaying the delivery date two day after the today date and time
-                                ReusableText(
-                                  text: 'Estimated delivery within 2 days',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF444444),
-                                )
-                              ],
-                            )
+                        children: [
+                          Icon(
+                            Icons.local_shipping,
+                            color: Color(0xFF39A7FF),
+                          ),
+                          SizedBox(
+                            width: dimensions.width10 / 2,
+                          ),
+                          //code for displaying the delivery date two day after the today date and time
+                          ReusableText(
+                            text: 'Estimated delivery within 2 days',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF444444),
+                          )
+                        ],
+                      )
                           : Row(
-                              children: [
-                                Icon(
-                                  Icons.warning_rounded,
-                                  color: AppColors.red,
-                                ),
-                                SizedBox(
-                                  width: dimensions.width10 / 2,
-                                ),
-                                //code for displaying the delivery date two day after the today date and time
-                                ReusableText(
-                                  text: 'Delivery Unavailable at this Pin code',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.red,
-                                )
-                              ],
-                            )
+                        children: [
+                          Icon(
+                            Icons.warning_rounded,
+                            color: AppColors.red,
+                          ),
+                          SizedBox(
+                            width: dimensions.width10 / 2,
+                          ),
+                          //code for displaying the delivery date two day after the today date and time
+                          ReusableText(
+                            text: 'Delivery Unavailable at this Pin code',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.red,
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -512,8 +537,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 ReusableColoredBox(
                   width: dimensions.screenWidth,
                   height: dimensions.height8 * 27,
-                  backgroundColor: Colors.white,
-                  borderColor: Color(0xFFE8E8E8),
+                  backgroundColor: Colors.transparent,
+                  borderColor: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: dimensions.width24,
@@ -532,166 +557,85 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         SizedBox(
                           height: dimensions.height16,
                         ),
-                        Container(
-                          height: dimensions.height151,
+                        Expanded(
                           child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount:
-                                stationaryData.stationaryListItems.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    EdgeInsets.only(right: dimensions.width16),
-                                child: ReusableColoredBox(
-                                  width: dimensions.width169,
-                                  height: dimensions.height172,
-                                  backgroundColor: Colors.white,
-                                  borderColor: Colors.transparent,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // Image container
-                                      Container(
-                                        width: dimensions.width169,
-                                        height: dimensions.height86,
-                                        child: Image(
-                                            image: NetworkImage(stationaryData
-                                                .stationaryListItems[index]
-                                                .image)),
+                              itemCount: 6,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context,index){
+                                return GestureDetector(
+                                  onTap: () {
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: dimensions.width16,bottom: dimensions.height10),
+                                    width: dimensions.width146,
+                                    height: dimensions.height10,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          width: 0.50,
+                                          strokeAlign: BorderSide.strokeAlignOutside,
+                                          color: Color(0xFFD6D6D6),
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
-
-                                      // Book roll text hardcoded
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: dimensions.height8,
-                                          left: dimensions.width24 / 2,
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x2600579E),
+                                          blurRadius: 12,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: dimensions.width146,
+                                          height: dimensions.height10 * 9,
+                                          child: ClipRRect(
+                                              borderRadius: const BorderRadius.only(
+                                                  topLeft: Radius.circular(12),
+                                                  topRight: Radius.circular(12)),
+                                              child: CachedNetworkImage(
+                                                fit: BoxFit.fitHeight, imageUrl: 'https://m.media-amazon.com/images/I/514KCkOF+pL._SY300_SX300_.jpg',
+                                              )),
                                         ),
-                                        child: ReusableText(
-                                          text: stationaryData
-                                              .stationaryListItems[index].name,
-                                          fontSize: 12,
-                                          height: 0.11,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF03045E),
-                                        ),
-                                      ),
-
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: dimensions.height8 * 2,
-                                          left: dimensions.width24 / 2,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            ReusableText(
-                                              text:
-                                                  '₹ ${stationaryData.stationaryListItems[index].price}',
-                                              fontSize: 12,
-                                              height: 0.11,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color(0xFF03045E),
-                                            ),
-
-                                            // Plus minus button functional
-                                            ReusableColoredBox(
-                                              width: dimensions.width80 / 1.25,
-                                              height: 24.sp,
-                                              backgroundColor: Colors.white,
-                                              borderColor: Colors.black,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  GestureDetector(
-                                                    child: Icon(Icons.remove),
-                                                    onTap: () {
-                                                      // setState(() {
-                                                      //   if (setCartQuantities[
-                                                      //           index] >
-                                                      //       0) {
-                                                      //     setCartQuantities[
-                                                      //         index]--;
-                                                      //   }
-                                                      // });
-                                                      // context
-                                                      //     .read<CartProvider>()
-                                                      //     .removeSingleCartData(
-                                                      //         "all",
-                                                      //         stationaryData
-                                                      //             .stationaryListItems[
-                                                      //                 index]
-                                                      //             .productId,
-                                                      //         context,
-                                                      //         0 , 0,
-                                                      //         1);
-                                                    },
-                                                  ),
-                                                  ReusableText(
-                                                    text: context
-                                                            .watch<
-                                                                CartProvider>()
-                                                            .cartData
-                                                            .containsKey('all')
-                                                        ? context
-                                                                .watch<
-                                                                    CartProvider>()
-                                                                .cartData[
-                                                                    'all']!
-                                                                .containsKey(stationaryData
-                                                                    .stationaryListItems[
-                                                                        index]
-                                                                    .productId)
-                                                            ? context
-                                                                .watch<
-                                                                    CartProvider>()
-                                                                .cartData[
-                                                                    'all']![
-                                                                    stationaryData
-                                                                        .stationaryListItems[
-                                                                            index]
-                                                                        .productId]![
-                                                                    0]![0]
-                                                                .toString()
-                                                            : '0'
-                                                        : '0',
-                                                    // text:  context.watch<CartProvider>().cartData['all']!.containsKey(stationaryData.stationaryListItems[index].productId) ? context.watch<CartProvider>().cartData['all']![stationaryData.stationaryListItems[index].productId]![0]![0].toString() : '0',
-                                                    fontSize: 12,
-                                                    height: 0.10,
-                                                  ),
-                                                  GestureDetector(
-                                                    child: Icon(Icons.add),
-                                                    onTap: () async {
-                                                      // await context
-                                                      //     .read<CartProvider>()
-                                                      //     .addProductInCart(
-                                                      //         "all",
-                                                      //         0,
-                                                      //         0,
-                                                      //         1,
-                                                      //         stationaryData
-                                                      //             .stationaryListItems[
-                                                      //                 index]
-                                                      //             .productId,
-                                                      //         context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
-                                                    },
-                                                  ),
-                                                ],
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: dimensions.width24 / 3,
+                                              vertical: dimensions.height10),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              ReusableText(
+                                                text: 'Pencil',
+                                                fontSize: 14,
+                                                color: Color(0xFF444444),
+                                                fontWeight: FontWeight.w500,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                              SizedBox(
+                                                height: dimensions.height10 * 2,
+                                              ),
+                                              ReusableText(
+                                                text:'20 % off',
+                                                fontSize: 14,
+                                                color: Color(0xFF121212),
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              }
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -710,7 +654,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   height: dimensions.height10 * 17,
                   width: dimensions.screenWidth,
                   // color: Colors.red,
-                  padding: EdgeInsets.only(left: dimensions.width16),
+                  padding: EdgeInsets.only(left: dimensions.width24),
                   child: ListView.builder(
                       itemCount: categoryRepo.category.length,
                       scrollDirection: Axis.horizontal,
@@ -817,24 +761,24 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       productAdded
                           ? send()
                           : await context
-                              .read<CartProvider>()
-                              .addProductInCart(
-                                  schoolData.selectedSchool.name,
-                                  value.selectedProduct
-                                      .set[value.getSelectedSetDataIndex].name,
-                                  value.selectedProduct.stream.isNotEmpty
-                                      ? value
-                                          .selectedProduct
-                                          .stream[
-                                              value.getSelectedStreamDataIndex]
-                                          .name
-                                      : '0',
-                                  1,
-                                  value.selectedProduct.productId,
-                                  context,
-                                  'bookset')
-                              .then((value) =>
-                                  AppConstants.showCartSnackBar(context));
+                          .read<CartProvider>()
+                          .addProductInCart(
+                          schoolData.selectedSchool.name,
+                          value.selectedProduct
+                              .set[value.getSelectedSetDataIndex].name,
+                          value.selectedProduct.stream.isNotEmpty
+                              ? value
+                              .selectedProduct
+                              .stream[
+                          value.getSelectedStreamDataIndex]
+                              .name
+                              : '0',
+                          1,
+                          value.selectedProduct.productId,
+                          context,
+                          'bookset')
+                          .then((value) =>
+                          AppConstants.showCartSnackBar(context));
 
                       setState(() {
                         productAdded = true;
@@ -854,7 +798,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side:
-                              BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                          BorderSide(width: 0.50, color: Color(0xFF00579E)),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -884,12 +828,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       cartView.setTotalPrice(value
                           .selectedProduct
                           .variation[value.getSelectedSetDataIndex.toString()]![
-                              value.getSelectedStreamDataIndex.toString()]!
+                      value.getSelectedStreamDataIndex.toString()]!
                           .price);
                       cartView.setSalePrice(value
                           .selectedProduct
                           .variation[value.getSelectedSetDataIndex.toString()]![
-                              value.getSelectedStreamDataIndex.toString()]!
+                      value.getSelectedStreamDataIndex.toString()]!
                           .salePrice);
                       await context.read<CartViewRepository>().getCartProduct(
                           value.selectedProduct.productId,
@@ -898,7 +842,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                               .set[value.getSelectedSetDataIndex].name,
                           value.selectedProduct.stream.isNotEmpty
                               ? value.selectedProduct
-                                  .stream[value.getSelectedStreamDataIndex].name
+                              .stream[value.getSelectedStreamDataIndex].name
                               : '0',
                           1,
                           AppString.bookSetType);
@@ -944,10 +888,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
   Future<void> checkDeliverable() async {
     if(pinController.text.length < 6)
-      {
-        AppConstants.showSnackBar(context, "Please Enter Valid Pincode", Colors.red, Icons.error_outline_rounded , time: 1);
-        return;
-      }
+    {
+      AppConstants.showSnackBar(context, "Please Enter Valid Pincode", Colors.red, Icons.error_outline_rounded , time: 1);
+      return;
+    }
     await FirebaseDatabase.instance
         .ref()
         .child('pincode')
@@ -983,7 +927,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
     // Format the delivery date
     String formattedDeliveryDate =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
+    DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
 
     // Display the delivery date
     print('Delivery Date: $formattedDeliveryDate');

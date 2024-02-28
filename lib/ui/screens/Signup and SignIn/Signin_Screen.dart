@@ -160,6 +160,12 @@ class _SignInState extends State<SignIn> {
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () async{
+                    if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(_emailTextController.text))
+                      {
+                        AppConstants.showSnackBar(context, "Enter a valid Email", Colors.red, Icons.error_outline_rounded);
+                        return;
+                      }
                     AppConstants.buildShowDialog(context);
                     String email = _emailTextController.text.trim();
                     String password = _passwordTextController.text.trim();
