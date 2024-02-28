@@ -57,6 +57,7 @@ class _UniformScreenState extends State<UniformScreen> {
 
                     return GestureDetector(
                       onTap: (){
+                        context.read<UniformRepository>().selectedUniform = context.read<UniformRepository>().uniform[index];
                         Navigator.pushNamed(context, UniformDescriptionScreen.route);
                       },
                       child: Container(

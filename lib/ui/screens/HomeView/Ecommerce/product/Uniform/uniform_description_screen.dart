@@ -56,7 +56,6 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
         // print(value.selectedProduct.variation);
         return Scaffold(
           body: SingleChildScrollView(
-
             child: Column(
               children: [
                 SizedBox(height: 28.sp,),
@@ -68,7 +67,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                       height: dimensions.height16 * 20.75,
                       child: PageView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5,
+                        itemCount: value.selectedUniform.variation[value.getSelectedSetDataIndex.toString()][value.getSelectedStreamDataIndex.toString()].image.length,
                         itemBuilder: (context,index){
                           return  Container(
                             decoration: BoxDecoration(
@@ -78,7 +77,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: CachedNetworkImage(
-                                imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2FVallavi_House.png?alt=media&token=6b66ad66-a3db-44b3-9d7c-c126b04d1e62',
+                                imageUrl: value.selectedUniform.variation[value.getSelectedSetDataIndex.toString()][value.getSelectedStreamDataIndex.toString()].image[index],
                                fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -101,6 +100,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                 //book description container
                 Container(
                   // height: dimensions.height8 * 13,
+                  width: dimensions.screenWidth,
                   color: Colors.white,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -122,7 +122,49 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                           ),
                         ),
                         SizedBox(height: 10.sp,),
-                        ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,)
+                        ReusableText(text: '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}', fontSize: 14,color:  Color(0xFF7A7A7A),fontWeight: FontWeight.w500,),
+                        SizedBox(height: dimensions.height16,),
+                        Row(
+                          children: [
+
+                            ReusableText(text: 'MRP ', fontSize: 12,fontWeight: FontWeight.w400,),
+                            Text(
+                              value.selectedUniform.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price.toString(),
+                              style: const TextStyle(
+                                color: Color(0xFF7A7A7A),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                decoration: TextDecoration.lineThrough,
+                                fontFamily: 'nunito',
+                              ),
+                            ),
+
+                            SizedBox(
+                              width: dimensions.width24 / 4,
+                            ),
+                            //discounted price
+                            Text(
+                              '₹${value.selectedUniform.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice.toString()}',
+                              style: const TextStyle(
+                                color: Color(0xFF121212),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                // fontFamily: 'nunito'
+                              ),
+                            ),
+                            SizedBox(width: dimensions.width16/2,),
+                            ReusableText(
+                              text:
+                              '${(((value.selectedUniform.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price - value.selectedUniform.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice) * 100 / value.selectedUniform.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price).round().toString())}% Off',
+                              fontSize: 20,
+                              color: Color(0xFF058FFF),
+                              fontWeight: FontWeight.w700,
+                              height: 0.11,
+                              fontFamily: FontFamily.nunito,
+                            ),
+
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -134,12 +176,13 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                         alignment: Alignment.topCenter,
                         color: Colors.white,
                         width: dimensions.screenWidth,
-                        height: dimensions.height36 * 2.5,
+                        height: dimensions.height36 * 2.2,
                         padding: EdgeInsets.symmetric(
                             horizontal: dimensions.width24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
                             SizedBox(
                               height: dimensions.height10,
                             ),
@@ -148,28 +191,21 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ReusableText(
-                                  text: 'Size: 30',
+                                  text: 'Size: ${value.selectedUniform.stream[value.getSelectedStreamDataIndex].name}',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
                                 SizedBox(
                                   width: dimensions.width16,
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 25.w,
-                                    height: 15.sp,
-                                    child: ReusableText(
-                                      text: 'Size Chart',
-                                      fontSize: 16,
-                                      color: Color(0xFF058FFF),
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                Container(
+                                  width: 25.w,
+                                  height: 15.sp,
+                                  child: ReusableText(
+                                    text: 'Size Chart',
+                                    fontSize: 16,
+                                    color: Color(0xFF058FFF),
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
@@ -185,16 +221,24 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                                       scrollDirection: Axis.horizontal,
                                       itemCount: value.selectedUniform.stream.length,
                                       itemBuilder: (context, index) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: AppColors.black)),
-                                          margin: EdgeInsets.only(right: 16),
-                                          width: dimensions.width10 * 5,
-                                          height: dimensions.height10 * 2,
-                                          child: Center(
-                                            child: ReusableText(
-                                                text: value.selectedUniform.stream[index].name, fontSize: 16),
+                                        return GestureDetector(
+                                          onTap: (){
+                                            value.setSelectedStreamData(index);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: value.getSelectedStreamDataIndex==index?Colors.blue:AppColors.black,width: 2)
+                                            ),
+                                            margin: EdgeInsets.only(right: 16),
+                                            width: dimensions.width10 * 5,
+                                            height: dimensions.height10 * 2,
+                                            child: Center(
+                                              child: ReusableText(
+                                                  text: value.selectedUniform.stream[index].name, fontSize: 16
+                                              ),
+                                            ),
                                           ),
                                         );
                                       }))
@@ -202,63 +246,73 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                         ),
                       )
                     : Container(),
-
-                // SizedBox(height: 8,),
-                value.selectedUniform.stream.isNotEmpty
+               
+                value.selectedUniform.set.isNotEmpty
                     ? Container(
                         color: Colors.white,
                         padding: EdgeInsets.symmetric(
                             horizontal: dimensions.width24,
-                            vertical: dimensions.height8),
-                        // height: dimensions.height10*8.2,
+                              vertical: dimensions.height8
+                            ),
+                        height: dimensions.height10*12.6,
                         width: dimensions.screenWidth,
-                        child: ListView.builder(
-                            itemCount: value.selectedUniform.set.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    EdgeInsets.only(right: dimensions.width16),
-                                child: Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        value.setSelectedSetData(index);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: index ==
-                                                        value
-                                                            .getSelectedSetDataIndex
-                                                    ? Colors.blue
-                                                    : Colors.black38,
-                                                width: 2),
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
-                                        child: CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            radius: 30,
-                                            child: ClipOval(
-                                                child: CachedNetworkImage(
-                                              imageUrl: value.selectedUniform
-                                                  .set[index].image[0],
-                                              fit: BoxFit.cover,
-                                            ))),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ReusableText(text: 'Color', fontSize: 16),
+                            SizedBox(height: dimensions.height16,),
+                            Container(
+                              height: dimensions.height10*8.6,
+                              child:  ListView.builder(
+                                  itemCount: value.selectedUniform.set.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding:
+                                      EdgeInsets.only(right: dimensions.width16),
+                                      child: Column(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              value.setSelectedSetData(index);
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: index ==
+                                                          value
+                                                              .getSelectedSetDataIndex
+                                                          ? Colors.blue
+                                                          : Colors.black38,
+                                                      width: 2),
+                                                  borderRadius:
+                                                  BorderRadius.circular(30)),
+                                              child: CircleAvatar(
+                                                  backgroundColor: Colors.transparent,
+                                                  radius: 25,
+                                                  child: ClipOval(
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: value.selectedUniform
+                                                            .variation[index.toString()][value.getSelectedStreamDataIndex.toString()].image[0],
+                                                        fit: BoxFit.cover,
+                                                      ))),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: dimensions.height10,
+                                          ),
+                                          ReusableText(
+                                            text:
+                                            value.selectedUniform.set[index].name,
+                                            fontSize: 16,
+                                          )
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: dimensions.height10,
-                                    ),
-                                    ReusableText(
-                                      text:
-                                          value.selectedUniform.set[index].name,
-                                      fontSize: 16,
-                                    )
-                                  ],
-                                ),
-                              );
-                            }),
+                                    );
+                                  }),
+                            )
+                          ],
+                        )
                       )
                     : Container(),
 
@@ -600,8 +654,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: isDeliverable
-                        ? () async {
+                    onTap: () async {
                             // context.read<CartProvider>().addProductInCart(
                             //     productView.selectedProduct.productId, context);
                             context.read<CartViewRepository>().isSingleBuyNow =
@@ -641,8 +694,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                             //         .getCartData
                             //         .productsId[productView.selectedProduct.productId]!,
                             //     productView.selectedProduct.productId);
-                          }
-                        : () {},
+                          },
                     child: Container(
                       height: dimensions.height8 * 6,
                       width: dimensions.width146,
