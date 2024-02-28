@@ -114,7 +114,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 //Email Form
                 ReusableTextField('Your Email', Icons.person_outline, false,
-                    _emailTextController),
+                    _emailTextController , ),
 
                 SizedBox(
                   height: dimensions.height16,
@@ -145,6 +145,12 @@ class _SignUpState extends State<SignUp> {
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () async {
+                    if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(_emailTextController.text))
+                    {
+                      AppConstants.showSnackBar(context, "Enter a valid Email", Colors.red, Icons.error_outline_rounded);
+                      return;
+                    }
                     AppConstants.buildShowDialog(context);
                     String email = _emailTextController.text.trim();
                     String password = _passwordTextController.text.trim();
