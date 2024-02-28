@@ -1,6 +1,7 @@
 import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/providers/tabController/TabController_provider.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
+import 'package:bukizz/data/repository/notifications/notifications.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/data/repository/product/uniform.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Stationary/general_product_screen.dart';
@@ -8,6 +9,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_vi
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -22,6 +24,7 @@ import '../../../../constants/colors.dart';
 import '../../../../constants/font_family.dart';
 import '../../../../data/providers/school_repository.dart';
 import '../../../../data/repository/category/category_repository.dart';
+import '../../../../data/repository/my_orders.dart';
 import '../../../../data/repository/product/general_product.dart';
 import '../../../../utils/dimensions.dart';
 import '../../../../widgets/images/Reusable_SliderImage.dart';
@@ -125,10 +128,47 @@ class _EcommerceMainState extends State<EcommerceMain> {
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return RoundedImage(
                             onPressed: ()async{
-                              // print(banner.banners1[index].link);
-                              // Uri url = Uri.parse('https://fikfap.com/');
-                              // await launchUrl(url);
-                              // ProductModel.addProductData();
+                              if(banner.banners1[index].link.isNotEmpty){
+                                if(banner.banners1[index].link.contains('http')||banner.banners1[index].link.contains('https')){
+                                  Uri url = Uri.parse(banner.banners1[index].link);
+                                  await launchUrl(url);
+                                }
+                                else if(banner.banners1[index].link[0] == '/'){
+                                  List<String> data = banner.banners1[index].link.split('/');
+                                  if(data[1] == 'category')
+                                    {
+                                      var selectedModel=categoryRepo.category[categoryRepo.category.indexOf(categoryRepo.category.firstWhere((element) => element.name == data[2]))];
+                                      context.read<CategoryRepository>().selectedCategory = selectedModel;
+                                      context.read<GeneralProductRepository>().getGeneralProductFromFirebase(selectedModel.categoryId);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>   GeneralProductScreen(product: selectedModel.name)));
+                                    }
+                                  else if(data[1] == 'order')
+                                    {
+                                      var orders = context.read<MyOrders>();
+                                      orders.fetchOrders().then((value) => orders.setOrder(orders.orders.indexWhere((element) => element.orderId == data[2])));
+                                      Navigator.pushNamed(context, OrderDetailsScreen.route);
+                                    }
+
+                                  // context.read<TabProvider>().navigateToTab(0);
+                                  // Navigator.pushNamed(context,ViewAll.route );
+                                }
+                                // else if(banner.banners1[index].link.contains('stationary')){
+                                //   Navigator.pushNamed(context, ViewAllStationaryScreen.route);
+                                // }
+                                // else if(banner.banners1[index].link.contains('uniform')){
+                                //   context.read<TabProvider>().navigateToTab(1);
+                                //   Navigator.pushNamed(context, ViewAll.route);
+                                // }
+                                // else if(banner.banners1[index].link.contains('admission')){
+                                //   context.read<TabProvider>().navigateToTab(2);
+                                //   Navigator.pushNamed(context, ViewAll.route);
+                                // }
+                                // else if(banner.banners1[index].link.contains('extras')){
+                                //   context.read<TabProvider>().navigateToTab(3);
+                                //   Navigator.pushNamed(context, ViewAll.route);
+                                // }
+                              }
+                              // NotificationRepository.pushNotificationData();
                             },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
@@ -136,20 +176,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               imageUrl: banner.banners1[index].image,
                           );
                         },
-                        // items: [
-                        //   RoundedImage(
-                        //     width: dimensions.screenWidth,
-                        //     height: dimensions.height192,
-                        //     isNetworkImage: true,
-                        //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner1.jpg?alt=media&token=07a8dbea-31e2-43d6-bce8-90223eb13cc0',
-                        //   ),
-                        //   RoundedImage(
-                        //     width: dimensions.screenWidth,
-                        //     height: dimensions.height192,
-                        //     isNetworkImage: true,
-                        //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner3.jpg?alt=media&token=0cf88ad2-203f-468b-8a8b-1c037da3713a',
-                        //   ),
-                        // ],
 
                         options: CarouselOptions(
                           viewportFraction: 1,

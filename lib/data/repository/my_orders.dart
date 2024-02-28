@@ -118,7 +118,7 @@ class MyOrders with ChangeNotifier{
 
   //Create a method to fetch data of orders from firebase with having the docs as the user have placed the order
   // and then set the orders list with the fetched data
-  void fetchOrders() async {
+  Future<void> fetchOrders() async {
     print(AppConstants.userData.orderID);
     setIsOrdersLoaded(false);
     List<OrderModel> tempOrders = [];

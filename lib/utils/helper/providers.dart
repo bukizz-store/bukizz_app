@@ -3,6 +3,7 @@ import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/address/update_address.dart';
 import 'package:bukizz/data/repository/category/category_repository.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
+import 'package:bukizz/data/repository/notifications/notifications.dart';
 import 'package:bukizz/data/repository/payments/upi_payments.dart';
 import 'package:bukizz/data/repository/product/general_product.dart';
 import 'package:bukizz/data/repository/product/uniform.dart';
@@ -58,4 +59,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => CategoryRepository()),
   ChangeNotifierProvider(create: (_) => TabProvider()),
   ChangeNotifierProvider(create: (_) => UniformRepository()),
+  ChangeNotifierProvider(create: (_) => NotificationRepository()),
 ];

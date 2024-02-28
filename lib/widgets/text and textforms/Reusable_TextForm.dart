@@ -63,6 +63,9 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
         )
             : null,
       ),
+      onTapOutside: (event) {
+        FocusScope.of(context).unfocus();
+      },
       keyboardType: widget.isPasswordType
           ? TextInputType.visiblePassword
           : TextInputType.emailAddress,
