@@ -50,7 +50,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               mainAxisSpacing: dimensions.height8*2,
               mainAxisExtent: dimensions.height10*16.3
             ),
-            itemCount: categoryRepo.category.length,
+            itemCount: 4,//categoryRepo.category.length
             itemBuilder: ( context,  index) {
               var selectedModel=categoryRepo.category[index];
               return GestureDetector(

@@ -7,6 +7,7 @@ import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
@@ -81,7 +82,7 @@ class _Checkout2State extends State<Checkout2> {
                         ),
                       ),
                       Container(
-                        width: dimensions.width10 * 10,
+                        width: 18.w,
                         height: 1.0,
                         color: Color(0xFFA5A5A5),
                       ),
@@ -90,11 +91,13 @@ class _Checkout2State extends State<Checkout2> {
                         backgroundColor: Color(0xFF058FFF),
                         borderColor: Colors.black,
                         borderWidth: 0.5,
+                        text: 'Summary',
+                        fontWeight: FontWeight.w700,
                         child: ReusableText(
                             text: '2', fontSize: 16, color: Colors.white),
                       ),
                       Container(
-                        width: dimensions.width10 * 10,
+                        width: 18.w,
                         height: 1.0,
                         color: Color(0xFFA5A5A5),
                       ),
@@ -103,6 +106,7 @@ class _Checkout2State extends State<Checkout2> {
                         backgroundColor: Colors.transparent,
                         borderColor: Colors.black,
                         borderWidth: 0.5,
+                        text: 'Payment',
                         child: ReusableText(
                           text: '3',
                           fontSize: 16,

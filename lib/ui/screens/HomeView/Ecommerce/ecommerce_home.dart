@@ -43,8 +43,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
   List<String> emojiText = [
     "School BookSets",
     "Stationary",
-    "School Admission",
-    "Uniform",
+    "School Uniform",
+    "Admission",
     "Extras",
   ];
   List<String> stationaryText = [
@@ -238,12 +238,11 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               else if(index==1){
                                 Navigator.pushNamed(context, ViewAllStationaryScreen.route);
                               }
+                              else if(index==3){
+                                Navigator.pushNamed(context, Forms.route);
+                              }
                               else if(index==2){
                                 context.read<TabProvider>().navigateToTab(1);
-                                Navigator.pushNamed(context, ViewAll.route);
-                              }
-                              else if(index==3){
-                                context.read<TabProvider>().navigateToTab(2);
                                 Navigator.pushNamed(context, ViewAll.route);
                               }
                               else{
@@ -643,7 +642,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ReusableText(
-                      text: 'Buy Stationary',
+                      text: 'School Supplies',
                       fontSize: 20,
                       height: 0,
                       fontWeight: FontWeight.w700,

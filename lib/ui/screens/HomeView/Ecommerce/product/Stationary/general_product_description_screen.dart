@@ -15,6 +15,7 @@ import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/constants.dart';
 import '../../../../../../data/providers/cart_provider.dart';
 import '../../../../../../data/providers/school_repository.dart';
+import '../../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../../widgets/review widget/review.dart';
 import '../../../../../../widgets/text and textforms/Reusable_text.dart';
@@ -489,13 +490,31 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    // Notifications.showBigTextNotifications(title: 'new notification', body: 'test', fln: flutterLocalNotificationsPlugin);
-                    // print('buy button is tapped');
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => Checkout1()),
-                    // );
+                  onTap: () async{
+
+                    var cartView = context.read<CartViewRepository>();
+                    cartView.isSingleBuyNow = true;
+                    cartView.setTotalPrice(value
+                        .selectedProduct
+                        .variation[value.selectedVariationIndex.toString()]![
+                    '0']!
+                        .price);
+                    cartView.setSalePrice(value
+                        .selectedProduct
+                        .variation[value.selectedVariationIndex.toString()]!['0']!
+                        .salePrice);
+                    await context.read<CartViewRepository>().getCartProduct(
+                        value.selectedProduct.productId,
+                        'all',
+                        value.selectedProduct
+                            .set[value.selectedVariationIndex].name,
+                        'null',
+                        1,
+                        AppString.generalType);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Checkout1()),
+                    );
                   },
                   child: Container(
                     height: dimensions.height8 * 6,

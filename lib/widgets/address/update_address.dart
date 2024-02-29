@@ -77,6 +77,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Full Name (Required) *',
+                        labelText: 'Full Name',
                         controller: nameController,
                       ),
                       SizedBox(
@@ -86,6 +87,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Phone number (Required) *',
+                        labelText: 'Phone number',
                         controller: phoneController,
                       ),
                       SizedBox(
@@ -95,6 +97,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Email',
+                        labelText: 'Email',
                         controller: emailController,
                       ),
                       SizedBox(
@@ -107,6 +110,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             width: dimensions.width16 * 9.2,
                             height: dimensions.height8 * 5.5,
                             hintText: 'Pin Code (Required) *',
+                            labelText: 'Pin Code',
                             controller: pinCodeController,
                           ),
                           GestureDetector(
@@ -191,12 +195,14 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             width: dimensions.width16 * 9.2,
                             height: dimensions.height8 * 5.5,
                             hintText: 'State (Required) *',
+                            labelText: 'State',
                             controller: stateController,
                           ),
                           CustomTextForm(
                             width: dimensions.width16 * 9.2,
                             height: dimensions.height8 * 5.5,
                             hintText: 'City (Required) *',
+                            labelText: 'City',
                             controller: cityController,
                           ),
                         ],
@@ -208,6 +214,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'House No., Building Name (Required) *',
+                        labelText: 'House No.',
                         controller: buildingnameController,
                       ),
                       SizedBox(
@@ -217,6 +224,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Road name, Area, Colony (Required) *',
+                        labelText: 'Road Name',
                         controller: addressController,
                       ),
                     ],
