@@ -649,15 +649,20 @@ class _Checkout3State extends State<Checkout3> {
                         });
                       },
                       child: Container(
+                        
                         alignment: Alignment.center,
                         width: dimensions.width24 * 12.38,
                         height: dimensions.height48,
-                        decoration: ShapeDecoration(
-                          color: AppColors.productButtonSelectedBorder,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(100),
-                          ),
+                        decoration: BoxDecoration(
+                            color: AppColors.productButtonSelectedBorder,
+                            borderRadius: BorderRadius.circular(40),
+                            boxShadow: const [
+                              BoxShadow(
+                                color:Color(0xFF0466b5),
+                                offset:Offset(0,4),
+
+                              )
+                            ]
                         ),
                         child: ReusableText(
                           text:
