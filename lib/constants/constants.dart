@@ -39,7 +39,6 @@ class AppConstants{
   static Future<void> showSnackBar(BuildContext context , String text , Color color , IconData icon , {int time = 5}) async {
     var snackBar = SnackBar(
       elevation: 0,
-      animation: AnimationController(vsync: Scaffold.of(context), duration: Duration(milliseconds: 250))..forward(),
       margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).size.height - 35.h,
           left: 10,

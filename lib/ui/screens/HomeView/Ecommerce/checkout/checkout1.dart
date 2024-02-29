@@ -53,6 +53,7 @@ class _Checkout1State extends State<Checkout1> {
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
+
     return Consumer<UpdateAddressRepository>(builder:  (context , value, child){
       var address = "${value.address.houseNo}, ${value.address.street}, ${value.address.city}, ${value.address.state}, ${value.address.pinCode}";
       var alternateAddress = "${value.alternateAddress.houseNo}, ${value.alternateAddress.street}, ${value.alternateAddress.city}, ${value.alternateAddress.state}, ${value.alternateAddress.pinCode}";
@@ -231,7 +232,6 @@ class _Checkout1State extends State<Checkout1> {
                               setState(() {
                                 selectedAddress = value;
                                 context.read<OrderViewRespository>().setUserAddress(context.read<UpdateAddressRepository>().alternateAddress);
-                                print(selectedAddress);
                               });
                             },
                           ),
