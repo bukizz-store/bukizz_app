@@ -16,7 +16,7 @@ enum userType{
 }
 
 enum deliveryStatus{
-  Ordered , Shipped , Delivered
+  Initiated , Processed , Packed , Out_For_Delivery , Delivered , Cancelled , Replacement , Not_Placed,  Canceled
 }
 
 class AppConstants{

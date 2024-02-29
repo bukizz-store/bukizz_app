@@ -62,7 +62,7 @@ class OrderModel {
       cartLength: map['cartLength'] ?? 0,
       cartData: map['cartData'] ?? {},
       address: Address.fromMap(map['address']),
-      status: map['status'] ?? deliveryStatus.Ordered.toString(),
+      status: map['status'] ?? deliveryStatus.Initiated.name,
       reviewId: map['reviewId'] ?? '',
       transactionId: map['transactionId'] ?? '',
     );

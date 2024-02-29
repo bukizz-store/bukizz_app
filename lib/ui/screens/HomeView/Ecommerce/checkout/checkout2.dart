@@ -514,7 +514,7 @@ class _Checkout2State extends State<Checkout2> {
                                 List<dynamic> temp = [];
                                 temp.add(streamData);
                                 temp.add("");
-                                temp.add(deliveryStatus.Ordered.name);
+                                temp.add(deliveryStatus.Initiated.name);
 
                                 data[school] = {};
                                 data[school][product] = {};
