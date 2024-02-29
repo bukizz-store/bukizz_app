@@ -452,7 +452,18 @@ class _Checkout2State extends State<Checkout2> {
           bottomNavigationBar: Container(
             height: dimensions.height8 * 9,
             width: dimensions.screenWidth,
-            color: Colors.white,
+            decoration: BoxDecoration(
+             color: Colors.white,
+             //border: Border.all(color: Colors.black26),
+             boxShadow: const [
+               BoxShadow(
+                 color: Colors.black,
+                 blurRadius: 12,
+                 offset: Offset(0, 4),
+                 spreadRadius: 0,
+               )
+             ]
+            ),
             child: Padding(
               padding: EdgeInsets.only(
                   left: dimensions.width24, right: dimensions.width24),
@@ -552,6 +563,7 @@ class _Checkout2State extends State<Checkout2> {
                       width: dimensions.width146,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
+                        // border: Border.all(color: Colors.black),
                         color: Color(0xFF058FFF),
                       ),
                       child: Center(

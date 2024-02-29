@@ -41,11 +41,11 @@ class _Checkout1State extends State<Checkout1> {
             MaterialPageRoute(builder: (context) => const Checkout2()),
           );
         } else {
-          AppConstants.showSnackBar(context , 'Delivery not available at this pinCode' , AppColors.error , Icons.error_outline_rounded);
+          AppConstants.showSnackBarTop(context , 'Delivery not available at this pinCode' , AppColors.error , Icons.error_outline_rounded);
           print('Delivery not available at this location');
         }
       } else {
-        AppConstants.showSnackBar(context, 'Delivery not available at this location', AppColors.error, Icons.error_outline_rounded);
+        AppConstants.showSnackBarTop(context, 'Delivery not available at this location', AppColors.error, Icons.error_outline_rounded);
         print('Delivery not available at this location  - 2');
       }
     });

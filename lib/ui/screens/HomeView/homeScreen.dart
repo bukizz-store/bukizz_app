@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         physics: NeverScrollableScrollPhysics(), // Disable swiping
         children: const [
           EcommerceMain(),
-          SelectLocation()
+          ComingSoon()
         ],
       ),
     );

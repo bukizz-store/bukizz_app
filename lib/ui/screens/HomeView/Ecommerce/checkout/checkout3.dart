@@ -666,7 +666,8 @@ class _Checkout3State extends State<Checkout3> {
                         ),
                         child: ReusableText(
                           text:
-                          'Pay ₹${cartData.getSalePrice + 40}',
+                          //'Pay ₹${cartData.getSalePrice + 40}',
+                          'Complete Your Order',
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
