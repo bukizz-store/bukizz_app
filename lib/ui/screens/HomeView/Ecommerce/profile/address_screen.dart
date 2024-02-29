@@ -1,6 +1,7 @@
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../constants/constants.dart';
@@ -68,6 +69,8 @@ class _AddressScreen1State extends State<AddressScreen1> {
             height: dimensions.height24*2,
             child: TextField(
               controller: _phoneController,
+              keyboardType: TextInputType.number,
+              inputFormatters:[FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
               decoration:InputDecoration(
                 labelText: 'Phone Number *',
                 border: OutlineInputBorder(
@@ -88,6 +91,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
             width: dimensions.width342,
             height: dimensions.height24*2,
             child: TextField(
+              keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               decoration:InputDecoration(
                 labelText: 'Email Address *',

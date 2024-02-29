@@ -89,6 +89,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         hintText: 'Phone number (Required) *',
                         labelText: 'Phone number',
                         controller: phoneController,
+                        isPhoneNo: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -99,6 +100,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         hintText: 'Email',
                         labelText: 'Email',
                         controller: emailController,
+                        isEmail: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -112,6 +114,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             hintText: 'Pin Code (Required) *',
                             labelText: 'Pin Code',
                             controller: pinCodeController,
+                            isPinCode: true,
                           ),
                           GestureDetector(
                             onTap: onUseMyLocationTap,

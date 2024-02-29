@@ -1,5 +1,6 @@
-import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextForm extends StatelessWidget {
   final double width;
@@ -8,13 +9,20 @@ class CustomTextForm extends StatelessWidget {
   final String hintText;
   final IconData? icon;
   final String labelText;
+  final bool isPhoneNo;
+  final bool isPinCode;
+  final bool isEmail;
 
   CustomTextForm({
     required this.width,
     required this.height,
     required this.controller,
     required this.hintText,
-    this.icon, this.labelText='',
+    this.icon,
+    this.labelText = '',
+    this.isPhoneNo = false,
+    this.isPinCode = false,
+    this.isEmail = false,
   });
 
   @override
@@ -25,8 +33,13 @@ class CustomTextForm extends StatelessWidget {
       height: height,
       child: TextField(
         controller: controller,
+        keyboardType: isPhoneNo
+            ? TextInputType.phone
+            : (isEmail ? TextInputType.emailAddress : TextInputType.number),
+        inputFormatters: isPinCode
+            ? [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(6)]
+            : (isEmail ? [] : [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)]),
         decoration: InputDecoration(
-
           prefixIcon: icon != null
               ? Padding(
             padding: EdgeInsets.only(left: dimensions.height8 * 2),
@@ -55,9 +68,7 @@ class CustomTextForm extends StatelessWidget {
             borderSide: BorderSide(color: Colors.black38),
           ),
         ),
-
       ),
     );
   }
 }
-
