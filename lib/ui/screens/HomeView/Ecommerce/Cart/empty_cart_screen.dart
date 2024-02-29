@@ -57,6 +57,7 @@ class _EmptyCartState extends State<EmptyCart> {
                     ),
                   ),
                 ),
+                 SizedBox(height: dimensions.height32,),
                  ElevatedButton(
                     onPressed: (){
                       context.read<BottomNavigationBarProvider>().setSelectedIndex(0);

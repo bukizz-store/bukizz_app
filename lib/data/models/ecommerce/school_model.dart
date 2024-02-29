@@ -21,6 +21,7 @@ class SchoolModel{
   String image;
   String ourInspiration;
   List<dynamic> productsId;
+  List<dynamic> uniformId;
 
   SchoolModel({
     required this.schoolId,
@@ -40,6 +41,7 @@ class SchoolModel{
     this.mission = '',
     this.image = '',
     this.ourInspiration = '',
+    required this.uniformId
   });
 
   Map<String, dynamic> toMap() {
@@ -61,6 +63,7 @@ class SchoolModel{
       'mission': mission,
       'image': image,
       'ourInspiration': ourInspiration,
+      'uniformId': uniformId
     };
   }
 
@@ -83,6 +86,7 @@ class SchoolModel{
       mission: map['mission'] ?? '',
       image: map['image'] ?? '',
       ourInspiration: map['ourInspiration'] ?? '',
+      uniformId: map['uniformId'] ?? []
     );
   }
 

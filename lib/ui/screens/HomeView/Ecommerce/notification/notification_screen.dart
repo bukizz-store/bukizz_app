@@ -1,15 +1,22 @@
-import 'package:bukizz/constants/colors.dart';
-import 'package:bukizz/constants/images.dart';
-import 'package:bukizz/utils/dimensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+import 'dart:convert';
 
-import '../../../../../data/providers/bottom_nav_bar_provider.dart';
-import '../../../../../widgets/text and textforms/Reusable_text.dart';
-import '../main_screen.dart';
-import '../profile/add_rating.dart';
-import '../profile/queryContact/contact_for_query.dart';
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/models/ecommerce/notifications/notification_model.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/notification/empty_notification_screen.dart';
+import 'package:bukizz/utils/dimensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../../data/repository/banners/banners.dart';
+import '../../../../../data/repository/category/category_repository.dart';
+import '../../../../../data/repository/my_orders.dart';
+import '../../../../../data/repository/product/general_product.dart';
+import '../product/Stationary/general_product_screen.dart';
+import '../profile/orders/order_details.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -19,230 +26,183 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  var ref = FirebaseDatabase.instance.ref().child('notifications').child(AppConstants.userData.uid);
+
   @override
   Widget build(BuildContext context) {
-    BottomNavigationBarProvider provider =
-        context.read<BottomNavigationBarProvider>();
-    Dimensions dimensions = Dimensions(context);
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (val){
-        context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-        return ;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Notifications'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pushNamed(context, MainScreen.route);
-              context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+    var banner= context.read<BannerRepository>();
+    var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
+    Dimensions dimensions=Dimensions(context);
+    return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.arrow_back),
+        title: const Text(
+            'Notifications (1)',
+           style: TextStyle(
+             fontFamily: 'nunito',
+             fontSize: 20,
+           ),
+        ),
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: dimensions.height16,),
+          Expanded(child: StreamBuilder(
+            stream: ref.onValue,
+            builder: (context , AsyncSnapshot<DatabaseEvent> snapshot){
+              if(snapshot.connectionState==ConnectionState.waiting){
+                return const Center(
+                  child: SpinKitChasingDots(
+                    color: Color(0xFF058FFF),
+                    size: 24.0,
+                  ),
+                );
+              }
+              if(snapshot.data!.snapshot.children.isEmpty){
+                return const EmptyNotificationScreen();
+              }else{
+                List<NotificationModel> notifications = [];
+                notifications.clear();
+                var data = snapshot.data!.snapshot.children;
+                data.forEach((key) {
+                  notifications.add(NotificationModel.fromJson(jsonEncode(key.value)));
+                });
+                return ListView.builder(
+                    itemCount: snapshot.data!.snapshot.children.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context,index){
+                      return Column(
+                        children: [
+                          InkWell(
+                            onTap: () async{
+
+                              if(notifications[index].link.isNotEmpty){
+                                if(notifications[index].link.contains('http')||notifications[index].link.contains('https')){
+                                  Uri url = Uri.parse(notifications[index].link);
+                                  await launchUrl(url);
+                                }
+                                else if(notifications[index].link[0] == '/'){
+                                  List<String> data = notifications[index].link.split('/');
+                                  if(data[1] == 'category')
+                                    {
+                                      var selectedModel=categoryRepo.category[categoryRepo.category.indexOf(categoryRepo.category.firstWhere((element) => element.name == data[2]))];
+                                      context.read<CategoryRepository>().selectedCategory = selectedModel;
+                                      context.read<GeneralProductRepository>().getGeneralProductFromFirebase(selectedModel.categoryId);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>   GeneralProductScreen(product: selectedModel.name)));
+                                    }
+                                  else if(data[1] == 'order')
+                                    {
+                                      var orders = context.read<MyOrders>();
+                                      orders.fetchOrders().then((value) => orders.setOrder(orders.orders.indexWhere((element) => element.orderId == data[2])));
+                                      Navigator.pushNamed(context, OrderDetailsScreen.route);
+                                    }
+
+                                  // context.read<TabProvider>().navigateToTab(0);
+                                  // Navigator.pushNamed(context,ViewAll.route );
+                                }
+                              }
+                            },
+                            child:  Container(
+                              padding: EdgeInsets.only(left: dimensions.width16,top:dimensions.height16),
+                              width: dimensions.screenWidth,
+                              height: dimensions.height10*13.8,
+                              color: Colors.white,
+                              child:  Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        notifications[index].navInit,
+                                        style: const TextStyle(
+                                          color: Color(0xFF444444),
+                                          fontSize: 16,
+                                          fontFamily: 'Nunito',
+                                          fontWeight: FontWeight.w700,
+                                          height: 0,
+                                        ),
+                                      ),
+                                      SizedBox(width: dimensions.width10/2,),
+                                      Text(
+                                        notifications[index].navLast,
+                                        style: const TextStyle(
+                                          color: Color(0xFF038B10),
+                                          fontSize: 16,
+                                          fontFamily: 'Nunito',
+                                          fontWeight: FontWeight.w700,
+                                          height: 0,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Text(
+                                    notifications[index].date,
+                                    style: const TextStyle(
+                                      color: Color(0xFFA5A5A5),
+                                      fontSize: 12,
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  SizedBox(height: dimensions.height8,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        width: dimensions.width10*7.2,
+                                        height: dimensions.height10*7.2,
+                                        decoration:BoxDecoration(
+                                            borderRadius: BorderRadius.circular(12)
+                                        ),
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(12),
+                                            child: CachedNetworkImage(
+                                              imageUrl: notifications[index].image,
+                                              fit: BoxFit.cover,
+                                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                                            )
+                                        ),
+                                      ),
+
+                                      SizedBox(
+                                        width: 240,
+                                        child: Text(
+                                          notifications[index].content,
+                                          maxLines: 3,
+                                          style: TextStyle(
+                                            color: Color(0xFF444444),
+                                            fontSize: 12,
+                                            fontFamily: 'Nunito',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0,
+
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+
+                                ],
+                              ),
+                            ),
+
+                          ),
+                          Container(
+                            color: Colors.black.withOpacity(0.2),
+                            width: dimensions.screenWidth,
+                            height: 1,
+                          )
+                        ],
+                      );
+                    }
+                );
+              }
             },
-          ),
-        ),
-        // body: Column(
-        //   children: [
-        //      SizedBox(height: dimensions.height24,),
-        //      Container(
-        //        padding:EdgeInsets.symmetric(horizontal: dimensions.width24/1.5,vertical: dimensions.height8/2),
-        //        color: Colors.white,
-        //        width: dimensions.screenWidth,
-        //        height: dimensions.height10*22,
-        //        child: Column(
-        //          mainAxisAlignment: MainAxisAlignment.center,
-        //          crossAxisAlignment: CrossAxisAlignment.start,
-        //          children: [
-        //            Row(
-        //              children: [
-        //                ReusableText(text: 'Your order is', fontSize: 16,color: Color(0xFF444444),fontWeight: FontWeight.w700,),
-        //                SizedBox(width: dimensions.width10/2,),
-        //                ReusableText(text: 'Delivered', fontSize: 16,color: Color(0xFF444444),fontWeight: FontWeight.w700,),
-        //              ],
-        //            ),
-        //            SizedBox(height: dimensions.height8*2,),
-        //            ReusableText(text: '1 Day ago', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF7A7A7A),),
-        //            SizedBox(height: dimensions.height8*2,),
-        //            Row(
-        //              crossAxisAlignment: CrossAxisAlignment.start,
-        //              children: [
-        //                Container(
-        //                  width: dimensions.width10 * 7.6,
-        //                  height: dimensions.height10 * 7.6,
-        //                  decoration: BoxDecoration(
-        //                    borderRadius: BorderRadius.circular(
-        //                      dimensions.width10 ,
-        //                    ),
-        //
-        //                  ),
-        //                  child: ClipRRect(
-        //                    borderRadius: BorderRadius.circular(
-        //                      dimensions.width10 ,
-        //                    ),
-        //                    child: SvgPicture.asset(
-        //                      'assets/school/booksets/1.svg',
-        //                      fit: BoxFit.cover,
-        //                      color: Colors.red,
-        //                    ),
-        //                  ),
-        //                ),
-        //                SizedBox(width: dimensions.width16/2,),
-        //                SizedBox(
-        //                  width: dimensions.width10*25.2,
-        //                  child: const Text(
-        //                    'Your product English Book Set - Wisdom World School - Class 1st is delivered',
-        //                    style: TextStyle(
-        //                      color: Color(0xFF444444),
-        //                      fontSize: 12,
-        //                      fontFamily: 'Nunito',
-        //                      fontWeight: FontWeight.w400,
-        //                      height: 0,
-        //                    ),
-        //                  ),
-        //                ),
-        //
-        //              ],
-        //            ),
-        //            SizedBox(height: dimensions.height8*2,),
-        //            Row(
-        //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //              children: [
-        //                OutlinedButton(
-        //                  onPressed: () {
-        //                    Navigator.pushNamed(context, KnowMoreScreen.route);
-        //                  },
-        //                  style: OutlinedButton.styleFrom(
-        //                      shape: const RoundedRectangleBorder(
-        //                        side: BorderSide(color: Color(0xFF00579E), ),
-        //                      ),
-        //                      padding: EdgeInsets.symmetric(horizontal: dimensions.width10*4)
-        //                  ),
-        //                  child: ReusableText(
-        //                    text: 'Know More',
-        //                    fontSize: 14,
-        //                    fontWeight: FontWeight.w600,
-        //                    color: Color(0xFF7A7A7A),
-        //                  ),
-        //                ),
-        //                OutlinedButton(
-        //                  onPressed: () {
-        //                    Navigator.pushNamed(context, RatingsScreen.route);
-        //                  },
-        //                  style: OutlinedButton.styleFrom(
-        //                      shape: const RoundedRectangleBorder(
-        //                        side: BorderSide(color: Color(0xFF00579E), ),
-        //                      ),
-        //                      padding: EdgeInsets.symmetric(horizontal: dimensions.width10*4)
-        //                  ),
-        //                  child: ReusableText(
-        //                    text: 'Add Review',
-        //                    fontSize: 14,
-        //                    fontWeight: FontWeight.w600,
-        //                    color: Color(0xFF7A7A7A),
-        //                  ),
-        //                ),
-        //              ],
-        //            ),
-        //
-        //          ],
-        //        ),
-        //      ),
-        //      Container(
-        //        width: dimensions.width342,
-        //        height: 0.5,
-        //        color: Colors.black38,
-        //      ),
-        //      Container(
-        //        padding: EdgeInsets.symmetric(vertical: dimensions.height16/3,horizontal: dimensions.width24/1.5),
-        //        width: dimensions.screenWidth,
-        //        height: dimensions.height10*7,
-        //        color: Colors.white,
-        //        child: Padding(
-        //          padding:EdgeInsets.symmetric(horizontal: dimensions.width10,vertical: dimensions.height10*2),
-        //          child: Row(
-        //            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //            crossAxisAlignment: CrossAxisAlignment.start,
-        //            children: [
-        //               Column(
-        //                 crossAxisAlignment: CrossAxisAlignment.start,
-        //                 children: [
-        //                   SizedBox(height: dimensions.height10/2,),
-        //                   ReusableText(text: 'Book sets upto 50% Off', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF444444),),
-        //                   SizedBox(height: dimensions.height10,),
-        //                   ReusableText(text: '1 day ago', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFF7A7A7A),),
-        //                 ],
-        //               ),
-        //              Icon(Icons.chevron_right),
-        //            ],
-        //          ),
-        //        ),
-        //      )
-        //   ],
-        // )
-
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: dimensions.width65*0.7 ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(AppImage.notification),
-              SizedBox(
-                height: dimensions.height32 * 2,
-              ),
-              ReusableText(
-                text: 'No Notifications Yet',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.productButtonSelectedBorder,
-              ),
-              SizedBox(
-                height: dimensions.height29,
-              ),
-              Flexible(
-                child: ReusableText(
-                  text:
-                      'No news yet, but stay tuned for updates, alerts, and more!',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.schoolTextColor,
-                  overflow: TextOverflow.visible,
-                  maxLine: 2,
-                  height: 1,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: dimensions.height29,),
-
-              InkWell(
-                onTap: (){
-                  context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    // color: AppColors.productButtonSelectedBorder,
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(
-                      color: AppColors.productButtonSelectedBorder,
-                      width: 1
-                    ),
-                  ),
-                  width: dimensions.width342,
-                  height: dimensions.height29*2,
-                  child: Center(
-                    child: ReusableText(
-                      text: 'Back to Home',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.productButtonSelectedBorder,
-                    ),
-                  ),
-                ),
-              )
-
-            ],
-          ),
-        ),
+          ))
+        ],
       ),
     );
   }

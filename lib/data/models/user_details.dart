@@ -5,6 +5,7 @@ import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../../constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -113,9 +114,13 @@ class MainUserDetails {
               .where('email', isEqualTo: email)
               .get();
 
+      var fire = FirebaseDatabase.instance.ref().child('token').child(uid);
+      await fire.set({'token': AppConstants.fcmToken});
+
       if (querySnapshot.docs.isEmpty) {
         // If no document with the same email exists, add a new document
         await FirebaseFirestore.instance.collection('userDetails').doc(uid).set(toMap());
+
       } else {
         // If a document with the same email exists, you may choose to handle this case accordingly
         print('User with email $email already exists in Firestore');
@@ -149,7 +154,7 @@ class MainUserDetails {
     String? password = prefs.getString(SharedPrefHelper.password) ?? '';
     String? userData = prefs.getString(SharedPrefHelper.userData) ?? '';
     String? uid = prefs.getString(SharedPrefHelper.uid) ?? '';
-    AppConstants.locationSet = prefs.getStringList(SharedPrefHelper.locationSet) ?? [];
+    AppConstants.location = prefs.getString(SharedPrefHelper.location) ?? '';
 
     // print(AppConstants.locationSet);
     bool? isLogin = prefs.getBool('isLogin') ?? false;

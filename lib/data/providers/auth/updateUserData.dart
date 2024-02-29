@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/constants/shared_pref_helper.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,9 +16,8 @@ class UpdateUserData extends ChangeNotifier{
         .catchError((error) => print("Failed to update user address: $error"));
 
     AppConstants.userData.address = address;
-    List<String> addressList = [];
-    addressList.add(address.city);
-    saveLocationSetToSharedPreferences(addressList);
+    String addresss = address.city;
+    saveLocationSetToSharedPreferences(addresss);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
     notifyListeners();
@@ -36,10 +36,10 @@ class UpdateUserData extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future saveLocationSetToSharedPreferences(List<String> locations) async {
+  Future saveLocationSetToSharedPreferences(String location) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('locationSet', locations);
-    AppConstants.locationSet = prefs.getStringList('locationSet')! ?? [];
+    prefs.setString(SharedPrefHelper.location, location);
+    AppConstants.location = prefs.getString(SharedPrefHelper.location)! ?? '';
     notifyListeners();
   }
 }

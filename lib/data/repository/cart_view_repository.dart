@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/strings.dart';
 import '../models/ecommerce/products/product_model.dart';
 import '../providers/cart_provider.dart';
 
@@ -43,14 +44,14 @@ class CartViewRepository extends ChangeNotifier {
 
   List<ProductModel> products = [];
 
-  Map<String , Map<String , Map<int , Map<int , int>>>> cartData = {};
+  Map<String , Map<String , Map<String , Map<String , int>>>> cartData = {};
 
-  Map<String , Map<String , Map<int , Map<int , int>>>>  get getCartData => cartData;
+  Map<String , Map<String , Map<String , Map<String , int>>>>  get getCartData => cartData;
 
 
-  Map<String , Map<String , Map<int , Map<int , int>>>> _singleCartData = {};
+  Map<String , Map<String , Map<String , Map<String , int>>>> _singleCartData = {};
 
-  Map<String , Map<String , Map<int , Map<int , int>>>>  get singleCartData => _singleCartData;
+  Map<String , Map<String , Map<String , Map<String , int>>>>  get singleCartData => _singleCartData;
 
   set singleCartData(value){
     _singleCartData = value;
@@ -100,7 +101,7 @@ class CartViewRepository extends ChangeNotifier {
   }
 
 
-  void addCartData(ProductModel productModel , String schoolName ,int set , int stream, int quantity) {
+  void addCartData(ProductModel productModel , String schoolName ,String set , String stream, int quantity) {
 
     if(isSingleBuyNow){
       singleCartData.clear();
@@ -133,7 +134,7 @@ class CartViewRepository extends ChangeNotifier {
   }
 
 
-  void removeCartData(String schoolName , String productId , int set, int stream){
+  void removeCartData(String schoolName , String productId , String set, String stream){
 
     if(cartData[schoolName]![productId]![set]!.length == 1){
       cartData[schoolName]![productId]!.remove(set);
@@ -161,7 +162,7 @@ class CartViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSingleCartData(String schoolName ,int set , int stream, String productId){
+  void removeSingleCartData(String schoolName ,String set , String stream, String productId){
     // print(schoolName + " " + productId);
 
     if(cartData[schoolName]![productId]![set]![stream]! > 1){
@@ -178,15 +179,33 @@ class CartViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCartProduct(String productId , String schoolName ,int set , int stream ,  int quantity) async {
+  Future<void> getCartProduct(String productId , String schoolName ,String set , String stream ,  int quantity , String type) async {
     setIsCartLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
-      ProductModel product = await FirebaseFirestore.instance
-          .collection('products')
-          .where('productId', isEqualTo: productId)
-          .get()
-          .then((value) => ProductModel.fromMap(value.docs.first.data()));
-    addCartData(product, schoolName,set , stream , quantity);
+    switch(type){
+      case AppString.bookSetType:
+        ProductModel product = await FirebaseFirestore.instance
+            .collection('products')
+            .where('productId', isEqualTo: productId)
+            .get()
+            .then((value) => ProductModel.fromMap(value.docs.first.data()));
+        addCartData(product, schoolName,set , stream , quantity);
+        break;
+      case AppString.generalType:
+        ProductModel product = await FirebaseFirestore.instance
+            .collection('generalProduct')
+            .where('productId', isEqualTo: productId)
+            .get()
+            .then((value) => ProductModel.fromGeneralMap(value.docs.first.data()));
+        addCartData(product, schoolName,set , stream , quantity);
+        break;
+    }
+    //   ProductModel product = await FirebaseFirestore.instance
+    //       .collection('products')
+    //       .where('productId', isEqualTo: productId)
+    //       .get()
+    //       .then((value) => ProductModel.fromMap(value.docs.first.data()));
+    // addCartData(product, schoolName,set , stream , quantity);
     // }
     setIsCartLoaded(true);
     notifyListeners();

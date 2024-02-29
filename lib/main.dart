@@ -2,6 +2,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboard
 import 'package:bukizz/utils/helper/providers.dart';
 import 'package:bukizz/utils/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,11 +17,16 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin=FlutterLoc
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(MyApp()));
+
+  await FirebaseApi().initNotifications();
   MainUserDetails? savedUser =
       await MainUserDetails.loadFromSharedPreferences();
+
   runApp(
     const MyApp(),
   );

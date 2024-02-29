@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/repository/address/update_address.dart';
 import 'package:bukizz/data/repository/order_view_repository.dart';
@@ -5,10 +6,13 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/checkout2.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/school_repository.dart';
 import '../../../../../widgets/address/update_address.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 
@@ -23,6 +27,29 @@ class Checkout1 extends StatefulWidget {
 
 class _Checkout1State extends State<Checkout1> {
   String? selectedAddress;
+  Future<void> checkDeliverable() async {
+    await FirebaseDatabase.instance
+        .ref()
+        .child('pincode')
+        .child(AppConstants.location)
+        .get()
+        .then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        if (snapshot.value.toString().contains(context.read<OrderViewRespository>().getUserAddress.pinCode)) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Checkout2()),
+          );
+        } else {
+          AppConstants.showSnackBar(context , 'Delivery not available at this pinCode' , AppColors.error , Icons.error_outline_rounded);
+          print('Delivery not available at this location');
+        }
+      } else {
+        AppConstants.showSnackBar(context, 'Delivery not available at this location', AppColors.error, Icons.error_outline_rounded);
+        print('Delivery not available at this location  - 2');
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
@@ -35,6 +62,7 @@ class _Checkout1State extends State<Checkout1> {
         ),
         body: SingleChildScrollView(
           child: Column(
+
             children: [
               SizedBox(height: dimensions.height8*1.5,),
 
@@ -45,16 +73,18 @@ class _Checkout1State extends State<Checkout1> {
                 color: Colors.white,
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomCircleAvatar(
                       radius: dimensions.height8*2,
                       backgroundColor:Color(0xFF058FFF),
-                      borderColor: Colors.black38,
-                      borderWidth: 0.10,
+                      borderColor: Colors.black,
+                      borderWidth: 0.50,
+                      fontWeight: FontWeight.w700,
                       child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
                     ),
                     Container(
-                      width: dimensions.width10*10,
+                      width: 18.w,
                       height: 1.0,
                       color: Color(0xFFA5A5A5),
                     ),
@@ -63,10 +93,11 @@ class _Checkout1State extends State<Checkout1> {
                       backgroundColor:Colors.transparent,
                       borderColor: Colors.black,
                       borderWidth: 0.5,
+                      text: 'Summary',
                       child: ReusableText(text: '2', fontSize: 16,color: Color(0xFF058FFF),),
                     ),
                     Container(
-                      width: dimensions.width10*10,
+                      width: 18.w,
                       height: 1.0,
                       color: Color(0xFFA5A5A5),
                     ),
@@ -75,6 +106,7 @@ class _Checkout1State extends State<Checkout1> {
                       backgroundColor:Colors.transparent,
                       borderColor: Colors.black,
                       borderWidth: 0.5,
+                      text: 'Payment',
                       child: ReusableText(text: '3', fontSize: 16,color: Color(0xFF058FFF),),
                     ),
                   ],
@@ -83,7 +115,7 @@ class _Checkout1State extends State<Checkout1> {
 
               SizedBox(height: dimensions.height8*1.5,),
               //add new address
-              AppConstants.userData.alternateAddress.pinCode.isEmpty ?  Container(
+              AppConstants.userData.alternateAddress.pinCode.isEmpty || AppConstants.userData.address.pinCode.isEmpty ?  Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height48,
                 color: Colors.white,
@@ -109,7 +141,7 @@ class _Checkout1State extends State<Checkout1> {
               SizedBox(height: dimensions.height8*1.5,),
 
               //address selection
-              Container(
+              AppConstants.userData.address.pinCode.isNotEmpty ? Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height8*12,
                 color: Colors.white,
@@ -182,7 +214,7 @@ class _Checkout1State extends State<Checkout1> {
                         ]
                     )
                 ),
-              ),
+              ) : Container(),
               AppConstants.userData.alternateAddress.pinCode.isNotEmpty ?  Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height8*12,
@@ -274,10 +306,7 @@ class _Checkout1State extends State<Checkout1> {
               );
             } else {
               // Navigate to the next screen or perform other actions
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Checkout2()),
-              );
+              checkDeliverable();
             }
           },
           child: Container(
@@ -298,6 +327,9 @@ class _Checkout1State extends State<Checkout1> {
           ),
         ),
       );
+
     },);
+
   }
+
 }

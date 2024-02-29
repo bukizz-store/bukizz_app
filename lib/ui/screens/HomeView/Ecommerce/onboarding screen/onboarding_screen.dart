@@ -1,5 +1,7 @@
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/constants/font_family.dart';
+import 'package:bukizz/data/repository/category/category_repository.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/categories/CategoryScreen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../data/providers/school_repository.dart';
+import '../../../../../data/repository/banners/banners.dart';
 import '../main_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -42,14 +45,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   void initState() {
     super.initState();
+    context.read<BannerRepository>().getBanners();
+    context.read<CategoryRepository>().getCategoryFromFirebase();
     animationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 2300))
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 2000))
           ..addListener(() {
             setState(() {});
           })
           ..forward();
     const double intervalStart =
-        0.5; // Logo displayed for the first half second
+        0.7; // Logo displayed for the first half second
     const double intervalEnd =
         1.0; // Button sliding in during the second half second
     animation = Tween<double>(begin: 325.0, end: 40.0).animate(CurvedAnimation(
@@ -187,7 +192,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     left: dimensions.width10*4,
                     right:dimensions.width10*4,
                     top: animation.value*5+dimensions.height10*51,
-                    child: ReusableElevatedButton(
+                child: ReusableElevatedButton(
                       width: dimensions.width342,
                       height: dimensions.height16*3.5,
                       onPressed: () {

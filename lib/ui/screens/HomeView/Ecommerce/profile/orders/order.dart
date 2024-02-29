@@ -1,16 +1,11 @@
 import 'package:bukizz/data/repository/my_orders.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/queryContact/contact_for_query.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../../constants/font_family.dart';
 import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../utils/dimensions.dart';
-import 'package:shimmer/shimmer.dart';
 
 // Import your other dependencies
 
@@ -54,7 +49,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       color: Colors.white,
                       child: ListView.builder(
                           itemCount:orderData.orders.length,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) {
                             return Padding(
@@ -105,7 +100,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               width: dimensions.width10 * 25.2,
                                               child: Text(
                                                 orderData.orders[index].orderName,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color(0xFF444444),
                                                   fontSize: 12,
                                                   fontFamily: 'Nunito',
@@ -132,7 +127,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: ShapeDecoration(
                                           shape: RoundedRectangleBorder(
-                                            side: BorderSide(width: 0.50, color: Color(0xFF7A7A7A)),
+                                            side: const BorderSide(width: 0.50, color: Color(0xFF7A7A7A)),
                                             borderRadius: BorderRadius.circular(6),
                                           ),
                                         ),

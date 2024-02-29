@@ -4,9 +4,10 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/onboarding_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Uniform/uniform_description_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/form_view_2.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_review.dart';
@@ -19,8 +20,8 @@ import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
 import '../../ui/screens/HomeView/Ecommerce/onboarding screen/location.dart';
-import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_description.dart';
-import '../../ui/screens/HomeView/Ecommerce/product/Stationary/Bags/bag_view_all.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/Stationary/general_product_description_screen.dart';
+import '../../ui/screens/HomeView/Ecommerce/product/Stationary/general_product_screen.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/form_view.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
@@ -121,13 +122,13 @@ class RouteGenerator{
         return MaterialPageRoute(
           builder: (_) =>  ViewAllStationaryScreen(),
         );
-      case BagViewAll.route:
+      // case GeneralProductScreen.route:
+      //   return MaterialPageRoute(
+      //     builder: (_) =>  GeneralProductScreen(),
+      //   );
+      case GeneralProductDescriptionScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  BagViewAll(),
-        );
-      case BagDescriptionScreen.route:
-        return MaterialPageRoute(
-          builder: (_) =>  BagDescriptionScreen(),
+          builder: (_) =>  GeneralProductDescriptionScreen(),
         );
       case Forms.route:
         return MaterialPageRoute(
@@ -140,6 +141,10 @@ class RouteGenerator{
       case ForgotPasswordScreen.route:
         return MaterialPageRoute(
           builder: (_) =>  ForgotPasswordScreen(),
+        );
+      case UniformDescriptionScreen.route:
+        return MaterialPageRoute(
+          builder: (_) =>  UniformDescriptionScreen(),
         );
       default:
         return _errorRoute();

@@ -3,10 +3,12 @@ import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/data/models/ecommerce/school_model.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../data/providers/school_repository.dart';
-import '../../../../../data/repository/product_view_repository.dart';
+import '../../../../../data/repository/product/product_view_repository.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 
 class ViewAll extends StatefulWidget {
@@ -111,6 +113,7 @@ class _ViewAllState extends State<ViewAll> {
                   crossAxisCount: 2,
                   crossAxisSpacing: dimensions.width24/3,
                   mainAxisSpacing: dimensions.height8,
+                  mainAxisExtent: 50.sp,
                 ),
                 itemCount: foundedSchool.length,
                 itemBuilder: (context, index) {
@@ -150,8 +153,8 @@ class _ViewAllState extends State<ViewAll> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              foundedSchool[index].banner,
+                            child: CachedNetworkImage(
+                              imageUrl: foundedSchool[index].banner,
                               fit: BoxFit.cover,
                               filterQuality: FilterQuality.low,
                               height: dimensions.height151,
@@ -160,20 +163,18 @@ class _ViewAllState extends State<ViewAll> {
                           ),
                         ),
                         Positioned(
-                            bottom: dimensions.width16,
+                            bottom: 0,
                             child: Container(
-                                padding: const EdgeInsets.only(
-                                    left: 12, top: 30),
-                                height: dimensions.height10*7,
+                                padding: const EdgeInsets.only(left: 8, top: 30),
+                                height: 40.sp,
                                 width: dimensions.width169,
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      begin: const Alignment(
-                                          0.00, -1.00),
+                                      begin: const Alignment(0.00, -1.00),
                                       end: const Alignment(0, 0),
                                       colors: [
                                         Colors.black.withOpacity(0),
-                                        Colors.black
+                                        Colors.black.withOpacity(0.75)
                                       ],
                                     ),
                                     borderRadius:
@@ -185,15 +186,21 @@ class _ViewAllState extends State<ViewAll> {
                                 child: Column(
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ReusableText(
-                                      text: foundedSchool[index].name,
-                                      fontSize: 14,
-                                      color: Color(0xFFF9F9F9),
-                                      fontWeight: FontWeight.w700,
+                                    Text(
+                                      foundedSchool[index].name,
+                                      style: const TextStyle(
+                                          fontFamily: 'nunito',
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFFF9F9F9),
+                                          fontSize: 14,
+                                          overflow: TextOverflow.ellipsis
+                                      ),
                                     ),
+
                                     SizedBox(
-                                      height: dimensions.height10,
+                                      height: dimensions.height10/4,
                                     ),
                                     Row(
                                       children: [
@@ -207,8 +214,7 @@ class _ViewAllState extends State<ViewAll> {
                                           dimensions.width24 / 6,
                                         ),
                                         ReusableText(
-                                          text: schoolData
-                                              .schoolData[index].city,
+                                          text: foundedSchool[index].city,
                                           fontSize: 12,
                                           color: Color(0xFFF9F9F9),
                                           fontWeight: FontWeight.w500,

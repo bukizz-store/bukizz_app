@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/repository/order_view_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,7 +70,7 @@ class UPIPayment extends ChangeNotifier {
         .then((value) => _checkTxnStatus(value.status!, context))
         .catchError((e) {
           debugPrint(e);
-      AppConstants.showSnackBar(context, _upiErrorHandler(e));
+      AppConstants.showSnackBar(context, _upiErrorHandler(e) , AppColors.error , Icons.error);
       Navigator.of(context).pop();
     });
     notifyListeners();

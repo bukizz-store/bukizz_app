@@ -1,6 +1,6 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/product_description_screen.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/tab%20views/tab_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/containers/class_number.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../data/providers/product_provider.dart';
 import '../../../../../../data/providers/school_repository.dart';
-import '../../../../../../data/repository/product_view_repository.dart';
+import '../../../../../../data/repository/product/product_view_repository.dart';
 import '../../../../../../data/repository/review/product_Reviews.dart';
 
 
@@ -53,6 +53,7 @@ class _BooksState extends State<Books> {
                   productView.setSelectedStreamData(0);
                   productView.setTotalSalePrice();
                   productView.setTotalPrice();
+                  productView.setSelectedIndex();
                   context.read<ProductReview>().fetchReviews(product.productId);
                   Navigator.of(context).pushNamed(ProductDescriptionScreen.route);
                 },
@@ -113,7 +114,7 @@ class _BooksState extends State<Books> {
                           children: [
                             RichText(
                               text: TextSpan(
-                                text: (product.price != null) ?  product.price.floor().toString() : '',
+                                text: product.set.first.price.floor().toString(),
                                 style: const TextStyle(
                                   color: Color(0xFFB7B7B7),
                                   fontWeight: FontWeight.w500,
@@ -122,7 +123,7 @@ class _BooksState extends State<Books> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: ' ₹ ${product.salePrice}',
+                                    text: ' ₹ ${product.set.first.salePrice}',
                                     style: const TextStyle(
                                       color: Color(0xFF121212),
                                       fontWeight: FontWeight.w700,

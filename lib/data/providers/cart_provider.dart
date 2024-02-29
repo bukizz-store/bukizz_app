@@ -8,14 +8,15 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import '../models/ecommerce/cart_model.dart';
+import '../../constants/strings.dart';
 import '../models/ecommerce/products/product_model.dart';
 
 class CartProvider extends ChangeNotifier {
   // Map<SchoolName , Map<productId , Map<set , Map<stream , quantity>>>>
 
-  Map<String , Map<String , Map<int , Map<int , int>>>> cartData = {};
+  Map<String , Map<String , Map<String , Map<String , int>>>> cartData = {};
 
-  Map<String , Map<String , Map<int , Map<int , int>>>> get getCartData => cartData;
+  Map<String , Map<String , Map<String , Map<String , int>>>> get getCartData => cartData;
 
   // CartModel get getCartData => cartData;
 
@@ -34,7 +35,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addProductInCart(String schoolName,int set , int stream , int quantity, String productId, BuildContext context) async {
+  Future addProductInCart(String schoolName,String set , String stream , int quantity, String productId, BuildContext context , String type) async {
     setCartLoaded(false);
 
     cartData.putIfAbsent(schoolName, () => {});
@@ -44,7 +45,7 @@ class CartProvider extends ChangeNotifier {
     cartData[schoolName]![productId]![set]!.putIfAbsent(stream, () => 0);
     cartData[schoolName]![productId]![set]![stream] = (cartData[schoolName]![productId]![set]![stream] ?? 0) + quantity;
 
-    context.read<CartViewRepository>().getCartProduct(productId, schoolName ,set , stream ,  quantity);
+    context.read<CartViewRepository>().getCartProduct(productId, schoolName ,set , stream ,  quantity , type);
 
     await storeCartData();
 
@@ -52,7 +53,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future removeCartData(String schoolName, String productId , int set , int stream, BuildContext context) async{
+  Future removeCartData(String schoolName, String productId , String set , String stream, BuildContext context) async{
 
     if(cartData[schoolName]![productId]![set]!.length == 1){
       cartData[schoolName]![productId]!.remove(set);
@@ -81,7 +82,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future removeSingleCartData(String schoolName , String productId , BuildContext context ,int set , int stream, int quantity) async{
+  Future removeSingleCartData(String schoolName , String productId , BuildContext context ,String set , String stream, int quantity) async{
 
     if(cartData[schoolName]![productId]![set]![stream]! > 1){
       cartData[schoolName]![productId]![set]![stream] = cartData[schoolName]![productId]![set]![stream]! - 1;
@@ -138,17 +139,17 @@ class CartProvider extends ChangeNotifier {
           if (cartDataString != '' && cartDataString != null) {
             // print("Shivam");
             Map<String, dynamic> map = jsonDecode(cartDataString);
-            Map<String , Map<String , Map<int , Map<int , int>>>> productsIdMap = {};
+            Map<String , Map<String , Map<String , Map<String , int>>>> productsIdMap = {};
 
             map.forEach((school, schoolData) {
               productsIdMap[school] = {};
               schoolData.forEach((product, productData) {
                 productsIdMap[school]![product] = {};
                 productData.forEach((key1, innerMap) {
-                  productsIdMap[school]![product]![int.parse(key1)] = {};
+                  productsIdMap[school]![product]![key1] = {};
                   innerMap.forEach((key2, value) {
-                    productsIdMap[school]![product]![int.parse(key1)]![int.parse(key2)] = value;
-                    context.read<CartViewRepository>().getCartProduct(product, school , int.parse(key1) , int.parse(key2) ,  value);
+                    productsIdMap[school]![product]![key1]![key2] = value;
+                    context.read<CartViewRepository>().getCartProduct(product, school , key1 , key2 ,  value , key2 == 'null' ? AppString.generalType : AppString.bookSetType);
                   });
                 });
               });

@@ -7,10 +7,12 @@ import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../data/models/ecommerce/products/product_model.dart';
+import '../../../../../data/models/ecommerce/products/variation/set_model.dart';
 import '../../../../../data/providers/cart_provider.dart';
 import '../../../../../widgets/buttons/cart_button.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
@@ -35,6 +37,8 @@ class _Checkout2State extends State<Checkout2> {
 
   double totalPrice = 0;
   double salePrice = 0;
+  List<double> cartTotalPrice = [];
+  List<double> cartSalePrice = [];
   @override
   void initState() {
     super.initState();
@@ -78,7 +82,7 @@ class _Checkout2State extends State<Checkout2> {
                         ),
                       ),
                       Container(
-                        width: dimensions.width10 * 10,
+                        width: 18.w,
                         height: 1.0,
                         color: Color(0xFFA5A5A5),
                       ),
@@ -87,11 +91,13 @@ class _Checkout2State extends State<Checkout2> {
                         backgroundColor: Color(0xFF058FFF),
                         borderColor: Colors.black,
                         borderWidth: 0.5,
+                        text: 'Summary',
+                        fontWeight: FontWeight.w700,
                         child: ReusableText(
                             text: '2', fontSize: 16, color: Colors.white),
                       ),
                       Container(
-                        width: dimensions.width10 * 10,
+                        width: 18.w,
                         height: 1.0,
                         color: Color(0xFFA5A5A5),
                       ),
@@ -100,6 +106,7 @@ class _Checkout2State extends State<Checkout2> {
                         backgroundColor: Colors.transparent,
                         borderColor: Colors.black,
                         borderWidth: 0.5,
+                        text: 'Payment',
                         child: ReusableText(
                           text: '3',
                           fontSize: 16,
@@ -467,7 +474,7 @@ class _Checkout2State extends State<Checkout2> {
                       ),
                       Text(
                         '₹${salePrice + 40}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xFF121212),
                           fontWeight: FontWeight.w700,
                           decoration: TextDecoration.none,
@@ -488,38 +495,43 @@ class _Checkout2State extends State<Checkout2> {
                         );
                       } else {
                         // Navigate to the next screen or perform other actions
+                        // Map<String, dynamic> encodedData = {};
 
-                        Map<String, dynamic> encodedData = {};
+                        List<Map<String , dynamic>> orders = [];
 
                         var cart = cartData.isSingleBuyNow
                             ? cartData.singleCartData
                             : cartData.getCartData;
 
                         cart.forEach((school, schoolData) {
-                          encodedData[school] = {};
+                          // encodedData[school] = {};
                           schoolData.forEach((product, productData) {
-                            encodedData[school]![product] = {};
+                            // encodedData[school]![product] = {};
                             productData.forEach((set, setData) {
-                              encodedData[school]![product]![set.toString()] = {};
+                              // encodedData[school]![product]![set.toString()] = {};
                               setData.forEach((stream, streamData) {
+                                Map<String , dynamic> data = {};
                                 List<dynamic> temp = [];
                                 temp.add(streamData);
                                 temp.add("");
                                 temp.add(deliveryStatus.Ordered.name);
 
-                                encodedData[school]![product]![set.toString()]![
-                                    stream.toString()] = temp;
-
-
+                                data[school] = {};
+                                data[school][product] = {};
+                                data[school][product][set.toString()] = {};
+                                data[school][product][set.toString()][stream.toString()] = temp;
+                                // print(data);
+                                orders.add(data);
+                                // encodedData[school]![product]![set.toString()]![stream.toString()] = temp;
                               });
                             });
                           });
                         });
 
                         context.read<OrderViewRespository>().setData(
-                            cartData.getTotalPrice + 40,
-                            cartData.getSalePrice + 40,
-                            encodedData,
+                            cartTotalPrice,
+                            cartSalePrice,
+                            orders,
                             cartData.isSingleBuyNow ? 1 : cartData.cart_val,
                             cartData.orderName);
                         // context.read<OrderViewRespository>().setOrderModelData(cartData.getTotalPrice +40, cartData.getSalePrice + 40, encodedData ,cartData.cart_val , cartData.orderName);
@@ -529,7 +541,6 @@ class _Checkout2State extends State<Checkout2> {
                         context
                             .read<CartViewRepository>()
                             .setSalePrice(salePrice.toInt());
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Checkout3()),
@@ -564,47 +575,39 @@ class _Checkout2State extends State<Checkout2> {
   }
 
   String setProductName(
-      String school, int set, int stream, ProductModel product) {
+      String school, String set, String stream, ProductModel product) {
     String streamName = product.stream.isNotEmpty
-        ? "- ${product.stream[stream].name}" ?? ''
+        ? "- $stream" ?? ''
         : '';
     String setName =
-        product.set.isNotEmpty ? "(${product.set[set].name})" ?? '' : '';
+        product.set.isNotEmpty ? "($set)" ?? '' : '';
     return "$school - ${product.name}$streamName $setName";
   }
 
-  int setTotalSalePrice(ProductModel product, int set, int stream) {
-    int totalSalePrice = product.salePrice;
-    product.set.isNotEmpty
-        ? totalSalePrice += int.parse(product.set[set].price)
-        : 0;
-    product.stream.isNotEmpty
-        ? totalSalePrice += int.parse(product.stream[stream].price ?? "0")
-        : 0;
+  int setTotalSalePrice(ProductModel product , String set , String stream){
+    SetData setData = product.set.where((element) => element.name == set).first;
+    int totalSalePrice = product.variation[product.set.indexOf(setData).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.salePrice;
     return totalSalePrice;
   }
 
-  int setTotalPrice(ProductModel product, int set, int stream) {
-    int totalPrice = product.price.floor();
-    product.set.isNotEmpty
-        ? totalPrice += int.parse(product.set[set].price)
-        : 0;
-    product.stream.isNotEmpty
-        ? totalPrice += int.parse(product.stream[stream].price ?? "0")
-        : 0;
+  int setTotalPrice(ProductModel product , String set , String stream){
+    int totalPrice = product.variation[product.set.indexOf(product.set.where((element) => element.name == set).first).toString()]![product.stream.isNotEmpty ? product.stream.indexOf(product.stream.where((element) => element.name == stream).first).toString() : '0']!.price;
+    // product.set.isNotEmpty ? totalPrice += product.set.where((element) => element.name == set).first.price: 0;
+    // product.stream.isNotEmpty ? totalPrice += product.stream.where((element) => element.name == stream).first.price: 0;
     return totalPrice;
   }
-
   List<Widget> _buildWidget(
       CartViewRepository cartData, BuildContext context, dimensions) {
     List<Widget> list = [];
     totalPrice = 0;
     salePrice = 0;
+    cartTotalPrice = [];
+    cartSalePrice = [];
     var cart = cartData.isSingleBuyNow ? cartData.singleCartData : cartData.cartData;
     cart.forEach((schoolName, productData) {
       productData.forEach((product, setData) {
         setData.forEach((set, streamData) {
-          try{
+          // try{
             streamData.forEach((stream, quantity) {
               ProductModel productModel = cartData.products
                   .where((element) => element.productId == product)
@@ -615,6 +618,8 @@ class _Checkout2State extends State<Checkout2> {
               int price = setTotalPrice(productModel, set, stream);
               totalPrice += price * quantity;
               salePrice += totalSalePrice * quantity;
+              cartTotalPrice.add(totalPrice);
+              cartSalePrice.add(salePrice);
               list.add(
                 Container(
                   // height: dimensions.height192,
@@ -647,7 +652,7 @@ class _Checkout2State extends State<Checkout2> {
                                         .where((element) =>
                                     element.productId == product)
                                         .first
-                                        .image)),
+                                        .set.first.image.first)),
                                 SizedBox(height: dimensions.height8),
                                 !cartData.isSingleBuyNow
                                     ? ReusableQuantityButton(
@@ -793,10 +798,11 @@ class _Checkout2State extends State<Checkout2> {
               );
             });
           }
-          catch(e){
-            debugPrint(e.toString());
-          }
-        });
+          // catch(e){
+          //   debugPrint(e.toString());
+          // }
+        // }
+        );
       });
     });
     return list;

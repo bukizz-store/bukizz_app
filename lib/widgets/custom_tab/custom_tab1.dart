@@ -31,7 +31,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
           },
           child: Container(
               width: 164,
-              height: 44,
+              height: 48,
               padding: EdgeInsets.symmetric(horizontal: 25,vertical: 5),
               decoration: BoxDecoration(
                 color: currentIndex == index

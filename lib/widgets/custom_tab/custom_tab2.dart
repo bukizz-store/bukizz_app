@@ -3,12 +3,17 @@ import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import '../../data/providers/tabController/TabController_provider.dart';
+
+// import '../../data/providers/tabController/TabController_provider.dart';
 
 
 List<String> emojiText = [
   "Books",
-  "Forms",
   "Uniform",
+  "Forms",
   "About School",
 ];
 class CustomTabBar2 extends StatefulWidget {
@@ -32,39 +37,38 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
   @override
   void initState() {
     super.initState();
-
+    var tabProvider = Provider.of<TabProvider>(context, listen: false);
     // Add a listener to the TabController to update currentIndex when tabs are swiped
-    widget.tabController.addListener(() {
-      setState(() {
-        currentIndex = widget.tabController.index;
-        widget.onIndexChanged?.call(currentIndex);
-      });
-    });
+    // widget.tabController.addListener(() {
+    //   setState(() {
+    //     currentIndex = widget.tabController.index;
+    //     tabProvider.navigateToTab(currentIndex)=
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
+    var tabProvider = Provider.of<TabProvider>(context, listen: false);
     Dimensions dimensions = Dimensions(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(
         4,
-            (index) => InkWell(
+            (index) => GestureDetector(
           onTap: () {
-            setState(() {
-              currentIndex = index;
-              widget.onIndexChanged?.call(currentIndex);
-              widget.tabController.animateTo(index); // Animate to the selected tab
-            });
+            tabProvider.navigateToTab(index);
+            widget.tabController.animateTo(index);
           },
 
           child: Column(
             children: [
               CircleAvatar(
+                backgroundColor: Colors.transparent,
                 radius: dimensions.height48 / 2,
                 child: SvgPicture.asset('assets/tab icons/${index + 1}.svg')
               ),
-              SizedBox(height: 8,),
+              SizedBox(height:12,),
               ReusableText(
                 text: emojiText[index],
                 fontSize: 14,
@@ -74,7 +78,7 @@ class _CustomTabBar2State extends State<CustomTabBar2> {
               ),
               SizedBox(height: dimensions.height16,),
               Container(
-                child: currentIndex == index
+                child: context.watch<TabProvider>().currentIndex == index
                     ? Container(
                   width:dimensions.width10*5.8,
                   height: dimensions.height10*0.6,

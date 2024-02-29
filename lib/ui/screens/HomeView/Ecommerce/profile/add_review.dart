@@ -90,7 +90,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       children: [
                         OutlinedButton(
                           onPressed: () {
-                            AppConstants.showSnackBar(context, "Feature Coming Soon .....");
+                            AppConstants.showSnackBar(context, "Feature Coming Soon ....." , Colors.yellow , Icons.ac_unit_sharp);
                           },
                           style: OutlinedButton.styleFrom(
                               shape: const RoundedRectangleBorder(
@@ -112,7 +112,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         ),
                         OutlinedButton(
                           onPressed: () {
-                            AppConstants.showSnackBar(context, "Feature Coming Soon .....");
+                            AppConstants.showSnackBar(context, "Feature Coming Soon ....." , Colors.yellow , Icons.ac_unit_sharp);
                           },
                           style: OutlinedButton.styleFrom(
                               shape: const RoundedRectangleBorder(

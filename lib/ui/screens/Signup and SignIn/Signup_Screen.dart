@@ -1,6 +1,7 @@
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../constants/colors.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
@@ -33,9 +34,8 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-
+        backgroundColor: Color(0xFFF5FAFF),
       ),
-      backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -115,7 +115,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 //Email Form
                 ReusableTextField('Your Email', Icons.person_outline, false,
-                    _emailTextController),
+                    _emailTextController , ),
 
                 SizedBox(
                   height: dimensions.height16,
@@ -126,7 +126,7 @@ class _SignUpState extends State<SignUp> {
                   text: 'Password',
                   fontSize: 14,
                   height: 0.10,
-                  color: Color(0xFF121212),
+                  color:  Color(0xFF121212),
                   fontWeight: FontWeight.w500,
                 ),
 
@@ -145,7 +145,13 @@ class _SignUpState extends State<SignUp> {
                 ReusableElevatedButton(
                   width: dimensions.width327,
                   height: dimensions.height48,
-                  onPressed: () async{
+                  onPressed: () async {
+                    if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(_emailTextController.text))
+                    {
+                      AppConstants.showSnackBar(context, "Enter a valid Email", AppColors.error, Icons.error_outline_rounded);
+                      return;
+                    }
                     AppConstants.buildShowDialog(context);
                     String email = _emailTextController.text.trim();
                     String password = _passwordTextController.text.trim();

@@ -7,13 +7,14 @@ class CustomTextForm extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final IconData? icon;
+  final String labelText;
 
   CustomTextForm({
     required this.width,
     required this.height,
     required this.controller,
     required this.hintText,
-    this.icon,
+    this.icon, this.labelText='',
   });
 
   @override
@@ -37,6 +38,7 @@ class CustomTextForm extends StatelessWidget {
               : null,
           contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
           hintText: hintText,
+          labelText: labelText,
           hintStyle: const TextStyle(
             color: Color(0xFF7A7A7A),
             fontSize: 14,

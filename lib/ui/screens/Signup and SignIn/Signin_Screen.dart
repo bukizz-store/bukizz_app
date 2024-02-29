@@ -6,6 +6,7 @@ import 'package:bukizz/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import '../../../constants/colors.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
 import '../../../utils/dimensions.dart';
@@ -50,12 +51,10 @@ class _SignInState extends State<SignIn> {
     Dimensions dimensions = Dimensions(context);
     var authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
       appBar: AppBar(
         // title: Text('Sign In'),
-
+        backgroundColor: Color(0xFFF5FAFF),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -162,6 +161,12 @@ class _SignInState extends State<SignIn> {
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () async{
+                    if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(_emailTextController.text))
+                      {
+                        AppConstants.showSnackBar(context, "Enter a valid Email", AppColors.error, Icons.error_outline_rounded);
+                        return;
+                      }
                     AppConstants.buildShowDialog(context);
                     String email = _emailTextController.text.trim();
                     String password = _passwordTextController.text.trim();
@@ -220,6 +225,7 @@ class _SignInState extends State<SignIn> {
 
                 //Sign in with google
                 ReusableElevatedButton(
+                  shadowColor: Colors.grey.withOpacity(0.6),
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () {
@@ -235,7 +241,7 @@ class _SignInState extends State<SignIn> {
                   borderColor: Colors.black38,
                 ),
                 SizedBox(
-                  height: dimensions.height8,
+                  height: dimensions.height8*2,
                 ),
                 ReusableElevatedButton(
                   width: dimensions.width327,
@@ -249,6 +255,7 @@ class _SignInState extends State<SignIn> {
                   fontFamily: FontFamily.nunito.name,
                   fontWeight: FontWeight.w400,
                   borderColor: Colors.black38,
+                  shadowColor: Colors.grey.withOpacity(0.6),
                 ),
               ],
             ),
