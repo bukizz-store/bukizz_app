@@ -556,7 +556,7 @@ class _Checkout2State extends State<Checkout2> {
                       ),
                       child: Center(
                         child: ReusableText(
-                          text: 'Buy Now',
+                          text: 'Continue',
                           fontSize: 16,
                           height: 0.11,
                           fontWeight: FontWeight.w700,
