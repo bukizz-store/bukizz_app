@@ -1,4 +1,5 @@
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/MySchool/comingSoon.dart';
 import 'package:bukizz/ui/screens/HomeView/MySchool/main_screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         physics: NeverScrollableScrollPhysics(), // Disable swiping
         children: const [
           EcommerceMain(),
-          ComingSoon(),
+          SelectLocation()
         ],
       ),
     );
