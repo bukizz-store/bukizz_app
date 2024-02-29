@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/repository/address/update_address.dart';
 import 'package:bukizz/data/repository/order_view_repository.dart';
@@ -39,11 +40,11 @@ class _Checkout1State extends State<Checkout1> {
             MaterialPageRoute(builder: (context) => const Checkout2()),
           );
         } else {
-          AppConstants.showSnackBar(context , 'Delivery not available at this pinCode' , Colors.red , Icons.error_outline_rounded);
+          AppConstants.showSnackBar(context , 'Delivery not available at this pinCode' , AppColors.error , Icons.error_outline_rounded);
           print('Delivery not available at this location');
         }
       } else {
-        AppConstants.showSnackBar(context, 'Delivery not available at this location', Colors.red, Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, 'Delivery not available at this location', AppColors.error, Icons.error_outline_rounded);
         print('Delivery not available at this location  - 2');
       }
     });

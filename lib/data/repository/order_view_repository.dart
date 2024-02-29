@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/models/ecommerce/order_model.dart';
@@ -132,7 +133,7 @@ class OrderViewRespository extends ChangeNotifier {
           .collection('orderDetails')
           .doc(element.orderId)
           .set(element.toMap()).then((value) => print("Added in Order")).catchError((e) {
-        AppConstants.showSnackBar(context, 'Error in Placing Order' , Colors.red , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, 'Error in Placing Order' , AppColors.error , Icons.error_outline_rounded);
         return ;
       });
       FirebaseFirestore.instance
@@ -141,7 +142,7 @@ class OrderViewRespository extends ChangeNotifier {
           .update({
         'orderID': FieldValue.arrayUnion([element.orderId]),
       }).then((value) => debugPrint("Delivery Added in User Model")).catchError((e){
-        AppConstants.showSnackBar(context, 'Error in Placing Order' , Colors.red , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, 'Error in Placing Order' , AppColors.error , Icons.error_outline_rounded);
         return ;
       });
       AppConstants.userData.orderID.add(element.orderId);

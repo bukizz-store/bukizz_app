@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/models/user_details.dart';
@@ -84,11 +85,11 @@ class AuthProvider extends ChangeNotifier {
               context, SelectLocation.route, (route) => false);
         }
       } else {
-        const snackBar = SnackBar(
-          content: Text("Failed to Login"),
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        if(context.mounted)
+          {
+            AppConstants.showSnackBar(context, "Failed to Login" , AppColors.error , Icons.error_outline_rounded);
+            Navigator.of(context).pop();
+          }
       }
       notifyListeners();
     } catch (e) {
@@ -106,7 +107,7 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage , Colors.red , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, errorMessage , AppColors.error , Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
       print("Error signing in: $e");
@@ -126,7 +127,7 @@ class AuthProvider extends ChangeNotifier {
     }
     catch(e){
       debugPrint(e.toString());
-      AppConstants.showSnackBar(context, "Unable to Continue with Google" , Colors.red , Icons.error_outline_rounded);
+      AppConstants.showSnackBar(context, "Unable to Continue with Google" , AppColors.error , Icons.error_outline_rounded);
     }
   }
 
@@ -190,14 +191,14 @@ class AuthProvider extends ChangeNotifier {
           } else {
             if (context.mounted) {
               AppConstants.showSnackBar(context,
-                  "Error signing in with Google. Please try again later" , Colors.red , Icons.error_outline_rounded);
+                  "Error signing in with Google. Please try again later" , AppColors.error , Icons.error_outline_rounded);
             }
           }
         }
       });
     }
     catch(e){
-      AppConstants.showSnackBar(context, e.toString() , Colors.red , Icons.error_outline_rounded);
+      AppConstants.showSnackBar(context, e.toString() , AppColors.error , Icons.error_outline_rounded);
       GoogleSignIn().signOut();
     }
 
@@ -282,12 +283,8 @@ class AuthProvider extends ChangeNotifier {
 
         notifyListeners();
       } else {
-        const snackBar = SnackBar(
-          content: Text("Failed to SignUP"),
-        );
+        AppConstants.showSnackBar(context, "Failed to SignUp" , AppColors.error , Icons.error_outline_rounded);
         Navigator.of(context).pop();
-
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
       String errorMessage = "An error occurred during sign-up.";
@@ -301,7 +298,7 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage , Colors.red , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, errorMessage , AppColors.error , Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
     }

@@ -1,6 +1,7 @@
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../constants/colors.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
@@ -148,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                     if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                         .hasMatch(_emailTextController.text))
                     {
-                      AppConstants.showSnackBar(context, "Enter a valid Email", Colors.red, Icons.error_outline_rounded);
+                      AppConstants.showSnackBar(context, "Enter a valid Email", AppColors.error, Icons.error_outline_rounded);
                       return;
                     }
                     AppConstants.buildShowDialog(context);

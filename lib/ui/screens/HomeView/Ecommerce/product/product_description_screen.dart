@@ -889,7 +889,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   Future<void> checkDeliverable() async {
     if(pinController.text.length < 6)
     {
-      AppConstants.showSnackBar(context, "Please Enter Valid Pincode", Colors.red, Icons.error_outline_rounded , time: 1);
+      AppConstants.showSnackBar(context, "Please Enter Valid Pincode", AppColors.error, Icons.error_outline_rounded , time: 1);
       return;
     }
     await FirebaseDatabase.instance

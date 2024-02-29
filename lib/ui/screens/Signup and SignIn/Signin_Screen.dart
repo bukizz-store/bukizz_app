@@ -6,6 +6,7 @@ import 'package:bukizz/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import '../../../constants/colors.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
 import '../../../utils/dimensions.dart';
@@ -163,7 +164,7 @@ class _SignInState extends State<SignIn> {
                     if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                         .hasMatch(_emailTextController.text))
                       {
-                        AppConstants.showSnackBar(context, "Enter a valid Email", Colors.red, Icons.error_outline_rounded);
+                        AppConstants.showSnackBar(context, "Enter a valid Email", AppColors.error, Icons.error_outline_rounded);
                         return;
                       }
                     AppConstants.buildShowDialog(context);
