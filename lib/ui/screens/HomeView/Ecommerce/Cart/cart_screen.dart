@@ -100,7 +100,7 @@ class _CartState extends State<Cart> {
                                         fontSize: 16,
                                         height: 0,
                                         color: Color(0xFF282828),
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                       ReusableText(
                                         text: AppConstants.userData.name,

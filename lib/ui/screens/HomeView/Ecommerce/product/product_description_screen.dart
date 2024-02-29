@@ -3,6 +3,7 @@ import 'package:bukizz/constants/strings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
@@ -20,6 +21,7 @@ import '../../../../../data/providers/stationary_provider.dart';
 import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../data/repository/category/category_repository.dart';
 import '../../../../../data/repository/product/general_product.dart';
+import '../../../../../data/repository/review/product_Reviews.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../widgets/review widget/review.dart';
@@ -39,6 +41,7 @@ class ProductDescriptionScreen extends StatefulWidget {
 
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   bool productAdded = false;
+
   TextEditingController pinController = TextEditingController();
   int _currPageValue=0;
   @override
@@ -51,6 +54,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var productView = context.watch<ProductViewRepository>();
     var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     var schoolData = context.read<SchoolDataProvider>();
     var stationaryData = context.read<StationaryProvider>();
@@ -462,22 +466,16 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                               borderSide: const BorderSide(
                                   width: 0.50, color: Color(0xFFB7B7B7)),
                             ),
-                            suffixIcon:    InkWell(
-
-                              onTap: () {
-                                checkDeliverable();
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text(
-                                  'Check',
-                                  style: TextStyle(
-                                    color: Color(0xFF058FFF),
-                                    fontSize: 14,
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
+                            suffixIcon:  TextButton(
+                              onPressed: (){checkDeliverable();},
+                              child:  const Text(
+                                'Check',
+                                style: TextStyle(
+                                  color: Color(0xFF058FFF),
+                                  fontSize: 16,
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
                                 ),
                               ),
                             ),
@@ -540,9 +538,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   backgroundColor: Colors.transparent,
                   borderColor: Colors.transparent,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: dimensions.width24,
-                        vertical: dimensions.height16),
+                    padding: EdgeInsets.only(
+                        left: dimensions.width24,
+                        top: dimensions.height16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -559,80 +557,128 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         ),
                         Expanded(
                           child: ListView.builder(
-                              itemCount: 6,
+                              itemCount: schoolData.selectedSchool.productsId.length -1,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context,index){
-                                return GestureDetector(
-                                  onTap: () {
-
+                                var product = productView.productData[index];
+                                return (product.productId != value.selectedProduct.productId) ? GestureDetector(
+                                  onTap: (){
+                                    // productData.setProductDetail(product);
+                                    productView.setProductDetail(productView.productData[index]);
+                                    productView.setProductName(schoolData.schoolName);
+                                    productView.setSelectedSetData(0);
+                                    productView.setSelectedStreamData(0);
+                                    productView.setTotalSalePrice();
+                                    productView.setTotalPrice();
+                                    productView.setSelectedIndex();
+                                    context.read<ProductReview>().fetchReviews(product.productId);
+                                    Navigator.of(context).pushNamed(ProductDescriptionScreen.route);
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(right: dimensions.width16,bottom: dimensions.height10),
+                                    height: dimensions.height10*10,
                                     width: dimensions.width146,
-                                    height: dimensions.height10,
-                                    decoration: ShapeDecoration(
+                                    margin: EdgeInsets.only(right: 16),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
                                       color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          width: 0.50,
-                                          strokeAlign: BorderSide.strokeAlignOutside,
-                                          color: Color(0xFFD6D6D6),
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      shadows: const [
-                                        BoxShadow(
-                                          color: Color(0x2600579E),
-                                          blurRadius: 12,
-                                          offset: Offset(0, 4),
-                                          spreadRadius: 0,
-                                        )
-                                      ],
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //     color: Colors.grey.withOpacity(0.3),
+                                      //     spreadRadius: 2,
+                                      //     blurRadius: 5,
+                                      //     offset: const Offset(0, 3),
+                                      //   ),
+                                      // ],
                                     ),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+
                                         Container(
-                                          width: dimensions.width146,
-                                          height: dimensions.height10 * 9,
-                                          child: ClipRRect(
-                                              borderRadius: const BorderRadius.only(
-                                                  topLeft: Radius.circular(12),
-                                                  topRight: Radius.circular(12)),
-                                              child: CachedNetworkImage(
-                                                fit: BoxFit.fitHeight, imageUrl: 'https://m.media-amazon.com/images/I/514KCkOF+pL._SY300_SX300_.jpg',
-                                              )),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: dimensions.width24 / 3,
-                                              vertical: dimensions.height10),
+                                          alignment: Alignment.center,
+                                          width: dimensions.width169,
+                                          height: dimensions.height105 * 0.95,
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              topRight: Radius.circular(12),
+                                            ),
+                                            gradient: LinearGradient(
+                                              begin: Alignment(0.00, -1.00),
+                                              end: Alignment(0, 1),
+                                              colors: [Color(0xFF39A7FF), Color(0xFF0074D1)],
+                                            ),
+                                          ),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              ReusableText(
-                                                text: 'Pencil',
-                                                fontSize: 14,
-                                                color: Color(0xFF444444),
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              SizedBox(
-                                                height: dimensions.height10 * 2,
-                                              ),
-                                              ReusableText(
-                                                text:'20 % off',
-                                                fontSize: 14,
-                                                color: Color(0xFF121212),
-                                                fontWeight: FontWeight.w700,
+                                              Text("CLASS" , style: GoogleFonts.lora(fontSize: 12 , color: AppColors.white , fontWeight: FontWeight.w400),),
+                                              Text(
+                                                product.name.substring(6),
+                                                style: GoogleFonts.spaceGrotesk(
+                                                    fontSize: 36,
+                                                    color: AppColors.white,
+                                                    fontWeight: FontWeight.bold
+                                                ),
                                               ),
                                             ],
                                           ),
-                                        )
+                                        ),
+                                        SizedBox(height: dimensions.height24 / 5),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                  text: product.set.first.price.floor().toString(),
+                                                  style: const TextStyle(
+                                                    color: Color(0xFFB7B7B7),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                    decoration: TextDecoration.lineThrough,
+                                                  ),
+                                                  children: [
+                                                    TextSpan(
+                                                      text: ' ₹ ${product.set.first.salePrice}',
+                                                      style: const TextStyle(
+                                                        color: Color(0xFF121212),
+                                                        fontWeight: FontWeight.w700,
+                                                        decoration: TextDecoration.none,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(height: dimensions.height24 / 3),
+                                              ReusableText(
+                                                text: '20 % off',
+                                                fontSize: 12,
+                                                height: 0.11,
+                                                color: Color(0xFF058FFF),
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                              SizedBox(height: dimensions.height24 / 3),
+                                              Row(
+                                                children: List.generate(
+                                                  5,
+                                                      (index) => Icon(
+                                                    Icons.star,
+                                                    size: 16,
+                                                    color: Color(0xFF058FFF),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                );
+
+                                ) : Container();
                               }
                           ),
                         )

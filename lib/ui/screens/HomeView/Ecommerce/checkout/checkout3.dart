@@ -8,6 +8,7 @@ import 'package:bukizz/widgets/tick_screen/tick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../data/repository/cart_view_repository.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
@@ -77,20 +78,21 @@ class _Checkout3State extends State<Checkout3> {
                           ),
                         ),
                         Container(
-                          width: 90.0,
+                          width: 18.w,
                           height: 1.0,
                           color: Color(0xFFA5A5A5),
                         ),
                         CustomCircleAvatar(
                           radius: dimensions.height8 * 2,
                           backgroundColor: Color(0xFF058FFF),
-                          borderColor: Colors.black,
+                          borderColor: Colors.transparent,
                           borderWidth: 0.5,
+                          text: 'Summary',
                           child: ReusableText(
                               text: '2', fontSize: 16, color: Colors.white),
                         ),
                         Container(
-                          width: 90.0,
+                          width: 18.w,
                           height: 1.0,
                           color: Color(0xFFA5A5A5),
                         ),
@@ -99,6 +101,8 @@ class _Checkout3State extends State<Checkout3> {
                           backgroundColor: Color(0xFF058FFF),
                           borderColor: Colors.black,
                           borderWidth: 0.5,
+                          fontWeight: FontWeight.w700,
+                          text: 'Payment',
                           child: ReusableText(
                             text: '3',
                             fontSize: 16,

@@ -9,6 +9,7 @@ import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/font_family.dart';
 import '../../../../../data/providers/school_repository.dart';
@@ -61,6 +62,7 @@ class _Checkout1State extends State<Checkout1> {
         ),
         body: SingleChildScrollView(
           child: Column(
+
             children: [
               SizedBox(height: dimensions.height8*1.5,),
 
@@ -71,16 +73,18 @@ class _Checkout1State extends State<Checkout1> {
                 color: Colors.white,
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomCircleAvatar(
                       radius: dimensions.height8*2,
                       backgroundColor:Color(0xFF058FFF),
-                      borderColor: Colors.black38,
-                      borderWidth: 0.10,
+                      borderColor: Colors.black,
+                      borderWidth: 0.50,
+                      fontWeight: FontWeight.w700,
                       child: ReusableText(text: '1', fontSize: 16,color: Colors.white, height: null,),
                     ),
                     Container(
-                      width: dimensions.width10*10,
+                      width: 18.w,
                       height: 1.0,
                       color: Color(0xFFA5A5A5),
                     ),
@@ -89,10 +93,11 @@ class _Checkout1State extends State<Checkout1> {
                       backgroundColor:Colors.transparent,
                       borderColor: Colors.black,
                       borderWidth: 0.5,
+                      text: 'Summary',
                       child: ReusableText(text: '2', fontSize: 16,color: Color(0xFF058FFF),),
                     ),
                     Container(
-                      width: dimensions.width10*10,
+                      width: 18.w,
                       height: 1.0,
                       color: Color(0xFFA5A5A5),
                     ),
@@ -101,6 +106,7 @@ class _Checkout1State extends State<Checkout1> {
                       backgroundColor:Colors.transparent,
                       borderColor: Colors.black,
                       borderWidth: 0.5,
+                      text: 'Payment',
                       child: ReusableText(text: '3', fontSize: 16,color: Color(0xFF058FFF),),
                     ),
                   ],

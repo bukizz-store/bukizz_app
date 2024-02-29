@@ -12,8 +12,8 @@ import '../../data/providers/tabController/TabController_provider.dart';
 
 List<String> emojiText = [
   "Books",
-  "Forms",
   "Uniform",
+  "Forms",
   "About School",
 ];
 class CustomTabBar2 extends StatefulWidget {
