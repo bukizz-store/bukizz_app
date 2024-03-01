@@ -152,21 +152,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                   // context.read<TabProvider>().navigateToTab(0);
                                   // Navigator.pushNamed(context,ViewAll.route );
                                 }
-                                // else if(banner.banners1[index].link.contains('stationary')){
-                                //   Navigator.pushNamed(context, ViewAllStationaryScreen.route);
-                                // }
-                                // else if(banner.banners1[index].link.contains('uniform')){
-                                //   context.read<TabProvider>().navigateToTab(1);
-                                //   Navigator.pushNamed(context, ViewAll.route);
-                                // }
-                                // else if(banner.banners1[index].link.contains('admission')){
-                                //   context.read<TabProvider>().navigateToTab(2);
-                                //   Navigator.pushNamed(context, ViewAll.route);
-                                // }
-                                // else if(banner.banners1[index].link.contains('extras')){
-                                //   context.read<TabProvider>().navigateToTab(3);
-                                //   Navigator.pushNamed(context, ViewAll.route);
-                                // }
                               }
                               // NotificationRepository.pushNotificationData();
                             },
@@ -483,7 +468,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 horizontal: dimensions.width16 * 0.8,
                                 vertical: dimensions.height8),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+
+                              },
                               //
                               child: Stack(
                                 children: [
@@ -572,8 +559,31 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           itemBuilder: (BuildContext context, int index, int realIndex) {
                             return RoundedImage(
                               onPressed: ()async{
-                                Uri url = Uri.parse(banner.banners2[index].link);
-                                await launchUrl(url);
+                                if(banner.banners1[index].link.isNotEmpty){
+                                  if(banner.banners1[index].link.contains('http')||banner.banners1[index].link.contains('https')){
+                                    Uri url = Uri.parse(banner.banners1[index].link);
+                                    await launchUrl(url);
+                                  }
+                                  else if(banner.banners1[index].link[0] == '/'){
+                                    List<String> data = banner.banners1[index].link.split('/');
+                                    if(data[1] == 'category')
+                                    {
+                                      var selectedModel=categoryRepo.category[categoryRepo.category.indexOf(categoryRepo.category.firstWhere((element) => element.name == data[2]))];
+                                      context.read<CategoryRepository>().selectedCategory = selectedModel;
+                                      context.read<GeneralProductRepository>().getGeneralProductFromFirebase(selectedModel.categoryId);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>   GeneralProductScreen(product: selectedModel.name)));
+                                    }
+                                    else if(data[1] == 'order')
+                                    {
+                                      var orders = context.read<MyOrders>();
+                                      orders.fetchOrders().then((value) => orders.setOrder(orders.orders.indexWhere((element) => element.orderId == data[2])));
+                                      Navigator.pushNamed(context, OrderDetailsScreen.route);
+                                    }
+
+                                    // context.read<TabProvider>().navigateToTab(0);
+                                    // Navigator.pushNamed(context,ViewAll.route );
+                                  }
+                                }
                               },
                               width: dimensions.screenWidth,
                               height:dimensions.height192,
