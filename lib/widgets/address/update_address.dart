@@ -138,17 +138,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         ),
                       ),
                       SizedBox(height: dimensions.height16,),
-                      CustomTextForm(
-                        width: dimensions.screenWidth,
-                        height: dimensions.height8 * 5.5,
-                        hintText: 'Pin Code (Required) *',
-                        labelText: 'Pin Code',
-                        controller: pinCodeController,
-                        isPinCode: true,
-                      ),
-                      SizedBox(
-                        height: dimensions.height8 * 2,
-                      ),
+
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -232,6 +222,18 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         controller: addressController,
                         isEmail: true,
                       ),
+                      SizedBox(
+                        height: dimensions.height8 * 2,
+                      ),
+                      CustomTextForm(
+                        width: dimensions.screenWidth,
+                        height: dimensions.height8 * 5.5,
+                        hintText: 'Pin Code (Required) *',
+                        labelText: 'Pin Code',
+                        controller: pinCodeController,
+                        isPinCode: true,
+                      ),
+
                     ],
                   ),
                 ),
