@@ -84,6 +84,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
     var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     var banner = context.read<BannerRepository>();
     var general = Provider.of<GeneralProductRepository>(context, listen: false);
+    
+    var topDeals = categoryRepo.category.getRange(0 , 2 );
     // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
@@ -693,11 +695,11 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       // color: Colors.red,
                       padding: EdgeInsets.only(left: dimensions.width16),
                       child: ListView.builder(
-                          itemCount: categoryRepo.category.length,
+                          itemCount: 3,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             // print(categoryRepo.category.length);
-                            var selectedModel = categoryRepo.category[index];
+                            var selectedModel = categoryRepo.category.getRange(2, categoryRepo.category.length).elementAt(index);
                             return GestureDetector(
                               onTap: () {
                                 context
@@ -809,7 +811,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     ),
                     Container(
                       width: dimensions.screenWidth,
-                      height: 80.sp,
+                      height: 60.sp,
                       child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -817,10 +819,10 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             crossAxisSpacing: dimensions.width24 / 2,
                             mainAxisSpacing: dimensions.height8,
                           ),
-                          itemCount: 4,
+                          itemCount: 2,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            var selectedModel = categoryRepo.category[index];
+                            var selectedModel = topDeals.elementAt(index);
                             return categoryRepo.category.isNotEmpty
                                 ? GestureDetector(
                                     onTap: () {
@@ -931,9 +933,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: dimensions.height10 * 5,
-              )
+
             ],
           ),
         ),

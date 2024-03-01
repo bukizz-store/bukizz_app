@@ -24,16 +24,12 @@ class NewProfileScreen extends StatefulWidget {
 }
 
 class _NewProfileScreenState extends State<NewProfileScreen> {
-  final TextEditingController _nameController=TextEditingController();
-  final TextEditingController _emailController=TextEditingController();
-  final TextEditingController _phoneController=TextEditingController();
+
 
   @override
   void initState() {
     super.initState();
-    _nameController.text = AppConstants.userData.name ?? '';
-    _emailController.text = AppConstants.userData.email ?? '';
-    _phoneController.text = AppConstants.userData.mobile ?? '';
+
   }
   @override
   Widget build(BuildContext context) {
@@ -65,7 +61,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
               SizedBox(height: dimensions.height10*2,),
               ReusableText(text: AppConstants.userData.email , fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF121212).withOpacity(0.6),),
               SizedBox(height: dimensions.height16,),
-              ReusableText(text:  AppConstants.userData.mobile, fontSize: 14,fontWeight: FontWeight.w700,color:Color(0xFF121212).withOpacity(0.6)),
+              ReusableText(text:  AppConstants.userData.address.phone, fontSize: 14,fontWeight: FontWeight.w700,color:Color(0xFF121212).withOpacity(0.6)),
               SizedBox(height: dimensions.height10*5,),
               GestureDetector(
                 onTap: (){
@@ -104,6 +100,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
               ),
               GestureDetector(
                 onTap: (){
+                  context.read<MyOrders>().fetchOrders();
                   Navigator.pushNamed(context, OrderScreen.route);
                 },
                 child: Container(

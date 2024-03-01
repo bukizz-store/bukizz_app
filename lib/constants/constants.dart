@@ -66,7 +66,16 @@ class AppConstants{
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(icon ,color: Colors.white,size: 24,),
-                ReusableText(text: text, fontSize: 16,fontWeight: FontWeight.w600,color: AppColors.white,),
+                Text(
+                  text,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'nunito',
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
+                      overflow: TextOverflow.ellipsis
+                  ),
+                )
               ],
             ),
           ),
@@ -107,7 +116,17 @@ class AppConstants{
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(icon ,color: Colors.white,size: 24,),
-                ReusableText(text: text, fontSize: 16,fontWeight: FontWeight.w600,color: AppColors.white,),
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white,
+                    overflow: TextOverflow.ellipsis
+                  ),
+                )
+
               ],
             ),
           ),

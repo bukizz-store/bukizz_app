@@ -1,3 +1,5 @@
+import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/repository/address/update_address.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -105,48 +107,44 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       SizedBox(
                         height: dimensions.height8 * 2,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomTextForm(
-                            width: dimensions.width16 * 9.2,
-                            height: dimensions.height8 * 5.5,
-                            hintText: 'Pin Code (Required) *',
-                            labelText: 'Pin Code',
-                            controller: pinCodeController,
-                            isPinCode: true,
-                          ),
-                          GestureDetector(
-                            onTap: onUseMyLocationTap,
-                            child: Container(
-                              width: dimensions.width16 * 9.2,
-                              height: dimensions.height8 * 4.5,
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 0.50, color: Color(0xFF00579E)),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Icon(
-                                    Icons.my_location,
-                                    color: Color(0xFF00579E),
-                                  ),
-                                  ReusableText(
-                                    text: 'Use my location',
-                                    fontSize: 14,
-                                    color: Color(0xFF00579E),
-                                    fontWeight: FontWeight.w600,
-                                  )
-                                ],
-                              ),
+                      GestureDetector(
+                        onTap: onUseMyLocationTap,
+                        child: Container(
+                          width: dimensions.screenWidth,
+                          height: dimensions.height8 * 5.5,
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0xFF00579E)),
+                              borderRadius: BorderRadius.circular(100),
                             ),
-                          )
-                        ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.my_location,
+                                color: Color(0xFF00579E),
+                              ),
+                              ReusableText(
+                                text: 'Use my location',
+                                fontSize: 14,
+                                color: Color(0xFF00579E),
+                                fontWeight: FontWeight.w600,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: dimensions.height16,),
+                      CustomTextForm(
+                        width: dimensions.screenWidth,
+                        height: dimensions.height8 * 5.5,
+                        hintText: 'Pin Code (Required) *',
+                        labelText: 'Pin Code',
+                        controller: pinCodeController,
+                        isPinCode: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -240,6 +238,19 @@ class _UpdateAddressState extends State<UpdateAddress> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
+          if(phoneController.text.length<10){
+            AppConstants.showSnackBarTop(context, 'Please Enter Valid Number', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if(pinCodeController.text.length<6){
+            AppConstants.showSnackBarTop(context, 'Please Enter Valid Pincode', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(emailController.text.toString())){
+            AppConstants.showSnackBarTop(context, 'Please Enter a valid Email', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
           //Save Address logic here
           Address address = Address(
               name: nameController.text,
