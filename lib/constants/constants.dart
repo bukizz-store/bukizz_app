@@ -60,24 +60,24 @@ class AppConstants{
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.black54,width: 2),
           ),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(icon ,color: Colors.white,size: 24,),
-                Text(
-                  text,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'nunito',
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white,
-                      overflow: TextOverflow.ellipsis
-                  ),
-                )
-              ],
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(icon ,color: Colors.white,size: 24,),
+              SizedBox(width: 10,),
+              Text(
+                text,
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white,
+                    overflow: TextOverflow.ellipsis
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -110,25 +110,25 @@ class AppConstants{
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.black54,width: 2),
           ),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(icon ,color: Colors.white,size: 24,),
-                Text(
-                  text,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'nunito',
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.white,
-                    overflow: TextOverflow.ellipsis
-                  ),
-                )
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(icon ,color: Colors.white,size: 24,),
+              SizedBox(width: 10,),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'nunito',
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.white,
+                  overflow: TextOverflow.ellipsis
+                ),
+              )
 
-              ],
-            ),
+            ],
           ),
         ),
       ),

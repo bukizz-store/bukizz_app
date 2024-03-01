@@ -1,4 +1,5 @@
 import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/data/models/ecommerce/order_model.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/data/repository/query/order_query.dart';
 import 'package:bukizz/data/repository/review/review_repository.dart';
@@ -26,9 +27,8 @@ class OrderDetailsScreen extends StatefulWidget {
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   double totalPrice = 0;
   double salePrice = 0;
-  int itemCount = 2;
   String image = '';
-  bool dropDown = false;
+  bool dropDown = true;
   @override
   Widget build(BuildContext context) {
     BottomNavigationBarProvider provider =
@@ -52,133 +52,137 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ),
         body: orderData.isOrderDataLoaded? SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                height: dimensions.height16,
-                color:Color(0xFFF5FAFF),
-              ),
               Column(
                 children: [
                   Container(
-                    width: dimensions.screenWidth,
-                    height: dimensions.height10 * 11.3,
-                    padding: EdgeInsets.only(
-                        left: dimensions.width16, top: dimensions.height10),
-                    color: Colors.white,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: dimensions.width10 * 7.6,
-                          height: dimensions.height10 * 7.6,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              dimensions.width10,
-                            ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              dimensions.width10,
-                            ),
-                            child: image == '' ? Container() : Image.network(image)
-                          ),
-                        ),
-                        SizedBox(width: dimensions.width16),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                    height: dimensions.height16,
+                    color:Color(0xFFF5FAFF),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        width: dimensions.screenWidth,
+                        height: dimensions.height10 * 11.3,
+                        padding: EdgeInsets.only(
+                            left: dimensions.width16, top: dimensions.height10),
+                        color: Colors.white,
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: dimensions.height10,
-                            ),
-                            ReusableText(
-                                text:
-                                    '${itemCount} items',
-                                fontSize: 12),
-                            SizedBox(
-                              height: dimensions.height10,
-                            ),
-                            SizedBox(
-                              // width: dimensions.width10 * 25.2,
-                              child: Text(
-                                'Your product ${orderData.selectedOrderModel.orderName} is ${orderData.selectedOrderModel.status}',
-                                style: const TextStyle(
-                                  color: Color(0xFF444444),
-                                  fontSize: 12,
-                                  fontFamily: 'Nunito',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
+                            Container(
+                              width: dimensions.width10 * 7.6,
+                              height: dimensions.height10 * 7.6,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  dimensions.width10,
                                 ),
                               ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                    dimensions.width10,
+                                  ),
+                                  child: Image.asset('assets/orders.png')
+                              ),
                             ),
-                            SizedBox(
-                              height: dimensions.height10,
-                            ),
-                            ReusableText(
-                              text:
+                            SizedBox(width: dimensions.width16),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: dimensions.height10,
+                                ),
+
+                                ReusableText(
+                                    text:
+                                    '${orderData.cartLength} items',
+                                    fontSize: 12),
+                                SizedBox(
+                                  height: dimensions.height10,
+                                ),
+                                SizedBox(
+                                  // width: dimensions.width10 * 25.2,
+                                  child: Text(
+                                    'Your product ${orderData.selectedOrderModel.orderName} is ${orderData.selectedOrderModel.status}',
+                                    style: const TextStyle(
+                                      color: Color(0xFF444444),
+                                      fontSize: 12,
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: dimensions.height10,
+                                ),
+                                ReusableText(
+                                  text:
                                   'Ordered On: ${orderData.selectedOrderModel.orderDate.substring(0, 10)}',
-                              fontSize: 12,
-                              color: Color(0xFFA5A5A5),
-                              fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  color: Color(0xFFA5A5A5),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
                             ),
                           ],
+                        ),
+                      ),
+                      Container(
+                          width: dimensions.screenWidth,
+                          color: Colors.white,
+                          child: Container(
+                            child: Column(
+                              children:
+                              _buildWidget(orderData, context, dimensions),
+                            ),
+                          )),
+                    ],
+                  ),
+
+                  //total amount text
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: dimensions.width16,
+                        vertical: dimensions.height16 / 2),
+                    width: dimensions.screenWidth,
+                    height: null,
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              dropDown = !dropDown;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              ReusableText(
+                                text: 'Total Amount',
+                                fontSize: 18,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.w500,
+                              ),
+                              dropDown ? Icon(Icons.arrow_drop_up) : Icon(Icons.arrow_drop_down)
+                            ],
+                          ),
+                        ),
+                        ReusableText(
+                          text: '₹${salePrice + 40}',
+                          fontSize: 18,
+                          color: Color(0xFF121212),
+                          fontWeight: FontWeight.w500,
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                      width: dimensions.screenWidth,
-                      height: dimensions.height10 * 23,
-                      color: Colors.white,
-                      child: Container(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children:
-                                _buildWidget(orderData, context, dimensions),
-                          ),
-                        ),
-                      )),
                 ],
               ),
-
-              //total amount text
-              Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: dimensions.width16,
-                    vertical: dimensions.height16 / 2),
-                width: dimensions.screenWidth,
-                height: null,
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        ReusableText(
-                          text: 'Total Amount',
-                          fontSize: 16,
-                          color: Color(0xFF282828),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                dropDown = !dropDown;
-                              });
-                            },
-                            child: Icon(Icons.arrow_drop_down))
-                      ],
-                    ),
-                    ReusableText(
-                      text: '₹${salePrice + 40}',
-                      fontSize: 16,
-                      color: Color(0xFF121212),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ),
-              if (dropDown)
+              (dropDown)?
                 Container(
                   padding: EdgeInsets.symmetric(
                       horizontal: dimensions.width16,
@@ -197,10 +201,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           SizedBox(
                             width: dimensions.width10 * 26.4,
                             child: Text(
-                              'Price($itemCount items)',
+                              'Price(${orderData.cartLength} items)',
                               style: const TextStyle(
                                   color: Color(0xFF7A7A7A),
-                                  fontSize: 12,
+                                  fontSize: 16,
                                   fontFamily: 'Nunito',
                                   fontWeight: FontWeight.w500,
                                   height: 0,
@@ -209,8 +213,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                           ReusableText(
                             text:
-                                '₹$totalPrice',
-                            fontSize: 12,
+                                '₹${orderData.selectedOrderModel.totalAmount}',
+                            fontSize: 16,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
                           )
@@ -226,14 +230,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         children: [
                           ReusableText(
                             text: 'Discount',
-                            fontSize: 12,
+                            fontSize: 16,
                             color: Color(0xFF7A7A7A),
                             fontWeight: FontWeight.w500,
                           ),
                           ReusableText(
                               text:
-                                  '-₹${totalPrice - salePrice}',
-                              fontSize: 12,
+                                  '-₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount}',
+                              fontSize: 16,
                               color: Color(0xFF038B10),
                               fontWeight: FontWeight.w500)
                         ],
@@ -247,13 +251,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         children: [
                           ReusableText(
                             text: 'Delivery Charges',
-                            fontSize: 12,
+                            fontSize: 16,
                             color: Color(0xFF7A7A7A),
                             fontWeight: FontWeight.w500,
                           ),
                           ReusableText(
-                            text: '₹40',
-                            fontSize: 12,
+                            text: '₹${orderData.selectedOrderModel.deliveryCharge}',
+                            fontSize: 16,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
                           )
@@ -279,14 +283,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         children: [
                           ReusableText(
                             text: 'Total Amount',
-                            fontSize: 14,
+                            fontSize: 16,
                             color: Color(0xFF282828),
                             fontWeight: FontWeight.w700,
                           ),
                           ReusableText(
                             text:
-                                '₹${salePrice + 40}',
-                            fontSize: 12,
+                                '₹${orderData.selectedOrderModel.saleAmount + orderData.selectedOrderModel.deliveryCharge}',
+                            fontSize: 16,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
                           )
@@ -305,14 +309,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         height: dimensions.height8 * 1.5,
                       ),
                       ReusableText(
-                        text: 'You will save ₹${totalPrice - salePrice} on this order',
-                        fontSize: 12,
+                        text: 'You will save ₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount} on this order',
+                        fontSize: 16,
                         color: Color(0xFF038B10),
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                       )
                     ],
                   ),
-                ),
+                ) : Container(),
 
               SizedBox(
                 height: dimensions.height24 * 2,
@@ -348,9 +352,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   List<Widget> _buildWidget(
       MyOrders orderData, BuildContext context, dimensions) {
-    itemCount = 0;
     totalPrice = 0;
     salePrice = 0;
+
+    String image = '';
     // orderData.setIsOrderDataLoaded(false);
     List<Widget> list = [];
 
@@ -368,8 +373,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   setProductName(schoolName, set, stream, productModel);
               int totalSalePrice = setTotalSalePrice(productModel, set, stream);
               int price = setTotalPrice(productModel, set, stream);
-              image = productModel.variation[productModel.set.indexOf(productModel.set.where((element) => element.name == set).first).toString()][productModel.stream.isNotEmpty ?  productModel.stream.indexOf(productModel.stream.where((element) => element.name == stream).first) : '0'].image[0];
-              itemCount += int.parse(data[0].toString());
+              image = productModel.variation[productModel.set.indexOf(productModel.set.where((element) => element.name == set).first).toString()][productModel.stream.isNotEmpty? productModel.stream.indexOf(productModel.stream.where((element) => element.name == stream).first).toString() : '0'].image[0];
               totalPrice += price * data[0];
               salePrice += totalSalePrice * data[0];
               list.add(Padding(
@@ -378,7 +382,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     vertical: dimensions.width10 * 1.8),
                 child: Container(
                   width: dimensions.width10 * 39.3,
-                  // height: dimensions.height10*20,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -482,10 +485,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                           .selectedOrderModel.address.phone);
                               Navigator.pushNamed(
                                   context, KnowMoreScreen.route);
+
+                              // OrderModel.addFieldInOrderData();
                             },
                             style: OutlinedButton.styleFrom(
-                                shape: const RoundedRectangleBorder(
+                                shape: RoundedRectangleBorder(
                                   side: BorderSide(color: Color(0xFF7A7A7A)),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: dimensions.width10 * 4)),
@@ -509,8 +515,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               Navigator.pushNamed(context, RatingsScreen.route);
                             },
                             style: OutlinedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
+                              shape: RoundedRectangleBorder(
                                 side: BorderSide(color: Color(0xFF7A7A7A)),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               padding: EdgeInsets.symmetric(
                                   horizontal: dimensions.width10 * 4),
@@ -543,6 +550,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       });
     }
     // orderData.setIsOrderDataLoaded(true);
+    orderData.setImage = image;
     return list;
   }
 }

@@ -43,6 +43,8 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
   @override
   void initState() {
     // TODO: implement initState
+    pinController.text = AppConstants.userData.address.pinCode;
+    checkDeliverable();
     super.initState();
   }
   @override
@@ -365,7 +367,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                 child: ReusableText(text: 'Explore More', fontSize: 18),
               ),
               Container(
-                height: dimensions.height10 * 17,
+                height: 55.sp,
                 width: dimensions.screenWidth,
                 // color: Colors.red,
                 padding: EdgeInsets.only(left: dimensions.width16),
@@ -373,7 +375,6 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                     itemCount: value.generalProduct.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      // print(categoryRepo.category.length);
                       var selectedModel = categoryRepo.category[index];
                       return GestureDetector(
                         onTap: () {
@@ -382,8 +383,10 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                         },
                         child: Container(
                           width: dimensions.width146,
-                          height: dimensions.height10,
-                          margin: EdgeInsets.only(right: 16),
+                          height: 45.sp,
+                          margin: EdgeInsets.only(
+                            right: dimensions.width16,
+                            bottom: dimensions.height10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: Colors.white,

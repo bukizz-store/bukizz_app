@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:bukizz/data/models/ecommerce/products/variation/set_model.dart';
 import 'package:bukizz/data/models/ecommerce/products/variation/stream_model.dart';
@@ -16,6 +17,7 @@ class ProductModel {
   String classId;
   String board;
   String retailerId;
+  int deliveryCharge;
   List<StreamData> stream;
   List<String> city;
   List<SetData> set;
@@ -33,6 +35,7 @@ class ProductModel {
     required this.set,
     required this.retailerId,
     required this.reviewIdList,
+    required this.deliveryCharge,
     required this.variation,
     required this.city,
   });
@@ -51,6 +54,7 @@ class ProductModel {
       'reviewIdList': reviewIdList,
       'variation': variation,
       'city': city,
+      'deliveryCharge': deliveryCharge,
     };
   }
 
@@ -78,6 +82,7 @@ class ProductModel {
       reviewIdList: List<dynamic>.from(map['reviewIdList'] ?? []),
       variation: convertedVariationMap,
       city: List<String>.from(map['city'] ?? []),
+      deliveryCharge: map['deliveryCharge'] ?? 0,
     );
   }
 
@@ -105,6 +110,7 @@ class ProductModel {
       reviewIdList: List<dynamic>.from(map['reviewIdList'] ?? []),
       variation: convertedVariationMap,
       city: List<String>.from(map['city'] ?? []),
+      deliveryCharge: map['deliveryCharge'] ?? 0,
     );
   }
 
@@ -123,6 +129,7 @@ class ProductModel {
       reviewIdList: List<dynamic>.from(json['reviewIdList'] ?? []),
       variation:  Map<String , Map<String , Variation>>.from(json['variation'] ?? {}),
       city: List<String>.from(json['city'] ?? []),
+      deliveryCharge: json['deliveryCharge'] ?? 0,
     );
   }
 
@@ -142,6 +149,7 @@ class ProductModel {
       reviewIdList: List<dynamic>.from(data['reviewIdList']),
       variation: variationMap,
       city: List<String>.from(data['city']),
+      deliveryCharge: data['deliveryCharge'],
     );
   }
 
@@ -240,6 +248,7 @@ class ProductModel {
       city: ['Kanpur'],
       board: 'POLO',
       retailerId: '',
+      deliveryCharge: 0,
       stream: [streamData,streamData2],
       set: [setData, setData2],
       reviewIdList: [],
@@ -302,15 +311,15 @@ class ProductModel {
   //function to update all the products in the firebase database containing a list of city
   static void updateProductData() {
     FirebaseFirestore.instance
-        .collection('generalProduct')
+        .collection('products')
         .get()
         .then((value) {
       value.docs.forEach((element) {
         FirebaseFirestore.instance
-            .collection('generalProduct')
+            .collection('products')
             .doc(element.id)
             .update({
-          'city': ['Kanpur'],
+          'deliveryCharge': Random().nextInt(100),
         }).then((value) => print('Product updated successfully'));
       });
     });

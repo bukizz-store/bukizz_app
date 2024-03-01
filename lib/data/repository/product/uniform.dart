@@ -48,6 +48,7 @@ int _selectedStreamDataIndex = 0;
 
   Future<void> getUniformFromFirebase(List<dynamic> uniformId)async {
     uniform.clear();
+    if(uniformId.isEmpty) return;
     uniformLoaded = false;
     await FirebaseFirestore.instance.collection('products').where('productId', whereIn: uniformId).get().then((value) => {
       value.docs.forEach((element) {

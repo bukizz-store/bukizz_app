@@ -29,6 +29,8 @@ class OrderViewRespository extends ChangeNotifier {
     status: deliveryStatus.Initiated.name,
     reviewId: '',
     transactionId: '',
+    retailerId: '',
+    deliveryCharge: 0,
   );
 
   List<OrderModel> orders = [];
@@ -109,6 +111,8 @@ class OrderViewRespository extends ChangeNotifier {
         status: deliveryStatus.Initiated.name,
         reviewId: '',
         transactionId: transactionId,
+        retailerId: '',
+        deliveryCharge: 0,
       );
 
       orders.add(orderModelTemp);

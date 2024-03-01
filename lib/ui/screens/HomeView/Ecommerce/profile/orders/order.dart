@@ -1,7 +1,9 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
@@ -85,28 +87,50 @@ class _OrderScreenState extends State<OrderScreen> {
                                             child: Image.asset('assets/orders.png')
                                           ),
                                         ),
-                                        SizedBox(width: dimensions.width16),
+                                        SizedBox(width: dimensions.width29),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: dimensions.height8,),
-                                            ReusableText(text: '${orderData.orders[index].cartLength} items', fontSize: 12),
+                                            Row(
+                                              children: [
+                                                ReusableText(text: 'Order Status : ', fontSize: 18),
+                                                ReusableText(text: orderData.orders[index].status, fontSize: 18,fontWeight: FontWeight.w500,color: Color(0xFF00AE11),),
+                                              ],
+                                            ),
+                                            SizedBox(height: dimensions.height16,),
+                                            ReusableText(text: '${orderData.orders[index].cartLength} items', fontSize: 14),
                                             SizedBox(height: dimensions.height10,),
                                             SizedBox(
                                               width: dimensions.width10 * 25.2,
-                                              child: Text(
-                                                orderData.orders[index].orderName,
-                                                style: const TextStyle(
-                                                  color: Color(0xFF444444),
-                                                  fontSize: 12,
-                                                  fontFamily: 'Nunito',
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 0,
-                                                ),
+                                              child: Row(
+                                                children: [
+                                                  ReusableText(
+                                                    text: 'Order ID: ',
+                                                    fontSize: 14,
+                                                    color: Color(0xFFA5A5A5),
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  Text(
+                                                    orderData.orders[index].orderId.split('-')[0],
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF444444),
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                      fontWeight: FontWeight.w400,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             SizedBox(height: dimensions.height10,),
-                                            ReusableText(text: 'Ordered On: ${orderData.orders[index].orderDate.substring(0,10)}', fontSize: 12,color: Color(0xFFA5A5A5),fontWeight: FontWeight.w500,),
+                                            Row(
+                                              children: [
+                                                ReusableText(text: 'Ordered On: ', fontSize: 12,color: Color(0xFFA5A5A5),fontWeight: FontWeight.w500,),
+                                                ReusableText(text: orderData.orders[index].orderDate.substring(0,10), fontSize: 12,color: Color(0xFF444444),fontWeight: FontWeight.w400,),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ],
@@ -157,7 +181,7 @@ class _OrderScreenState extends State<OrderScreen> {
           ),
         )
 
-      ) : Scaffold(body: Center(child: CircularProgressIndicator(),));
+      ) : const Scaffold(body: Center(child: SpinKitChasingDots(color: AppColors.primaryColor, size: 24,),));
     });
   }
 }

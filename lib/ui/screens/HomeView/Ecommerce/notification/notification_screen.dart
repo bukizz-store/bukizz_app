@@ -37,7 +37,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppBar(
         leading: Icon(Icons.arrow_back),
         title: const Text(
-            'Notifications (1)',
+            'Notifications',
            style: TextStyle(
              fontFamily: 'nunito',
              fontSize: 20,
