@@ -44,7 +44,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       padding: EdgeInsets.only(left: dimensions.width16/2,),
                       width: dimensions.screenWidth,
                       height: dimensions.height10 *
-                          19 *
+                          18.3*
                           (orderData.orders.length),
                       color: Colors.white,
                       child: ListView.builder(
@@ -122,9 +122,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                         Navigator.pushNamed(context, OrderDetailsScreen.route);
                                       },
                                       child: Container(
-                                        width: dimensions.width10*34.5,
+                                        width: dimensions.screenWidth,
                                         height: dimensions.height10*3.5,
                                         padding: const EdgeInsets.all(8),
+                                        margin: EdgeInsets.only(right: 16),
                                         decoration: ShapeDecoration(
                                           shape: RoundedRectangleBorder(
                                             side: const BorderSide(width: 0.50, color: Color(0xFF7A7A7A)),
