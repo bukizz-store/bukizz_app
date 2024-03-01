@@ -1,3 +1,4 @@
+import 'package:bukizz/data/providers/auth/updateUserData.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +183,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
               width: dimensions.width342,
               height: dimensions.height10 * 5.4,
               onPressed: () {
-
+                context.read<UpdateUserData>().updateUserData(context, _nameController.text, _phoneController.text, _emailController.text);
               },
               buttonText: 'Save Changes'
           ),

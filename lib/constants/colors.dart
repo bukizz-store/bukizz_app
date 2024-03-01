@@ -18,6 +18,7 @@ class AppColors{
   static const Color productButtonUnSelectedBG =  Color(0xFFFAFAFA);
   static const Color red =  Color(0xFFFC2A2A);
   static const Color green =  Color(0xFF00B159);
+  static const Color success =  Color(0xFF00B159);
   static const Color error =  Colors.grey;
 
 }
