@@ -46,16 +46,16 @@ class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: dimensions.height8),
-            Padding(
-              padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
-              child: CustomTextForm(
-                width: dimensions.width342,
-                height: dimensions.height8*6,
-                controller: formController,
-                hintText: 'Enter School bags,lunch box',
-                icon: Icons.search,
-              ),
-            ),
+            // Padding(
+            //   padding:EdgeInsets.symmetric(horizontal: dimensions.width16),
+            //   child: CustomTextForm(
+            //     width: dimensions.width342,
+            //     height: dimensions.height8*6,
+            //     controller: formController,
+            //     hintText: 'Enter School bags,lunch box',
+            //     icon: Icons.search,
+            //   ),
+            // ),
 
             SizedBox(height: dimensions.height8*1.5),
 

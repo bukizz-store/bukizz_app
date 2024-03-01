@@ -87,7 +87,7 @@ class AuthProvider extends ChangeNotifier {
       } else {
         if(context.mounted)
           {
-            AppConstants.showSnackBar(context, "Failed to Login" , AppColors.error , Icons.error_outline_rounded);
+            AppConstants.showSnackBar(context, "Failed to Login" , AppColors.error , Icons.error_outline_rounded,);
             Navigator.of(context).pop();
           }
       }

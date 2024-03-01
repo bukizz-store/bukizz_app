@@ -41,18 +41,19 @@ class _Checkout1State extends State<Checkout1> {
             MaterialPageRoute(builder: (context) => const Checkout2()),
           );
         } else {
-          AppConstants.showSnackBar(context , 'Delivery not available at this pinCode' , AppColors.error , Icons.error_outline_rounded);
-          print('Delivery not available at this location');
+          AppConstants.showSnackBarTop(context , 'Delivery unavailable here' , AppColors.error , Icons.error_outline_rounded);
+          print('Delivery unavailable at this location');
         }
       } else {
-        AppConstants.showSnackBar(context, 'Delivery not available at this location', AppColors.error, Icons.error_outline_rounded);
-        print('Delivery not available at this location  - 2');
+        AppConstants.showSnackBarTop(context, 'Delivery unavailable here', AppColors.error, Icons.error_outline_rounded);
+        print('Delivery unavailable at this location');
       }
     });
   }
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
+
     return Consumer<UpdateAddressRepository>(builder:  (context , value, child){
       var address = "${value.address.houseNo}, ${value.address.street}, ${value.address.city}, ${value.address.state}, ${value.address.pinCode}";
       var alternateAddress = "${value.alternateAddress.houseNo}, ${value.alternateAddress.street}, ${value.alternateAddress.city}, ${value.alternateAddress.state}, ${value.alternateAddress.pinCode}";
@@ -231,7 +232,6 @@ class _Checkout1State extends State<Checkout1> {
                               setState(() {
                                 selectedAddress = value;
                                 context.read<OrderViewRespository>().setUserAddress(context.read<UpdateAddressRepository>().alternateAddress);
-                                print(selectedAddress);
                               });
                             },
                           ),
@@ -312,14 +312,21 @@ class _Checkout1State extends State<Checkout1> {
           child: Container(
             height: dimensions.height8 * 9,
             width: dimensions.screenWidth,
+
             // color: Colors.white,
             child: Padding(
                 padding: EdgeInsets.only(bottom: dimensions.width24,left: dimensions.width24,right: dimensions.width24),
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Color(0xFF058FFF),
+                      color: AppColors.productButtonSelectedBorder,
+                      borderRadius: BorderRadius.circular(40),
+                      boxShadow: const [
+                        BoxShadow(
+                          color:Color(0xFF0466b5),
+                          offset:Offset(0,4),
 
+                        )
+                      ]
                   ),
                   child: Center(child: ReusableText(text: 'Deliver Here',fontSize:16,fontWeight: FontWeight.w700,color: Colors.white,)),
                 )

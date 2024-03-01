@@ -131,7 +131,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                   Container(
                       width: dimensions.screenWidth,
-                      height: dimensions.height10 * 23 * itemCount,
+                      height: dimensions.height10 * 23,
                       color: Colors.white,
                       child: Container(
                         child: SingleChildScrollView(

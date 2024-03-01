@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../constants/colors.dart';
+import '../../../../../constants/constants.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import 'package:geolocator/geolocator.dart';
@@ -46,68 +48,6 @@ class _AddAddressState extends State<AddAddress> {
               height: dimensions.height8 * 1.5,
             ),
             //container with step 1 2 3
-            Container(
-              width: dimensions.screenWidth,
-              height: dimensions.height8 * 11.5,
-              color: Colors.white,
-              child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: dimensions.width24 * 1.5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomCircleAvatar(
-                      radius: dimensions.height8 * 2,
-                      backgroundColor: Color(0xFF058FFF),
-                      borderColor: Colors.black38,
-                      borderWidth: 0.10,
-                      child: ReusableText(
-                        text: '1',
-                        fontSize: 16,
-                        color: Colors.white,
-                        height: null,
-                      ),
-                    ),
-                    Container(
-                      width: 90.0,
-                      height: 1.0,
-                      color: Color(0xFFA5A5A5),
-                    ),
-                    CustomCircleAvatar(
-                      radius: dimensions.height8 * 2,
-                      backgroundColor: Colors.transparent,
-                      borderColor: Colors.black,
-                      borderWidth: 0.5,
-                      child: ReusableText(
-                        text: '2',
-                        fontSize: 16,
-                        color: Color(0xFF058FFF),
-                      ),
-                    ),
-                    Container(
-                      width: 90.0,
-                      height: 1.0,
-                      color: Color(0xFFA5A5A5),
-                    ),
-                    CustomCircleAvatar(
-                      radius: dimensions.height8 * 2,
-                      backgroundColor: Colors.transparent,
-                      borderColor: Colors.black,
-                      borderWidth: 0.5,
-                      child: ReusableText(
-                        text: '3',
-                        fontSize: 16,
-                        color: Color(0xFF058FFF),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(
-              height: dimensions.height8 * 1.5,
-            ),
 
             Container(
               width: dimensions.screenWidth,
@@ -124,6 +64,7 @@ class _AddAddressState extends State<AddAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Full Name (Required) *',
+                        labelText: 'Full Name',
                         controller: nameController,
                       ),
                       SizedBox(
@@ -133,6 +74,7 @@ class _AddAddressState extends State<AddAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Phone number (Required) *',
+                        labelText: 'Phone number',
                         controller: phoneController,
                       ),
                       SizedBox(
@@ -142,50 +84,50 @@ class _AddAddressState extends State<AddAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Email',
+                        labelText: 'Email',
                         controller: emailController,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomTextForm(
-                            width: dimensions.width16 * 9.2,
-                            height: dimensions.height8 * 5.5,
-                            hintText: 'Pin Code (Required) *',
-                            controller: pinCodeController,
-                          ),
-                          GestureDetector(
-                            onTap: onUseMyLocationTap,
-                            child: Container(
-                              width: dimensions.width16 * 9.2,
-                              height: dimensions.height8 * 4.5,
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 0.50, color: Color(0xFF00579E)),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Icon(
-                                    Icons.my_location,
-                                    color: Color(0xFF00579E),
-                                  ),
-                                  ReusableText(
-                                    text: 'Use my location',
-                                    fontSize: 14,
-                                    color: Color(0xFF00579E),
-                                    fontWeight: FontWeight.w600,
-                                  )
-                                ],
-                              ),
+                      GestureDetector(
+                        onTap: onUseMyLocationTap,
+                        child: Container(
+                          width: dimensions.screenWidth,
+                          height: dimensions.height8 * 5.5,
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0xFF00579E)),
+                              borderRadius: BorderRadius.circular(100),
                             ),
-                          )
-                        ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.my_location,
+                                color: Color(0xFF00579E),
+                              ),
+                              ReusableText(
+                                text: 'Use my location',
+                                fontSize: 14,
+                                color: Color(0xFF00579E),
+                                fontWeight: FontWeight.w600,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: dimensions.height16,),
+                      CustomTextForm(
+                        width: dimensions.screenWidth,
+                        height: dimensions.height8 * 5.5,
+                        hintText: 'Pin Code (Required) *',
+                        labelText: 'Pin Code',
+                        controller: pinCodeController,
+                        isPinCode: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -225,6 +167,7 @@ class _AddAddressState extends State<AddAddress> {
                           width: dimensions.width342,
                           height: dimensions.height8 * 5.5,
                           hintText: 'Alternate Phone',
+                          labelText: 'Alternate Number',
                           controller: alternatePhoneController,
                         ),
                       SizedBox(
@@ -243,6 +186,7 @@ class _AddAddressState extends State<AddAddress> {
                             width: dimensions.width16 * 9.2,
                             height: dimensions.height8 * 5.5,
                             hintText: 'City (Required) *',
+                            labelText: 'City',
                             controller: cityController,
                           ),
                         ],
@@ -254,6 +198,7 @@ class _AddAddressState extends State<AddAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'House No., Building Name (Required) *',
+                        labelText: 'House No.',
                         controller: buildingnameController,
                       ),
                       SizedBox(
@@ -263,6 +208,7 @@ class _AddAddressState extends State<AddAddress> {
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
                         hintText: 'Road name, Area, Colony (Required) *',
+                        labelText: 'Road Name/Area',
                         controller: addressController,
                       ),
                     ],
@@ -276,6 +222,19 @@ class _AddAddressState extends State<AddAddress> {
       bottomNavigationBar: InkWell(
         onTap: () {
           //Save Address logic here
+          if(phoneController.text.length<10){
+            AppConstants.showSnackBarTop(context, 'Please Enter Valid Number', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if(pinCodeController.text.length<6){
+            AppConstants.showSnackBarTop(context, 'Please Enter Valid Pincode', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(emailController.text.toString())){
+            AppConstants.showSnackBarTop(context, 'Please Enter a valid Email', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
           Address address = Address(name: nameController.text, houseNo: buildingnameController.text, street: fullAddress, city: cityController.text, state: stateController.text, pinCode: pinCodeController.text, phone: phoneController.text, email: emailController.text);
           context.read<UpdateUserData>().updateUserAlternateAddress(address);
           Navigator.of(context).pop();

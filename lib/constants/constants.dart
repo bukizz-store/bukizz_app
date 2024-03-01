@@ -16,7 +16,7 @@ enum userType{
 }
 
 enum deliveryStatus{
-  Ordered , Shipped , Delivered
+  Initiated , Processed , Packed , Out_For_Delivery , Delivered , Cancelled , Replacement , Not_Placed,  Canceled
 }
 
 class AppConstants{
@@ -36,12 +36,61 @@ class AppConstants{
         });
   }
 
-  static Future<void> showSnackBar(BuildContext context , String text , Color color , IconData icon , {int time = 5}) async {
+  static Future<void> showSnackBarTop(BuildContext context , String text , Color color , IconData icon , {int time = 2}) async {
     var snackBar = SnackBar(
       elevation: 0,
-      animation: AnimationController(vsync: Scaffold.of(context), duration: Duration(milliseconds: 250))..forward(),
       margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height - 35.h,
+         /* bottom: MediaQuery.of(context).size.height - 92.h,*/
+          left: 10,
+          right: 10),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: GestureDetector(
+        onTap: (){
+          context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
+          Navigator.pushNamed(context,  MainScreen.route);
+        },
+        child: Container(
+          width: 300,
+          height: 40,
+          // padding: const EdgeInsets.all(16),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.black54,width: 2),
+          ),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(icon ,color: Colors.white,size: 24,),
+                Text(
+                  text,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'nunito',
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
+                      overflow: TextOverflow.ellipsis
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+      duration: Duration(seconds: time),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  static Future<void> showSnackBar(BuildContext context , String text , Color color , IconData icon , {int time = 2}) async {
+    var snackBar = SnackBar(
+      elevation: 0,
+      margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 25.h,
           left: 10,
           right: 10),
       behavior: SnackBarBehavior.floating,
@@ -67,7 +116,17 @@ class AppConstants{
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(icon ,color: Colors.white,size: 24,),
-                ReusableText(text: text, fontSize: 16,fontWeight: FontWeight.w600,color: AppColors.white,),
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white,
+                    overflow: TextOverflow.ellipsis
+                  ),
+                )
+
               ],
             ),
           ),

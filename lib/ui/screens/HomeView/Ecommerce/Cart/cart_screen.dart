@@ -17,6 +17,8 @@ import '../../../../../data/models/ecommerce/products/product_model.dart';
 import '../../../../../data/models/ecommerce/products/variation/stream_model.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/providers/cart_provider.dart';
+import '../../../../../data/repository/address/update_address.dart';
+import '../../../../../widgets/address/update_address.dart';
 import '../checkout/checkout1.dart';
 import 'empty_cart_screen.dart';
 
@@ -42,13 +44,9 @@ class _CartState extends State<Cart> {
     print('CartUpdated');
     // var cartData = context.watch<CartViewRepository>();
     var cartProvider = context.read<CartProvider>();
-    // cartProvider.loadCartData(context);
+    var address = context.watch<UpdateAddressRepository>().address;
     return Consumer<CartViewRepository>(
         builder: (context, cartViewData, child) {
-
-          // print(cartProvider.isCartLoadedProvider);
-      // Map<String, Map<String, int>> cartTempData = cartViewData.cartData;
-
       if (cartViewData.getCartData.isEmpty) {
         return const EmptyCart();
       }else {
@@ -118,7 +116,7 @@ class _CartState extends State<Cart> {
                                       child: Container(
                                     width: dimensions.width24 * 9.5,
                                     child: ReusableText(
-                                      text: "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}",
+                                      text: "${address.houseNo}, ${address.street}, ${address.city}, ${address.state}, ${address.pinCode}",
                                       fontSize: 14,
                                       height: 0,
                                       color: Color(0xFF7A7A7A),
@@ -130,7 +128,7 @@ class _CartState extends State<Cart> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  print('change button is tapped');
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateAddress(address: context.watch<UpdateAddressRepository>().address , keyAddress: true,)));
                                 },
                                 child: Container(
                                   width: dimensions.width65,
@@ -174,7 +172,19 @@ class _CartState extends State<Cart> {
           bottomNavigationBar: Container(
             height: dimensions.height8 * 9,
             width: dimensions.screenWidth,
-            color: Colors.white,
+
+            decoration: BoxDecoration(
+                //border: Border.all(color: Colors.black26),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 12,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ]
+            ),
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 24,

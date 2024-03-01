@@ -2,6 +2,7 @@ import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/constants/strings.dart';
 import 'package:bukizz/data/repository/product/uniform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:bukizz/data/providers/cart_provider.dart';
 import 'package:bukizz/data/providers/school_repository.dart';
@@ -19,11 +20,14 @@ import '../../../../../../constants/constants.dart';
 import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../data/providers/stationary_provider.dart';
 import '../../../../../../data/repository/cart_view_repository.dart';
+import '../../../../../../data/repository/category/category_repository.dart';
+import '../../../../../../data/repository/product/general_product.dart';
 import '../../../../../../utils/dimensions.dart';
 import '../../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../../widgets/review widget/review.dart';
 import '../../../../../../widgets/text and textforms/expandable_text_widget.dart';
 import '../../checkout/checkout1.dart';
+import '../Stationary/general_product_screen.dart';
 
 class UniformDescriptionScreen extends StatefulWidget {
   static const String route = '/uniform';
@@ -51,12 +55,14 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
     var schoolData = context.read<SchoolDataProvider>();
     var stationaryData = context.read<StationaryProvider>();
     Dimensions dimensions = Dimensions(context);
+    var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     return Consumer<UniformRepository>(
       builder: (context, value, child) {
         // print(value.selectedProduct.variation);
         return Scaffold(
           body: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 28.sp,),
                 //image for pageview container
@@ -105,7 +111,8 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: dimensions.width24,
-                        vertical: dimensions.height8),
+                        vertical: dimensions.height8
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -443,196 +450,98 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
                 ),
 
                 SizedBox(
-                  height: dimensions.height8,
+                  height: dimensions.height16,
                 ),
 
-                ReusableColoredBox(
+                ReusableText(text: 'Frequently Brought Together', fontSize: 18,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
+                SizedBox(height: dimensions.height24,),
+                categoryRepo.category.isNotEmpty?
+                Container(
+                  height: dimensions.height10 * 17,
                   width: dimensions.screenWidth,
-                  height: dimensions.height8 * 27,
-                  backgroundColor: Colors.white,
-                  borderColor: Color(0xFFE8E8E8),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: dimensions.width24,
-                        vertical: dimensions.height16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //complete your set with -> text
-                        ReusableText(
-                          text: 'Complete your set',
-                          fontSize: 18,
-                          height: 0.09,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF121212),
-                        ),
-                        SizedBox(
-                          height: dimensions.height16,
-                        ),
-                        Container(
-                          height: dimensions.height151,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount:
-                                stationaryData.stationaryListItems.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    EdgeInsets.only(right: dimensions.width16),
-                                child: ReusableColoredBox(
-                                  width: dimensions.width169,
-                                  height: dimensions.height172,
-                                  backgroundColor: Colors.white,
-                                  borderColor: Colors.transparent,
+                  // color: Colors.red,
+                  padding: EdgeInsets.only(left: dimensions.width24),
+                  child: ListView.builder(
+                      itemCount: categoryRepo.category.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        // print(categoryRepo.category.length);
+                        var selectedModel=categoryRepo.category[index];
+                        return GestureDetector(
+                          onTap: () {
+                            context.read<CategoryRepository>().selectedCategory = selectedModel;
+                            context.read<GeneralProductRepository>().getGeneralProductFromFirebase(selectedModel.categoryId);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>   GeneralProductScreen(product: selectedModel.name)));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: dimensions.width16,bottom: dimensions.height10),
+                            width: dimensions.width146,
+                            height: dimensions.height10,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0.50,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Color(0xFFD6D6D6),
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x2600579E),
+                                  blurRadius: 12,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: dimensions.width146,
+                                  height: dimensions.height10 * 9,
+                                  child: ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(12),
+                                          topRight: Radius.circular(12)),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fitHeight, imageUrl: selectedModel.image,
+                                      )),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: dimensions.width24 / 3,
+                                      vertical: dimensions.height10 * 2),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      // Image container
-                                      Container(
-                                        width: dimensions.width169,
-                                        height: dimensions.height86,
-                                        child: Image(
-                                            image: NetworkImage(stationaryData
-                                                .stationaryListItems[index]
-                                                .image)),
+                                      ReusableText(
+                                        text: selectedModel.name,
+                                        fontSize: 14,
+                                        color: Color(0xFF444444),
+                                        fontWeight: FontWeight.w500,
                                       ),
-
-                                      // Book roll text hardcoded
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: dimensions.height8,
-                                          left: dimensions.width24 / 2,
-                                        ),
-                                        child: ReusableText(
-                                          text: stationaryData
-                                              .stationaryListItems[index].name,
-                                          fontSize: 12,
-                                          height: 0.11,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF03045E),
-                                        ),
+                                      SizedBox(
+                                        height: dimensions.height10 * 2,
                                       ),
-
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: dimensions.height8 * 2,
-                                          left: dimensions.width24 / 2,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            ReusableText(
-                                              text:
-                                                  '₹ ${stationaryData.stationaryListItems[index].price}',
-                                              fontSize: 12,
-                                              height: 0.11,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color(0xFF03045E),
-                                            ),
-
-                                            // Plus minus button functional
-                                            ReusableColoredBox(
-                                              width: dimensions.width80 / 1.25,
-                                              height: 24.sp,
-                                              backgroundColor: Colors.white,
-                                              borderColor: Colors.black,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  GestureDetector(
-                                                    child: Icon(Icons.remove),
-                                                    onTap: () {
-                                                      // setState(() {
-                                                      //   if (setCartQuantities[
-                                                      //           index] >
-                                                      //       0) {
-                                                      //     setCartQuantities[
-                                                      //         index]--;
-                                                      //   }
-                                                      // });
-                                                      // context
-                                                      //     .read<CartProvider>()
-                                                      //     .removeSingleCartData(
-                                                      //         "all",
-                                                      //         stationaryData
-                                                      //             .stationaryListItems[
-                                                      //                 index]
-                                                      //             .productId,
-                                                      //         context,
-                                                      //         0 , 0,
-                                                      //         1);
-                                                    },
-                                                  ),
-                                                  ReusableText(
-                                                    text: context
-                                                            .watch<
-                                                                CartProvider>()
-                                                            .cartData
-                                                            .containsKey('all')
-                                                        ? context
-                                                                .watch<
-                                                                    CartProvider>()
-                                                                .cartData[
-                                                                    'all']!
-                                                                .containsKey(stationaryData
-                                                                    .stationaryListItems[
-                                                                        index]
-                                                                    .productId)
-                                                            ? context
-                                                                .watch<
-                                                                    CartProvider>()
-                                                                .cartData[
-                                                                    'all']![
-                                                                    stationaryData
-                                                                        .stationaryListItems[
-                                                                            index]
-                                                                        .productId]![
-                                                                    0]![0]
-                                                                .toString()
-                                                            : '0'
-                                                        : '0',
-                                                    // text:  context.watch<CartProvider>().cartData['all']!.containsKey(stationaryData.stationaryListItems[index].productId) ? context.watch<CartProvider>().cartData['all']![stationaryData.stationaryListItems[index].productId]![0]![0].toString() : '0',
-                                                    fontSize: 12,
-                                                    height: 0.10,
-                                                  ),
-                                                  GestureDetector(
-                                                    child: Icon(Icons.add),
-                                                    onTap: () async {
-                                                      // await context
-                                                      //     .read<CartProvider>()
-                                                      //     .addProductInCart(
-                                                      //         "all",
-                                                      //         0,
-                                                      //         0,
-                                                      //         1,
-                                                      //         stationaryData
-                                                      //             .stationaryListItems[
-                                                      //                 index]
-                                                      //             .productId,
-                                                      //         context).then((value) => AppConstants.showSnackBar(context, 'Product added to cart'));
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      ReusableText(
+                                        text: selectedModel.offers,
+                                        fontSize: 14,
+                                        color: Color(0xFF121212),
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ],
                                   ),
-                                ),
-                              );
-                            },
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                        );
+                      }),
+                ):Center(child: SpinKitChasingDots(color: AppColors.primaryColor, size: 24,)),
 
                 SizedBox(
                   height: dimensions.height24 / 3,

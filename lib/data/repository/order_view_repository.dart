@@ -26,7 +26,7 @@ class OrderViewRespository extends ChangeNotifier {
     cartData: {},
     cartLength: 0,
     address: AppConstants.userData.address,
-    status: deliveryStatus.Ordered.toString(),
+    status: deliveryStatus.Initiated.name,
     reviewId: '',
     transactionId: '',
   );
@@ -106,7 +106,7 @@ class OrderViewRespository extends ChangeNotifier {
         cartData: cartData.elementAt(i),
         address: getUserAddress,
         cartLength: 1,
-        status: deliveryStatus.Ordered.toString(),
+        status: deliveryStatus.Initiated.name,
         reviewId: '',
         transactionId: transactionId,
       );
