@@ -1,3 +1,4 @@
+import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/checkout1.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
@@ -25,6 +26,7 @@ import '../../ui/screens/HomeView/Ecommerce/product/Stationary/general_product_s
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/about_school.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/tab views/form_view.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
+import '../../ui/screens/HomeView/Ecommerce/profile/address_screen.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
 import '../../ui/screens/Signup and SignIn/Signup_Screen.dart';
 import '../../ui/screens/Signup and SignIn/reset_password.dart';
@@ -145,6 +147,10 @@ class RouteGenerator{
       case UniformDescriptionScreen.route:
         return MaterialPageRoute(
           builder: (_) =>  UniformDescriptionScreen(),
+        );
+      case AddressScreen1.route:
+        return MaterialPageRoute(
+          builder: (_) =>  AddressScreen1(),
         );
       default:
         return _errorRoute();

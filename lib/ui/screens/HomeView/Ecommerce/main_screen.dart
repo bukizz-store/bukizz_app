@@ -1,5 +1,6 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/data/providers/stationary_provider.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/newProfile_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/profile_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _MainScreenState extends State<MainScreen> {
       case 3:
         return const CategoryScreen();
       case 4:
-        return const ProfileScreen();
+        return const NewProfileScreen();
       default:
         return Container();
     }

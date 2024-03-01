@@ -85,6 +85,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: nameController,
                 hintText:  'Full Name (Required) *',
+                labelText: 'Full Name',
               ),
               SizedBox(height: dimensions.height8*1.5,),
               CustomTextForm(
@@ -92,6 +93,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: addressController,
                 hintText:   'Date of Birth (Required) *',
+                labelText: 'Date of Birth',
               ),
               SizedBox(height: dimensions.height8*1.5,),
               CustomTextForm(
@@ -99,6 +101,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:   'Gender (Required) *',
+                labelText: 'Gender',
               ),
               SizedBox(height: dimensions.height8*1.5,),
               CustomTextForm(
@@ -106,6 +109,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'Aadhar No. (Required) *',
+                labelText: 'Aadhar No.',
               ),
               SizedBox(height: dimensions.height16,),
               ReusableText(
@@ -113,6 +117,7 @@ class _FormsState extends State<Forms> {
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF444444),
+
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
@@ -120,6 +125,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'Street Address (Required) *',
+                labelText: 'Address',
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
@@ -127,6 +133,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'City (Required) *',
+                labelText: 'City',
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
@@ -134,6 +141,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'State (Required) *',
+                labelText: 'State',
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
@@ -141,6 +149,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'Pin Code (Required) *',
+                labelText: 'Pin Code',
               ),
               SizedBox(height: dimensions.height16,),
               ReusableText(
@@ -155,6 +164,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'Father’s Name',
+                labelText: 'Father’s Name',
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
@@ -162,6 +172,7 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'Mother’s name',
+                labelText: 'Mother’s name',
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
@@ -169,13 +180,14 @@ class _FormsState extends State<Forms> {
                 height: dimensions.height48,
                 controller: emailController,
                 hintText:    'Father’s Contact No.',
+                labelText: 'Father’s Contact No.',
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
                 controller: emailController,
-                hintText:    'Mother’s Contact No.',
+                hintText:    'Mother’s Contact No.', labelText:    'Mother’s Contact No.',
               ),
               SizedBox(height: dimensions.height16,),
               ReusableElevatedButton(

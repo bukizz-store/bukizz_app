@@ -172,7 +172,19 @@ class _CartState extends State<Cart> {
           bottomNavigationBar: Container(
             height: dimensions.height8 * 9,
             width: dimensions.screenWidth,
-            color: Colors.white,
+
+            decoration: BoxDecoration(
+                //border: Border.all(color: Colors.black26),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 12,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ]
+            ),
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 24,
@@ -225,7 +237,7 @@ class _CartState extends State<Cart> {
                       ),
                       child: Center(
                         child: ReusableText(
-                          text: 'Proceed',
+                          text: 'Buy Now',
                           fontSize: 16,
                           height: 0.11,
                           fontWeight: FontWeight.w700,
