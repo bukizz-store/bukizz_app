@@ -82,11 +82,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                             BorderRadius.circular(
                                               dimensions.width10,
                                             ),
-                                            child: SvgPicture.asset(
-                                              'assets/school/booksets/${index + 1}.svg',
-                                              fit: BoxFit.cover,
-                                              color: Colors.red,
-                                            ),
+                                            child: Image.asset('assets/orders.png')
                                           ),
                                         ),
                                         SizedBox(width: dimensions.width16),

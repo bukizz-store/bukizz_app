@@ -27,6 +27,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   double totalPrice = 0;
   double salePrice = 0;
   int itemCount = 2;
+  String image = '';
   bool dropDown = false;
   @override
   Widget build(BuildContext context) {
@@ -79,11 +80,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             borderRadius: BorderRadius.circular(
                               dimensions.width10,
                             ),
-                            child: SvgPicture.asset(
-                              'assets/school/booksets/1.svg',
-                              fit: BoxFit.cover,
-                              color: Colors.red,
-                            ),
+                            child: image == '' ? Container() : Image.network(image)
                           ),
                         ),
                         SizedBox(width: dimensions.width16),
@@ -104,7 +101,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             SizedBox(
                               // width: dimensions.width10 * 25.2,
                               child: Text(
-                                'Your product ${orderData.selectedOrderModel.orderName} is delivered',
+                                'Your product ${orderData.selectedOrderModel.orderName} is ${orderData.selectedOrderModel.status}',
                                 style: const TextStyle(
                                   color: Color(0xFF444444),
                                   fontSize: 12,
@@ -356,6 +353,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     salePrice = 0;
     // orderData.setIsOrderDataLoaded(false);
     List<Widget> list = [];
+
     // totalPrice = 0;
     // salePrice = 0;
     if(orderData.isOrderDataLoaded) {
@@ -370,6 +368,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   setProductName(schoolName, set, stream, productModel);
               int totalSalePrice = setTotalSalePrice(productModel, set, stream);
               int price = setTotalPrice(productModel, set, stream);
+              image = productModel.variation[productModel.set.indexOf(productModel.set.where((element) => element.name == set).first).toString()][productModel.stream.isNotEmpty ?  productModel.stream.indexOf(productModel.stream.where((element) => element.name == stream).first) : '0'].image[0];
               itemCount += int.parse(data[0].toString());
               totalPrice += price * data[0];
               salePrice += totalSalePrice * data[0];
@@ -430,11 +429,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               borderRadius: BorderRadius.circular(
                                 dimensions.width10,
                               ),
-                              child: SvgPicture.asset(
-                                'assets/school/booksets/${1}.svg',
-                                fit: BoxFit.cover,
-                                color: Colors.red,
-                              ),
+                              child: Image.network(image)
                             ),
                           ),
                           SizedBox(
@@ -446,7 +441,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               SizedBox(
                                 width: dimensions.width10 * 25.2,
                                 child: Text(
-                                  'Your product $productName is delivered',
+                                  'Your product $productName is ${orderData.selectedOrderModel.status}',
                                   style: TextStyle(
                                     color: Color(0xFF444444),
                                     fontSize: 12,
@@ -460,7 +455,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 height: dimensions.height16,
                               ),
                               ReusableText(
-                                text: '₹ $price',
+                                text: '₹ $salePrice',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF121212),
