@@ -40,7 +40,7 @@ class AppConstants{
     var snackBar = SnackBar(
       elevation: 0,
       margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height - 92.h,
+         /* bottom: MediaQuery.of(context).size.height - 92.h,*/
           left: 10,
           right: 10),
       behavior: SnackBarBehavior.floating,
@@ -51,7 +51,7 @@ class AppConstants{
           Navigator.pushNamed(context,  MainScreen.route);
         },
         child: Container(
-          width: 270,
+          width: 300,
           height: 40,
           // padding: const EdgeInsets.all(16),
           clipBehavior: Clip.antiAlias,
@@ -62,7 +62,7 @@ class AppConstants{
           ),
           child: Center(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(icon ,color: Colors.white,size: 24,),

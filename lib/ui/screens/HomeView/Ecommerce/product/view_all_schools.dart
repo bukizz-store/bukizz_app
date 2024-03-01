@@ -214,7 +214,7 @@ class _ViewAllState extends State<ViewAll> {
                                           dimensions.width24 / 6,
                                         ),
                                         ReusableText(
-                                          text: foundedSchool[index].city,
+                                          text: foundedSchool[index].address,
                                           fontSize: 12,
                                           color: Color(0xFFF9F9F9),
                                           fontWeight: FontWeight.w500,

@@ -1,5 +1,6 @@
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/address_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -46,128 +47,163 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
           title: ReusableText(text: 'Profile', fontSize: 18,)
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: dimensions.height10,),
-              Center(
-                child: CircleAvatar(
-                  radius:dimensions.height10*5.5,
-                  backgroundColor: Colors.white,
-                  child: SvgPicture.asset('assets/user.svg'),
-                ),
-              ),
-              SizedBox(height: dimensions.height10,),
-              ReusableText(text: AppConstants.userData.name, fontSize: 22,fontWeight: FontWeight.w500,),
-              SizedBox(height: dimensions.height10*2,),
-              ReusableText(text: AppConstants.userData.email , fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF121212).withOpacity(0.6),),
-              SizedBox(height: dimensions.height16,),
-              ReusableText(text:  AppConstants.userData.address.phone, fontSize: 14,fontWeight: FontWeight.w700,color:Color(0xFF121212).withOpacity(0.6)),
-              SizedBox(height: dimensions.height10*5,),
-              GestureDetector(
-                onTap: (){
-                  Navigator.pushNamed(context, AddressScreen1.route);
-                },
-                child: Container(
-                  height: dimensions.height10*8.5,
-                  width: dimensions.screenWidth,
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: [
-                           Row(
-                             children: [
-                               CircleAvatar(
-                                 radius: dimensions.width10*2.5,
-                                 backgroundColor: Color(0xFFCCE8FF),
-                                 child: Icon(Icons.location_on,color: Color(0xFF0590FF),),
-                               ),
-                               SizedBox(width: dimensions.height10,),
-                               ReusableText(text: 'Address',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
-                             ],
-                           ),
-                          Icon(Icons.chevron_right),
-                         ],
-                       ),
-
-                    ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: dimensions.height10,),
+                Center(
+                  child: CircleAvatar(
+                    radius:dimensions.height10*5.5,
+                    backgroundColor: Colors.white,
+                    child: SvgPicture.asset('assets/user.svg'),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  context.read<MyOrders>().fetchOrders();
-                  Navigator.pushNamed(context, OrderScreen.route);
-                },
-                child: Container(
-                  height: dimensions.height10*8.5,
-                  width: dimensions.screenWidth,
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: dimensions.width10*2.5,
-                                backgroundColor: Color(0xFFCCE8FF),
-                                child: Icon(Icons.document_scanner,color: Color(0xFF0590FF),),
-                              ),
-                              SizedBox(width: dimensions.height10,),
-                              ReusableText(text: 'Order History',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
-                            ],
-                          ),
-                         Icon(Icons.chevron_right),
-                        ],
-                      ),
+                SizedBox(height: dimensions.height10,),
+                ReusableText(text: AppConstants.userData.name, fontSize: 22,fontWeight: FontWeight.w500,),
+                SizedBox(height: dimensions.height10*2,),
+                ReusableText(text: AppConstants.userData.email , fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF121212).withOpacity(0.6),),
+                SizedBox(height: dimensions.height16,),
+                ReusableText(text:  AppConstants.userData.address.phone, fontSize: 14,fontWeight: FontWeight.w700,color:Color(0xFF121212).withOpacity(0.6)),
+                SizedBox(height: dimensions.height10*5,),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushNamed(context, AddressScreen1.route);
+                  },
+                  child: Container(
+                    height: dimensions.height10*8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           crossAxisAlignment: CrossAxisAlignment.center,
+                           children: [
+                             Row(
+                               children: [
+                                 CircleAvatar(
+                                   radius: dimensions.width10*2.5,
+                                   backgroundColor: Color(0xFFCCE8FF),
+                                   child: Icon(Icons.home,color: Color(0xFF0590FF),),
+                                 ),
+                                 SizedBox(width: dimensions.height10,),
+                                 ReusableText(text: 'Address',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
+                               ],
+                             ),
+                            Icon(Icons.chevron_right),
+                           ],
+                         ),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: (){Navigator.pushNamed(context, ContactUsScreen.route);},
-                child: Container(
-                  height: dimensions.height10*8.5,
-                  width: dimensions.screenWidth,
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: dimensions.width10*2.5,
-                                backgroundColor: Color(0xFFCCE8FF),
-                                child: Icon(Icons.phone,color: Color(0xFF0590FF),),
-                              ),
-                              SizedBox(width: dimensions.height10,),
-                              ReusableText(text: 'Contact Us',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
-                            ],
-                          ),
+                GestureDetector(
+                  onTap: (){
+                    context.read<MyOrders>().fetchOrders();
+                    Navigator.pushNamed(context, OrderScreen.route);
+                  },
+                  child: Container(
+                    height: dimensions.height10*8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10*2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(Icons.document_scanner,color: Color(0xFF0590FF),),
+                                ),
+                                SizedBox(width: dimensions.height10,),
+                                ReusableText(text: 'Order History',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
+                              ],
+                            ),
                            Icon(Icons.chevron_right),
-                        ],
-                      ),
+                          ],
+                        ),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              )
-            ],
+                GestureDetector(
+                  onTap: (){Navigator.pushNamed(context, ContactUsScreen.route);},
+                  child: Container(
+                    height: dimensions.height10*8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10*2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(Icons.phone,color: Color(0xFF0590FF),),
+                                ),
+                                SizedBox(width: dimensions.height10,),
+                                ReusableText(text: 'Contact Us',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
+                              ],
+                            ),
+                             Icon(Icons.chevron_right),
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){Navigator.pushNamed(context, SelectLocation.route);},
+                  child: Container(
+                    height: dimensions.height10*8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10*2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(Icons.location_on,color: Color(0xFF0590FF),),
+                                ),
+                                SizedBox(width: dimensions.height10,),
+                                ReusableText(text: 'Change Location',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         bottomNavigationBar:  Padding(
