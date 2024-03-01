@@ -3,9 +3,11 @@ import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/general_product.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -16,11 +18,13 @@ import '../../../../../../constants/constants.dart';
 import '../../../../../../data/providers/cart_provider.dart';
 import '../../../../../../data/providers/school_repository.dart';
 import '../../../../../../data/repository/cart_view_repository.dart';
+import '../../../../../../data/repository/category/category_repository.dart';
 import '../../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../../widgets/review widget/review.dart';
 import '../../../../../../widgets/text and textforms/Reusable_text.dart';
 import '../../../../../../widgets/text and textforms/expandable_text_widget.dart';
 import '../../checkout/checkout1.dart';
+import 'general_product_screen.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
 
@@ -35,6 +39,7 @@ class GeneralProductDescriptionScreen extends StatefulWidget {
 
 class _GeneralProductDescriptionScreenState extends State<GeneralProductDescriptionScreen> {
   TextEditingController pinController=TextEditingController();
+  int _currPageValue=0;
   @override
   void initState() {
     // TODO: implement initState
@@ -42,32 +47,92 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
   }
   @override
   Widget build(BuildContext context) {
-
+    var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     Dimensions dimensions=Dimensions(context);
     return Consumer<GeneralProductRepository>(builder: (context , value , child){
       return Scaffold(
-        appBar: AppBar(
-        ),
+
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //image for pageview container
-              Container(
-                width: dimensions.screenWidth,
-                height: dimensions.height16 * 13.75,
-                child: PageView.builder(
-                  itemCount: value.selectedProduct.set[value.selectedVariationIndex].image.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child: Image(
-                          image: CachedNetworkImageProvider(value.selectedProduct.set[value.selectedVariationIndex].image[index]
-                      )
+              Stack(
+                children: [
+                  Container(
+                    width: dimensions.screenWidth,
+                    height: dimensions.height16 * 20.75,
+                    child: PageView.builder(
+                      onPageChanged: (int page) {
+                        setState(() {
+                          _currPageValue = page;
+                        });
+                      },
+                      scrollDirection: Axis.horizontal,
+                      itemCount: value.selectedProduct.set[value.selectedVariationIndex].image.length,
+                      itemBuilder: (context,index){
+                        return  Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: CachedNetworkImage(
+                              imageUrl: value.selectedProduct.set[value.selectedVariationIndex].image[index],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    );
-                  },
-                ),
+                  ),
+                  Positioned(
+                    left: 6.w,
+                    top: 10.sp,
+                    child: GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Icon(Icons.arrow_back,size: 25,)
+                    ),
+                  ),
+                  if(value.selectedProduct.set[value.selectedVariationIndex].image.length>1)
+                    Positioned(
+                      bottom: 5.sp,
+                      left: 38.w,
+                      child: DotsIndicator(
+                        dotsCount:value.selectedProduct.set[value.selectedVariationIndex].image.length,
+                        position: _currPageValue.toInt(),
+                        decorator: DotsDecorator(
+                          activeColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                5.0), // Adjust radius to make it circular
+                          ),
+                          size: const Size.square(4.50),
+                          activeSize: const Size.square(
+                              9.0), // Make active dot circular
+                        ),
+                      ),
+                    )
+                ],
               ),
+              // Container(
+              //   width: dimensions.screenWidth,
+              //   height: dimensions.height16 * 13.75,
+              //   child: PageView.builder(
+              //     itemCount: value.selectedProduct.set[value.selectedVariationIndex].image.length,
+              //     scrollDirection: Axis.horizontal,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return Container(
+              //         child: Image(
+              //             image: CachedNetworkImageProvider(value.selectedProduct.set[value.selectedVariationIndex].image[index]
+              //         )
+              //       ),
+              //       );
+              //     },
+              //   ),
+              // ),
 
               //book description container
               Container(
@@ -295,141 +360,228 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                 height: dimensions.height24 / 3,
               ),
 
-              // accesories
-              ReusableColoredBox(
+              Padding(
+                padding:EdgeInsets.symmetric(horizontal: dimensions.width16,vertical: dimensions.height16),
+                child: ReusableText(text: 'Explore More', fontSize: 18),
+              ),
+              Container(
+                height: dimensions.height10 * 17,
                 width: dimensions.screenWidth,
-                height: dimensions.height8 * 27,
-                backgroundColor: Colors.white,
-                borderColor: Color(0xFFE8E8E8),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: dimensions.width24,
-                      vertical: dimensions.height16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //complete your set with -> text
-                      ReusableText(
-                        text: 'You May also like',
-                        fontSize: 18,
-                        height: 0.09,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF121212),
-                      ),
-                      SizedBox(
-                        height: dimensions.height16,
-                      ),
-                      Container(
-                        height: dimensions.height151,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(right: dimensions.width16),
-                              child: ReusableColoredBox(
+                // color: Colors.red,
+                padding: EdgeInsets.only(left: dimensions.width16),
+                child: ListView.builder(
+                    itemCount: value.generalProduct.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      // print(categoryRepo.category.length);
+                      var selectedModel = categoryRepo.category[index];
+                      return GestureDetector(
+                        onTap: () {
+                          value.selectedProduct = value.generalProduct[index];
+                          Navigator.pushNamed(context, GeneralProductDescriptionScreen.route);
+                        },
+                        child: Container(
+                          width: dimensions.width146,
+                          height: dimensions.height10,
+                          margin: EdgeInsets.only(right: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x2600579E),
+                                blurRadius: 12,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
                                 width: dimensions.width169,
-                                height: dimensions.height172,
-                                backgroundColor: Colors.white,
-                                borderColor: Colors.transparent,
+                                height: dimensions.height105 * 0.95,
+                                child: Image(
+                                  image: CachedNetworkImageProvider(
+                                      value.generalProduct[index].set[0].image[0]),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(height: dimensions.height24 / 5),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Image container
-                                    Container(
-                                      width: dimensions.width169,
-                                      height: dimensions.height86,
-                                      child: Image(
-                                          image: AssetImage('assets/stationary/${index+1}.jpg')
-                                      ),
+                                    SizedBox(height: dimensions.height16,),
+                                    ReusableText(
+                                      text: '${value.generalProduct[index].board}',
+                                      fontSize: 14,
+                                      height: 0.11,
+                                      color: Color(0xFF058FFF),
+                                      fontWeight: FontWeight.w700,
                                     ),
-
-                                    // Book roll text hardcoded
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: dimensions.height8,
-                                        left: dimensions.width24 / 2,
-                                      ),
-                                      child: ReusableText(
-                                        text: setText[index],
-                                        fontSize: 12,
-                                        height: 0.11,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF03045E),
-                                      ),
-                                    ),
-
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: dimensions.height8 * 2,
-                                        left: dimensions.width24 / 2,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    SizedBox(height: dimensions.height16,),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: '${value.generalProduct[index].set[0].price} ',
+                                        style: const TextStyle(
+                                          color: Color(0xFFB7B7B7),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          fontFamily: 'nunito',
+                                          decoration: TextDecoration.lineThrough,
+                                        ),
                                         children: [
-                                          ReusableText(
-                                            text: '₹ 150',
-                                            fontSize: 12,
-                                            height: 0.11,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xFF03045E),
-                                          ),
-
-                                          // Plus minus button functional
-                                          ReusableColoredBox(
-                                            width: dimensions.width80 / 1.25,
-                                            height: dimensions.height24,
-                                            backgroundColor: Colors.white,
-                                            borderColor: Colors.black,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  child: Icon(Icons.remove),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      // if (setCartQuantities[
-                                                      // index] >
-                                                      //     0) {
-                                                      //   setCartQuantities[
-                                                      //   index]--;
-                                                      // }
-                                                    });
-                                                  },
-                                                ),
-                                                ReusableText(
-                                                  text:
-                                                  '0',
-                                                  fontSize: 12,
-                                                  height: 0.10,
-                                                ),
-                                                GestureDetector(
-                                                  child: Icon(Icons.add),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      // setCartQuantities[index]++;
-                                                    });
-                                                  },
-                                                ),
-                                              ],
+                                          TextSpan(
+                                            text: ' ₹ ${value.generalProduct[index].set[0].salePrice}',
+                                            style: const TextStyle(
+                                              color: Color(0xFF121212),
+                                              fontWeight: FontWeight.w700,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
+                                    SizedBox(height: dimensions.height24 / 3),
+                                    // SizedBox(height: dimensions.height24 / 3),
+                                    // Row(
+                                    //   children: List.generate(
+                                    //     5,
+                                    //         (index) => Icon(
+                                    //       Icons.star,
+                                    //       size: 16,
+                                    //       color: Color(0xFF058FFF),
+                                    //     ),
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),
-                            );
-                          },
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      );
+                    }),
               ),
+              // accesories
+              SizedBox(height: dimensions.height16,),
+              Padding(
+                padding:EdgeInsets.symmetric(horizontal: dimensions.width16,vertical: dimensions.height8),
+                child: ReusableText(text: 'Frequently Bought Together', fontSize: 18),
+              ),
+              SizedBox(height: dimensions.height16,),
+              categoryRepo.category.isNotEmpty
+                  ? Container(
+                height: dimensions.height10 * 17,
+                width: dimensions.screenWidth,
+                // color: Colors.red,
+                padding: EdgeInsets.only(left: dimensions.width16),
+                child: ListView.builder(
+                    itemCount: categoryRepo.category.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      // print(categoryRepo.category.length);
+                      var selectedModel = categoryRepo.category[index];
+                      return (selectedModel.categoryId != value.selectedProduct.categoryId) ?GestureDetector(
+                        onTap: () {
+                          context
+                              .read<CategoryRepository>()
+                              .selectedCategory = selectedModel;
+                          context
+                              .read<GeneralProductRepository>()
+                              .getGeneralProductFromFirebase(
+                              selectedModel.categoryId);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      GeneralProductScreen(
+                                          product: selectedModel.name)));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              right: dimensions.width16,
+                              bottom: dimensions.height10),
+                          width: dimensions.width146,
+                          height: dimensions.height10,
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                width: 0.50,
+                                strokeAlign:
+                                BorderSide.strokeAlignOutside,
+                                color: Color(0xFFD6D6D6),
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x2600579E),
+                                blurRadius: 12,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: dimensions.width146,
+                                height: dimensions.height10 * 9,
+                                child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12)),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.fitHeight,
+                                      imageUrl: selectedModel.image,
+                                    )),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: dimensions.width24 / 3,
+                                    vertical: dimensions.height10 * 2),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    ReusableText(
+                                      text: selectedModel.name,
+                                      fontSize: 14,
+                                      color: Color(0xFF444444),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    SizedBox(
+                                      height: dimensions.height10 * 2,
+                                    ),
+                                    ReusableText(
+                                      text: selectedModel.offers,
+                                      fontSize: 14,
+                                      color: Color(0xFF121212),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ) : Container();
+                    }),
+              )
+                  : Center(
+                  child: SpinKitChasingDots(
+                    color: AppColors.primaryColor,
+                    size: 24,
+                  )),
 
               SizedBox(
                 height: dimensions.height24 / 3,

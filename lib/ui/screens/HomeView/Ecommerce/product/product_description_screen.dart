@@ -532,6 +532,11 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 ),
 
                 // accesories
+
+
+                SizedBox(
+                  height: dimensions.height24 ,
+                ),
                 ReusableColoredBox(
                   width: dimensions.screenWidth,
                   height: dimensions.height8 * 27,
@@ -546,7 +551,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       children: [
                         //complete your set with -> text
                         ReusableText(
-                          text: 'Complete your set',
+                          text: 'Explore More',
                           fontSize: 18,
                           height: 0.09,
                           fontWeight: FontWeight.w700,
@@ -557,7 +562,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         ),
                         Expanded(
                           child: ListView.builder(
-                              itemCount: schoolData.selectedSchool.productsId.length -1,
+                              itemCount: schoolData.selectedSchool.productsId.length ,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context,index){
                                 var product = productView.productData[index];
@@ -687,10 +692,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   ),
                 ),
 
-                SizedBox(
-                  height: dimensions.height24 ,
-                ),
-
+                SizedBox(height: dimensions.height24,),
                 Padding(
                     padding: EdgeInsets.only(left: dimensions.width24),
                     child: ReusableText(text: 'Frequently Brought Together', fontSize: 18,fontWeight: FontWeight.w700,color: Color(0xFF121212),)),
