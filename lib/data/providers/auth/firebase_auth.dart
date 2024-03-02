@@ -97,9 +97,10 @@ class AuthProvider extends ChangeNotifier {
       String errorMessage = "An error occurred during sign-in.";
 
       if (e is FirebaseAuthException) {
+        print(e.code);
         if (e.code == 'user-not-found') {
           errorMessage = "No user found with this email.";
-        } else if (e.code == 'wrong-password') {
+        } else if (e.code == 'invalid-credential') {
           errorMessage = "Incorrect password.";
         } else {
           errorMessage = "Error: ${e.message}";
@@ -290,6 +291,7 @@ class AuthProvider extends ChangeNotifier {
       String errorMessage = "An error occurred during sign-up.";
 
       if (e is FirebaseAuthException) {
+        print(e.code);
         if (e.code == 'email-already-in-use') {
           errorMessage = "The email address is already in use.";
         } else {

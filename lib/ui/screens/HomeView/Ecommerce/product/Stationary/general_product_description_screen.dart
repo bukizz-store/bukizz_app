@@ -44,7 +44,6 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
   void initState() {
     // TODO: implement initState
     pinController.text = AppConstants.userData.address.pinCode;
-    checkDeliverable();
     super.initState();
   }
   @override

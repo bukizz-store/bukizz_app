@@ -27,7 +27,7 @@ class OrderDetailsScreen extends StatefulWidget {
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   double totalPrice = 0;
   double salePrice = 0;
-  bool dropDown = true;
+  bool dropDown = false;
   @override
   Widget build(BuildContext context) {
     BottomNavigationBarProvider provider =

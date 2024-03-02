@@ -47,8 +47,6 @@ class _AddAddressState extends State<AddAddress> {
             SizedBox(
               height: dimensions.height8 * 1.5,
             ),
-            //container with step 1 2 3
-
             Container(
               width: dimensions.screenWidth,
               height: dimensions.height8 * 62,
@@ -60,6 +58,9 @@ class _AddAddressState extends State<AddAddress> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: dimensions.height8 * 1.5,
+                      ),
                       CustomTextForm(
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,

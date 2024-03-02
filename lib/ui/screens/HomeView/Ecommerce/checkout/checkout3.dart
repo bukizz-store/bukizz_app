@@ -25,7 +25,7 @@ class Checkout3 extends StatefulWidget {
 
 class _Checkout3State extends State<Checkout3> {
   String selectedUpiProvider = "google_pay";
-  bool drop_down = false;
+  bool drop_down = true;
   bool upi = true;
   bool cod = true;
 
