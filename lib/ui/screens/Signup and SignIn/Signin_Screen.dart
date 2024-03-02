@@ -134,16 +134,15 @@ class _SignInState extends State<SignIn> {
                 ReusableTextField('Your Password', Icons.lock_outline, true,
                     _passwordTextController),
 
-                SizedBox(
-                  height: dimensions.height10,
-                ),
                 TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, ForgotPasswordScreen.route);
                     },
                     child: ReusableText(
-                      text: "Forget Password",
+                      text: "Forget Password ?",
                       fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blue,
                     )),
                 //login button
                 ReusableElevatedButton(

@@ -57,6 +57,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 28.sp,),
               //image for pageview container
               Stack(
                 children: [

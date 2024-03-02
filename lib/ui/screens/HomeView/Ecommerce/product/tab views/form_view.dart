@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/buttons/Reusable_Button.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
@@ -74,13 +75,15 @@ class _FormsState extends State<Forms> {
                   ),
                 ),
               ),
+              SizedBox(height: dimensions.height32,),
+              ReusableText(text: "Currently we are not accepting admissions!", fontSize: 16,color: Colors.red,fontWeight: FontWeight.w700,),
               SizedBox(height: dimensions.height8*2,),
-              ReusableText(
-                text: 'Admission Open',
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF39A7FF),
-              ),
+              // ReusableText(
+              //   text: 'Admission Open',
+              //   fontSize: 16,
+              //   fontWeight: FontWeight.w700,
+              //   color: Color(0xFF39A7FF),
+              // ),
               SizedBox(height: dimensions.height8*4,),
               ReusableText(
                 text: 'Student’s Details',
@@ -206,7 +209,9 @@ class _FormsState extends State<Forms> {
               ReusableElevatedButton(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                onPressed: (){},
+                onPressed: (){
+                  AppConstants.showSnackBar(context, 'Comming Soon', Colors.grey, Icons.lock_clock);
+                },
                 buttonText: 'Apply Now'
               )
             ],
