@@ -1,9 +1,11 @@
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class OrderModel {
   String orderId;
@@ -12,11 +14,13 @@ class OrderModel {
   String orderName;
   double totalAmount;
   double saleAmount;
+  int deliveryCharge;
   Address address;
   Map<String , dynamic> cartData;
   int cartLength;
   String status;
   String reviewId;
+  String retailerId;
   String transactionId;
 
   OrderModel({
@@ -30,7 +34,9 @@ class OrderModel {
     required this.address,
     required this.cartLength,
     required this.status,
+    required this.deliveryCharge,
     required this.transactionId,
+    required this.retailerId,
     this.reviewId = '',
   });
 
@@ -47,7 +53,9 @@ class OrderModel {
       'status': status,
       'cartLength' : cartLength,
       'reviewId': reviewId,
-      'transactionId' : transactionId
+      'transactionId' : transactionId,
+      'deliveryCharge' : deliveryCharge,
+      'retailerId' : retailerId,
     };
   }
 
@@ -65,6 +73,8 @@ class OrderModel {
       status: map['status'] ?? deliveryStatus.Initiated.name,
       reviewId: map['reviewId'] ?? '',
       transactionId: map['transactionId'] ?? '',
+      deliveryCharge: map['deliveryCharge'] ?? 0,
+      retailerId: map['retailerId'] ?? '',
     );
   }
 
@@ -95,7 +105,7 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(orderId: $orderId, userId: $userId, orderName: $orderName, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address , status: $status , reviewId: $reviewId , transactionId: $transactionId)';
+    return 'OrderModel(orderId: $orderId, userId: $userId, orderName: $orderName, orderDate: $orderDate, totalAmount: $totalAmount, cartData: $cartData , address: $address , status: $status , reviewId: $reviewId , transactionId: $transactionId , deliveryCharge: $deliveryCharge , saleAmount: $saleAmount , cartLength: $cartLength)';
   }
 
   @override
@@ -114,6 +124,7 @@ class OrderModel {
     other.address == address &&
     other.transactionId == transactionId &&
     other.reviewId == reviewId &&
+    other.deliveryCharge == deliveryCharge &&
     other.status == status;
   }
 
@@ -130,6 +141,7 @@ class OrderModel {
     status.hashCode ^
     reviewId.hashCode ^
     transactionId.hashCode ^
+    deliveryCharge.hashCode ^
     cartData.hashCode;
 
   }
@@ -148,6 +160,8 @@ class OrderModel {
       reviewId: snap['reviewId'],
       transactionId: snap['transactionId'],
       address: Address.fromMap(snap['address']),
+      deliveryCharge: snap['deliveryCharge'],
+      retailerId: snap['retailerId'],
     );
   }
 
@@ -165,7 +179,20 @@ class OrderModel {
       'address': address,
       'reviewId': reviewId,
       'transactionId': transactionId,
+      'deliveryCharge': deliveryCharge,
     };
   }
+
+  //Method to add a field in all the order data in the firebase in collection orderDetails
+  // static Future<void> addFieldInOrderData() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('orderDetails').get().then((value) =>
+  //       value.docs.forEach((element) {
+  //         FirebaseFirestore.instance
+  //             .collection('orderDetails')
+  //             .doc(element.id)
+  //             .update({'deliveryCharge': Random().nextInt(100), 'retailerId': ''}).then((value) => debugPrint('Field added'));
+  //       }));
+  // }
 }
 

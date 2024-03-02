@@ -501,7 +501,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 horizontal: dimensions.width16 * 0.8,
                                 vertical: dimensions.height8),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+
+                              },
                               //
                               child: Stack(
                                 children: [

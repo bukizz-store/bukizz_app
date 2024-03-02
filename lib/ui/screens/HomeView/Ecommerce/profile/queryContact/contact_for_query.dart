@@ -81,26 +81,32 @@ class _KnowMoreScreenState extends State<KnowMoreScreen> {
                     SizedBox(height: dimensions.height16*2,),
                     ReusableText(text: 'Describe your Query ', fontSize: 16,color: Color(0xFF121212),),
                     SizedBox(height: dimensions.height10,),
-                    Container(
-                      width: dimensions.width16 * 21.5,
-                      height: dimensions.height10*17.2,
-                      child: TextField(
-                        controller: messageController,
-                        maxLines: 5,
-                        decoration: const InputDecoration(
-                          hintText: 'Type your message here...',
-                          hintStyle: TextStyle(color: Color(0xFF7A7A7A)),
-                          border: OutlineInputBorder(borderSide: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),),
-                          contentPadding: EdgeInsets.all(12),
-                        ),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black, // Set the text color here
-                        ),
-                      ),
-                    ),
+          Container(
+            width: dimensions.width16 * 21.5,
+            height: dimensions.height10 * 17.2,
+            child: TextField(
+              controller: messageController,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: 'Type your message here...',
+                hintStyle: TextStyle(color: Color(0xFF7A7A7A)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10), // Add border radius
+                  borderSide: BorderSide(width: 0.5, color: Color(0xFFD6D6D6)),
+                ),
+                contentPadding: EdgeInsets.all(12),
+                filled: true, // Fill the container with background color
+                fillColor: Color(0xFFF5F5F5), // Set background color
+              ),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+          ),
 
-                  ],
+
+          ],
                 ),
               ),
             ],

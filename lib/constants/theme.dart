@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class AppTheme{
   static ThemeData instance = lightThemeData;
   static ThemeData lightThemeData = ThemeData(
-    hintColor: Colors.black,
+    hintColor: Colors.grey,
+
     scaffoldBackgroundColor:Color(0xFFF5FAFF),//Color(0xFFE0EFFF)
     splashColor: Colors.transparent,
     elevatedButtonTheme: ElevatedButtonThemeData(

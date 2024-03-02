@@ -5,7 +5,10 @@ import 'package:bukizz/constants/shared_pref_helper.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../constants/colors.dart';
 
 class UpdateUserData extends ChangeNotifier{
   Future updateUserAddress(Address address)async {
@@ -42,4 +45,30 @@ class UpdateUserData extends ChangeNotifier{
     AppConstants.location = prefs.getString(SharedPrefHelper.location)! ?? '';
     notifyListeners();
   }
+
+  Future<void> updateUserData(BuildContext context , String name , String mobile , String email) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('userDetails')
+          .doc(AppConstants.userData.uid)
+          .update({
+        'name': name,
+        'mobile': mobile,
+        'email': email,
+      }).then((value) async{
+        AppConstants.userData.name = name;
+        AppConstants.userData.mobile = mobile;
+        AppConstants.userData.email = email;
+        AppConstants.showSnackBar(context, 'Profile Updated', AppColors.success, Icons.check_circle_outline);
+      }).catchError((e) {
+        AppConstants.showSnackBar(context, 'Error in Updating Profile', AppColors.error, Icons.error_outline_rounded);
+      });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
+      Navigator.of(context).pop();
+    } catch (e) {
+      print('Error updating user data: $e');
+    }
+  }
+
 }

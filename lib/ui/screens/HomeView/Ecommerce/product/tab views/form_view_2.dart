@@ -18,6 +18,15 @@ class _Forms2State extends State<Forms2> {
   TextEditingController emailController=TextEditingController();
   TextEditingController addressController=TextEditingController();
   TextEditingController messageController=TextEditingController();
+  TextEditingController aadharController=TextEditingController();
+  TextEditingController genderController=TextEditingController();
+  TextEditingController cityController=TextEditingController();
+  TextEditingController stateController=TextEditingController();
+  TextEditingController pinController=TextEditingController();
+  TextEditingController fatherNController=TextEditingController();
+  TextEditingController motherNController=TextEditingController();
+  TextEditingController fatherCController=TextEditingController();
+  TextEditingController motherCController=TextEditingController();
   List<String> list = <String>[ 'Wisdom World School', 'DAV Public School','ABC Public School'];
   String ?dropdownValue ;
   @override
@@ -54,6 +63,7 @@ class _Forms2State extends State<Forms2> {
               ),
               SizedBox(height: dimensions.height8*1.5,),
               CustomTextForm(
+                isEmail: false,
                 width: dimensions.width342,
                 height: dimensions.height48,
                 controller: addressController,
@@ -64,7 +74,7 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: genderController,
                 hintText:   'Gender (Required) *',
                 labelText: 'Gender',
               ),
@@ -72,7 +82,7 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: aadharController,
                 hintText:    'Aadhar No. (Required) *',
                 labelText: 'Aadhar No.',
               ),
@@ -88,7 +98,7 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: addressController,
                 hintText:    'Street Address (Required) *',
                 labelText: 'Address',
               ),
@@ -96,7 +106,7 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: cityController,
                 hintText:    'City (Required) *',
                 labelText: 'City',
               ),
@@ -104,7 +114,7 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: stateController,
                 hintText:    'State (Required) *',
                 labelText: 'State',
               ),
@@ -112,9 +122,10 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: pinController,
                 hintText:    'Pin Code (Required) *',
                 labelText: 'Pin Code',
+                isEmail: false,
               ),
               SizedBox(height: dimensions.height16,),
               ReusableText(
@@ -127,7 +138,7 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: fatherNController,
                 hintText:    'Father’s Name',
                 labelText: 'Father’s Name',
               ),
@@ -135,7 +146,7 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: motherNController,
                 hintText:    'Mother’s name',
                 labelText: 'Mother’s name',
               ),
@@ -143,15 +154,17 @@ class _Forms2State extends State<Forms2> {
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: fatherCController,
                 hintText:    'Father’s Contact No.',
                 labelText: 'Father’s Contact No.',
+                isEmail: false,
               ),
               SizedBox(height: dimensions.height16,),
               CustomTextForm(
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: emailController,
+                controller: motherCController,
+                isEmail: false,
                 hintText:    'Mother’s Contact No.', labelText:    'Mother’s Contact No.',
               ),
               SizedBox(height: dimensions.height16,),

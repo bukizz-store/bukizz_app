@@ -1,3 +1,4 @@
+import 'package:bukizz/data/providers/auth/updateUserData.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,9 @@ class _AddressScreen1State extends State<AddressScreen1> {
               controller: _nameController,
               decoration:InputDecoration(
                 labelText: 'Full Name *',
+                labelStyle: TextStyle(
+                  color: Colors.grey.withOpacity(0.6)
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(100),
                   borderSide: BorderSide(color: Color(0xFF7A7A7A)),
@@ -58,6 +62,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
                   borderSide: BorderSide(color: Colors.black38),
                 ),
                 contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
+                
               ),
             ),
           ),
@@ -73,6 +78,9 @@ class _AddressScreen1State extends State<AddressScreen1> {
               inputFormatters:[FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
               decoration:InputDecoration(
                 labelText: 'Phone Number *',
+                labelStyle: TextStyle(
+                  color: Colors.grey.withOpacity(0.6)
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(100),
                   borderSide: BorderSide(color: Color(0xFF7A7A7A)),
@@ -94,6 +102,9 @@ class _AddressScreen1State extends State<AddressScreen1> {
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               decoration:InputDecoration(
+                labelStyle: TextStyle(
+                  color: Colors.grey.withOpacity(0.6)
+                ),
                 labelText: 'Email Address *',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(100),
@@ -182,7 +193,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
               width: dimensions.width342,
               height: dimensions.height10 * 5.4,
               onPressed: () {
-
+                context.read<UpdateUserData>().updateUserData(context, _nameController.text, _phoneController.text, _emailController.text);
               },
               buttonText: 'Save Changes'
           ),

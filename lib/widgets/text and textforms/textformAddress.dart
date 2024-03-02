@@ -11,7 +11,7 @@ class CustomTextForm extends StatelessWidget {
   final String labelText;
   final bool isPhoneNo;
   final bool isPinCode;
-  final bool isEmail;
+   bool isEmail;
 
   CustomTextForm({
     required this.width,
@@ -22,7 +22,7 @@ class CustomTextForm extends StatelessWidget {
     this.labelText = '',
     this.isPhoneNo = false,
     this.isPinCode = false,
-    this.isEmail = false,
+    this.isEmail = true,
   });
 
   @override
@@ -52,6 +52,9 @@ class CustomTextForm extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
           hintText: hintText,
           labelText: labelText,
+          labelStyle: TextStyle(
+            color: Colors.grey
+          ),
           hintStyle: const TextStyle(
             color: Color(0xFF7A7A7A),
             fontSize: 14,

@@ -25,7 +25,7 @@ class Checkout3 extends StatefulWidget {
 
 class _Checkout3State extends State<Checkout3> {
   String selectedUpiProvider = "google_pay";
-  bool drop_down = true;
+  bool drop_down = false;
   bool upi = true;
   bool cod = true;
 
@@ -144,7 +144,7 @@ class _Checkout3State extends State<Checkout3> {
                                   children: [
                                     ReusableText(
                                       text: 'Total amount',
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       color: Color(0xFF282828),
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -185,7 +185,7 @@ class _Checkout3State extends State<Checkout3> {
                         children: [
                           ReusableText(
                             text: 'Price Detailes',
-                            fontSize: 16,
+                            fontSize: 18,
                             color: Color(0xFF282828),
                             fontWeight: FontWeight.w700,
                           ),
@@ -197,13 +197,13 @@ class _Checkout3State extends State<Checkout3> {
                             children: [
                               ReusableText(
                                 text: 'Price (${cartData.cart_val} items)',
-                                fontSize: 12,
+                                fontSize: 16,
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
                               ),
                               ReusableText(
                                 text: '₹${cartData.getTotalPrice}',
-                                fontSize: 12,
+                                fontSize: 16,
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w500,
                               )
@@ -217,14 +217,14 @@ class _Checkout3State extends State<Checkout3> {
                             children: [
                               ReusableText(
                                 text: 'Discount',
-                                fontSize: 12,
+                                fontSize: 16,
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
                               ),
                               ReusableText(
                                 text:
                                     '-₹${cartData.getTotalPrice - cartData.getSalePrice}',
-                                fontSize: 12,
+                                fontSize: 16,
                                 color: Color(0xFF038B10),
                                 fontWeight: FontWeight.w500,
                               )
@@ -237,14 +237,14 @@ class _Checkout3State extends State<Checkout3> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ReusableText(
-                                text: 'Delivery Charges',
-                                fontSize: 12,
+                                text: 'Packaging & Handling Charges',
+                                fontSize: 16,
                                 color: Color(0xFF7A7A7A),
                                 fontWeight: FontWeight.w500,
                               ),
                               ReusableText(
-                                text: '₹40',
-                                fontSize: 12,
+                                text: '₹${cartData.getDelivery}',
+                                fontSize: 16,
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w500,
                               )
@@ -266,12 +266,12 @@ class _Checkout3State extends State<Checkout3> {
                             children: [
                               ReusableText(
                                   text: 'Total Amount',
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   color: Color(0xFF282828),
                                   fontWeight: FontWeight.w700),
                               ReusableText(
-                                text: '₹${cartData.getSalePrice + 40}',
-                                fontSize: 12,
+                                text: '₹${cartData.getSalePrice + cartData.getDelivery}',
+                                fontSize: 16,
                                 color: Color(0xFF121212),
                                 fontWeight: FontWeight.w500,
                               )
@@ -291,9 +291,9 @@ class _Checkout3State extends State<Checkout3> {
                           ReusableText(
                             text:
                                 'You will save ₹${cartData.getTotalPrice - cartData.getSalePrice} on this order',
-                            fontSize: 12,
+                            fontSize: 16,
                             color: Color(0xFF038B10),
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                           )
                         ],
                       ),
@@ -753,11 +753,13 @@ void showCustomAboutDialog(BuildContext context , Function onTap) {
                         width: dimensions.width10*11.5,
                         height: dimensions.height10*3.5,
                         decoration: ShapeDecoration(
-                          color: Color(0xFF058FFF),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                         child: Center(
-                          child: ReusableText(text: 'Cancel', fontSize: 14,fontWeight: FontWeight.w600, color:Colors.white,),
+                          child: ReusableText(text: 'Cancel', fontSize: 14,fontWeight: FontWeight.w600, color: Color(0xFF00579E),),
                         ),
                       ),
                     ),
@@ -769,13 +771,11 @@ void showCustomAboutDialog(BuildContext context , Function onTap) {
                         width: dimensions.width10*11.5,
                         height: dimensions.height10*3.5,
                         decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
+                          color: Color(0xFF058FFF),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ),
                         child: Center(
-                          child: ReusableText(text: 'Confirm Order', fontSize: 14,fontWeight: FontWeight.w600, color: Color(0xFF00579E),),
+                          child: ReusableText(text: 'Confirm Order', fontSize: 14,fontWeight: FontWeight.w600, color:Colors.white,),
                         ),
                       ),
                     ),

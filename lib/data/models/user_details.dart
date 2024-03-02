@@ -187,4 +187,7 @@ class MainUserDetails {
       orderID: snapshot['orderID'] ?? [],
     );
   }
+
+  //Create a function to update name , phone , email address of a user
+
 }

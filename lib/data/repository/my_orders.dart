@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import '../models/ecommerce/order_model.dart';
 import '../models/ecommerce/products/product_model.dart';
 
-class MyOrders with ChangeNotifier{
+class MyOrders with ChangeNotifier {
   List<OrderModel> orders = [];
 
   List<OrderModel> get getOrders => orders;
@@ -24,22 +24,32 @@ class MyOrders with ChangeNotifier{
     notifyListeners();
   }
 
-  late OrderModel _selectedOrderModel ;
+  late OrderModel _selectedOrderModel;
 
   OrderModel get selectedOrderModel => _selectedOrderModel;
 
-  set selectedOrderModel(value)
-  {
+  set selectedOrderModel(value) {
     _selectedOrderModel = value;
     notifyListeners();
   }
-  // Map<SchoolName , Map<productId , Map<set , Map<stream , quantity>>>>
-  Map<String , Map<String , Map<String , Map<String , List<dynamic>>>>> selectedOrder = {};
 
-  void setOrder(int index)
-  {
+  int cartLength = 0;
+
+  int get getCartLength => cartLength;
+
+  set setCartLength(value) {
+    cartLength = value;
+    notifyListeners();
+  }
+
+  // Map<SchoolName , Map<productId , Map<set , Map<stream , quantity>>>>
+  Map<String, Map<String, Map<String, Map<String, List<dynamic>>>>>
+  selectedOrder = {};
+
+  void setOrder(int index) {
     selectedOrderModel = orders[index];
-    Map<String , Map<String , Map<String , Map<String , List<dynamic>>>>> productsIdMap = {};
+    Map<String, Map<String, Map<String, Map<String, List<dynamic>>>>>
+    productsIdMap = {};
     selectedOrderModel.cartData.forEach((school, schoolData) {
       productsIdMap[school] = {};
       schoolData.forEach((product, productData) {
@@ -48,7 +58,8 @@ class MyOrders with ChangeNotifier{
           productsIdMap[school]![product]![key1] = {};
           innerMap.forEach((key2, value) {
             productsIdMap[school]![product]![key1]![key2] = value;
-            getCartProduct(product, school , key1 , key2 ,  value);
+            setCartLength = value[0];
+            getCartProduct(product, school, key1, key2, value);
           });
         });
       });
@@ -57,17 +68,25 @@ class MyOrders with ChangeNotifier{
     notifyListeners();
   }
 
+  String image = '';
+
+  String get getImage => image;
+
+  set setImage(String value){
+    image = value;
+  }
+
   bool _isOrderDataLoaded = false;
+
   bool get isOrderDataLoaded => _isOrderDataLoaded;
 
-  void setIsOrderDataLoaded(bool value)
-  {
+  void setIsOrderDataLoaded(bool value) {
     _isOrderDataLoaded = value;
     notifyListeners();
   }
 
-
-  void getCartProduct(String productId , String schoolName ,String set , String stream ,  List<dynamic> quantity) async {
+  void getCartProduct(String productId, String schoolName, String set,
+      String stream, List<dynamic> quantity) async {
     setIsOrderDataLoaded(false);
     // if (products.any((element) => element.productId != productId)) {
     switch (stream) {
@@ -76,7 +95,8 @@ class MyOrders with ChangeNotifier{
             .collection('generalProduct')
             .where('productId', isEqualTo: productId)
             .get()
-            .then((value) => ProductModel.fromGeneralMap(value.docs.first.data()));
+            .then((value) =>
+            ProductModel.fromGeneralMap(value.docs.first.data()));
         addCartData(product);
         break;
       default:
@@ -101,14 +121,12 @@ class MyOrders with ChangeNotifier{
 
   List<ProductModel> orderedProduct = [];
 
-
   void addProduct(ProductModel productModel) {
-    if(!orderedProduct.contains(productModel)){
+    if (!orderedProduct.contains(productModel)) {
       orderedProduct.add(productModel);
     }
     notifyListeners();
   }
-
 
   void addCartData(ProductModel productModel) {
     addProduct(productModel);
@@ -120,18 +138,30 @@ class MyOrders with ChangeNotifier{
   // and then set the orders list with the fetched data
   Future<void> fetchOrders() async {
     print(AppConstants.userData.orderID);
+    if (AppConstants.userData.orderID.isEmpty) {
+      setIsOrdersLoaded(true);
+      return;
+    }
     setIsOrdersLoaded(false);
     List<OrderModel> tempOrders = [];
-    await FirebaseFirestore.instance.collection('orderDetails').where('orderId' , whereIn: AppConstants.userData.orderID).get().then((value) {
-      value.docs.forEach((element) {
-        tempOrders.add(OrderModel.fromMap(element.data()));
-        print(element.data());
-        // Map<String, dynamic> map = element.data()['cartData'];
-      });
+    await FirebaseFirestore.instance
+        .collection('orderDetails')
+        .where('orderId', whereIn: AppConstants.userData.orderID)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        value.docs.forEach((element) {
+          tempOrders.add(OrderModel.fromMap(element.data()));
+          print(element.data());
+          // Map<String, dynamic> map = element.data()['cartData'];
+        });
+      }
     });
     tempOrders.sort((a, b) => b.orderDate.compareTo(a.orderDate));
     setOrders(tempOrders);
     setIsOrdersLoaded(true);
     notifyListeners();
   }
+
+
 }

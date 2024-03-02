@@ -66,7 +66,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
             ),
             Container(
               width: dimensions.screenWidth,
-              height: 70.h,
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -81,6 +80,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         hintText: 'Full Name (Required) *',
                         labelText: 'Full Name',
                         controller: nameController,
+                        isEmail: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -138,17 +138,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         ),
                       ),
                       SizedBox(height: dimensions.height16,),
-                      CustomTextForm(
-                        width: dimensions.screenWidth,
-                        height: dimensions.height8 * 5.5,
-                        hintText: 'Pin Code (Required) *',
-                        labelText: 'Pin Code',
-                        controller: pinCodeController,
-                        isPinCode: true,
-                      ),
-                      SizedBox(
-                        height: dimensions.height8 * 2,
-                      ),
+
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -198,6 +188,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             hintText: 'State (Required) *',
                             labelText: 'State',
                             controller: stateController,
+                            isEmail: true,
                           ),
                           CustomTextForm(
                             width: dimensions.width16 * 9.2,
@@ -205,6 +196,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             hintText: 'City (Required) *',
                             labelText: 'City',
                             controller: cityController,
+                            isEmail: true,
                           ),
                         ],
                       ),
@@ -217,6 +209,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         hintText: 'House No., Building Name (Required) *',
                         labelText: 'House No.',
                         controller: buildingnameController,
+                        isEmail: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -227,7 +220,20 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         hintText: 'Road name, Area, Colony (Required) *',
                         labelText: 'Road Name',
                         controller: addressController,
+                        isEmail: true,
                       ),
+                      SizedBox(
+                        height: dimensions.height8 * 2,
+                      ),
+                      CustomTextForm(
+                        width: dimensions.screenWidth,
+                        height: dimensions.height8 * 5.5,
+                        hintText: 'Pin Code (Required) *',
+                        labelText: 'Pin Code',
+                        controller: pinCodeController,
+                        isPinCode: true,
+                      ),
+
                     ],
                   ),
                 ),

@@ -42,6 +42,15 @@ class CartViewRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  int delivery = 0;
+
+  int get getDelivery => delivery;
+
+  void setDelivery(int value){
+    delivery = value;
+    notifyListeners();
+  }
+
   List<ProductModel> products = [];
 
   Map<String , Map<String , Map<String , Map<String , int>>>> cartData = {};

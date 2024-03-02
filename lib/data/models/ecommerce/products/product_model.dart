@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:bukizz/data/models/ecommerce/products/variation/set_model.dart';
 import 'package:bukizz/data/models/ecommerce/products/variation/stream_model.dart';
@@ -16,7 +17,9 @@ class ProductModel {
   String classId;
   String board;
   String retailerId;
+  int deliveryCharge;
   List<StreamData> stream;
+  List<String> city;
   List<SetData> set;
   List<dynamic> reviewIdList;
   Map<String , dynamic> variation;
@@ -32,7 +35,9 @@ class ProductModel {
     required this.set,
     required this.retailerId,
     required this.reviewIdList,
+    required this.deliveryCharge,
     required this.variation,
+    required this.city,
   });
 
   Map<String, dynamic> toMap() {
@@ -48,6 +53,8 @@ class ProductModel {
       'retailerId': retailerId,
       'reviewIdList': reviewIdList,
       'variation': variation,
+      'city': city,
+      'deliveryCharge': deliveryCharge,
     };
   }
 
@@ -74,6 +81,8 @@ class ProductModel {
       retailerId: map['retailerId'] ?? '',
       reviewIdList: List<dynamic>.from(map['reviewIdList'] ?? []),
       variation: convertedVariationMap,
+      city: List<String>.from(map['city'] ?? []),
+      deliveryCharge: map['deliveryCharge'] ?? 0,
     );
   }
 
@@ -100,6 +109,8 @@ class ProductModel {
       retailerId: map['retailerId'] ?? '',
       reviewIdList: List<dynamic>.from(map['reviewIdList'] ?? []),
       variation: convertedVariationMap,
+      city: List<String>.from(map['city'] ?? []),
+      deliveryCharge: map['deliveryCharge'] ?? 0,
     );
   }
 
@@ -117,6 +128,8 @@ class ProductModel {
       retailerId: json['retailerId'] ?? '',
       reviewIdList: List<dynamic>.from(json['reviewIdList'] ?? []),
       variation:  Map<String , Map<String , Variation>>.from(json['variation'] ?? {}),
+      city: List<String>.from(json['city'] ?? []),
+      deliveryCharge: json['deliveryCharge'] ?? 0,
     );
   }
 
@@ -135,6 +148,8 @@ class ProductModel {
       set: List<SetData>.from(data['set'].map((x) => SetData.fromJson(x))),
       reviewIdList: List<dynamic>.from(data['reviewIdList']),
       variation: variationMap,
+      city: List<String>.from(data['city']),
+      deliveryCharge: data['deliveryCharge'],
     );
   }
 
@@ -230,8 +245,10 @@ class ProductModel {
       description: 'All the books for Class 12 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
       categoryId: 'Uniform',
       classId: '',
+      city: ['Kanpur'],
       board: 'POLO',
       retailerId: '',
+      deliveryCharge: 0,
       stream: [streamData,streamData2],
       set: [setData, setData2],
       reviewIdList: [],
@@ -289,6 +306,23 @@ class ProductModel {
   static void addProductData() {
     ProductModel product = randomProductData();
     FirebaseFirestore.instance.collection('products').add(product.toMap()).then((value) => print('Product added successfully'));
+  }
+
+  //function to update all the products in the firebase database containing a list of city
+  static void updateProductData() {
+    FirebaseFirestore.instance
+        .collection('products')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        FirebaseFirestore.instance
+            .collection('products')
+            .doc(element.id)
+            .update({
+          'deliveryCharge': Random().nextInt(100),
+        }).then((value) => print('Product updated successfully'));
+      });
+    });
   }
 
 

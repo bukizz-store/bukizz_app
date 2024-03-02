@@ -2,10 +2,12 @@ import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/repository/review/review_repository.dart';
 import 'package:bukizz/widgets/buttons/Reusable_Button.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../data/repository/my_orders.dart';
 import '../../../../../utils/dimensions.dart';
 import '../../../../../widgets/tick_screen/tick.dart';
 
@@ -44,10 +46,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Container(
                           width: dimensions.width10*7.6,
                           height: dimensions.height10*7.6,
-                          child: SvgPicture.asset(
-                            'assets/school/booksets/1.svg',
-                            fit: BoxFit.cover,
-                            color: Colors.red,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              dimensions.width10 * 7.6 / 8,
+                            ),
+                            child: CachedNetworkImage(
+                              // 'assets/school/booksets/${reviewData.productId.substring(3)}.svg',
+
+                              fit: BoxFit.cover,
+                              imageUrl: context.read<MyOrders>().getImage,
+                            ),
                           ),
                         ),
                         Column(
@@ -83,58 +91,58 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       ],
                     ),
                     SizedBox(height: dimensions.height8*4.2,),
-                    ReusableText(text: 'Add Photo or Video (optional)', fontSize: 16,fontWeight: FontWeight.w700, color: Color(0xFF121212)),
-                    SizedBox(height: dimensions.height8,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            AppConstants.showSnackBar(context, "Feature Coming Soon ....." , Colors.yellow , Icons.ac_unit_sharp);
-                          },
-                          style: OutlinedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                side: BorderSide(color: Color(0xFF00579E), ),
-                              ),
-                              padding: EdgeInsets.symmetric(horizontal: dimensions.width10*3.5)
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.camera_alt_outlined,color: Color(0xFF00579E),),
-                              ReusableText(
-                                text: 'Add Photo',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF00579E),
-                              ),
-                            ],
-                          ),
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            AppConstants.showSnackBar(context, "Feature Coming Soon ....." , Colors.yellow , Icons.ac_unit_sharp);
-                          },
-                          style: OutlinedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                side: BorderSide(color: Color(0xFF00579E), ),
-                              ),
-                              padding: EdgeInsets.symmetric(horizontal: dimensions.width10*3.5)
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.video_call_rounded,color: Color(0xFF00579E),),
-                              ReusableText(
-                                text: 'Add Video',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF00579E),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                      ],
-                    ),
+                    // ReusableText(text: 'Add Photo or Video (optional)', fontSize: 16,fontWeight: FontWeight.w700, color: Color(0xFF121212)),
+                    // SizedBox(height: dimensions.height8,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     OutlinedButton(
+                    //       onPressed: () {
+                    //         AppConstants.showSnackBar(context, "Feature Coming Soon ....." , Colors.yellow , Icons.ac_unit_sharp);
+                    //       },
+                    //       style: OutlinedButton.styleFrom(
+                    //           shape: const RoundedRectangleBorder(
+                    //             side: BorderSide(color: Color(0xFF00579E), ),
+                    //           ),
+                    //           padding: EdgeInsets.symmetric(horizontal: dimensions.width10*3.5)
+                    //       ),
+                    //       child: Row(
+                    //         children: [
+                    //           Icon(Icons.camera_alt_outlined,color: Color(0xFF00579E),),
+                    //           ReusableText(
+                    //             text: 'Add Photo',
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w600,
+                    //             color: Color(0xFF00579E),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     OutlinedButton(
+                    //       onPressed: () {
+                    //         AppConstants.showSnackBar(context, "Feature Coming Soon ....." , Colors.yellow , Icons.ac_unit_sharp);
+                    //       },
+                    //       style: OutlinedButton.styleFrom(
+                    //           shape: const RoundedRectangleBorder(
+                    //             side: BorderSide(color: Color(0xFF00579E), ),
+                    //           ),
+                    //           padding: EdgeInsets.symmetric(horizontal: dimensions.width10*3.5)
+                    //       ),
+                    //       child: Row(
+                    //         children: [
+                    //           Icon(Icons.video_call_rounded,color: Color(0xFF00579E),),
+                    //           ReusableText(
+                    //             text: 'Add Video',
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w600,
+                    //             color: Color(0xFF00579E),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //
+                    //   ],
+                    // ),
                     SizedBox(height: dimensions.height8*3,),
                     ReusableText(text: 'Write a Review (optional)', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
                     SizedBox(height: dimensions.height8*3,),
