@@ -23,9 +23,10 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(MyApp()));
 
-  await FirebaseApi().initNotifications();
+
   MainUserDetails? savedUser =
       await MainUserDetails.loadFromSharedPreferences();
+  await FirebaseApi().initNotifications();
 
   runApp(
     const MyApp(),
