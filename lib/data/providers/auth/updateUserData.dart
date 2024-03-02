@@ -20,7 +20,6 @@ class UpdateUserData extends ChangeNotifier{
 
     AppConstants.userData.address = address;
     String addresss = address.city;
-    saveLocationSetToSharedPreferences(addresss);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
     notifyListeners();
@@ -42,7 +41,7 @@ class UpdateUserData extends ChangeNotifier{
   Future saveLocationSetToSharedPreferences(String location) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(SharedPrefHelper.location, location);
-    AppConstants.location = prefs.getString(SharedPrefHelper.location)! ?? '';
+    AppConstants.location = location;
     notifyListeners();
   }
 

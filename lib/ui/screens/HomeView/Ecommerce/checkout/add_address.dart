@@ -208,8 +208,8 @@ class _AddAddressState extends State<AddAddress> {
                       CustomTextForm(
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
-                        hintText: 'Road name, Area, Colony (Required) *',
-                        labelText: 'Road Name/Area',
+                        hintText: 'Street name, Area, Colony (Required) *',
+                        labelText: 'Street',
                         controller: addressController,
                       ),
                     ],
@@ -223,11 +223,11 @@ class _AddAddressState extends State<AddAddress> {
       bottomNavigationBar: InkWell(
         onTap: () {
           //Save Address logic here
-          if(phoneController.text.length<10){
+          if(phoneController.text.length != 10 ){
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Number', AppColors.error, Icons.error_outline_rounded);
             return;
           }
-          if(pinCodeController.text.length<6){
+          if(pinCodeController.text.length !=6){
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Pincode', AppColors.error, Icons.error_outline_rounded);
             return;
           }
@@ -236,6 +236,15 @@ class _AddAddressState extends State<AddAddress> {
             AppConstants.showSnackBarTop(context, 'Please Enter a valid Email', AppColors.error, Icons.error_outline_rounded);
             return;
           }
+          if(buildingnameController.text.isEmpty) {
+              AppConstants.showSnackBarTop(context, 'Please Enter House No.', AppColors.error, Icons.error_outline_rounded);
+              return;
+            }
+          if(addressController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter Street Name', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+
           Address address = Address(name: nameController.text, houseNo: buildingnameController.text, street: fullAddress, city: cityController.text, state: stateController.text, pinCode: pinCodeController.text, phone: phoneController.text, email: emailController.text);
           context.read<UpdateUserData>().updateUserAlternateAddress(address);
           Navigator.of(context).pop();

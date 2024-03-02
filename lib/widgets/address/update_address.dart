@@ -217,8 +217,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       CustomTextForm(
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
-                        hintText: 'Road name, Area, Colony (Required) *',
-                        labelText: 'Road Name',
+                        hintText: 'Street name, Area, Colony (Required) *',
+                        labelText: 'Street',
                         controller: addressController,
                         isEmail: true,
                       ),
@@ -244,11 +244,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
-          if(phoneController.text.length<10){
+          if(phoneController.text.length != 10){
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Number', AppColors.error, Icons.error_outline_rounded);
             return;
           }
-          if(pinCodeController.text.length<6){
+          if(pinCodeController.text.length != 6){
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Pincode', AppColors.error, Icons.error_outline_rounded);
             return;
           }
@@ -257,11 +257,19 @@ class _UpdateAddressState extends State<UpdateAddress> {
             AppConstants.showSnackBarTop(context, 'Please Enter a valid Email', AppColors.error, Icons.error_outline_rounded);
             return;
           }
+          if(buildingnameController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter House No.', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if(addressController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter Street Name', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
           //Save Address logic here
           Address address = Address(
               name: nameController.text,
               houseNo: buildingnameController.text,
-              street: fullAddress,
+              street: addressController.text,
               city: cityController.text,
               state: stateController.text,
               pinCode: pinCodeController.text,
@@ -354,8 +362,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
         stateController.text = placemarks.first.administrativeArea ?? '';
         cityController.text = placemarks.first.locality ?? '';
         buildingnameController.text = placemarks.first.name ?? '';
-        addressController.text = fullAddress;
         fullAddress = '$colony, $street, $sector';
+        addressController.text = fullAddress;
       });
     }
   }

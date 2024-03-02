@@ -28,6 +28,8 @@ class Checkout1 extends StatefulWidget {
 class _Checkout1State extends State<Checkout1> {
   String? selectedAddress;
   Future<void> checkDeliverable() async {
+    print(AppConstants.location);
+
     await FirebaseDatabase.instance
         .ref()
         .child('pincode')
