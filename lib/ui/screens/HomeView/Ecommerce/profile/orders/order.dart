@@ -30,9 +30,10 @@ class _OrderScreenState extends State<OrderScreen> {
     Dimensions dimensions = Dimensions(context);
     return Consumer<MyOrders>(builder: (context, orderData, child) {
       return orderData.isOrdersLoaded? Scaffold(
-        appBar: AppBar(
-          title: const Text('My Orders'),
-        ),
+          appBar: AppBar(
+            leading: IconButton(icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),onPressed: (){Navigator.of(context).pop();},),
+            title: ReusableText(text: 'My Orders',fontSize: 20,fontWeight: FontWeight.w500,),
+          ),
         body:
           SingleChildScrollView(
           child: Column(

@@ -57,13 +57,11 @@ class _CartState extends State<Cart> {
           },
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('Cart'),
+              title: ReusableText(text: 'Cart',fontSize: 20,fontWeight: FontWeight.w500,),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),
                 onPressed: () {
-                  context
-                      .read<BottomNavigationBarProvider>()
-                      .setSelectedIndex(0);
+                  context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
                 },
               ),
             ),

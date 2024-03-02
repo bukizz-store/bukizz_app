@@ -367,7 +367,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                 child: ReusableText(text: 'Explore More', fontSize: 18),
               ),
               Container(
-                height: 55.sp,
+                height: 56.sp,
                 width: dimensions.screenWidth,
                 // color: Colors.red,
                 padding: EdgeInsets.only(left: dimensions.width16),

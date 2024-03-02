@@ -1,3 +1,5 @@
+
+
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/providers/auth/updateUserData.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -77,6 +79,7 @@ class _AddAddressState extends State<AddAddress> {
                         hintText: 'Phone number (Required) *',
                         labelText: 'Phone number',
                         controller: phoneController,
+                        isPhoneNo: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -87,6 +90,7 @@ class _AddAddressState extends State<AddAddress> {
                         hintText: 'Email',
                         labelText: 'Email',
                         controller: emailController,
+                        isEmail: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -170,6 +174,7 @@ class _AddAddressState extends State<AddAddress> {
                           hintText: 'Alternate Phone',
                           labelText: 'Alternate Number',
                           controller: alternatePhoneController,
+                          isPhoneNo: true,
                         ),
                       SizedBox(
                         height: dimensions.height8 * 2,

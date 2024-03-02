@@ -35,8 +35,8 @@ class _AddressScreen1State extends State<AddressScreen1> {
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {Navigator.pop(context); }, icon: Icon(Icons.arrow_back),),
-        title: ReusableText(text:'Profile',fontSize: 16,),
+        leading: IconButton(onPressed: () {Navigator.pop(context); }, icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),),
+        title: ReusableText(text:'Profile',fontSize:20,fontWeight: FontWeight.w500,),
       ),
       body: Column(
         children: [
