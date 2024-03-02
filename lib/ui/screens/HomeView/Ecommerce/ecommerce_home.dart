@@ -233,8 +233,20 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 context.read<TabProvider>().navigateToTab(0);
                                 Navigator.pushNamed(context, ViewAll.route);
                               } else if (index == 1) {
-                                Navigator.pushNamed(
-                                    context, ViewAllStationaryScreen.route);
+                                var selectedModel = categoryRepo.category.where((element) => element.categoryId == "Stationary Kit").first;
+                                context
+                                    .read<CategoryRepository>()
+                                    .selectedCategory = selectedModel;
+                                context
+                                    .read<GeneralProductRepository>()
+                                    .getGeneralProductFromFirebase(
+                                    selectedModel.categoryId);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            GeneralProductScreen(
+                                                product: selectedModel.name)));
                               } else if (index == 3) {
                                 Navigator.pushNamed(context, Forms.route);
                               } else if (index == 2) {
