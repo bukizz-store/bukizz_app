@@ -74,7 +74,6 @@ class MyOrders with ChangeNotifier {
 
   set setImage(String value){
     image = value;
-    notifyListeners();
   }
 
   bool _isOrderDataLoaded = false;

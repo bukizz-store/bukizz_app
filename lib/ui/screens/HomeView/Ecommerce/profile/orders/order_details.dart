@@ -27,7 +27,6 @@ class OrderDetailsScreen extends StatefulWidget {
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   double totalPrice = 0;
   double salePrice = 0;
-  String image = '';
   bool dropDown = true;
   @override
   Widget build(BuildContext context) {
@@ -78,6 +77,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 borderRadius: BorderRadius.circular(
                                   dimensions.width10,
                                 ),
+
                               ),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(
@@ -103,7 +103,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   height: dimensions.height10,
                                 ),
                                 SizedBox(
-                                  // width: dimensions.width10 * 25.2,
+                                  width: dimensions.width10 * 25.2,
                                   child: Text(
                                     'Your product ${orderData.selectedOrderModel.orderName} is ${orderData.selectedOrderModel.status}',
                                     style: const TextStyle(
@@ -112,6 +112,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                       fontFamily: 'Nunito',
                                       fontWeight: FontWeight.w400,
                                       height: 0,
+                                      overflow: TextOverflow.ellipsis
                                     ),
                                   ),
                                 ),
@@ -312,7 +313,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         text: 'You will save ₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount} on this order',
                         fontSize: 16,
                         color: Color(0xFF038B10),
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
+
                       )
                     ],
                   ),
@@ -354,8 +356,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       MyOrders orderData, BuildContext context, dimensions) {
     totalPrice = 0;
     salePrice = 0;
-
-    String image = '';
     // orderData.setIsOrderDataLoaded(false);
     List<Widget> list = [];
 
@@ -373,7 +373,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   setProductName(schoolName, set, stream, productModel);
               int totalSalePrice = setTotalSalePrice(productModel, set, stream);
               int price = setTotalPrice(productModel, set, stream);
-              image = productModel.variation[productModel.set.indexOf(productModel.set.where((element) => element.name == set).first).toString()][productModel.stream.isNotEmpty? productModel.stream.indexOf(productModel.stream.where((element) => element.name == stream).first).toString() : '0'].image[0];
+              orderData.setImage = productModel.variation[productModel.set.indexOf(productModel.set.where((element) => element.name == set).first).toString()][productModel.stream.isNotEmpty? productModel.stream.indexOf(productModel.stream.where((element) => element.name == stream).first).toString() : '0'].image[0];
               totalPrice += price * data[0];
               salePrice += totalSalePrice * data[0];
               list.add(Padding(
@@ -432,7 +432,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               borderRadius: BorderRadius.circular(
                                 dimensions.width10,
                               ),
-                              child: Image.network(image)
+                              child: Image.network(orderData.getImage)
                             ),
                           ),
                           SizedBox(
@@ -468,7 +468,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: dimensions.height8 * 2,
+                        height: dimensions.height8 * 4,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -476,60 +476,81 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           OutlinedButton(
                             onPressed: () {
                               //Sending Initial data to orderQuery Repository
-                              context
-                                  .read<OrderQueryRepository>()
-                                  .setInitialData(
-                                      orderData.selectedOrderModel.orderId,
-                                      productName,
-                                      orderData
-                                          .selectedOrderModel.address.phone);
-                              Navigator.pushNamed(
-                                  context, KnowMoreScreen.route);
-
-                              // OrderModel.addFieldInOrderData();
+                              context.read<OrderQueryRepository>().setInitialData(
+                                orderData.selectedOrderModel.orderId,
+                                productName,
+                                orderData.selectedOrderModel.address.phone,
+                              );
+                              Navigator.pushNamed(context, KnowMoreScreen.route);
                             },
                             style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xFF7A7A7A)),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: dimensions.width10 * 4)),
-                            child: ReusableText(
-                              text: 'Contact Us',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF7A7A7A),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Adjust padding
+                              side: BorderSide(color: Color(0xFF7A7A7A), width: 2), // Border color and width
                             ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.contact_support, // Add an appropriate icon
+                                  color: Color(0xFF7A7A7A),
+                                ),
+                                SizedBox(width: 8), // Add spacing between icon and text
+                                Text(
+                                  'Contact Us',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF7A7A7A),
+                                  ),
+                                ),
+                              ],
+                            ),
+
                           ),
+
                           OutlinedButton(
                             onPressed: () {
-                              context.read<ReviewRepository>().productName =
-                                  productName;
-                              context.read<ReviewRepository>().deliveryStatus =
-                                  data[2];
-                              context.read<ReviewRepository>().productId =
-                                  product;
+                              context.read<ReviewRepository>().productName = productName;
+                              context.read<ReviewRepository>().deliveryStatus = data[2];
+                              context.read<ReviewRepository>().productId = product;
                               context.read<ReviewRepository>().orderId =
                                   orderData.selectedOrderModel.orderId;
                               Navigator.pushNamed(context, RatingsScreen.route);
                             },
                             style: OutlinedButton.styleFrom(
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Color(0xFF7A7A7A)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: dimensions.width10 * 4),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
                               backgroundColor: Color(0xFF058FFF),
+                              side: BorderSide(color: Color(0xFF058FFF), width: 2), // Border color and width
                             ),
-                            child: ReusableText(
-                              text: 'Add Review',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12), // Adjust vertical padding
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.star, // Add an appropriate icon
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 8), // Add spacing between icon and text
+                                  Text(
+                                    'Add Review',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+
                         ],
                       ),
                       SizedBox(
@@ -550,7 +571,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       });
     }
     // orderData.setIsOrderDataLoaded(true);
-    orderData.setImage = image;
     return list;
   }
 }
