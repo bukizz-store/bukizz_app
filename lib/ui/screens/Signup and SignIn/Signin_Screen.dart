@@ -239,22 +239,22 @@ class _SignInState extends State<SignIn> {
                 ),
 
                 //Sign in with google
-                ReusableElevatedButton(
-                  shadowColor: Colors.grey.withOpacity(0.6),
-                  width: dimensions.width327,
-                  height: dimensions.height48,
-                  onPressed: () {
-                    authProvider.googleSignInMethod(context);
-                  },
-                  buttonText: 'Sign in with Google',
-                  buttonColor: Colors.white,
-                  textColor: Color(0xFF121212),
-                  fontSize: 14,
-                  fontFamily: FontFamily.nunito.name,
-                  fontWeight: FontWeight.w400,
-                  imagePath: 'assets/google.png',
-                  borderColor: Colors.black38,
-                ),
+                // ReusableElevatedButton(
+                //   shadowColor: Colors.grey.withOpacity(0.6),
+                //   width: dimensions.width327,
+                //   height: dimensions.height48,
+                //   onPressed: () {
+                //     authProvider.googleSignInMethod(context);
+                //   },
+                //   buttonText: 'Sign in with Google',
+                //   buttonColor: Colors.white,
+                //   textColor: Color(0xFF121212),
+                //   fontSize: 14,
+                //   fontFamily: FontFamily.nunito.name,
+                //   fontWeight: FontWeight.w400,
+                //   imagePath: 'assets/google.png',
+                //   borderColor: Colors.black38,
+                // ),
                 SizedBox(
                   height: dimensions.height8 * 2,
                 ),
