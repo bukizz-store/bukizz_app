@@ -1,6 +1,7 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -45,40 +46,38 @@ class AppConstants{
           right: 10),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
-      content: GestureDetector(
-        onTap: (){
-          context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
-          Navigator.pushNamed(context,  MainScreen.route);
-        },
-        child: Container(
-          width: 300,
-          height: 40,
-          // padding: const EdgeInsets.all(16),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.black54,width: 2),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(icon ,color: Colors.white,size: 24,),
-              SizedBox(width: 10,),
-              Text(
-                text,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'nunito',
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.white,
-                    overflow: TextOverflow.ellipsis
-                ),
-              )
-            ],
-          ),
+      content: Container(
+        width: 300,
+        // height: 40,
+        // padding: const EdgeInsets.all(16),
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.black54,width: 2),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon ,color: Colors.white,size: 24,),
+            SizedBox(width: 10,),
+            SizedBox(
+              width: 70.w,
+              child: Wrap(
+                children: [Text(
+                  text,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'nunito',
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
+                  ),
+                ),]
+              ),
+            )
+          ],
         ),
       ),
       duration: Duration(seconds: time),
@@ -95,41 +94,41 @@ class AppConstants{
           right: 10),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
-      content: GestureDetector(
-        onTap: (){
-          context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
-          Navigator.pushNamed(context,  MainScreen.route);
-        },
-        child: Container(
-          width: 270,
-          height: 40,
-          // padding: const EdgeInsets.all(16),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.black54,width: 2),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(icon ,color: Colors.white,size: 24,),
-              SizedBox(width: 10,),
-              Text(
-                text,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'nunito',
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
-                  overflow: TextOverflow.ellipsis
-                ),
-              )
+      content: Container(
+        width: 270,
+        // height: 40,
+        // padding: const EdgeInsets.all(16),
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.black54,width: 2),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon ,color: Colors.white,size: 24,),
+            SizedBox(width: 10,),
+            SizedBox(
+              width: 70.w,
+              child: Wrap(
+                children: [
+                  Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white,
 
-            ],
-          ),
+                  ),
+                ),]
+              ),
+            )
+
+          ],
         ),
       ),
       duration: Duration(seconds: time),

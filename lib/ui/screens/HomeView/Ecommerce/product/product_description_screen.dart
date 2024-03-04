@@ -27,6 +27,7 @@ import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
 import '../../../../../widgets/review widget/review.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../widgets/text and textforms/expandable_text_widget.dart';
+import '../../../Signup and SignIn/Signin_Screen.dart';
 import '../checkout/checkout1.dart';
 import 'Stationary/general_product_screen.dart';
 
@@ -48,7 +49,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    pinController.text = AppConstants.userData.address.pinCode;
+    pinController.text = AppConstants.isLogin? AppConstants.userData.address.pinCode : '';
     checkDeliverable();
   }
 
@@ -802,7 +803,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () async {
+                    onTap: AppConstants.isLogin? () async {
                       // context.read<CartProvider>().addProductInCart(
                       //     productView.selectedProduct.productId, context);
                       context.read<CartViewRepository>().isSingleBuyNow = false;
@@ -839,6 +840,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       //         .getCartData
                       //         .productsId[productView.selectedProduct.productId]!,
                       //     productView.selectedProduct.productId);
+                    } : (){
+                      context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                      Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
                     },
                     child: Container(
                       height: dimensions.height8 * 6,
@@ -869,7 +873,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () async {
+                    onTap: AppConstants.isLogin ? () async {
 
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
@@ -898,6 +902,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         context,
                         MaterialPageRoute(builder: (context) => Checkout1()),
                       );
+                    } : (){
+                      context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                      Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
                     },
                     child: Container(
                       height: dimensions.height8 * 6,

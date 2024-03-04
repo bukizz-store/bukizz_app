@@ -189,7 +189,7 @@ class ContactUsScreen extends StatelessWidget {
                 SizedBox(height: dimensions.height24,),
                 GestureDetector(
                   onTap: ()async{
-                    Uri phoneno = Uri.parse('');
+                    Uri phoneno = Uri.parse('https://www.linkedIn.com');
                     await launchUrl(phoneno);
                   },
                   child: Row(

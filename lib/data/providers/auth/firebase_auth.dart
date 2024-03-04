@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/models/user_details.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
@@ -72,6 +69,7 @@ class AuthProvider extends ChangeNotifier {
         userDetails = MainUserDetails.fromMap(querySnapshot.docs.first.data());
 
         AppConstants.userData = userDetails;
+        AppConstants.isLogin = true;
 
         // print(userDetails);
 
@@ -85,11 +83,15 @@ class AuthProvider extends ChangeNotifier {
               context, SelectLocation.route, (route) => false);
         }
       } else {
-        if(context.mounted)
-          {
-            AppConstants.showSnackBar(context, "Failed to Login" , AppColors.error , Icons.error_outline_rounded,);
-            Navigator.of(context).pop();
-          }
+        if (context.mounted) {
+          AppConstants.showSnackBar(
+            context,
+            "Failed to Login",
+            AppColors.error,
+            Icons.error_outline_rounded,
+          );
+          Navigator.of(context).pop();
+        }
       }
       notifyListeners();
     } catch (e) {
@@ -108,15 +110,16 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage , AppColors.error , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, errorMessage, AppColors.error,
+            Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
       print("Error signing in: $e");
     }
   }
 
-  Future<void> googleSignInMethod(BuildContext context) async{
-    try{
+  Future<void> googleSignInMethod(BuildContext context) async {
+    try {
       final GoogleSignInAccount? googleSignInAccount =
           await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleSignInAuthentication =
@@ -124,17 +127,18 @@ class AuthProvider extends ChangeNotifier {
       final AuthCredential authCredential = GoogleAuthProvider.credential(
           idToken: googleSignInAuthentication?.idToken,
           accessToken: googleSignInAuthentication?.accessToken);
-      await googleSignUp(context , authCredential);
-    }
-    catch(e){
+      await googleSignUp(context, authCredential);
+    } catch (e) {
       debugPrint(e.toString());
-      AppConstants.showSnackBar(context, "Unable to Continue with Google" , AppColors.error , Icons.error_outline_rounded);
+      AppConstants.showSnackBar(context, "Unable to Continue with Google",
+          AppColors.error, Icons.error_outline_rounded);
     }
   }
 
-  Future<void> googleSignUp(BuildContext context ,  AuthCredential authCredential) async {
-      // Getting users credential
-    try{
+  Future<void> googleSignUp(
+      BuildContext context, AuthCredential authCredential) async {
+    // Getting users credential
+    try {
       AppConstants.buildShowDialog(context);
       await _auth.signInWithCredential(authCredential).then((value) async {
         if (value.user != null) {
@@ -174,10 +178,10 @@ class AuthProvider extends ChangeNotifier {
             await userDetails.pushToFirebase();
 
             QuerySnapshot<Map<String, dynamic>> querySnapshot =
-            await FirebaseFirestore.instance
-                .collection('userDetails')
-                .where('email', isEqualTo: value.user!.email)
-                .get();
+                await FirebaseFirestore.instance
+                    .collection('userDetails')
+                    .where('email', isEqualTo: value.user!.email)
+                    .get();
 
             userDetails =
                 MainUserDetails.fromMap(querySnapshot.docs.first.data());
@@ -191,22 +195,24 @@ class AuthProvider extends ChangeNotifier {
             }
           } else {
             if (context.mounted) {
-              AppConstants.showSnackBar(context,
-                  "Error signing in with Google. Please try again later" , AppColors.error , Icons.error_outline_rounded);
+              AppConstants.showSnackBar(
+                  context,
+                  "Error signing in with Google. Please try again later",
+                  AppColors.error,
+                  Icons.error_outline_rounded);
             }
           }
         }
       });
-    }
-    catch(e){
-      AppConstants.showSnackBar(context, e.toString() , AppColors.error , Icons.error_outline_rounded);
+    } catch (e) {
+      AppConstants.showSnackBar(
+          context, e.toString(), AppColors.error, Icons.error_outline_rounded);
       GoogleSignIn().signOut();
     }
 
-
-      // if result not null we simply call the MaterialpageRoute,
-      // for go to the HomePage scree
-      notifyListeners();
+    // if result not null we simply call the MaterialpageRoute,
+    // for go to the HomePage scree
+    notifyListeners();
   }
 
   Future<void> signUpWithEmailAndPassword({
@@ -284,7 +290,8 @@ class AuthProvider extends ChangeNotifier {
 
         notifyListeners();
       } else {
-        AppConstants.showSnackBar(context, "Failed to SignUp" , AppColors.error , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, "Failed to SignUp", AppColors.error,
+            Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
     } catch (e) {
@@ -300,10 +307,102 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage , AppColors.error , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, errorMessage, AppColors.error,
+            Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
     }
+  }
+
+  // sign in with apple
+  Future<void> signInWithApple(BuildContext context) async {
+    final appleProvider = AppleAuthProvider();
+    final authResult =
+        await FirebaseAuth.instance.signInWithProvider(appleProvider);
+
+    if (authResult.user!.uid.isNotEmpty) {
+      Address address = Address(
+        houseNo: '',
+        city: '',
+        state: '',
+        pinCode: '',
+        street: '',
+        phone: authResult.user!.phoneNumber ?? "",
+        email: 'apple@email.com',
+        name: 'apple_user',
+      );
+
+      Address alternateAddress = Address(
+        houseNo: '',
+        city: '',
+        state: '',
+        pinCode: '',
+        street: '',
+        phone: '',
+        email: '',
+        name: '',
+      );
+
+      print(authResult.user!.uid);
+
+      MainUserDetails userDetails = MainUserDetails(
+        name: 'apple_user',
+        email: 'apple@email.com',
+        password: '',
+        address: address,
+        uid: authResult.user!.uid,
+        dob: DateTime.now().toIso8601String(),
+        mobile: authResult.user!.phoneNumber ?? "",
+        alternateAddress: alternateAddress,
+        studentsUID: [],
+        orderID: [],
+      );
+
+      try {
+        // Push user data to Firebase
+        await userDetails.pushToFirebase();
+        // Save user details to shared preferences
+        await userDetails.saveToSharedPreferences();
+      } catch (e) {
+        print("Error due to $e");
+      }
+
+      // Navigate to the home screen
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, SelectLocation.route, (route) => false);
+      }
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteAccount(BuildContext context) async {
+      try {
+        user!
+            .delete()
+            .then((value) => FirebaseFirestore.instance
+                .collection('deletedAccount')
+                .add(AppConstants.userData.toMap())
+                .then((value) => AppConstants.showSnackBarTop(
+                    context,
+                    "Account User Deleted!",
+                    AppColors.green,
+                    Icons.check_circle_outline_rounded))
+                .catchError((e) => AppConstants.showSnackBarTop(
+                    context,
+                    e.toString(),
+                    AppColors.error,
+                    Icons.error_outline_rounded)))
+            .catchError((e) => AppConstants.showSnackBarTop(context,
+                e.toString(), AppColors.error, Icons.error_outline_rounded));
+        signOut(context);
+      } catch (e) {
+        print(e.toString());
+        // AppConstants.showSnackBarTop(context,
+        //     e.toString(), AppColors.error, Icons.error_outline_rounded);
+        return null;
+      }
   }
 
   Future<void> signOut(BuildContext context) async {

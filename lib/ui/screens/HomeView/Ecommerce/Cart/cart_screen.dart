@@ -6,12 +6,14 @@ import 'package:bukizz/data/models/ecommerce/products/variation/set_model.dart';
 import 'package:bukizz/data/repository/cart_view_repository.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/buttons/cart_button.dart';
 import 'package:bukizz/widgets/containers/Reusable_ColouredBox.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../data/models/ecommerce/products/product_model.dart';
 import '../../../../../data/models/ecommerce/products/variation/stream_model.dart';
@@ -34,6 +36,12 @@ class _CartState extends State<Cart> {
   double totalPrice = 0;
   double salePrice = 0;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   // bool load = false;
 
   @override
@@ -41,32 +49,53 @@ class _CartState extends State<Cart> {
     var provider = context.read<BottomNavigationBarProvider>();
     Dimensions dimensions = Dimensions(context);
     print('CartUpdated');
-    // var cartData = context.watch<CartViewRepository>();
-    var cartProvider = context.read<CartProvider>();
-    var address = context.watch<UpdateAddressRepository>().address;
-    return Consumer<CartViewRepository>(
-        builder: (context, cartViewData, child) {
-      if (cartViewData.getCartData.isEmpty) {
-        return const EmptyCart();
-      } else {
-        return PopScope(
-          canPop: false,
-          onPopInvoked: (val) {
-            context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-            return;
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              title: ReusableText(text: 'Cart',fontSize: 20,fontWeight: FontWeight.w500,),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),
-                onPressed: () {
-                  context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-                },
+    if(!AppConstants.isLogin){
+        return Scaffold(
+          body: Center(
+            child: GestureDetector(
+              onTap: (){
+                Navigator.of(context).pushNamed(SignIn.route);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: 50.w,
+                height: 6.h,
+                decoration: BoxDecoration(
+                  color: AppColors.productButtonSelectedBorder,
+                  borderRadius: BorderRadius.circular(100)
+                ),
+                child: ReusableText(text: 'Please Log In First' ,fontSize: 18,color: Colors.white,),
               ),
             ),
-            body: cartProvider.isCartLoadedProvider
-                ? SingleChildScrollView(
+          ),
+        );
+    }else{
+      // var cartData = context.watch<CartViewRepository>();
+      var cartProvider = context.read<CartProvider>();
+      var address = context.watch<UpdateAddressRepository>().address;
+      return Consumer<CartViewRepository>(
+          builder: (context, cartViewData, child) {
+            if (cartViewData.getCartData.isEmpty) {
+              return const EmptyCart();
+            } else {
+              return PopScope(
+                canPop: false,
+                onPopInvoked: (val) {
+                  context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                  return;
+                },
+                child: Scaffold(
+                  appBar: AppBar(
+                    title: ReusableText(text: 'Cart',fontSize: 20,fontWeight: FontWeight.w500,),
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),
+                      onPressed: () {
+                        context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                      },
+                    ),
+                  ),
+                  body: cartProvider.isCartLoadedProvider
+                      ? SingleChildScrollView(
                     child: Column(
                       children: [
                         SizedBox(
@@ -75,101 +104,101 @@ class _CartState extends State<Cart> {
                         //1st container with address info
                         (AppConstants.userData.address.pinCode.isNotEmpty)
                             ? Container(
-                                height: dimensions.height40 * 2,
-                                width: dimensions.screenWidth,
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: dimensions.height24 / 2,
-                                    horizontal: dimensions.width24,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              ReusableText(
-                                                text: 'Deliver to: ',
-                                                fontSize: 16,
-                                                height: 0,
-                                                color: Color(0xFF282828),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              ReusableText(
-                                                text:
-                                                    AppConstants.userData.name,
-                                                fontSize: 16,
-                                                height: 0,
-                                                color: Color(0xFF121212),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ],
-                                          ),
-                                          // SizedBox(
-                                          //   height: dimensions.height8/2,
-                                          // ),
-                                          Flexible(
-                                              child: Container(
-                                            width: dimensions.width24 * 9.5,
-                                            child: ReusableText(
-                                              text:
-                                                  "${address.houseNo}, ${address.street}, ${address.city}, ${address.state}, ${address.pinCode}",
-                                              fontSize: 14,
-                                              height: 0,
-                                              color: Color(0xFF7A7A7A),
-                                              fontWeight: FontWeight.w600,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          )),
-                                        ],
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                                  builder: (_) => UpdateAddress(
-                                                        address: context
-                                                            .watch<
-                                                                UpdateAddressRepository>()
-                                                            .address,
-                                                        keyAddress: true,
-                                                      )));
-                                        },
+                          height: dimensions.height40 * 2,
+                          width: dimensions.screenWidth,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: dimensions.height24 / 2,
+                              horizontal: dimensions.width24,
+                            ),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        ReusableText(
+                                          text: 'Deliver to: ',
+                                          fontSize: 16,
+                                          height: 0,
+                                          color: Color(0xFF282828),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        ReusableText(
+                                          text:
+                                          AppConstants.userData.name,
+                                          fontSize: 16,
+                                          height: 0,
+                                          color: Color(0xFF121212),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    // SizedBox(
+                                    //   height: dimensions.height8/2,
+                                    // ),
+                                    Flexible(
                                         child: Container(
-                                          width: dimensions.width65,
-                                          height: dimensions.height36,
-                                          decoration: ShapeDecoration(
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  width: 0.50,
-                                                  color: Color(0xFFD6D6D6)),
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          ),
-                                          child: Center(
-                                              child: ReusableText(
-                                            text: 'Change',
+                                          width: dimensions.width24 * 9.5,
+                                          child: ReusableText(
+                                            text:
+                                            "${address.houseNo}, ${address.street}, ${address.city}, ${address.state}, ${address.pinCode}",
                                             fontSize: 14,
                                             height: 0,
-                                            color: Color(0xFF00579E),
+                                            color: Color(0xFF7A7A7A),
                                             fontWeight: FontWeight.w600,
-                                          )),
-                                        ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                        builder: (_) => UpdateAddress(
+                                          address: context
+                                              .watch<
+                                              UpdateAddressRepository>()
+                                              .address,
+                                          keyAddress: true,
+                                        )));
+                                  },
+                                  child: Container(
+                                    width: dimensions.width65,
+                                    height: dimensions.height36,
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            width: 0.50,
+                                            color: Color(0xFFD6D6D6)),
+                                        borderRadius:
+                                        BorderRadius.circular(6),
                                       ),
-                                    ],
+                                    ),
+                                    child: Center(
+                                        child: ReusableText(
+                                          text: 'Change',
+                                          fontSize: 14,
+                                          height: 0,
+                                          color: Color(0xFF00579E),
+                                          fontWeight: FontWeight.w600,
+                                        )),
                                   ),
                                 ),
-                              )
+                              ],
+                            ),
+                          ),
+                        )
                             : Container(),
 
                         SizedBox(
@@ -183,95 +212,96 @@ class _CartState extends State<Cart> {
                       ],
                     ),
                   )
-                : const Center(
+                      : const Center(
                     child: CircularProgressIndicator(),
                   ),
-            bottomNavigationBar: Container(
-              height: dimensions.height8 * 9,
-              width: dimensions.screenWidth,
-              decoration: BoxDecoration(
-                  //border: Border.all(color: Colors.black26),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 12,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ]),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 24,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          totalPrice.toString(),
-                          style: TextStyle(
-                            color: Color(0xFFB7B7B7),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                        Text(
-                          '₹$salePrice',
-                          style: TextStyle(
-                            color: Color(0xFF121212),
-                            fontWeight: FontWeight.w700,
-                            decoration: TextDecoration.none,
-                            fontSize: 16,
-                          ),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        // print('buy button is tapped');
-                        context.read<CartViewRepository>().isSingleBuyNow =
-                            false;
-                        context
-                            .read<CartViewRepository>()
-                            .setTotalPrice(totalPrice.toInt());
-                        context
-                            .read<CartViewRepository>()
-                            .setSalePrice(salePrice.toInt());
-
-                        Navigator.pushNamed(context, Checkout1.route);
-                      },
-                      child: Container(
-                        height: dimensions.height8 * 6,
-                        width: dimensions.width146,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Color(0xFF058FFF),
-                        ),
-                        child: Center(
-                          child: ReusableText(
-                            text: 'Buy Now',
-                            fontSize: 16,
-                            height: 0.11,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
+                  bottomNavigationBar: Container(
+                    height: dimensions.height8 * 9,
+                    width: dimensions.screenWidth,
+                    decoration: BoxDecoration(
+                      //border: Border.all(color: Colors.black26),
+                        color: Colors.white,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 12,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24,
                       ),
-                    )
-                  ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                totalPrice.toString(),
+                                style: TextStyle(
+                                  color: Color(0xFFB7B7B7),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                              Text(
+                                '₹$salePrice',
+                                style: TextStyle(
+                                  color: Color(0xFF121212),
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 16,
+                                ),
+                              )
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // print('buy button is tapped');
+                              context.read<CartViewRepository>().isSingleBuyNow =
+                              false;
+                              context
+                                  .read<CartViewRepository>()
+                                  .setTotalPrice(totalPrice.toInt());
+                              context
+                                  .read<CartViewRepository>()
+                                  .setSalePrice(salePrice.toInt());
+
+                              Navigator.pushNamed(context, Checkout1.route);
+                            },
+                            child: Container(
+                              height: dimensions.height8 * 6,
+                              width: dimensions.width146,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Color(0xFF058FFF),
+                              ),
+                              child: Center(
+                                child: ReusableText(
+                                  text: 'Buy Now',
+                                  fontSize: 16,
+                                  height: 0.11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
-      }
-    });
+              );
+            }
+          });
+    }
   }
 
   String setProductName(

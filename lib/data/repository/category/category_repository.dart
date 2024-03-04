@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../../models/ecommerce/categoryModel.dart';
 
 class CategoryRepository extends ChangeNotifier{
+
   List<CategoryModel> category =[];
 
   late CategoryModel selectedCategory ;

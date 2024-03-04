@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/providers/tabController/TabController_provider.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
@@ -121,7 +122,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       itemBuilder:
                           (BuildContext context, int index, int realIndex) {
                         return RoundedImage(
-                          onPressed: () async {
+                          onPressed:AppConstants.isLogin? () async {
                             if (banner.banners1[index].link.isNotEmpty) {
                               if (banner.banners1[index].link
                                       .contains('http') ||
@@ -169,7 +170,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               }
                             }
                             // NotificationRepository.pushNotificationData();
-                          },
+                          }:(){},
                           width: dimensions.screenWidth,
                           height: dimensions.height192,
                           isNetworkImage: true,

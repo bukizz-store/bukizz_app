@@ -26,7 +26,6 @@ void main() async {
 
   MainUserDetails? savedUser =
       await MainUserDetails.loadFromSharedPreferences();
-  await FirebaseApi().initNotifications();
 
   runApp(
     const MyApp(),

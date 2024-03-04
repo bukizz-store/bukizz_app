@@ -1,6 +1,7 @@
 import 'package:bukizz/constants/strings.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
 import 'package:bukizz/data/repository/product/general_product.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -43,7 +44,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
   @override
   void initState() {
     // TODO: implement initState
-    pinController.text = AppConstants.userData.address.pinCode;
+    pinController.text = AppConstants.isLogin?AppConstants.userData.address.pinCode:'';
     super.initState();
   }
   @override
@@ -607,7 +608,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () async{
+                  onTap: AppConstants.isLogin?() async{
                     var schoolData = context.read<SchoolDataProvider>();
                     await context.read<CartProvider>().addProductInCart(
                         'all',
@@ -616,6 +617,8 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                         1,
                         value.selectedProduct.productId,
                         context , AppString.generalType).then((value) => AppConstants.showCartSnackBar(context,));
+                  }:(){
+                    Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
                   },
                   child: Container(
                     height: dimensions.height8 * 6,

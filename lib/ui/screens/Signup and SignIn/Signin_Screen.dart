@@ -1,14 +1,20 @@
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/reset_password.dart';
 import 'package:bukizz/widgets/navigator/page_navigator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
+import '../../../data/providers/school_repository.dart';
+import '../../../data/repository/banners/banners.dart';
+import '../../../data/repository/category/category_repository.dart';
 import '../../../utils/dimensions.dart';
 import '../../../widgets/buttons/Reusable_Button.dart';
 import '../../../widgets/containers/Reusable_container.dart';
@@ -50,10 +56,6 @@ class _SignInState extends State<SignIn> {
     var authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        // title: Text('Sign In'),
-        backgroundColor: Color(0xFFF5FAFF),
-      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -61,7 +63,8 @@ class _SignInState extends State<SignIn> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(
               dimensions.width24,
-              dimensions.height16,
+              // 0,
+              dimensions.height48*1.5,
               dimensions.width24,
               0,
             ),
@@ -69,6 +72,27 @@ class _SignInState extends State<SignIn> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //welcome text //done
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pushNamedAndRemoveUntil(SelectLocation.route, (route) => false);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.productButtonSelectedBorder),
+                      borderRadius: BorderRadius.circular(100)
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    width: 30.w,
+                    height: 4.h,
+                    child: Row(
+                      children: [
+                        ReusableText(text: "Skip Login", fontSize: 16),
+                        Icon(Icons.arrow_circle_right_outlined)
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 40,),
                 ReusableContainer(
                   width: dimensions.width327,
                   height: dimensions.height32,
@@ -237,7 +261,9 @@ class _SignInState extends State<SignIn> {
                 ReusableElevatedButton(
                   width: dimensions.width327,
                   height: dimensions.height48,
-                  onPressed: () {},
+                  onPressed: () {
+                    authProvider.signInWithApple(context);
+                  },
                   buttonText: 'Sign in with Apple',
                   buttonColor: Colors.white,
                   iconData: Icons.apple,

@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
@@ -25,91 +26,135 @@ class NewProfileScreen extends StatefulWidget {
 }
 
 class _NewProfileScreenState extends State<NewProfileScreen> {
-
-
   @override
   void initState() {
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
-    Dimensions dimensions=Dimensions(context);
+    Dimensions dimensions = Dimensions(context);
     return PopScope(
       canPop: false,
-      onPopInvoked: (val){
+      onPopInvoked: (val) {
         context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-        return ;
+        return;
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: () {context.read<BottomNavigationBarProvider>().setSelectedIndex(0);Navigator.pushNamed(context, MainScreen.route);}, icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),),
-          title: ReusableText(text: 'Profile', fontSize: 20,fontWeight: FontWeight.w500,)
-        ),
+            leading: IconButton(
+              onPressed: () {
+                context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                Navigator.pushNamed(context, MainScreen.route);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 20,
+              ),
+            ),
+            title: ReusableText(
+              text: 'Profile',
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            )),
         body: SingleChildScrollView(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: dimensions.height10,),
+                SizedBox(
+                  height: dimensions.height10,
+                ),
                 Center(
                   child: CircleAvatar(
-                    radius:dimensions.height10*5.5,
+                    radius: dimensions.height10 * 5.5,
                     backgroundColor: Colors.white,
                     child: SvgPicture.asset('assets/user.svg'),
                   ),
                 ),
-                SizedBox(height: dimensions.height10,),
-                ReusableText(text: AppConstants.userData.name, fontSize: 22,fontWeight: FontWeight.w500,),
-                SizedBox(height: dimensions.height10*2,),
-                ReusableText(text: AppConstants.userData.email , fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF121212).withOpacity(0.6),),
-                SizedBox(height: dimensions.height16,),
-                ReusableText(text:  AppConstants.userData.address.phone, fontSize: 14,fontWeight: FontWeight.w700,color:Color(0xFF121212).withOpacity(0.6)),
-                SizedBox(height: dimensions.height10*5,),
-                GestureDetector(
-                  onTap: (){
+                SizedBox(
+                  height: dimensions.height10,
+                ),
+                ReusableText(
+                  text: AppConstants.isLogin? AppConstants.userData.name : 'Guest User',
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(
+                  height: dimensions.height10 * 2,
+                ),
+                ReusableText(
+                  text: AppConstants.isLogin? AppConstants.userData.email : '',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF121212).withOpacity(0.6),
+                ),
+                SizedBox(
+                  height: dimensions.height16,
+                ),
+                ReusableText(
+                    text :AppConstants.isLogin ?  AppConstants.userData.address.phone : '',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF121212).withOpacity(0.6)),
+                SizedBox(
+                  height: dimensions.height10 * 5,
+                ),
+                AppConstants.isLogin? GestureDetector(
+                  onTap: () {
                     Navigator.pushNamed(context, AddressScreen1.route);
                   },
                   child: Container(
-                    height: dimensions.height10*8.5,
+                    height: dimensions.height10 * 8.5,
                     width: dimensions.screenWidth,
                     color: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: dimensions.width16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           crossAxisAlignment: CrossAxisAlignment.center,
-                           children: [
-                             Row(
-                               children: [
-                                 CircleAvatar(
-                                   radius: dimensions.width10*2.5,
-                                   backgroundColor: Color(0xFFCCE8FF),
-                                   child: Icon(Icons.home,color: Color(0xFF0590FF),),
-                                 ),
-                                 SizedBox(width: dimensions.height10,),
-                                 ReusableText(text: 'Profile',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
-                               ],
-                             ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(
+                                    Icons.home,
+                                    color: Color(0xFF0590FF),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: dimensions.height10,
+                                ),
+                                ReusableText(
+                                  text: 'Profile',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
                             Icon(Icons.chevron_right),
-                           ],
-                         ),
-
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: (){
+                ) : Container(),
+                AppConstants.isLogin? GestureDetector(
+                  onTap: () {
                     context.read<MyOrders>().fetchOrders();
                     Navigator.pushNamed(context, OrderScreen.route);
                   },
                   child: Container(
-                    height: dimensions.height10*8.5,
+                    height: dimensions.height10 * 8.5,
                     width: dimensions.screenWidth,
                     color: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: dimensions.width16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -120,162 +165,263 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                             Row(
                               children: [
                                 CircleAvatar(
-                                  radius: dimensions.width10*2.5,
+                                  radius: dimensions.width10 * 2.5,
                                   backgroundColor: Color(0xFFCCE8FF),
-                                  child: Icon(Icons.document_scanner,color: Color(0xFF0590FF),),
+                                  child: Icon(
+                                    Icons.document_scanner,
+                                    color: Color(0xFF0590FF),
+                                  ),
                                 ),
-                                SizedBox(width: dimensions.height10,),
-                                ReusableText(text: 'Order History',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
-                              ],
-                            ),
-                           Icon(Icons.chevron_right),
-                          ],
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){Navigator.pushNamed(context, ContactUsScreen.route);},
-                  child: Container(
-                    height: dimensions.height10*8.5,
-                    width: dimensions.screenWidth,
-                    color: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: dimensions.width10*2.5,
-                                  backgroundColor: Color(0xFFCCE8FF),
-                                  child: Icon(Icons.phone,color: Color(0xFF0590FF),),
+                                SizedBox(
+                                  width: dimensions.height10,
                                 ),
-                                SizedBox(width: dimensions.height10,),
-                                ReusableText(text: 'Contact Us',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
-                              ],
-                            ),
-                             Icon(Icons.chevron_right),
-                          ],
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){Navigator.pushNamed(context, SelectLocation.route);},
-                  child: Container(
-                    height: dimensions.height10*8.5,
-                    width: dimensions.screenWidth,
-                    color: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: dimensions.width10*2.5,
-                                  backgroundColor: Color(0xFFCCE8FF),
-                                  child: Icon(Icons.location_on,color: Color(0xFF0590FF),),
-                                ),
-                                SizedBox(width: dimensions.height10,),
-                                ReusableText(text: 'Change Location',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
+                                ReusableText(
+                                  text: 'Order History',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
                               ],
                             ),
                             Icon(Icons.chevron_right),
                           ],
                         ),
-
                       ],
                     ),
                   ),
-                )
+                ) : Container(),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, ContactUsScreen.route);
+                  },
+                  child: Container(
+                    height: dimensions.height10 * 8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(
+                                    Icons.phone,
+                                    color: Color(0xFF0590FF),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: dimensions.height10,
+                                ),
+                                ReusableText(
+                                  text: 'Contact Us',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, SelectLocation.route);
+                  },
+                  child: Container(
+                    height: dimensions.height10 * 8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(
+                                    Icons.location_on,
+                                    color: Color(0xFF0590FF),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: dimensions.height10,
+                                ),
+                                ReusableText(
+                                  text: 'Change Location',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AppConstants.isLogin? GestureDetector(
+                  onTap: () {
+                    DeletePopUp(context);
+                  },
+                  child: Container(
+                    height: dimensions.height10 * 8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Color(0xFF0590FF),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: dimensions.height10,
+                                ),
+                                ReusableText(
+                                  text: 'Delete Your Account',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ): Container()
               ],
             ),
           ),
         ),
-        bottomNavigationBar:  Padding(
-          padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
-          child: InkWell(
-            onTap: (){
-              showCustomAboutDialog(context);
-            },
-            child: Container(
-              width: dimensions.screenWidth,
-              height: dimensions.height48,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF058FFF)),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.logout,color: Color(0xFF058FFF),),
-                  ReusableText(text: 'Logout', fontSize: 16,color:Color(0xFF058FFF),)
-                ],
-              )
-            ),
-          )
-        ),
+        bottomNavigationBar: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: dimensions.width24, vertical: dimensions.height24),
+            child: InkWell(
+              onTap: AppConstants.isLogin?() {
+                 showCustomAboutDialog(context);
 
+              }:(){
+                  context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                    Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);},
+              child: Container(
+                  width: dimensions.screenWidth,
+                  height: dimensions.height48,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF058FFF)),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AppConstants.isLogin?  Icon(
+                        Icons.logout,
+                        color: Color(0xFF058FFF),
+                      ) : Icon(
+                        Icons.person,color: Color(0xFF058FFF),
+                      ),
+                      ReusableText(
+                        text: AppConstants.isLogin? 'Logout' : 'Sign In',
+                        fontSize: 16,
+                        color: Color(0xFF058FFF),
+                      )
+                    ],
+                  )),
+            )),
       ),
     );
   }
-
 }
 
 void showCustomAboutDialog(BuildContext context) {
-  Dimensions dimensions=Dimensions(context);
+  Dimensions dimensions = Dimensions(context);
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return  AlertDialog(
+      return AlertDialog(
           title: Center(
             child: Column(
               children: [
-                ReusableText(text: 'Are You Sure', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
-                SizedBox(height: dimensions.height10*2,),
-                ReusableText(text: 'You are about to logout from the app', fontSize: 12,fontWeight: FontWeight.w400,color: Color(0xFF444444),),
+                ReusableText(
+                  text: 'Are You Sure',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF121212),
+                ),
+                SizedBox(
+                  height: dimensions.height10 * 2,
+                ),
+                ReusableText(
+                  text: 'You are about to logout from the app',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF444444),
+                ),
               ],
             ),
           ),
-          content:Container(
+          content: Container(
             // width: dimensions.width10*35.6,
-            height: dimensions.height10*8.5,
+            height: dimensions.height10 * 8.5,
             alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: () async{
-                    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+                  onTap: () async {
+                    var authProvider =
+                        Provider.of<AuthProvider>(context, listen: false);
                     AppConstants.isLogin = false;
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     prefs.setBool('isLogin', false);
-                    if(context.mounted)
-                    {
+                    if (context.mounted) {
                       authProvider.signOut(context);
-                      Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, SignIn.route, (route) => false);
                     }
                   },
                   child: Container(
-                    width: dimensions.width10*11.5,
-                    height: dimensions.height10*3.5,
+                    width: dimensions.width10 * 11.5,
+                    height: dimensions.height10 * 3.5,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
@@ -283,33 +429,129 @@ void showCustomAboutDialog(BuildContext context) {
                       ),
                     ),
                     child: Center(
-                      child: ReusableText(text: 'Logout', fontSize: 14,fontWeight: FontWeight.w600, color: Color(0xFF00579E),),
+                      child: ReusableText(
+                        text: 'Logout',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF00579E),
+                      ),
                     ),
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    width: dimensions.width10*11.5,
-                    height: dimensions.height10*3.5,
+                    width: dimensions.width10 * 11.5,
+                    height: dimensions.height10 * 3.5,
                     decoration: ShapeDecoration(
                       color: Color(0xFF058FFF),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
                     ),
                     child: Center(
-                      child: ReusableText(text: 'Cancel', fontSize: 14,fontWeight: FontWeight.w600, color:Colors.white,),
+                      child: ReusableText(
+                        text: 'Cancel',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 )
               ],
             ),
-          )
-
-      );
-
+          ));
     },
   );
 }
 
+void DeletePopUp(BuildContext context) {
+  Dimensions dimensions = Dimensions(context);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+          title: Center(
+            child: Column(
+              children: [
+                ReusableText(
+                  text: 'Are You Sure',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF121212),
+                ),
+                SizedBox(
+                  height: dimensions.height10 * 2,
+                ),
+                ReusableText(
+                  text: 'You are about to delete your account permanently',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF444444),
+                ),
+              ],
+            ),
+          ),
+          content: Container(
+            // width: dimensions.width10*35.6,
+            height: dimensions.height10 * 8.5,
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    context
+                        .read<AuthProvider>()
+                        .deleteAccount(context);
+                  },
+                  child: Container(
+                    width: dimensions.width10 * 11.5,
+                    height: dimensions.height10 * 3.5,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    child: Center(
+                      child: ReusableText(
+                        text: 'Delete',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF00579E),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20,),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: dimensions.width10 * 11.5,
+                    height: dimensions.height10 * 3.5,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF058FFF),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
+                    ),
+                    child: Center(
+                      child: ReusableText(
+                        text: 'Cancel',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ));
+    },
+  );
+}

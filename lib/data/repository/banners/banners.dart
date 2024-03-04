@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import '../../models/ecommerce/banners/banners_model.dart';
 
 class BannerRepository extends ChangeNotifier{
+
   
   List<BannerModel> _banners1 = [];
   
