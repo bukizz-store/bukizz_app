@@ -10,6 +10,12 @@
 	<string>bukizz</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to allow you user to search by image so that they can get a smooth user experience .</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We need access to your location to provide location-based services such as filtering out schools from large number of schoolsand auto filling of address of userfeature which will definitely enhance user experience.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need access to your location while you are using the app to provide location-based services and improve user experience.</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
