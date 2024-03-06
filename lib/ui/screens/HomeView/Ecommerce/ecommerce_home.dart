@@ -781,13 +781,16 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     ),
                     Container(
                       width: dimensions.screenWidth,
-                      height: 80.sp,
+                      height: 88.sp,
+                      // color: Colors.red,
                       child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            crossAxisSpacing: dimensions.width24 / 2,
-                            mainAxisSpacing: dimensions.height8,
+                            crossAxisSpacing: 18.sp,
+                            mainAxisSpacing:20.sp,
+                            // mainAxisExtent: 57.sp
+
                           ),
                           itemCount: topDeals.length,
                           physics: NeverScrollableScrollPhysics(),
@@ -908,7 +911,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                 ),
               ),
 
-              SizedBox(height: 20.sp,)
+              // SizedBox(height: 20.sp,)
 
             ],
           ),
