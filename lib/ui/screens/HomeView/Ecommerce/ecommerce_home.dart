@@ -908,6 +908,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                 ),
               ),
 
+              SizedBox(height: 20.sp,)
+
             ],
           ),
         ),

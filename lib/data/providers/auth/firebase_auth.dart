@@ -381,6 +381,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> deleteAccount(BuildContext context) async {
       try {
+        AppConstants.isLogin=false;
         user!
             .delete()
             .then((value) => FirebaseFirestore.instance
@@ -441,6 +442,7 @@ class AuthProvider extends ChangeNotifier {
       orderID: [],
     );
     await GoogleSignIn().signOut();
+    AppConstants.isLogin=false;
     await _auth.signOut().then((value) => {
           Navigator.pushNamedAndRemoveUntil(
               context, SignIn.route, (route) => false)

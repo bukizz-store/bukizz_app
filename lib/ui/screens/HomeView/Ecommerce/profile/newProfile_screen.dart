@@ -477,16 +477,16 @@ void DeletePopUp(BuildContext context) {
             child: Column(
               children: [
                 ReusableText(
-                  text: 'Are You Sure',
+                  text: 'Are You Sure?',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF121212),
                 ),
                 SizedBox(
-                  height: dimensions.height10 * 2,
+                  height: dimensions.height10 ,
                 ),
                 ReusableText(
-                  text: 'You are about to delete your account permanently',
+                  text: 'to delete your account permanently',
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF444444),
@@ -526,7 +526,7 @@ void DeletePopUp(BuildContext context) {
                     ),
                   ),
                 ),
-                SizedBox(width: 20,),
+                // SizedBox(width: 20,),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
