@@ -789,7 +789,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             crossAxisCount: 2,
                             crossAxisSpacing: 18.sp,
                             mainAxisSpacing:20.sp,
-                            // mainAxisExtent: 57.sp
+                            mainAxisExtent: 57.sp
 
                           ),
                           itemCount: topDeals.length,
