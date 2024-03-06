@@ -82,7 +82,7 @@ class _SignInState extends State<SignIn> {
                       borderRadius: BorderRadius.circular(100)
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    width: 30.w,
+                    width: 33.w,
                     height: 4.h,
                     child: Row(
                       children: [

@@ -338,7 +338,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               context.watch<SchoolDataProvider>().schoolData.isNotEmpty
                   ? Container(
                       height: 50.sp,
-                      width: dimensions.width195,
+                      width: 100.w,
                       margin: EdgeInsets.only(left: 3.8.w),
                       // color: Colors.red,
                       child: ListView.builder(
@@ -368,8 +368,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               child: Stack(
                                 children: [
                                   Container(
-                                    height: dimensions.height10 * 14,
-                                    width: dimensions.width169,
+                                    height: 80.sp,
+                                    width: 53.5.sp,
                                     decoration: ShapeDecoration(
                                       gradient: LinearGradient(
                                         begin: Alignment(-0.00, -1.00),
@@ -660,7 +660,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
               categoryRepo.category.isNotEmpty
                   ? Container(
-                      height: dimensions.height10 * 17,
+                      height:55.sp,
                       width: dimensions.screenWidth,
                       // color: Colors.red,
                       padding: EdgeInsets.only(left: dimensions.width16),
@@ -688,9 +688,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
-                                    right: dimensions.width16,
-                                    bottom: dimensions.height10),
-                                width: dimensions.width146,
+                                    right: 16,
+                                    bottom: 10),
+                                width: 50.sp,
                                 height: dimensions.height10,
                                 decoration: ShapeDecoration(
                                   color: Colors.white,
@@ -717,14 +717,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      width: dimensions.width146,
-                                      height: dimensions.height10 * 9,
+                                      width: 50.sp,
+                                      height: 40.sp,
                                       child: ClipRRect(
                                           borderRadius: const BorderRadius.only(
                                               topLeft: Radius.circular(12),
                                               topRight: Radius.circular(12)),
                                           child: CachedNetworkImage(
-                                            fit: BoxFit.fitHeight,
+                                            fit: BoxFit.cover,
                                             imageUrl: selectedModel.image,
                                           )),
                                     ),
@@ -815,7 +815,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                       margin: EdgeInsets.only(
                                           right: dimensions.width16,
                                           bottom: dimensions.height10),
-                                      width: dimensions.width146,
+                                      width: 60.sp,
                                       height: dimensions.height10,
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
@@ -845,8 +845,12 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width: dimensions.width146,
-                                            height: dimensions.height10 * 9,
+                                            width: 60.sp,
+                                            height: 39.sp,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
+                                              border: Border.all(color: Colors.grey.withOpacity(0.6))
+                                            ),
                                             child: ClipRRect(
                                                 borderRadius:
                                                     const BorderRadius.only(
