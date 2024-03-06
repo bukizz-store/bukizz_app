@@ -369,7 +369,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 children: [
                                   Container(
                                     height: 80.sp,
-                                    width: 53.5.sp,
+                                    width: 45.2.w,
                                     decoration: ShapeDecoration(
                                       gradient: LinearGradient(
                                         begin: Alignment(-0.00, -1.00),
@@ -405,7 +405,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                       child: CachedNetworkImage(
                                         imageUrl:
                                             schoolData.schoolData[index].banner,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.fill,
                                         filterQuality: FilterQuality.low,
                                         height: dimensions.height151,
                                         width: dimensions.width195,

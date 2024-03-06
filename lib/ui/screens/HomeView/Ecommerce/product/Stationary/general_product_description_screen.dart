@@ -234,7 +234,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                       ),
                       SizedBox(height: dimensions.height10,),
                       Container(
-                        height: dimensions.height10*8.2,
+                        height: 14.h,
                         width: dimensions.screenWidth,
                         child: ListView.builder(
                             itemCount: value.selectedProduct.variation.length,
@@ -376,7 +376,6 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                     itemCount: value.generalProduct.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      var selectedModel = categoryRepo.category[index];
                       return GestureDetector(
                         onTap: () {
                           value.selectedProduct = value.generalProduct[index];
