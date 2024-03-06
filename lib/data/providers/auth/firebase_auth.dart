@@ -367,6 +367,8 @@ class AuthProvider extends ChangeNotifier {
         print("Error due to $e");
       }
 
+      AppConstants.isLogin=true;
+
       // Navigate to the home screen
       if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(
