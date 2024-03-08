@@ -109,7 +109,7 @@ class _SelectLocationState extends State<SelectLocation> {
                              Positioned(
                                left: 3,
                                right: 3,
-                               bottom:18.sp,
+                               bottom:17.6.sp,
                                child: Container(
                                  width:91.w,
                                  height: 35.sp,

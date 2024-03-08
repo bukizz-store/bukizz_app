@@ -852,7 +852,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                             height: 39.sp,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
-                                              border: Border.all(color: Colors.grey.withOpacity(0.6))
+                                              // border: Border.all(color: Colors.grey.withOpacity(0.6))
                                             ),
                                             child: ClipRRect(
                                                 borderRadius:
