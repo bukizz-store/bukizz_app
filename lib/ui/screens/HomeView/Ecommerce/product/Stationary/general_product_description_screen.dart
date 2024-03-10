@@ -375,7 +375,6 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                     itemCount: value.generalProduct.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      var selectedModel = categoryRepo.category[index];
                       return GestureDetector(
                         onTap: () {
                           value.selectedProduct = value.generalProduct[index];
