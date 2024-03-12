@@ -69,6 +69,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 data.forEach((key) {
                   notifications.add(NotificationModel.fromJson(jsonEncode(key.value)));
                 });
+                notifications.sort((a, b) => b.date.compareTo(a.date));
                 return ListView.builder(
                     itemCount: snapshot.data!.snapshot.children.length,
                     scrollDirection: Axis.vertical,
