@@ -101,6 +101,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
             child: TextField(
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
+              enabled: false,
               decoration:InputDecoration(
                 labelStyle: TextStyle(
                   color: Colors.grey.withOpacity(0.6)
@@ -193,7 +194,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
               width: dimensions.width342,
               height: dimensions.height10 * 5.4,
               onPressed: () {
-                context.read<UpdateUserData>().updateUserData(context, _nameController.text, _phoneController.text, _emailController.text);
+                context.read<UpdateUserData>().updateUserData(context, _nameController.text, _phoneController.text);
               },
               buttonText: 'Save Changes'
           ),

@@ -337,8 +337,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
               context.watch<SchoolDataProvider>().schoolData.isNotEmpty
                   ? Container(
                       height: 50.sp,
-                      width: dimensions.width195,
-                      margin: EdgeInsets.only(left: 3.8.w),
+                      // width: dimensions.width195,
+                      margin: EdgeInsets.only(left: 3.8.w , right: 3.8.w),
                       // color: Colors.red,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,

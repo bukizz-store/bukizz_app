@@ -45,7 +45,7 @@ class UpdateUserData extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> updateUserData(BuildContext context , String name , String mobile , String email) async {
+  Future<void> updateUserData(BuildContext context , String name , String mobile) async {
     try {
       await FirebaseFirestore.instance
           .collection('userDetails')
@@ -53,14 +53,12 @@ class UpdateUserData extends ChangeNotifier{
           .update({
         'name': name,
         'mobile': mobile,
-        'email': email,
       }).then((value) async{
         AppConstants.userData.name = name;
         AppConstants.userData.mobile = mobile;
-        AppConstants.userData.email = email;
-        AppConstants.showSnackBar(context, 'Profile Updated', AppColors.success, Icons.check_circle_outline);
+        AppConstants.showSnackBarTop(context, 'Profile Updated', AppColors.success, Icons.check_circle_outline);
       }).catchError((e) {
-        AppConstants.showSnackBar(context, 'Error in Updating Profile', AppColors.error, Icons.error_outline_rounded);
+        AppConstants.showSnackBarTop(context, 'Error in Updating Profile', AppColors.error, Icons.error_outline_rounded);
       });
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));

@@ -73,7 +73,7 @@ class _CartState extends State<Cart> {
                           height: dimensions.height24 / 2,
                         ),
                         //1st container with address info
-                        (AppConstants.userData.address.pinCode.isNotEmpty)
+                        (address.pinCode.isNotEmpty)
                             ? Container(
                                 height: dimensions.height40 * 2,
                                 width: dimensions.screenWidth,
@@ -106,7 +106,7 @@ class _CartState extends State<Cart> {
                                               ),
                                               ReusableText(
                                                 text:
-                                                    AppConstants.userData.name,
+                                                    address.name,
                                                 fontSize: 16,
                                                 height: 0,
                                                 color: Color(0xFF121212),
