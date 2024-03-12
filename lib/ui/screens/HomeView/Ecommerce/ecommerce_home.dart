@@ -122,53 +122,55 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           (BuildContext context, int index, int realIndex) {
                         return RoundedImage(
                           onPressed: () async {
-                            if (banner.banners1[index].link.isNotEmpty) {
-                              if (banner.banners1[index].link
-                                      .contains('http') ||
-                                  banner.banners1[index].link
-                                      .contains('https')) {
-                                Uri url =
-                                    Uri.parse(banner.banners1[index].link);
-                                await launchUrl(url);
-                              } else if (banner.banners1[index].link[0] ==
-                                  '/') {
-                                List<String> data =
-                                    banner.banners1[index].link.split('/');
-                                if (data[1] == 'category') {
-                                  var selectedModel = categoryRepo.category[
-                                      categoryRepo.category.indexOf(categoryRepo
-                                          .category
-                                          .firstWhere((element) =>
-                                              element.name == data[2]))];
-                                  context
-                                      .read<CategoryRepository>()
-                                      .selectedCategory = selectedModel;
-                                  context
-                                      .read<GeneralProductRepository>()
-                                      .getGeneralProductFromFirebase(
-                                          selectedModel.categoryId);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              GeneralProductScreen(
-                                                  product:
-                                                      selectedModel.name)));
-                                } else if (data[1] == 'order') {
-                                  var orders = context.read<MyOrders>();
-                                  orders.fetchOrders().then((value) =>
-                                      orders.setOrder(orders.orders.indexWhere(
-                                          (element) =>
-                                              element.orderId == data[2])));
-                                  Navigator.pushNamed(
-                                      context, OrderDetailsScreen.route);
-                                }
-
-                                // context.read<TabProvider>().navigateToTab(0);
-                                // Navigator.pushNamed(context,ViewAll.route );
-                              }
-                            }
+                            // if (banner.banners1[index].link.isNotEmpty) {
+                            //   if (banner.banners1[index].link
+                            //           .contains('http') ||
+                            //       banner.banners1[index].link
+                            //           .contains('https')) {
+                            //     Uri url =
+                            //         Uri.parse(banner.banners1[index].link);
+                            //     await launchUrl(url);
+                            //   } else if (banner.banners1[index].link[0] ==
+                            //       '/') {
+                            //     List<String> data =
+                            //         banner.banners1[index].link.split('/');
+                            //     if (data[1] == 'category') {
+                            //       var selectedModel = categoryRepo.category[
+                            //           categoryRepo.category.indexOf(categoryRepo
+                            //               .category
+                            //               .firstWhere((element) =>
+                            //                   element.name == data[2]))];
+                            //       context
+                            //           .read<CategoryRepository>()
+                            //           .selectedCategory = selectedModel;
+                            //       context
+                            //           .read<GeneralProductRepository>()
+                            //           .getGeneralProductFromFirebase(
+                            //               selectedModel.categoryId);
+                            //       Navigator.push(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //               builder: (context) =>
+                            //                   GeneralProductScreen(
+                            //                       product:
+                            //                           selectedModel.name)));
+                            //     } else if (data[1] == 'order') {
+                            //       var orders = context.read<MyOrders>();
+                            //       orders.fetchOrders().then((value) =>
+                            //           orders.setOrder(orders.orders.indexWhere(
+                            //               (element) =>
+                            //                   element.orderId == data[2])));
+                            //       Navigator.pushNamed(
+                            //           context, OrderDetailsScreen.route);
+                            //     }
+                            //
+                            //     // context.read<TabProvider>().navigateToTab(0);
+                            //     // Navigator.pushNamed(context,ViewAll.route );
+                            //   }
+                            // }
                             // NotificationRepository.pushNotificationData();
+                            //schoolData.pushRandomData();
+                            ProductModel.addProductData();
                           },
                           width: dimensions.screenWidth,
                           height: dimensions.height192,

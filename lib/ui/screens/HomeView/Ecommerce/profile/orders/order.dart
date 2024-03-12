@@ -48,7 +48,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       padding: EdgeInsets.only(left: dimensions.width16/2,),
                       width: dimensions.screenWidth,
                       height: dimensions.height10 *
-                          18.6*
+                          19.6*
                           (orderData.orders.length),
                       color: Colors.white,
                       child: ListView.builder(

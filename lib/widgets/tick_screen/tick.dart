@@ -24,7 +24,7 @@ class _TickScreenState extends State<TickScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-      
+         leading:Row()
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
