@@ -228,29 +228,49 @@ class _AddAddressState extends State<AddAddress> {
       bottomNavigationBar: InkWell(
         onTap: () {
           //Save Address logic here
-          if(phoneController.text.length != 10 ){
+          if (phoneController.text.length != 10) {
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Number', AppColors.error, Icons.error_outline_rounded);
             return;
           }
-          if(pinCodeController.text.length !=6){
+          if (pinCodeController.text.length != 6) {
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Pincode', AppColors.error, Icons.error_outline_rounded);
             return;
           }
-          if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-              .hasMatch(emailController.text.toString())){
+          if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text.toString())) {
             AppConstants.showSnackBarTop(context, 'Please Enter a valid Email', AppColors.error, Icons.error_outline_rounded);
             return;
           }
-          if(buildingnameController.text.isEmpty) {
-              AppConstants.showSnackBarTop(context, 'Please Enter House No.', AppColors.error, Icons.error_outline_rounded);
-              return;
-            }
-          if(addressController.text.isEmpty) {
+          if (buildingnameController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter House No.', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if (addressController.text.isEmpty) {
             AppConstants.showSnackBarTop(context, 'Please Enter Street Name', AppColors.error, Icons.error_outline_rounded);
             return;
           }
+          if (nameController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter Full Name', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if (stateController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter State', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if (cityController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter City', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
 
-          Address address = Address(name: nameController.text, houseNo: buildingnameController.text, street: fullAddress, city: cityController.text, state: stateController.text, pinCode: pinCodeController.text, phone: phoneController.text, email: emailController.text);
+          Address address = Address(
+            name: nameController.text,
+            houseNo: buildingnameController.text,
+            street: fullAddress,
+            city: cityController.text,
+            state: stateController.text,
+            pinCode: pinCodeController.text,
+            phone: phoneController.text,
+            email: emailController.text,
+          );
           context.read<UpdateUserData>().updateUserAlternateAddress(address);
           Navigator.of(context).pop();
         },
@@ -259,24 +279,27 @@ class _AddAddressState extends State<AddAddress> {
           width: dimensions.screenWidth,
           color: Colors.white,
           child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: dimensions.width24,
-                  vertical: dimensions.height8 * 1.5),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Color(0xFF058FFF),
-                ),
-                child: Center(
-                    child: ReusableText(
+            padding: EdgeInsets.symmetric(
+                horizontal: dimensions.width24,
+                vertical: dimensions.height8 * 1.5),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Color(0xFF058FFF),
+              ),
+              child: Center(
+                child: ReusableText(
                   text: 'Save Address',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
-                )),
-              )),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
+
     );
   }
 
