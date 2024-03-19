@@ -23,13 +23,13 @@ class _TickScreenState extends State<TickScreen> {
       canPop: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-      
-        ),
+        // appBar: AppBar(
+        //
+        // ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: dimensions.height10*10,),
+            SizedBox(height: dimensions.height10*18,),
             Center(
               child: Container(
                 width: dimensions.width10*10,
