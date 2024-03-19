@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/auth/updateUserData.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../../../../widgets/address/update_address.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
@@ -51,6 +52,12 @@ class _Checkout1State extends State<Checkout1> {
         print('Delivery unavailable at this location');
       }
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {

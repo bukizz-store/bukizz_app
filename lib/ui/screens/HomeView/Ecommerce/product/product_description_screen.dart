@@ -414,119 +414,120 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 ExpandableTextWidget(
                     title: "Description",
                     text: value.selectedProduct.description),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Container(
-                  width: 100.w,
-                  color: Colors.white,
-                  padding: EdgeInsets.only(
-                      left: dimensions.width24,
-                      top: dimensions.height16,
-                      bottom: dimensions.height16,
-                      right: dimensions.width24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ReusableText(
-                        text: 'Delivery & Services',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF121212),
-                      ),
-                      SizedBox(
-                        height: dimensions.height8 * 3,
-                      ),
-                      ReusableText(
-                        text: 'Enter Delivery Pincode',
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF444444),
-                      ),
-                      SizedBox(
-                        height: dimensions.height8,
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: dimensions.screenWidth,
-                        height: 27.sp,
-                        child: TextField(
-                          maxLength: 6,
-                          keyboardType: TextInputType.number,
-                          controller: pinController,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: dimensions.height8 * 2),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: const BorderSide(
-                                  width: 0.50, color: Color(0xFFB7B7B7)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: const BorderSide(
-                                  width: 0.50, color: Color(0xFFB7B7B7)),
-                            ),
-                            suffixIcon:  TextButton(
-                              onPressed: (){checkDeliverable();},
-                              child:  const Text(
-                                'Check',
-                                style: TextStyle(
-                                  color: Color(0xFF058FFF),
-                                  fontSize: 16,
-                                  fontFamily: 'Nunito',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                            counterText: '',
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: dimensions.height8,
-                      ),
-                      isDeliverable
-                          ? Row(
-                        children: [
-                          Icon(
-                            Icons.local_shipping,
-                            color: Color(0xFF39A7FF),
-                          ),
-                          SizedBox(
-                            width: dimensions.width10 / 2,
-                          ),
-                          //code for displaying the delivery date two day after the today date and time
-                          ReusableText(
-                            text: 'Estimated delivery within 2 days',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF444444),
-                          )
-                        ],
-                      )
-                          : Row(
-                        children: [
-                          Icon(
-                            Icons.warning_rounded,
-                            color: AppColors.red,
-                          ),
-                          SizedBox(
-                            width: dimensions.width10 / 2,
-                          ),
-                          //code for displaying the delivery date two day after the today date and time
-                          ReusableText(
-                            text: 'Delivery Unavailable at this Pin code',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.red,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                // SizedBox(
+                //   height: 1.h,
+                // ),
+                //pincode section
+                // Container(
+                //   width: 100.w,
+                //   color: Colors.white,
+                //   padding: EdgeInsets.only(
+                //       left: dimensions.width24,
+                //       top: dimensions.height16,
+                //       bottom: dimensions.height16,
+                //       right: dimensions.width24),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       ReusableText(
+                //         text: 'Delivery & Services',
+                //         fontSize: 18,
+                //         fontWeight: FontWeight.w700,
+                //         color: Color(0xFF121212),
+                //       ),
+                //       SizedBox(
+                //         height: dimensions.height8 * 3,
+                //       ),
+                //       ReusableText(
+                //         text: 'Enter Delivery Pincode',
+                //         fontSize: 10,
+                //         fontWeight: FontWeight.w500,
+                //         color: Color(0xFF444444),
+                //       ),
+                //       SizedBox(
+                //         height: dimensions.height8,
+                //       ),
+                //       Container(
+                //         alignment: Alignment.center,
+                //         width: dimensions.screenWidth,
+                //         height: 27.sp,
+                //         child: TextField(
+                //           maxLength: 6,
+                //           keyboardType: TextInputType.number,
+                //           controller: pinController,
+                //           decoration: InputDecoration(
+                //             contentPadding: EdgeInsets.symmetric(
+                //                 horizontal: dimensions.height8 * 2),
+                //             border: OutlineInputBorder(
+                //               borderRadius: BorderRadius.circular(6),
+                //               borderSide: const BorderSide(
+                //                   width: 0.50, color: Color(0xFFB7B7B7)),
+                //             ),
+                //             focusedBorder: OutlineInputBorder(
+                //               borderRadius: BorderRadius.circular(6),
+                //               borderSide: const BorderSide(
+                //                   width: 0.50, color: Color(0xFFB7B7B7)),
+                //             ),
+                //             suffixIcon:  TextButton(
+                //               onPressed: (){checkDeliverable();},
+                //               child:  const Text(
+                //                 'Check',
+                //                 style: TextStyle(
+                //                   color: Color(0xFF058FFF),
+                //                   fontSize: 16,
+                //                   fontFamily: 'Nunito',
+                //                   fontWeight: FontWeight.w500,
+                //                   height: 0,
+                //                 ),
+                //               ),
+                //             ),
+                //             counterText: '',
+                //           ),
+                //         ),
+                //       ),
+                //       SizedBox(
+                //         height: dimensions.height8,
+                //       ),
+                //       isDeliverable
+                //           ? Row(
+                //         children: [
+                //           Icon(
+                //             Icons.local_shipping,
+                //             color: Color(0xFF39A7FF),
+                //           ),
+                //           SizedBox(
+                //             width: dimensions.width10 / 2,
+                //           ),
+                //           //code for displaying the delivery date two day after the today date and time
+                //           ReusableText(
+                //             text: 'Estimated delivery within 2 days',
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w500,
+                //             color: Color(0xFF444444),
+                //           )
+                //         ],
+                //       )
+                //           : Row(
+                //         children: [
+                //           Icon(
+                //             Icons.warning_rounded,
+                //             color: AppColors.red,
+                //           ),
+                //           SizedBox(
+                //             width: dimensions.width10 / 2,
+                //           ),
+                //           //code for displaying the delivery date two day after the today date and time
+                //           ReusableText(
+                //             text: 'Delivery Unavailable at this Pin code',
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w500,
+                //             color: AppColors.red,
+                //           )
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
 
                 SizedBox(
                   height: dimensions.height8,
@@ -534,10 +535,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
                 // accesories
 
-
-                SizedBox(
-                  height: dimensions.height24 ,
-                ),
+                //
+                // SizedBox(
+                //   height: dimensions.height24 ,
+                // ),
                 ReusableColoredBox(
                   width: dimensions.screenWidth,
                   height: dimensions.height8 * 27,
