@@ -64,7 +64,7 @@ class AppConstants{
             Icon(icon ,color: Colors.white,size: 24,),
             SizedBox(width: 10,),
             SizedBox(
-              width: 70.w,
+              width: 60.w,
               child: Wrap(
                 children: [Text(
                   text,

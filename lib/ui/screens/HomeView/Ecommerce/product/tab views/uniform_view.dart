@@ -3,7 +3,10 @@ import 'package:bukizz/data/repository/product/uniform.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/Uniform/uniform_description_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../../utils/dimensions.dart';
 import '../../../../../../widgets/text and textforms/Reusable_text.dart';
@@ -42,7 +45,7 @@ class _UniformScreenState extends State<UniformScreen> {
           children: [
 
             SizedBox(height: dimensions.height8*2.5),
-
+            uniformData.uniform.length>0?
             Container(
               width: dimensions.screenWidth,
               height: dimensions.screenHeight,
@@ -89,6 +92,7 @@ class _UniformScreenState extends State<UniformScreen> {
                             Container(
                               width: dimensions.width10*16.8,
                               height: dimensions.height10*9.5,
+
                               child: ClipRRect(
                                   borderRadius:BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
                                   child: CachedNetworkImage(
@@ -111,9 +115,55 @@ class _UniformScreenState extends State<UniformScreen> {
                         ),
                       ),
                     );
+
                   }
               ),
-            )
+            ):
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 35.sp,),
+                  Container(
+                    width:50.sp,
+                    height: 50.sp,
+                    child:Image.asset('assets/emptyUniform.png'),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Uniforms Coming Soon',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  SizedBox(height:20),
+                  Text(
+                    'We\'re working hard to serve you better',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey[600],
+                      fontFamily: 'nunito',
+
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Stay tuned for updates!',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontFamily: 'nunito',
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -96,36 +96,36 @@ class _AddAddressState extends State<AddAddress> {
                       SizedBox(
                         height: dimensions.height8 * 2,
                       ),
-                      // GestureDetector(
-                      //   onTap: onUseMyLocationTap,
-                      //   child: Container(
-                      //     width: dimensions.screenWidth,
-                      //     height: dimensions.height8 * 5.5,
-                      //     decoration: ShapeDecoration(
-                      //       shape: RoundedRectangleBorder(
-                      //         side: BorderSide(
-                      //             width: 1, color: Color(0xFF00579E)),
-                      //         borderRadius: BorderRadius.circular(100),
-                      //       ),
-                      //     ),
-                      //     child: Row(
-                      //       mainAxisAlignment:
-                      //       MainAxisAlignment.center,
-                      //       children: [
-                      //         Icon(
-                      //           Icons.my_location,
-                      //           color: Color(0xFF00579E),
-                      //         ),
-                      //         ReusableText(
-                      //           text: 'Use my location',
-                      //           fontSize: 14,
-                      //           color: Color(0xFF00579E),
-                      //           fontWeight: FontWeight.w600,
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      GestureDetector(
+                        onTap: onUseMyLocationTap,
+                        child: Container(
+                          width: dimensions.screenWidth,
+                          height: dimensions.height8 * 5.5,
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0xFF00579E)),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.my_location,
+                                color: Color(0xFF00579E),
+                              ),
+                              ReusableText(
+                                text: 'Use my location',
+                                fontSize: 14,
+                                color: Color(0xFF00579E),
+                                fontWeight: FontWeight.w600,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                       SizedBox(height: dimensions.height16,),
                       CustomTextForm(
                         width: dimensions.screenWidth,

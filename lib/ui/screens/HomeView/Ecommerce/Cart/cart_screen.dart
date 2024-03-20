@@ -399,7 +399,7 @@ class _CartState extends State<Cart> {
                                       .set
                                       .first
                                       .image
-                                      .first),
+                                      .first ),
                                 )),
                             SizedBox(height: dimensions.height8),
                             ReusableQuantityButton(

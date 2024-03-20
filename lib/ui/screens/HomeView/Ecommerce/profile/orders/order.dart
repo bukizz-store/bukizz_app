@@ -1,5 +1,6 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
@@ -214,11 +215,46 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
             ],
           ),
-        ):Container(
-          child: Center(
-            child: ReusableText(text: 'No Orders Yet', fontSize: 16),
+        ):SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 50.sp,),
+              Container(
+                width: dimensions.width244,
+                height: dimensions.height40*4.5,
+                child: SvgPicture.asset('assets/cart/emptyCart.svg'),
+              ),
+              SizedBox(
+                width: dimensions.width10*24,
+                child: const Text(
+                  'Hmmm... looks like you haven\'t order anything' ,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF7A7A7A),
+                    fontSize: 20,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+              ),
+              SizedBox(height: dimensions.height32,),
+              ElevatedButton(
+                  onPressed: (){
+                    context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                    Navigator.pushNamed(context, MainScreen.route);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    side: BorderSide(color: Color(0xFF00579E)),
+                  ),
+                  child: ReusableText(text: 'Keep Exploring', fontSize: 16,color: Color(0xFF00579E),fontWeight: FontWeight.w700,)
+              ),
+            ],
           ),
-        )
+        ),
 
       ) : const Scaffold(body: Center(child: SpinKitChasingDots(color: AppColors.primaryColor, size: 24,),));
     });
