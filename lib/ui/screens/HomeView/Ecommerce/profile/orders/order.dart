@@ -48,8 +48,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   Container(
                       padding: EdgeInsets.only(left: dimensions.width16/2,),
                       width: dimensions.screenWidth,
-                      height: dimensions.height10 *
-                          18.6*
+                      height: 61.sp*
                           (orderData.orders.length),
                       color: Colors.white,
                       child: ListView.builder(
@@ -220,19 +219,19 @@ class _OrderScreenState extends State<OrderScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 50.sp,),
+              SizedBox(height: 45.sp,),
               Container(
-                width: dimensions.width244,
-                height: dimensions.height40*4.5,
-                child: SvgPicture.asset('assets/cart/emptyCart.svg'),
+                width: dimensions.screenWidth,
+                height: dimensions.height40*5.5,
+                child: Image.asset('assets/noOrder.png'),
               ),
               SizedBox(
-                width: dimensions.width10*24,
+                width: 55.sp,
                 child: const Text(
-                  'Hmmm... looks like you haven\'t order anything' ,
+                  'No Orders Yet',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF7A7A7A),
+                    color: Color(0xFF00579E),
                     fontSize: 20,
                     fontFamily: 'Nunito',
                     fontWeight: FontWeight.w700,
@@ -241,12 +240,28 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               SizedBox(height: dimensions.height32,),
+              SizedBox(
+                width: 70.sp,
+                child: const Text(
+                  'Don\'t worry, your next order is just a few clicks away!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF7A7A7A),
+                    fontSize: 14,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.sp,),
               ElevatedButton(
                   onPressed: (){
                     context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
                     Navigator.pushNamed(context, MainScreen.route);
                   },
                   style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
                     backgroundColor: Colors.transparent,
                     side: BorderSide(color: Color(0xFF00579E)),
                   ),

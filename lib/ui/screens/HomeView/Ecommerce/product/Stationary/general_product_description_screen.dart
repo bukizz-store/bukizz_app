@@ -281,80 +281,81 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                 height: dimensions.height24 / 3,
               ),
 
-              Container(
-                width: 100.w,
-                color: Colors.white,
-                padding: EdgeInsets.only(left: dimensions.width24,top: dimensions.height16,bottom: dimensions.height16,right: dimensions.width24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ReusableText(text:  'Delivery & Services', fontSize: 18,fontWeight: FontWeight.w700,color:  Color(0xFF121212),),
-                    SizedBox(height: dimensions.height8*3,),
-                    ReusableText(text:  'Enter Delivery Pincode', fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xFF444444),),
-                    SizedBox(height: dimensions.height8,),
-                    Container(
-                      alignment: Alignment.center,
-                      width: dimensions.screenWidth,
-                      height: 27.sp,
-                      child: TextField(
-                        maxLength: 6,
-                        keyboardType: TextInputType.number,
-                        controller: pinController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
-                          border:OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: const BorderSide(width: 0.50, color: Color(0xFFB7B7B7)),
-
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: const BorderSide(width: 0.50, color: Color(0xFFB7B7B7)),
-                          ),
-
-                          suffixIcon: GestureDetector(
-                            onTap: (){
-                              checkDeliverable();
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Text(
-                                'Check',
-                                style: TextStyle(
-                                  color: Color(0xFF058FFF),
-                                  fontSize: 14,
-                                  fontFamily: 'Nunito',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          counterText: '',
-                        ),
-
-                      ),
-
-                    ),
-                    SizedBox(height: dimensions.height8,),
-                    isDeliverable ? Row(
-                      children: [
-                        Icon(Icons.local_shipping,color:Color(0xFF39A7FF),),
-                        SizedBox(width: dimensions.width10/2,),
-                        //code for displaying the delivery date two day after the today date and time
-                        ReusableText(text: 'Estimated delivery by 21st March', fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF444444),)
-                      ],
-                    ) : Row(
-                      children: [
-                        Icon(Icons.warning_rounded,color:AppColors.red,),
-                        SizedBox(width: dimensions.width10/2,),
-                        //code for displaying the delivery date two day after the today date and time
-                        ReusableText(text: 'Delivery Unavailable at this Pin code', fontSize: 14,fontWeight: FontWeight.w500,color: AppColors.red,)
-                      ],
-                    )
-                  ],
-                ),
-              ),
+              //pincode check
+              // Container(
+              //   width: 100.w,
+              //   color: Colors.white,
+              //   padding: EdgeInsets.only(left: dimensions.width24,top: dimensions.height16,bottom: dimensions.height16,right: dimensions.width24),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       ReusableText(text:  'Delivery & Services', fontSize: 18,fontWeight: FontWeight.w700,color:  Color(0xFF121212),),
+              //       SizedBox(height: dimensions.height8*3,),
+              //       ReusableText(text:  'Enter Delivery Pincode', fontSize: 10,fontWeight: FontWeight.w500,color: Color(0xFF444444),),
+              //       SizedBox(height: dimensions.height8,),
+              //       Container(
+              //         alignment: Alignment.center,
+              //         width: dimensions.screenWidth,
+              //         height: 27.sp,
+              //         child: TextField(
+              //           maxLength: 6,
+              //           keyboardType: TextInputType.number,
+              //           controller: pinController,
+              //           decoration: InputDecoration(
+              //             contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
+              //             border:OutlineInputBorder(
+              //               borderRadius: BorderRadius.circular(6),
+              //               borderSide: const BorderSide(width: 0.50, color: Color(0xFFB7B7B7)),
+              //
+              //             ),
+              //             focusedBorder: OutlineInputBorder(
+              //               borderRadius: BorderRadius.circular(6),
+              //               borderSide: const BorderSide(width: 0.50, color: Color(0xFFB7B7B7)),
+              //             ),
+              //
+              //             suffixIcon: GestureDetector(
+              //               onTap: (){
+              //                 checkDeliverable();
+              //               },
+              //               child: const Padding(
+              //                 padding: EdgeInsets.symmetric(vertical: 10.0),
+              //                 child: Text(
+              //                   'Check',
+              //                   style: TextStyle(
+              //                     color: Color(0xFF058FFF),
+              //                     fontSize: 14,
+              //                     fontFamily: 'Nunito',
+              //                     fontWeight: FontWeight.w500,
+              //                     height: 0,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //             counterText: '',
+              //           ),
+              //
+              //         ),
+              //
+              //       ),
+              //       SizedBox(height: dimensions.height8,),
+              //       isDeliverable ? Row(
+              //         children: [
+              //           Icon(Icons.local_shipping,color:Color(0xFF39A7FF),),
+              //           SizedBox(width: dimensions.width10/2,),
+              //           //code for displaying the delivery date two day after the today date and time
+              //           ReusableText(text: 'Estimated delivery by 21st March', fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF444444),)
+              //         ],
+              //       ) : Row(
+              //         children: [
+              //           Icon(Icons.warning_rounded,color:AppColors.red,),
+              //           SizedBox(width: dimensions.width10/2,),
+              //           //code for displaying the delivery date two day after the today date and time
+              //           ReusableText(text: 'Delivery Unavailable at this Pin code', fontSize: 14,fontWeight: FontWeight.w500,color: AppColors.red,)
+              //         ],
+              //       )
+              //     ],
+              //   ),
+              // ),
               SizedBox(height: dimensions.height10,),
               ExpandableTextWidget(
                   title: "Description",

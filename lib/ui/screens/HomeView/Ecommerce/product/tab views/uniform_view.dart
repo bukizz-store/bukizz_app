@@ -8,9 +8,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../utils/dimensions.dart';
 import '../../../../../../widgets/text and textforms/Reusable_text.dart';
 import '../../../../../../widgets/text and textforms/textformAddress.dart';
+import '../../main_screen.dart';
 
 
 class UniformScreen extends StatefulWidget {
@@ -126,40 +128,52 @@ class _UniformScreenState extends State<UniformScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 35.sp,),
+                  SizedBox(height: 28.sp,),
                   Container(
-                    width:50.sp,
-                    height: 50.sp,
+                    width:60.sp,
+                    height: 60.sp,
+                    decoration: BoxDecoration(
+                      // borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey.withOpacity(0.1))
+                    ),
                     child:Image.asset('assets/emptyUniform.png'),
                   ),
                   SizedBox(height: 10),
                   Text(
                     'Uniforms Coming Soon',
                     style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blue,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF00579E),
                     ),
                   ),
                   SizedBox(height:20),
-                  Text(
-                    'We\'re working hard to serve you better',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey[600],
-                      fontFamily: 'nunito',
-
+                   SizedBox(
+                    width: 70.sp,
+                    child: const Text(
+                      'We\'re working hard to bring you the perfect uniforms. Check back soon!',
+                    textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF7A7A7A),
+                        fontSize: 14,
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Stay tuned for updates!',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontFamily: 'nunito',
-                      fontWeight: FontWeight.bold
-                    ),
+                  SizedBox(height: 25,),
+                  ElevatedButton(
+                      onPressed: (){
+                        context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                        Navigator.pushNamed(context, MainScreen.route);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 35.sp),
+                        backgroundColor: Colors.transparent,
+                        side: BorderSide(color: Color(0xFF00579E)),
+                      ),
+                      child: ReusableText(text: 'Back to Home', fontSize: 16,color: Color(0xFF00579E),fontWeight: FontWeight.w700,)
                   ),
                 ],
               ),
