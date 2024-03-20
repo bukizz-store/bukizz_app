@@ -252,9 +252,14 @@ class _AddAddressState extends State<AddAddress> {
             return;
           }
 
-          Address address = Address(name: nameController.text, houseNo: buildingnameController.text, street: fullAddress, city: cityController.text, state: stateController.text, pinCode: pinCodeController.text, phone: phoneController.text, email: emailController.text);
+          Address address = Address(name: nameController.text, houseNo: buildingnameController.text, street: addressController.text, city: cityController.text, state: stateController.text, pinCode: pinCodeController.text, phone: phoneController.text, email: emailController.text);
+          if(context.read<UpdateAddressRepository>().address.pinCode == ''){
+            context.read<UpdateUserData>().updateUserAddress(address);
+            context.read<UpdateAddressRepository>().address = address;
+          }else{
           context.read<UpdateUserData>().updateUserAlternateAddress(address);
           context.read<UpdateAddressRepository>().alternateAddress = address;
+          }
           Navigator.of(context).pop();
         },
         child: Container(
