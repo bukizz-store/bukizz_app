@@ -36,7 +36,4 @@ class UpdateAddressRepository extends ChangeNotifier {
     _alternateAddress = value;
     notifyListeners();
   }
-
-
-
 }

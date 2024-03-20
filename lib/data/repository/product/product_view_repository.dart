@@ -88,20 +88,30 @@ class ProductViewRepository extends ChangeNotifier {
   }
 
   Future<void> getProductData(List<dynamic> productId) async {
-    print(productId.toString());
     //Create a method to fetch the product data from firebase which is stored in products collection where productId is equals to the productId list which is coming from school model nd store it in productData list.
     setProductLoaded(false);
-    productData = await FirebaseFirestore.instance
+
+    // productData = await FirebaseFirestore.instance
+    //     .collection('products')
+    //     .where('productId', whereIn: productId)
+    //     .get()
+    //     .then((value) =>
+    //         value.docs.map((e) => ProductModel.fromMap(e.data())).toList());
+
+
+    // method to listen the product data from firebase when it get's updated
+    FirebaseFirestore.instance
         .collection('products')
         .where('productId', whereIn: productId)
-        .get()
-        .then((value) =>
-            value.docs.map((e) => ProductModel.fromMap(e.data())).toList());
-
-    productData.sort((a, b) => compareClassIds(a.classId, b.classId));
-
-
+        .snapshots()
+        .listen((event) {
+      productData = event.docs.map((e) => ProductModel.fromMap(e.data())).toList();
+      productData.sort((a, b) => compareClassIds(a.classId, b.classId));
+      setProductLoaded(true);
+      notifyListeners();
+    });
     setProductLoaded(true);
+
   }
 }
 
