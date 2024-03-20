@@ -118,7 +118,7 @@ class _Checkout1State extends State<Checkout1> {
 
               SizedBox(height: dimensions.height8*1.5,),
               //add new address
-              AppConstants.userData.alternateAddress.pinCode.isEmpty || AppConstants.userData.address.pinCode.isEmpty ?  Container(
+              value.alternateAddress.pinCode.isEmpty || value.address.pinCode.isEmpty ?  Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height48,
                 color: Colors.white,
@@ -144,7 +144,7 @@ class _Checkout1State extends State<Checkout1> {
               SizedBox(height: dimensions.height8*1.5,),
 
               //address selection
-              AppConstants.userData.address.pinCode.isNotEmpty ? Container(
+              value.address.pinCode.isNotEmpty ? Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height8*12,
                 color: Colors.white,
@@ -160,7 +160,6 @@ class _Checkout1State extends State<Checkout1> {
                               setState(() {
                                 selectedAddress = value;
                                 context.read<OrderViewRespository>().setUserAddress(context.read<UpdateAddressRepository>().address);
-                                debugPrint(selectedAddress);
                               });
                             },
                           ),
@@ -218,7 +217,7 @@ class _Checkout1State extends State<Checkout1> {
                     )
                 ),
               ) : Container(),
-              AppConstants.userData.alternateAddress.pinCode.isNotEmpty ?  Container(
+              value.alternateAddress.pinCode.isNotEmpty ?  Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height8*12,
                 color: Colors.white,

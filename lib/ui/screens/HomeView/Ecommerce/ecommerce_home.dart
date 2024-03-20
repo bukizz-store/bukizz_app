@@ -779,6 +779,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     SizedBox(
                       height: dimensions.height10 * 3,
                     ),
+
                     Container(
                       width: dimensions.screenWidth,
                       height: 88.sp,

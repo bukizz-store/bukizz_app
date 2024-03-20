@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
+import '../../../../../data/repository/address/update_address.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import 'package:geolocator/geolocator.dart';
@@ -253,6 +254,7 @@ class _AddAddressState extends State<AddAddress> {
 
           Address address = Address(name: nameController.text, houseNo: buildingnameController.text, street: fullAddress, city: cityController.text, state: stateController.text, pinCode: pinCodeController.text, phone: phoneController.text, email: emailController.text);
           context.read<UpdateUserData>().updateUserAlternateAddress(address);
+          context.read<UpdateAddressRepository>().alternateAddress = address;
           Navigator.of(context).pop();
         },
         child: Container(
