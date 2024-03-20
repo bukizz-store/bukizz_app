@@ -54,7 +54,7 @@ class _TabScreenState extends State<TabScreen>
     var schoolData = context.read<SchoolDataProvider>();
     return Scaffold(
       appBar: AppBar(
-
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),onPressed: (){Navigator.of(context).pop();},),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,

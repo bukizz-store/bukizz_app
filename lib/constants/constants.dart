@@ -3,6 +3,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -37,53 +38,62 @@ class AppConstants{
   }
 
   static Future<void> showSnackBarTop(BuildContext context , String text , Color color , IconData icon , {int time = 2}) async {
-    var snackBar = SnackBar(
-      elevation: 0,
-      margin: EdgeInsets.only(
-         /* bottom: MediaQuery.of(context).size.height - 92.h,*/
-          left: 10,
-          right: 10),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: GestureDetector(
-        onTap: (){
-          context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
-          Navigator.pushNamed(context,  MainScreen.route);
-        },
-        child: Container(
-          width: 300,
-          height: 40,
-          // padding: const EdgeInsets.all(16),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.black54,width: 2),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(icon ,color: Colors.white,size: 24,),
-              SizedBox(width: 10,),
-              Text(
-                text,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'nunito',
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.white,
-                    overflow: TextOverflow.ellipsis
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      duration: Duration(seconds: time),
+    Fluttertoast.cancel();
+    Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: color.withOpacity(0.9),
+      textColor: Colors.white,
+      fontSize: 18.0,
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    // var snackBar = SnackBar(
+    //   elevation: 0,
+    //   margin: EdgeInsets.only(
+    //      /* bottom: MediaQuery.of(context).size.height - 92.h,*/
+    //       left: 10,
+    //       right: 10),
+    //   behavior: SnackBarBehavior.floating,
+    //   backgroundColor: Colors.transparent,
+    //   content: GestureDetector(
+    //     onTap: (){
+    //       context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
+    //       Navigator.pushNamed(context,  MainScreen.route);
+    //     },
+    //     child: Container(
+    //       width: 300,
+    //       height: 40,
+    //       // padding: const EdgeInsets.all(16),
+    //       clipBehavior: Clip.antiAlias,
+    //       decoration: BoxDecoration(
+    //         color: color,
+    //         borderRadius: BorderRadius.circular(12),
+    //         border: Border.all(color: Colors.black54,width: 2),
+    //       ),
+    //       padding: EdgeInsets.symmetric(horizontal: 10),
+    //       child: Row(
+    //         mainAxisAlignment: MainAxisAlignment.start,
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //           Icon(icon ,color: Colors.white,size: 24,),
+    //           SizedBox(width: 10,),
+    //           Text(
+    //             text,
+    //             style: const TextStyle(
+    //                 fontSize: 16,
+    //                 fontFamily: 'nunito',
+    //                 fontWeight: FontWeight.w600,
+    //                 color: AppColors.white,
+    //                 overflow: TextOverflow.ellipsis
+    //             ),
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    //   duration: Duration(seconds: time),
+    // );
+    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static Future<void> showSnackBar(BuildContext context , String text , Color color , IconData icon , {int time = 2}) async {

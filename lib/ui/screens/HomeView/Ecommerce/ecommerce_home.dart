@@ -85,7 +85,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     var banner = context.read<BannerRepository>();
     var general = Provider.of<GeneralProductRepository>(context, listen: false);
     
-    var topDeals = categoryRepo.category.getRange(0 , 2 );
+    var topDeals = categoryRepo.category.getRange(categoryRepo.category.length-4 , categoryRepo.category.length);
     // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
@@ -122,68 +122,55 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           (BuildContext context, int index, int realIndex) {
                         return RoundedImage(
                           onPressed: () async {
-                            if (banner.banners1[index].link.isNotEmpty) {
-                              if (banner.banners1[index].link
-                                      .contains('http') ||
-                                  banner.banners1[index].link
-                                      .contains('https')) {
-                                Uri url =
-                                    Uri.parse(banner.banners1[index].link);
-                                await launchUrl(url);
-                              } else if (banner.banners1[index].link[0] ==
-                                  '/') {
-                                List<String> data =
-                                    banner.banners1[index].link.split('/');
-                                if (data[1] == 'category') {
-                                  var selectedModel = categoryRepo.category[
-                                      categoryRepo.category.indexOf(categoryRepo
-                                          .category
-                                          .firstWhere((element) =>
-                                              element.name == data[2]))];
-                                  context
-                                      .read<CategoryRepository>()
-                                      .selectedCategory = selectedModel;
-                                  context
-                                      .read<GeneralProductRepository>()
-                                      .getGeneralProductFromFirebase(
-                                          selectedModel.categoryId);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              GeneralProductScreen(
-                                                  product:
-                                                      selectedModel.name)));
-                                } else if (data[1] == 'order') {
-                                  var orders = context.read<MyOrders>();
-                                  orders.fetchOrders().then((value) =>
-                                      orders.setOrder(orders.orders.indexWhere(
-                                          (element) =>
-                                              element.orderId == data[2])));
-                                  Navigator.pushNamed(
-                                      context, OrderDetailsScreen.route);
-                                }
-
-                                // context.read<TabProvider>().navigateToTab(0);
-                                // Navigator.pushNamed(context,ViewAll.route );
-                              }
-                              // else if(banner.banners1[index].link.contains('stationary')){
-                              //   Navigator.pushNamed(context, ViewAllStationaryScreen.route);
-                              // }
-                              // else if(banner.banners1[index].link.contains('uniform')){
-                              //   context.read<TabProvider>().navigateToTab(1);
-                              //   Navigator.pushNamed(context, ViewAll.route);
-                              // }
-                              // else if(banner.banners1[index].link.contains('admission')){
-                              //   context.read<TabProvider>().navigateToTab(2);
-                              //   Navigator.pushNamed(context, ViewAll.route);
-                              // }
-                              // else if(banner.banners1[index].link.contains('extras')){
-                              //   context.read<TabProvider>().navigateToTab(3);
-                              //   Navigator.pushNamed(context, ViewAll.route);
-                              // }
-                            }
+                            // if (banner.banners1[index].link.isNotEmpty) {
+                            //   if (banner.banners1[index].link
+                            //           .contains('http') ||
+                            //       banner.banners1[index].link
+                            //           .contains('https')) {
+                            //     Uri url =
+                            //         Uri.parse(banner.banners1[index].link);
+                            //     await launchUrl(url);
+                            //   } else if (banner.banners1[index].link[0] ==
+                            //       '/') {
+                            //     List<String> data =
+                            //         banner.banners1[index].link.split('/');
+                            //     if (data[1] == 'category') {
+                            //       var selectedModel = categoryRepo.category[
+                            //           categoryRepo.category.indexOf(categoryRepo
+                            //               .category
+                            //               .firstWhere((element) =>
+                            //                   element.name == data[2]))];
+                            //       context
+                            //           .read<CategoryRepository>()
+                            //           .selectedCategory = selectedModel;
+                            //       context
+                            //           .read<GeneralProductRepository>()
+                            //           .getGeneralProductFromFirebase(
+                            //               selectedModel.categoryId);
+                            //       Navigator.push(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //               builder: (context) =>
+                            //                   GeneralProductScreen(
+                            //                       product:
+                            //                           selectedModel.name)));
+                            //     } else if (data[1] == 'order') {
+                            //       var orders = context.read<MyOrders>();
+                            //       orders.fetchOrders().then((value) =>
+                            //           orders.setOrder(orders.orders.indexWhere(
+                            //               (element) =>
+                            //                   element.orderId == data[2])));
+                            //       Navigator.pushNamed(
+                            //           context, OrderDetailsScreen.route);
+                            //     }
+                            //
+                            //     // context.read<TabProvider>().navigateToTab(0);
+                            //     // Navigator.pushNamed(context,ViewAll.route );
+                            //   }
+                            // }
                             // NotificationRepository.pushNotificationData();
+                            //schoolData.pushRandomData();
+                            ProductModel.addProductData();
                           },
                           width: dimensions.screenWidth,
                           height: dimensions.height192,
@@ -248,8 +235,20 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 context.read<TabProvider>().navigateToTab(0);
                                 Navigator.pushNamed(context, ViewAll.route);
                               } else if (index == 1) {
-                                Navigator.pushNamed(
-                                    context, ViewAllStationaryScreen.route);
+                                var selectedModel = categoryRepo.category.where((element) => element.categoryId == "Stationary Kit").first;
+                                context
+                                    .read<CategoryRepository>()
+                                    .selectedCategory = selectedModel;
+                                context
+                                    .read<GeneralProductRepository>()
+                                    .getGeneralProductFromFirebase(
+                                    selectedModel.categoryId);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            GeneralProductScreen(
+                                                product: selectedModel.name)));
                               } else if (index == 3) {
                                 Navigator.pushNamed(context, Forms.route);
                               } else if (index == 2) {
@@ -340,8 +339,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
               context.watch<SchoolDataProvider>().schoolData.isNotEmpty
                   ? Container(
                       height: 50.sp,
-                      width: dimensions.width195,
-                      margin: EdgeInsets.only(left: 3.8.w),
+                      // width: dimensions.width195,
+                      margin: EdgeInsets.only(left: 3.8.w , right: 3.8.w),
                       // color: Colors.red,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -537,24 +536,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                         )
                                       ],
                                     ),
-                                    // child: ClipRRect(
-                                    //   borderRadius: BorderRadius.circular(12),
-                                    //   child: Image.network(
-                                    //     schoolData.schoolData[index].banner,
-                                    //     fit: BoxFit.cover,
-                                    //     filterQuality: FilterQuality.low,
-                                    //     height: dimensions.height151,
-                                    //     width: dimensions.width195,
-                                    //   ),
-                                    // ),
                                   ),
-
-                                  // Positioned(
-                                  //     left: dimensions.width16/2,
-                                  //     right: 0,
-                                  //     bottom: dimensions.height8*2.5,
-                                  //     child: ReusableText(text: schoolData.schoolData[index].name, fontSize: 14,color: Color(0xFFF9F9F9),fontWeight: FontWeight.w700,)
-                                  // )
                                 ],
                               ),
                             ),
@@ -568,15 +550,17 @@ class _EcommerceMainState extends State<EcommerceMain> {
               //2nd slider
               Builder(builder: (context) {
                 if (banner.banners2.isEmpty) {
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: Container(
-                      width: 330,
-                      height: 178,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
+                  return Center(
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: 330,
+                        height: 178,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                      ),
                     ),
                   );
                 }
@@ -597,21 +581,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           imageUrl: banner.banners2[index].image,
                         );
                       },
-                      // items: [
-                      //   RoundedImage(
-                      //     width: dimensions.screenWidth,
-                      //     height: dimensions.height192,
-                      //     isNetworkImage: true,
-                      //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner1.jpg?alt=media&token=07a8dbea-31e2-43d6-bce8-90223eb13cc0',
-                      //   ),
-                      //   RoundedImage(
-                      //     width: dimensions.screenWidth,
-                      //     height: dimensions.height192,
-                      //     isNetworkImage: true,
-                      //     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/banners%2Fslider1%2Fbanner3.jpg?alt=media&token=0cf88ad2-203f-468b-8a8b-1c037da3713a',
-                      //   ),
-                      // ],
-
                       options: CarouselOptions(
                         viewportFraction: 1,
                         aspectRatio: 2.0,
@@ -697,11 +666,11 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       // color: Colors.red,
                       padding: EdgeInsets.only(left: dimensions.width16),
                       child: ListView.builder(
-                          itemCount: 3,
+                          itemCount: categoryRepo.category.length - 4,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             // print(categoryRepo.category.length);
-                            var selectedModel = categoryRepo.category.getRange(2, categoryRepo.category.length).elementAt(index);
+                            var selectedModel = categoryRepo.category.getRange(0, categoryRepo.category.length - 4).elementAt(index);
                             return GestureDetector(
                               onTap: () {
                                 context
@@ -813,7 +782,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     ),
                     Container(
                       width: dimensions.screenWidth,
-                      height: 60.sp,
+                      height: 80.sp,
                       child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -821,7 +790,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                             crossAxisSpacing: dimensions.width24 / 2,
                             mainAxisSpacing: dimensions.height8,
                           ),
-                          itemCount: 2,
+                          itemCount: topDeals.length,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             var selectedModel = topDeals.elementAt(index);

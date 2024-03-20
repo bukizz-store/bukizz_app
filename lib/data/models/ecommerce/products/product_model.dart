@@ -176,14 +176,21 @@ class ProductModel {
   static ProductModel randomProductData() {
 
     var streamData = StreamData(
-      name: '28',
+      name: 'Science + Maths',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
       sku: 10,
       price: 0,
       salePrice: 0,
     );
     var streamData2 = StreamData(
-      name: '30',
+      name: 'Science + Economics',
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
+      sku: 10,
+      price: 1800,
+      salePrice: 1600,
+    );
+    var streamData3 = StreamData(
+      name: 'Maths + Economics',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL12.png?alt=media&token=b82e9a43-dbe9-4a57-8b14-14c1e1d0c8a7'],
       sku: 10,
       price: 1800,
@@ -191,14 +198,14 @@ class ProductModel {
     );
 
     var setData = SetData(
-      name: 'Yellow',
+      name: 'BookSet + NoteBook Set',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
       sku: 10,
       price: 0,
       salePrice: 0,
     );
     var setData2 = SetData(
-      name: 'Blue',
+      name: 'BookSet',
       image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL11.png?alt=media&token=a785215f-81c4-4530-bd81-ebcdd7c8fdb4'],
       sku: 10,
       price: 0,
@@ -206,55 +213,71 @@ class ProductModel {
     );
 
     var variation =  Variation(
-      price: 600,
-      salePrice: 500,
+      price: 5278,
+      salePrice: 4922,
       sku: 10,
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F1.png?alt=media&token=bd5ecdd3-93e3-4fc7-8fdb-a6dfc1414018'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
       costPerItem: 200,
       reviewIdList: [],
     );
 
     var variation2 =  Variation(
-      price: 2200,
-      salePrice: 1900,
+      price: 3598,
+      salePrice: 3410,
       sku: 10,
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F1.png?alt=media&token=bd5ecdd3-93e3-4fc7-8fdb-a6dfc1414018'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
       costPerItem: 200,
       reviewIdList: [],
     );
     var variation3 =  Variation(
-      price: 2200,
-      salePrice: 1900,
+      price: 4488,
+      salePrice: 4323,
       sku: 10,
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F2.png?alt=media&token=90b4f822-7223-4ca9-ba93-77e54a570b5d'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
       costPerItem: 200,
       reviewIdList: [],
     );
     var variation4 =  Variation(
-      price: 2200,
-      salePrice: 1900,
+      price: 4558,
+      salePrice: 4199,
       sku: 10,
-      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/uniforms%2FVSEC%2C%20Sharda%20Nagar%2F2.png?alt=media&token=90b4f822-7223-4ca9-ba93-77e54a570b5d'],
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      costPerItem: 200,
+      reviewIdList: [],
+    );
+    var variation5 =  Variation(
+      price: 3518,
+      salePrice: 3266,
+      sku: 10,
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
+      costPerItem: 200,
+      reviewIdList: [],
+    );
+    var variation6 =  Variation(
+      price: 3768,
+      salePrice: 3599,
+      sku: 10,
+      image: ['https://firebasestorage.googleapis.com/v0/b/bukizz1.appspot.com/o/product_image%2Fbooks%2FBSCL6.png?alt=media&token=0f03cf71-8814-4812-bb85-3381286379d2'],
       costPerItem: 200,
       reviewIdList: [],
     );
 
     return ProductModel(
-      productId: 'VSECSUNHD',
-      name: 'House T-Shirts',
-      description: 'All the books for Class 12 as per the curriculum. 16 notebook set as prescribed and mandatory add ons.',
-      categoryId: 'Uniform',
-      classId: '',
+      productId: 'CHKBSCL10', //Chintle Kanpur Bookset Class 10
+      name: 'Class 10',
+      description: 'Explore the world of knowledge with our exclusive Set, curated precisely and prescribed by The Chintles at Ratan Lal Nagar kanpur. \n Avail a HEAVY  DISCOUNT and experience FAST DELIVERY !! The Set comprises the Comprehensive Bookset and a thoughtfully assembled Notebook Set, both meticulously aligned with the specifications outlined by The Chintles. Dive into a wealth of information with the Books+Notebook Set , featuring 8  Books(as prescibed by School) along with an optional subject for a holistic learning experience. Supplement your studies with the Notebook Set, boasting 10 high-quality registers and a Synthetic Roll for organized note-taking. We understand the importance of flexibility in payment, which is why we offer the Cash On Delivery option for your convenience. Seize this opportunity to enrich your educational journey – place your order now before our limited stock runs out! ',
+      categoryId: 'BookSet',
+      classId: 'CLA10',
       city: ['Kanpur'],
-      board: 'POLO',
+      board: 'ICSE',
       retailerId: '',
       deliveryCharge: 0,
-      stream: [streamData,streamData2],
+      stream: [streamData,streamData2 , streamData3],
       set: [setData, setData2],
       reviewIdList: [],
       variation: {
-        '0': {'0': variation.toMap(), '1': variation2.toMap()},
-        '1': {'0': variation3.toMap(), '1': variation4.toMap()},
+        '0': {'0': variation.toMap(), '1': variation2.toMap() , '2': variation3.toMap()},
+        '1': {'0': variation4.toMap(), '1': variation5.toMap() , '2': variation6.toMap()},
       },
     );
   }

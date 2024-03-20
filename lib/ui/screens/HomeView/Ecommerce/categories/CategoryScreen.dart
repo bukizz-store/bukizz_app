@@ -34,9 +34,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
        },
        child: Scaffold(
         appBar: AppBar(
-          title: const Text('Categories'),
+          title: ReusableText(text: 'Categories',fontSize: 20,fontWeight: FontWeight.w500,),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),
             onPressed: () {
               context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
             },

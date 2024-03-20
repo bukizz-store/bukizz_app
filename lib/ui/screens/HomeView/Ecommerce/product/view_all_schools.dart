@@ -53,7 +53,13 @@ class _ViewAllState extends State<ViewAll> {
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
       appBar: AppBar(
-         title: ReusableText(text: 'Select Your School', fontSize: 18,),
+        title: ReusableText(text: 'Select Your School',fontSize: 20,fontWeight: FontWeight.w500,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -12,10 +12,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/repository/banners/banners.dart';
 import '../../../../../data/repository/category/category_repository.dart';
 import '../../../../../data/repository/my_orders.dart';
 import '../../../../../data/repository/product/general_product.dart';
+import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import '../product/Stationary/general_product_screen.dart';
 import '../profile/orders/order_details.dart';
 
@@ -36,13 +38,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
     Dimensions dimensions=Dimensions(context);
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: const Text(
-            'Notifications',
-           style: TextStyle(
-             fontFamily: 'nunito',
-             fontSize: 20,
-           ),
+        title: ReusableText(text: 'Notifications',fontSize: 20,fontWeight: FontWeight.w500,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),
+          onPressed: () {
+            context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+          },
         ),
       ),
       body: Column(
@@ -68,6 +69,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 data.forEach((key) {
                   notifications.add(NotificationModel.fromJson(jsonEncode(key.value)));
                 });
+                notifications.sort((a, b) => b.date.compareTo(a.date));
                 return ListView.builder(
                     itemCount: snapshot.data!.snapshot.children.length,
                     scrollDirection: Axis.vertical,

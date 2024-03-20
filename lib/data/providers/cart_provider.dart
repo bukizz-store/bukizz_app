@@ -168,4 +168,11 @@ class CartProvider extends ChangeNotifier {
       setCartLoaded(true);
     });
   }
+
+  Future<void> clearCartData() async
+  {
+    cartData.clear();
+    SharedPreferences sharedPrefHelper = await SharedPreferences.getInstance();
+    await sharedPrefHelper.setString(SharedPrefHelper.cartData, {}.toString());
+  }
 }

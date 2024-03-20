@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/models/ecommerce/products/variation/variation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,7 +48,11 @@ class GeneralProductRepository extends ChangeNotifier{
     generalProduct.clear();
     await FirebaseFirestore.instance.collection('generalProduct').where('categoryId' , isEqualTo: categoryId).get().then((value) => {
       value.docs.forEach((element) {
-        generalProduct.add(ProductModel.fromGeneralMap(element.data()));
+        var data = ProductModel.fromGeneralMap(element.data());
+        if(data.city.contains(AppConstants.location))
+          {
+            generalProduct.add(data);
+          }
       })
     });
     isProductLoaded = true;

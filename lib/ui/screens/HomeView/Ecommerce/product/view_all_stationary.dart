@@ -39,7 +39,13 @@ class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
     var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buy stationary'),
+        title: ReusableText(text: 'Buy Stationary',fontSize: 20,fontWeight: FontWeight.w500,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -27,7 +27,7 @@ class OrderDetailsScreen extends StatefulWidget {
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   double totalPrice = 0;
   double salePrice = 0;
-  bool dropDown = true;
+  bool dropDown = false;
   @override
   Widget build(BuildContext context) {
     BottomNavigationBarProvider provider =
@@ -47,7 +47,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       }
       return Scaffold(
         appBar: AppBar(
-          title: const Text('My Orders'),
+          leading: IconButton(icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),onPressed: (){Navigator.of(context).pop();},),
+          title: ReusableText(text: 'My Orders',fontSize: 20,fontWeight: FontWeight.w500,),
         ),
         body: orderData.isOrderDataLoaded? SingleChildScrollView(
           child: Column(

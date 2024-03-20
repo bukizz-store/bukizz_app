@@ -43,8 +43,8 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: () {context.read<BottomNavigationBarProvider>().setSelectedIndex(0);Navigator.pushNamed(context, MainScreen.route);}, icon: Icon(Icons.arrow_back),),
-          title: ReusableText(text: 'Profile', fontSize: 18,)
+          leading: IconButton(onPressed: () {context.read<BottomNavigationBarProvider>().setSelectedIndex(0);Navigator.pushNamed(context, MainScreen.route);}, icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),),
+          title: ReusableText(text: 'Profile', fontSize: 20,fontWeight: FontWeight.w500,)
         ),
         body: SingleChildScrollView(
           child: SingleChildScrollView(
@@ -89,7 +89,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                                    child: Icon(Icons.home,color: Color(0xFF0590FF),),
                                  ),
                                  SizedBox(width: dimensions.height10,),
-                                 ReusableText(text: 'Address',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
+                                 ReusableText(text: 'Profile',fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFF121212),)
                                ],
                              ),
                             Icon(Icons.chevron_right),

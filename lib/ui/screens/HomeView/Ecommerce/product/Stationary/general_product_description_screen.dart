@@ -44,7 +44,6 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
   void initState() {
     // TODO: implement initState
     pinController.text = AppConstants.userData.address.pinCode;
-    checkDeliverable();
     super.initState();
   }
   @override
@@ -58,6 +57,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 28.sp,),
               //image for pageview container
               Stack(
                 children: [
@@ -367,7 +367,7 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                 child: ReusableText(text: 'Explore More', fontSize: 18),
               ),
               Container(
-                height: 55.sp,
+                height: 56.sp,
                 width: dimensions.screenWidth,
                 // color: Colors.red,
                 padding: EdgeInsets.only(left: dimensions.width16),
@@ -375,7 +375,6 @@ class _GeneralProductDescriptionScreenState extends State<GeneralProductDescript
                     itemCount: value.generalProduct.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      var selectedModel = categoryRepo.category[index];
                       return GestureDetector(
                         onTap: () {
                           value.selectedProduct = value.generalProduct[index];

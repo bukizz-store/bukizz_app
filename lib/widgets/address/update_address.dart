@@ -80,7 +80,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         hintText: 'Full Name (Required) *',
                         labelText: 'Full Name',
                         controller: nameController,
-                        isEmail: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -175,6 +174,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           height: dimensions.height8 * 5.5,
                           hintText: 'Alternate Phone',
                           controller: alternatePhoneController,
+                          isPhoneNo: true,
                         ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -188,7 +188,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             hintText: 'State (Required) *',
                             labelText: 'State',
                             controller: stateController,
-                            isEmail: true,
                           ),
                           CustomTextForm(
                             width: dimensions.width16 * 9.2,
@@ -196,7 +195,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             hintText: 'City (Required) *',
                             labelText: 'City',
                             controller: cityController,
-                            isEmail: true,
                           ),
                         ],
                       ),
@@ -209,7 +207,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         hintText: 'House No., Building Name (Required) *',
                         labelText: 'House No.',
                         controller: buildingnameController,
-                        isEmail: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -217,10 +214,9 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       CustomTextForm(
                         width: dimensions.width342,
                         height: dimensions.height8 * 5.5,
-                        hintText: 'Road name, Area, Colony (Required) *',
-                        labelText: 'Road Name',
+                        hintText: 'Street name, Area, Colony (Required) *',
+                        labelText: 'Street',
                         controller: addressController,
-                        isEmail: true,
                       ),
                       SizedBox(
                         height: dimensions.height8 * 2,
@@ -244,42 +240,62 @@ class _UpdateAddressState extends State<UpdateAddress> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
-          if(phoneController.text.length<10){
+          if (phoneController.text.length != 10) {
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Number', AppColors.error, Icons.error_outline_rounded);
             return;
           }
-          if(pinCodeController.text.length<6){
+          if (pinCodeController.text.length != 6) {
             AppConstants.showSnackBarTop(context, 'Please Enter Valid Pincode', AppColors.error, Icons.error_outline_rounded);
             return;
           }
-          if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-              .hasMatch(emailController.text.toString())){
+          if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(emailController.text.toString())) {
             AppConstants.showSnackBarTop(context, 'Please Enter a valid Email', AppColors.error, Icons.error_outline_rounded);
             return;
           }
+          if (buildingnameController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter House No.', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if (addressController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter Street Name', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if (nameController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter Full Name', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if (stateController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter State', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+          if (cityController.text.isEmpty) {
+            AppConstants.showSnackBarTop(context, 'Please Enter City', AppColors.error, Icons.error_outline_rounded);
+            return;
+          }
+
           //Save Address logic here
           Address address = Address(
-              name: nameController.text,
-              houseNo: buildingnameController.text,
-              street: fullAddress,
-              city: cityController.text,
-              state: stateController.text,
-              pinCode: pinCodeController.text,
-              phone: phoneController.text,
-              email: emailController.text);
+            name: nameController.text,
+            houseNo: buildingnameController.text,
+            street: addressController.text,
+            city: cityController.text,
+            state: stateController.text,
+            pinCode: pinCodeController.text,
+            phone: phoneController.text,
+            email: emailController.text,
+          );
           widget.keyAddress
               ? context.read<UpdateUserData>().updateUserAddress(address)
-              : context
-                  .read<UpdateUserData>()
-                  .updateUserAlternateAddress(address);
-          if(widget.keyAddress){
+              : context.read<UpdateUserData>().updateUserAlternateAddress(address);
+          if (widget.keyAddress) {
             context.read<UpdateAddressRepository>().address = address;
-          }
-          else{
+          } else {
             context.read<UpdateAddressRepository>().alternateAddress = address;
           }
           Navigator.of(context).pop();
         },
+
         child: Container(
           height: dimensions.height8 * 9,
           width: dimensions.screenWidth,
@@ -354,8 +370,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
         stateController.text = placemarks.first.administrativeArea ?? '';
         cityController.text = placemarks.first.locality ?? '';
         buildingnameController.text = placemarks.first.name ?? '';
-        addressController.text = fullAddress;
         fullAddress = '$colony, $street, $sector';
+        addressController.text = fullAddress;
       });
     }
   }

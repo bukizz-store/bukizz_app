@@ -30,7 +30,6 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   Future<void> signIn(BuildContext context) async {
-
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (serviceEnabled) {
@@ -43,7 +42,6 @@ class _SignInState extends State<SignIn> {
           context, LocationScreen.route, (route) => false);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,13 @@ class _SignInState extends State<SignIn> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
-          child: Padding(padding: EdgeInsets.fromLTRB(dimensions.width24, dimensions.height16, dimensions.width24, 0,),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              dimensions.width24,
+              dimensions.height16,
+              dimensions.width24,
+              0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -130,47 +134,33 @@ class _SignInState extends State<SignIn> {
                 ReusableTextField('Your Password', Icons.lock_outline, true,
                     _passwordTextController),
 
-                SizedBox(
-                  height: dimensions.height10,
-                ),
-                //forgot password
-                GestureDetector(
-                    onTap: () {
+                TextButton(
+                    onPressed: () {
                       Navigator.pushNamed(context, ForgotPasswordScreen.route);
-                      print('hello');
                     },
-                    child: Container(
-                      height: dimensions.height40,
-                      color: Colors.white,
-                      padding: EdgeInsets.only(top: dimensions.height16),
-                      child: ReusableText(
-                        text: 'Forgot Password ?',
-                        fontSize: 14,
-                        height: 0.10,
-                        color: Color(0xFF03045E),
-                        fontWeight: FontWeight.w500,
-                      ),
+                    child: ReusableText(
+                      text: "Forget Password ?",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blue,
                     )),
-
-                SizedBox(
-                  height: dimensions.height24,
-                ),
-
                 //login button
                 ReusableElevatedButton(
                   width: dimensions.width327,
                   height: dimensions.height48,
-                  onPressed: () async{
-                    if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(_emailTextController.text))
-                      {
-                        AppConstants.showSnackBar(context, "Enter a valid Email", AppColors.error, Icons.error_outline_rounded);
-                        return;
-                      }
+                  onPressed: () async {
+                    if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(_emailTextController.text)) {
+                      AppConstants.showSnackBar(context, "Enter a valid Email",
+                          AppColors.error, Icons.error_outline_rounded);
+                      return;
+                    }
                     AppConstants.buildShowDialog(context);
                     String email = _emailTextController.text.trim();
                     String password = _passwordTextController.text.trim();
-                    await authProvider.signInWithEmailAndPassword(email, password , context);
+                    await authProvider.signInWithEmailAndPassword(
+                        email, password, context);
                   },
                   buttonText: 'Login',
                   fontSize: 16,
@@ -181,7 +171,8 @@ class _SignInState extends State<SignIn> {
                   height: dimensions.height24,
                 ),
 
-                signUpOption('Don\'t have an account?', 'Sign Up' , context , SignUp.route),
+                signUpOption('Don\'t have an account?', 'Sign Up', context,
+                    SignUp.route),
 
                 SizedBox(
                   height: dimensions.height36,
@@ -241,7 +232,7 @@ class _SignInState extends State<SignIn> {
                   borderColor: Colors.black38,
                 ),
                 SizedBox(
-                  height: dimensions.height8*2,
+                  height: dimensions.height8 * 2,
                 ),
                 ReusableElevatedButton(
                   width: dimensions.width327,
@@ -264,10 +255,6 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
-
 }
-
-
 
 //avbqdal;aslmkn

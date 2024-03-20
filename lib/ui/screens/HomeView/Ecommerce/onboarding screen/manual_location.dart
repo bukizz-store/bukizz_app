@@ -1,4 +1,6 @@
 import 'package:bukizz/data/providers/bottom_nav_bar_provider.dart';
+import 'package:bukizz/data/providers/cart_provider.dart';
+import 'package:bukizz/data/repository/cart_view_repository.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -158,7 +160,8 @@ class _SelectLocationState extends State<SelectLocation> {
             width: dimensions.width342,
             height: dimensions.height10 * 5.4,
             onPressed: () {
-
+              context.read<CartProvider>().clearCartData();
+              context.read<CartViewRepository>().cartData.clear();
               context.read<UpdateUserData>().saveLocationSetToSharedPreferences(selectedCity);
               context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
               provider.setSelectedIndex(0);
