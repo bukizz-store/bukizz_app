@@ -819,7 +819,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                       margin: EdgeInsets.only(
                                           right: dimensions.width16,
                                           bottom: dimensions.height10),
-                                      width: 60.sp,
+                                      width: 62.sp,
                                       height: dimensions.height10,
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
@@ -849,7 +849,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width: 60.sp,
+                                            width: 62.sp,
                                             height: 39.sp,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),

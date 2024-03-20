@@ -89,11 +89,11 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         itemBuilder: (context,index){
                           return  Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
+                              //borderRadius: BorderRadius.circular(30),
                             ),
                             // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
+                              //borderRadius: BorderRadius.circular(30),
                               child: CachedNetworkImage(
                                 imageUrl: value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()][value.getSelectedStreamDataIndex.toString()].image[index],
                               ),
