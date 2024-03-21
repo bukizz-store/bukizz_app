@@ -61,6 +61,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     var schoolData = context.read<SchoolDataProvider>();
     var stationaryData = context.read<StationaryProvider>();
     Dimensions dimensions = Dimensions(context);
+
     return Consumer<ProductViewRepository>(
       builder: (context, value, child) {
         var off = ((value
@@ -97,6 +98,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
             .toString()]!
             .salePrice;
         // print(value.selectedProduct.variation);
+        bool stockOut=value
+            .selectedProduct
+            .variation[value.getSelectedSetDataIndex.toString()]
+        [value.getSelectedStreamDataIndex.toString()].sku<=0?true:false;
         return Scaffold(
           body: SingleChildScrollView(
             child: Column(
@@ -410,9 +415,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 value.selectedProduct.stream.isNotEmpty
                     ? Container(
                         // width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: dimensions.width24,
-                        ),
+                  padding: EdgeInsets.only(
+                      left: dimensions.width24,
+                      bottom: dimensions.height16),
                         // height: 200,
                         color: AppColors.white,
                         child: Column(
@@ -477,6 +482,24 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       )
                     : Container(),
 
+                if(stockOut)
+                Container(
+                  color: AppColors.white,
+                  padding: EdgeInsets.only(
+                      left: dimensions.width24,
+                      bottom: dimensions.height16),
+                  width: 345,
+                  child: Text(
+                    'Out of Stock',
+                    style: TextStyle(
+                      color: Color(0xFFFC2A2A),
+                      fontSize: 16,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
+                  ),
+                ),
                 //expandable text
                 SizedBox(
                   height: dimensions.height16 / 2,
@@ -961,62 +984,45 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
+
                     onTap: AppConstants.isLogin
                         ? () async {
-                            // context.read<CartProvider>().addProductInCart(
-                            //     productView.selectedProduct.productId, context);
-                            context.read<CartViewRepository>().isSingleBuyNow =
-                                false;
-                            productAdded
-                                ? send()
-                                : await context
-                                    .read<CartProvider>()
-                                    .addProductInCart(
-                                        schoolData.selectedSchool.name,
-                                        value
-                                            .selectedProduct
-                                            .set[value.getSelectedSetDataIndex]
-                                            .name,
-                                        value.selectedProduct.stream.isNotEmpty
-                                            ? value
-                                                .selectedProduct
-                                                .stream[value
-                                                    .getSelectedStreamDataIndex]
-                                                .name
-                                            : '0',
-                                        1,
-                                        value.selectedProduct.productId,
-                                        context,
-                                        'bookset')
-                                    .then((value) =>
-                                        AppConstants.showCartSnackBar(context));
+                      if (!stockOut) { // Check if stockout is false
+                        // Your existing logic here
+                        context.read<CartViewRepository>().isSingleBuyNow = false;
+                        productAdded
+                            ? send()
+                            : await context.read<CartProvider>().addProductInCart(
+                            schoolData.selectedSchool.name,
+                            value.selectedProduct.set[value.getSelectedSetDataIndex].name,
+                            value.selectedProduct.stream.isNotEmpty
+                                ? value.selectedProduct
+                                .stream[value.getSelectedStreamDataIndex].name
+                                : '0',
+                            1,
+                            value.selectedProduct.productId,
+                            context,
+                            'bookset').then((value) =>
+                            AppConstants.showCartSnackBar(context));
 
-                            setState(() {
-                              productAdded = true;
-                            });
-
-                            // context.read<CartViewRepository>().setCartData(
-                            //     schoolData.schoolName,
-                            //     context
-                            //         .read<CartProvider>()
-                            //         .getCartData
-                            //         .productsId[productView.selectedProduct.productId]!,
-                            //     productView.selectedProduct.productId);
-                          }
+                        setState(() {
+                          productAdded = true;
+                        });
+                      }
+                    }
                         : () {
-                            context
-                                .read<BottomNavigationBarProvider>()
-                                .setSelectedIndex(0);
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, SignIn.route, (route) => false);
-                          },
+                      context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, SignIn.route, (route) => false);
+                    },
+
                     child: Container(
                       height: dimensions.height8 * 6,
                       width: dimensions.width146,
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side:
-                              BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                              BorderSide(width: 0.50, color: stockOut? Colors.grey:Color(0xFF00579E)),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -1028,11 +1034,11 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             fontSize: 16,
                             height: 0.11,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF00579E),
+                            color: stockOut?Colors.grey:Color(0xFF00579E),
                           ),
-                          const Icon(
+                           Icon(
                             Icons.shopping_cart,
-                            color: Color(0xFF00579E),
+                            color: stockOut?Colors.grey:Color(0xFF00579E),
                           ),
                         ],
                       ),
@@ -1041,59 +1047,37 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   GestureDetector(
                     onTap: AppConstants.isLogin
                         ? () async {
-                            var cartView = context.read<CartViewRepository>();
-                            cartView.isSingleBuyNow = true;
-                            cartView.setTotalPrice(value
-                                .selectedProduct
-                                .variation[
-                                    value.getSelectedSetDataIndex.toString()]![
-                                    value.getSelectedStreamDataIndex
-                                        .toString()]!
-                                .price);
-                            cartView.setSalePrice(value
-                                .selectedProduct
-                                .variation[
-                                    value.getSelectedSetDataIndex.toString()]![
-                                    value.getSelectedStreamDataIndex
-                                        .toString()]!
-                                .salePrice);
-                            await context
-                                .read<CartViewRepository>()
-                                .getCartProduct(
-                                    value.selectedProduct.productId,
-                                    schoolData.selectedSchool.name,
-                                    value
-                                        .selectedProduct
-                                        .set[value.getSelectedSetDataIndex]
-                                        .name,
-                                    value.selectedProduct.stream.isNotEmpty
-                                        ? value
-                                            .selectedProduct
-                                            .stream[value
-                                                .getSelectedStreamDataIndex]
-                                            .name
-                                        : '0',
-                                    1,
-                                    AppString.bookSetType);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Checkout1()),
-                            );
-                          }
+                      if (!stockOut) { // Check if stockout is false
+                        var cartView = context.read<CartViewRepository>();
+                        cartView.isSingleBuyNow = true;
+                        cartView.setTotalPrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.price);
+                        cartView.setSalePrice(value.selectedProduct.variation[value.getSelectedSetDataIndex.toString()]![value.getSelectedStreamDataIndex.toString()]!.salePrice);
+                        await context.read<CartViewRepository>().getCartProduct(
+                          value.selectedProduct.productId,
+                          schoolData.selectedSchool.name,
+                          value.selectedProduct.set[value.getSelectedSetDataIndex].name,
+                          value.selectedProduct.stream.isNotEmpty ? value.selectedProduct.stream[value.getSelectedStreamDataIndex].name : '0',
+                          1,
+                          AppString.bookSetType,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Checkout1()),
+                        );
+                      }
+                    }
                         : () {
-                            context
-                                .read<BottomNavigationBarProvider>()
-                                .setSelectedIndex(0);
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, SignIn.route, (route) => false);
-                          },
+                      context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, SignIn.route, (route) => false);
+                    },
+
                     child: Container(
                       height: dimensions.height8 * 6,
                       width: dimensions.width146,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        color: Color(0xFF058FFF),
+                        color: stockOut?Colors.grey:Color(0xFF058FFF),
                       ),
                       child: Center(
                         child: ReusableText(
