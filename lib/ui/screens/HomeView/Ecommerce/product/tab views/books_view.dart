@@ -127,8 +127,9 @@ class _BooksState extends State<Books> {
                                     RichText(
                                       text: TextSpan(
                                         text: product.set.first.price
+                                    .floor() != product.set.first.salePrice ?  product.set.first.price
                                             .floor()
-                                            .toString(),
+                                            .toString() : "",
                                         style: const TextStyle(
                                           color: Color(0xFFB7B7B7),
                                           fontWeight: FontWeight.w500,

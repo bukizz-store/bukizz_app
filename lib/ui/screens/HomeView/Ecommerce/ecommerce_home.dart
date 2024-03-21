@@ -83,7 +83,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
     // var func = Provider.of<ProductModel>(context, listen: false);
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
     var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
-    var banner = context.read<BannerRepository>();
+    var banner = context.watch<BannerRepository>();
     var general = Provider.of<GeneralProductRepository>(context, listen: false);
     
     var topDeals = categoryRepo.category.getRange(categoryRepo.category.length-4 , categoryRepo.category.length);

@@ -201,7 +201,7 @@ class _Checkout1State extends State<Checkout1> {
                             ],
                           ),
                           SizedBox(width: dimensions.width16/3,),
-                          GestureDetector(
+                          InkWell(
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateAddress(address: context.watch<UpdateAddressRepository>().address , keyAddress: true,)));
                             },

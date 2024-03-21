@@ -8,7 +8,11 @@ import '../../models/ecommerce/banners/banners_model.dart';
 
 class BannerRepository extends ChangeNotifier{
 
-  
+  BannerRepository(){
+    getBanner1();
+    getBanner2();
+  }
+
   List<BannerModel> _banners1 = [];
   
   List<BannerModel> get banners1 => _banners1;
@@ -36,27 +40,42 @@ class BannerRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> getBanner1() async{
+
+  Future<void> getBanner1() async {
     _banners1 = [];
-    var ref = FirebaseDatabase.instance.ref();
-    var snapshot = await ref.child("banners").child("slider1").get();
-    if(snapshot.value != null){
-      Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
-      data.forEach((key, value) {
-        _banners1.add(BannerModel(image: value['image'], link: value['link']));
-      });
-    }
+
+    var ref = FirebaseDatabase.instance.ref().child("banners").child("slider1");
+    // Listen for changes in the database
+    ref.onValue.listen((event) {
+      // Check if data exists
+      if (event.snapshot.value != null) {
+        Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+        _banners1.clear(); // Clear existing data
+        data.forEach((key, value) {
+          _banners1.add(BannerModel(image: value['image'], link: value['link']));
+        });
+        notifyListeners();
+      }
+    });
   }
-  Future<void> getBanner2() async{
+
+  Future<void> getBanner2() async {
     _banners2 = [];
-    var ref = FirebaseDatabase.instance.ref();
-    var snapshot = await ref.child("banners").child("slider2").get();
-    if(snapshot.value != null){
-      Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
-      data.forEach((key, value) {
-        _banners2.add(BannerModel(image: value['image'], link: value['link']));
-      });
-    }
+
+    var ref = FirebaseDatabase.instance.ref().child("banners").child("slider2");
+
+    // Listen for changes in the database
+    ref.onValue.listen((event) {
+      // Check if data exists
+      if (event.snapshot.value != null) {
+        Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+        _banners2.clear(); // Clear existing data
+        data.forEach((key, value) {
+          _banners2.add(BannerModel(image: value['image'], link: value['link']));
+        });
+        notifyListeners();
+      }
+    });
   }
 
   Future getBanners() async{

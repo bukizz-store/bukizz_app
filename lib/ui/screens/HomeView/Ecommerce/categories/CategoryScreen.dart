@@ -114,7 +114,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 topLeft: Radius.circular(12),
                                 topRight: Radius.circular(12)),
                             child: CachedNetworkImage(
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.fill,
                               imageUrl: selectedModel.image,
                             )),
                       ),
