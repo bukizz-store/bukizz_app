@@ -109,11 +109,11 @@ class _AddressScreen1State extends State<AddressScreen1> {
                 labelText: 'Email Address *',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(100),
-                  borderSide: BorderSide(color: Color(0xFF7A7A7A)),
+                  borderSide: const BorderSide(color: Color(0xFF7A7A7A)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(100),
-                  borderSide: BorderSide(color: Colors.black38),
+                  borderSide: const BorderSide(color: Colors.black38),
                 ),
                 contentPadding: EdgeInsets.symmetric(horizontal: dimensions.height8 * 2),
               ),
@@ -151,7 +151,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
                               text: "${context.watch<UpdateAddressRepository>().address.houseNo}, ${context.watch<UpdateAddressRepository>().address.street}, ${context.watch<UpdateAddressRepository>().address.city}, ${context.watch<UpdateAddressRepository>().address.state}, ${context.watch<UpdateAddressRepository>().address.pinCode}",
                               fontSize: 14,
                               height: 0,
-                              color: Color(0xFF7A7A7A),
+                              color: const Color(0xFF7A7A7A),
                               fontWeight: FontWeight.w600,
                               fontFamily: FontFamily.nunito,
                               overflow: TextOverflow.ellipsis,
@@ -172,7 +172,7 @@ class _AddressScreen1State extends State<AddressScreen1> {
 
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
+                                side: const BorderSide(width: 0.50, color: Color(0xFFD6D6D6)),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                             ),

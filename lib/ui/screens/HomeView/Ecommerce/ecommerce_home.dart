@@ -1,4 +1,5 @@
 import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/models/ecommerce/categoryModel.dart';
 import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/providers/tabController/TabController_provider.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
@@ -48,10 +49,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
   ];
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
-  double _scaleFactor = 0.8;
   late double _height;
-
-  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -75,11 +73,13 @@ class _EcommerceMainState extends State<EcommerceMain> {
     _height = dimensions.pageViewContainer;
     // var func = Provider.of<ProductModel>(context, listen: false);
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
+    var categoryRepo = context.watch<CategoryRepository>();
     var banner = context.watch<BannerRepository>();
     var general = Provider.of<GeneralProductRepository>(context, listen: false);
-    
-    var topDeals = categoryRepo.category.getRange(categoryRepo.category.length-4 , categoryRepo.category.length);
+    late Iterable<CategoryModel> topDeals;
+    if(categoryRepo.category.isNotEmpty){
+      topDeals = categoryRepo.category.getRange(categoryRepo.category.length-4 , categoryRepo.category.length);
+    }
     // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
@@ -760,7 +760,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     )),
               SizedBox(height: dimensions.height36),
 
-              Padding(
+              topDeals.isNotEmpty ? Padding(
                 padding: EdgeInsets.only(left: dimensions.width16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -902,6 +902,11 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           }),
                     ),
                   ],
+                ),
+              ) : Center(
+                child: SpinKitChasingDots(
+                  color: AppColors.primaryColor,
+                  size: 24,
                 ),
               ),
 

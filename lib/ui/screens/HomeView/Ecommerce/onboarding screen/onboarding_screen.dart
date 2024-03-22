@@ -46,7 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   void initState() {
     super.initState();
     // context.read<BannerRepository>().getBanners();
-    context.read<CategoryRepository>().getCategoryFromFirebase();
+    // context.read<CategoryRepository>().getCategoryFromFirebase();
     animationController =
         AnimationController(vsync: this, duration: const Duration(milliseconds: 2000))
           ..addListener(() {
