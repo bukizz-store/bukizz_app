@@ -46,13 +46,6 @@ class _EcommerceMainState extends State<EcommerceMain> {
     "Admission",
     "Extras",
   ];
-  List<String> stationaryText = [
-    'School Bags',
-    'Min. 50% Off',
-    '18 Notebook Set',
-    '@ Rs. 200/-'
-  ];
-
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
   double _scaleFactor = 0.8;
