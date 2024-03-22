@@ -97,7 +97,7 @@ class _AddAddressState extends State<AddAddress> {
                         height: dimensions.height8 * 2,
                       ),
                       GestureDetector(
-                        onTap: onUseMyLocationTap,
+                        onTap: ()=>onUseMyLocationTap(context),
                         child: Container(
                           width: dimensions.screenWidth,
                           height: dimensions.height8 * 5.5,
@@ -288,57 +288,83 @@ class _AddAddressState extends State<AddAddress> {
     );
   }
 
-  void onUseMyLocationTap() async {
+  void onUseMyLocationTap(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent user from dismissing the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(), // Show circular progress indicator
+              SizedBox(width: 20), // Add some spacing
+              Text('Fetching location...'), // Text to indicate fetching location
+            ],
+          ),
+        );
+      },
+    );
+
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check if location services are enabled
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      print('Location services are not enabled');
-      return;
-    }
-
-    // Check if location permission is granted
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      // If permission is not granted, request it
-      permission = await Geolocator.requestPermission();
-
-      if (permission == LocationPermission.denied) {
-        // Handle case when permission is not granted by showing a message or UI
-        print('Location permission denied');
+    try {
+      // Check if location services are enabled
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        print('Location services are not enabled');
+        Navigator.pop(context); // Dismiss the dialog
         return;
       }
-    }
 
-    if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
-      // Get current position
-      Position position = await Geolocator.getCurrentPosition();
+      // Check if location permission is granted
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        // If permission is not granted, request it
+        permission = await Geolocator.requestPermission();
 
-      // Get location details using placemark
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
+        if (permission == LocationPermission.denied) {
+          // Handle case when permission is not granted by showing a message or UI
+          print('Location permission denied');
+          Navigator.pop(context); // Dismiss the dialog
+          return;
+        }
+      }
 
-      // Extract relevant address components
-      String colony = placemarks.first.subLocality ?? ''; // Colony name
-      String street = placemarks.first.thoroughfare ?? ''; // Street name
-      String sector =
-          placemarks.first.subAdministrativeArea ?? ''; // Sector name
+      if (permission == LocationPermission.always ||
+          permission == LocationPermission.whileInUse) {
+        // Get current position
+        Position position = await Geolocator.getCurrentPosition();
 
-      // Construct the full address excluding house number/house name
+        // Get location details using placemark
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude,
+          position.longitude,
+        );
 
-      setState(() {
-        pinCodeController.text = placemarks.first.postalCode ?? '';
-        stateController.text = placemarks.first.administrativeArea ?? '';
-        cityController.text = placemarks.first.locality ?? '';
-        buildingnameController.text = placemarks.first.name ?? '';
-        addressController.text = fullAddress;
-        fullAddress = '$colony, $street, $sector';
-      });
+        // Extract relevant address components
+        String colony = placemarks.first.subLocality ?? ''; // Colony name
+        String street = placemarks.first.thoroughfare ?? ''; // Street name
+        String sector = placemarks.first.subAdministrativeArea ?? ''; // Sector name
+
+        // Construct the full address excluding house number/house name
+        String fullAddress = '$colony, $street, $sector';
+
+        // Update UI with fetched address details
+        setState(() {
+          pinCodeController.text = placemarks.first.postalCode ?? '';
+          stateController.text = placemarks.first.administrativeArea ?? '';
+          cityController.text = placemarks.first.locality ?? '';
+          buildingnameController.text = placemarks.first.name ?? '';
+          addressController.text = fullAddress;
+        });
+      }
+    } catch (e) {
+      print('Error fetching location: $e');
+    } finally {
+      // Dismiss the dialog after fetching location
+      Navigator.pop(context);
     }
   }
 }

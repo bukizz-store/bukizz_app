@@ -132,10 +132,10 @@ class _UniformScreenState extends State<UniformScreen> {
                   Container(
                     width:60.sp,
                     height: 60.sp,
-                    decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.withOpacity(0.1))
-                    ),
+                    // decoration: BoxDecoration(
+                    //   // borderRadius: BorderRadius.circular(10),
+                    //   border: Border.all(color: Colors.grey.withOpacity(0.1))
+                    // ),
                     child:Image.asset('assets/emptyUniform.png'),
                   ),
                   SizedBox(height: 10),

@@ -55,8 +55,10 @@ class _GeneralProductDescriptionScreenState
   Widget build(BuildContext context) {
     var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     Dimensions dimensions = Dimensions(context);
+
     return Consumer<GeneralProductRepository>(
       builder: (context, value, child) {
+        bool stockOut=value.selectedProduct.set[value.selectedVariationIndex].sku<=0?true:false;
         return Scaffold(
           body: SingleChildScrollView(
             child: Column(
@@ -272,7 +274,7 @@ class _GeneralProductDescriptionScreenState
                           height: dimensions.height10,
                         ),
                         Container(
-                          height: 14.h,
+                          height: 13.h,
                           width: dimensions.screenWidth,
                           child: ListView.builder(
                               itemCount: value.selectedProduct.variation.length,
@@ -325,7 +327,22 @@ class _GeneralProductDescriptionScreenState
                                   ),
                                 );
                               }),
-                        )
+                        ),
+
+                        if(stockOut)
+                          SizedBox(
+                            width: 345,
+                            child: Text(
+                              'Out of Stock',
+                              style: TextStyle(
+                                color: Color(0xFFFC2A2A),
+                                fontSize: 16,
+                                fontFamily: 'Nunito',
+                                fontWeight: FontWeight.w700,
+                                height: 0,
+                              ),
+                            ),
+                          )
                       ],
                     ),
                   ),
@@ -743,21 +760,23 @@ class _GeneralProductDescriptionScreenState
                   InkWell(
                     onTap: AppConstants.isLogin
                         ? () async {
-                            var schoolData = context.read<SchoolDataProvider>();
-                            await context
-                                .read<CartProvider>()
-                                .addProductInCart(
-                                    'all',
-                                    value.selectedProduct
-                                        .set[value.selectedVariationIndex].name,
-                                    'null',
-                                    1,
-                                    value.selectedProduct.productId,
-                                    context,
-                                    AppString.generalType)
-                                .then((value) => AppConstants.showCartSnackBar(
-                                      context,
-                                    ));
+                            if(!stockOut){
+                              var schoolData = context.read<SchoolDataProvider>();
+                              await context
+                                  .read<CartProvider>()
+                                  .addProductInCart(
+                                  'all',
+                                  value.selectedProduct
+                                      .set[value.selectedVariationIndex].name,
+                                  'null',
+                                  1,
+                                  value.selectedProduct.productId,
+                                  context,
+                                  AppString.generalType)
+                                  .then((value) => AppConstants.showCartSnackBar(
+                                context,
+                              ));
+                            }
                           }
                         : () {
                             Navigator.pushNamedAndRemoveUntil(
@@ -769,7 +788,7 @@ class _GeneralProductDescriptionScreenState
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side:
-                              BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                              BorderSide(width: 0.50, color: stockOut?Colors.grey:Color(0xFF00579E)),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -781,18 +800,19 @@ class _GeneralProductDescriptionScreenState
                             fontSize: 16,
                             height: 0.11,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF00579E),
+                            color: stockOut?Colors.grey:Color(0xFF00579E),
                           ),
                           Icon(
                             Icons.shopping_cart,
-                            color: Color(0xFF00579E),
+                            color:stockOut?Colors.grey:Color(0xFF00579E),
                           ),
                         ],
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () async {
+                    onTap: !stockOut?
+                        () async {
                       var cartView = context.read<CartViewRepository>();
                       cartView.isSingleBuyNow = true;
                       cartView.setTotalPrice(value
@@ -817,13 +837,14 @@ class _GeneralProductDescriptionScreenState
                         context,
                         MaterialPageRoute(builder: (context) => Checkout1()),
                       );
-                    },
+                    }:
+                        (){},
                     child: Container(
                       height: dimensions.height8 * 6,
                       width: dimensions.width146,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        color: Color(0xFF058FFF),
+                        color: stockOut?Colors.grey:Color(0xFF058FFF),
                       ),
                       child: Center(
                         child: ReusableText(
