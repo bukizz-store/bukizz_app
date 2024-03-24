@@ -51,7 +51,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     super.initState();
     pinController.text =
         AppConstants.isLogin ? AppConstants.userData.address.pinCode : '';
-    checkDeliverable();
+    // checkDeliverable();
   }
 
   @override
