@@ -19,7 +19,9 @@ enum userType{
 enum deliveryStatus{
   Initiated , Processed , Packed , Out_For_Delivery , Delivered , Cancelled , Replacement , Not_Placed,  Canceled
 }
-
+enum InputType{
+  email, phone , pinCode , all
+}
 class AppConstants{
   static late MainUserDetails userData ;
   static bool isLogin = false;

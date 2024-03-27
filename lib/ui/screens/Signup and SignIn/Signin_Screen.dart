@@ -6,6 +6,7 @@ import 'package:bukizz/widgets/navigator/page_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
@@ -15,6 +16,7 @@ import '../../../widgets/containers/Reusable_container.dart';
 import '../../../widgets/text and textforms/Reusable_TextForm.dart';
 import '../../../widgets/signup_text_widget.dart';
 import '../../../widgets/text and textforms/Reusable_text.dart';
+import '../../../widgets/text and textforms/newLoginTextForm.dart';
 import '../HomeView/Ecommerce/main_screen.dart';
 import 'Signup_Screen.dart';
 
@@ -94,45 +96,49 @@ class _SignInState extends State<SignIn> {
                       fontSize: 16,
                       height: 0.09,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFFA6A6A6),
+                      color: Colors.black,
                     );
                   },
                 ),
 
                 //Email text
-                ReusableText(
-                  text: 'Email',
-                  fontSize: 14,
-                  height: 0.10,
-                  color: Color(0xFF121212),
-                  fontWeight: FontWeight.w500,
-                ),
+                // ReusableText(
+                //   text: 'Email',
+                //   fontSize: 14,
+                //   height: 0.10,
+                //   color: Color(0xFF121212),
+                //   fontWeight: FontWeight.w500,
+                // ),
                 SizedBox(
                   height: dimensions.height10,
                 ),
-                //Email Form
-                ReusableTextField('Your Email', Icons.person_outline, false,
-                    _emailTextController),
+                // //Email Form
+                // ReusableTextField('Your Email', Icons.person_outline, false,
+                //     _emailTextController),
+
+                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _emailTextController, hintText: 'Your Email', labelText: 'Email', isPasswordType: false, type: InputType.email,icon: Icons.email_outlined,),
 
                 SizedBox(
                   height: dimensions.height16,
                 ),
 
                 //password text
-                ReusableText(
-                  text: 'Password',
-                  fontSize: 14,
-                  height: 0.10,
-                  color: Color(0xFF121212),
-                  fontWeight: FontWeight.w500,
-                ),
+                // ReusableText(
+                //   text: 'Password',
+                //   fontSize: 14,
+                //   height: 0.10,
+                //   color: Color(0xFF121212),
+                //   fontWeight: FontWeight.w500,
+                // ),
 
                 SizedBox(
                   height: dimensions.height10,
                 ),
                 //password form
-                ReusableTextField('Your Password', Icons.lock_outline, true,
-                    _passwordTextController),
+                // ReusableTextField('Your Password', Icons.lock_outline, true,
+                //     _passwordTextController),
+
+                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _passwordTextController, hintText: 'Your Password', labelText: 'Password', isPasswordType: true, type: InputType.all,icon: Icons.password,),
 
                 TextButton(
                     onPressed: () {
