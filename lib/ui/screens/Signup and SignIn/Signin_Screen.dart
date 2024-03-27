@@ -4,6 +4,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/reset_password.dart';
 import 'package:bukizz/widgets/navigator/page_navigator.dart';
+import 'package:bukizz/widgets/text%20and%20textforms/newLoginTextForm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -118,45 +119,32 @@ class _SignInState extends State<SignIn> {
                       fontSize: 16,
                       height: 0.09,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFFA6A6A6),
+                      color: Colors.black,
                     );
                   },
                 ),
 
-                //Email text
-                ReusableText(
-                  text: 'Email',
-                  fontSize: 14,
-                  height: 0.10,
-                  color: Color(0xFF121212),
-                  fontWeight: FontWeight.w500,
-                ),
-                SizedBox(
-                  height: dimensions.height10,
-                ),
+                 SizedBox(height: 20.sp,),
                 //Email Form
-                ReusableTextField('Your Email', Icons.person_outline, false,
-                    _emailTextController),
+                // ReusableTextField('Your Email', Icons.person_outline, false,
+                //     _emailTextController),
+                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _emailTextController, hintText: 'Your Email', labelText: 'Email', isPasswordType: false, type: InputType.email,icon: Icons.email_outlined,),
 
                 SizedBox(
                   height: dimensions.height16,
                 ),
 
                 //password text
-                ReusableText(
-                  text: 'Password',
-                  fontSize: 14,
-                  height: 0.10,
-                  color: Color(0xFF121212),
-                  fontWeight: FontWeight.w500,
-                ),
+
 
                 SizedBox(
                   height: dimensions.height10,
                 ),
                 //password form
-                ReusableTextField('Your Password', Icons.lock_outline, true,
-                    _passwordTextController),
+                // ReusableTextField('Your Password', Icons.lock_outline, true,
+                //     _passwordTextController),
+
+                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _passwordTextController, hintText: 'Your Password', labelText: 'Password', isPasswordType: true, type: InputType.all,icon: Icons.password,),
 
                 TextButton(
                     onPressed: () {

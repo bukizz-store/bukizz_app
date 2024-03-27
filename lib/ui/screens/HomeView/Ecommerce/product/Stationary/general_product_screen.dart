@@ -58,7 +58,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: dimensions.width24 / 1.5,
                     mainAxisSpacing: dimensions.height8 * 2,
-                    mainAxisExtent:55.sp),
+                    mainAxisExtent:57.sp),
                 itemCount: value.generalProduct.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -88,10 +88,12 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                             alignment: Alignment.center,
                             width: dimensions.width169,
                             height: dimensions.height105 * 0.95,
+
                             child: Image(
                               image: CachedNetworkImageProvider(
                                   value.generalProduct[index].set[0].image[0]),
                                   fit: BoxFit.cover,
+
                               ),
                             ),
                           SizedBox(height: dimensions.height24 / 5),
@@ -151,7 +153,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                                   ],
                                 )
                                     : SizedBox(),
-                                // SizedBox(height: dimensions.height24 / 3),
+                                SizedBox(height: dimensions.height24 / 3),
                                 // Row(
                                 //   children: List.generate(
                                 //     5,

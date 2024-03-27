@@ -937,7 +937,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                                     topRight:
                                                         Radius.circular(12)),
                                             child: CachedNetworkImage(
-                                              fit: BoxFit.fitHeight,
+                                              fit: BoxFit.cover,
                                               imageUrl: selectedModel.image,
                                             )),
                                       ),

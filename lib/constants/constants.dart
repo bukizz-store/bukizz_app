@@ -15,6 +15,9 @@ import '../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
 enum userType{
   student, teacher
 }
+enum InputType{
+  email, phone , pinCode , all
+}
 
 enum deliveryStatus{
   Initiated , Processed , Packed , Out_For_Delivery , Delivered , Cancelled , Replacement , Not_Placed,  Canceled
@@ -43,7 +46,7 @@ class AppConstants{
       margin: EdgeInsets.only(
          /* bottom: MediaQuery.of(context).size.height - 92.h,*/
           left: 10,
-          right: 10),
+          ),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: Container(
@@ -91,11 +94,11 @@ class AppConstants{
       margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).size.height - 25.h,
           left: 10,
-          right: 10),
+         ),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: Container(
-        width: 270,
+        width: 300,
         // height: 40,
         // padding: const EdgeInsets.all(16),
         clipBehavior: Clip.antiAlias,

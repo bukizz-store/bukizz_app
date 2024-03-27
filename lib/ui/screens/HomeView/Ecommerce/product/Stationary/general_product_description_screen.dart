@@ -690,7 +690,7 @@ class _GeneralProductDescriptionScreenState
                                                               Radius.circular(
                                                                   12)),
                                                   child: CachedNetworkImage(
-                                                    fit: BoxFit.fitHeight,
+                                                    fit: BoxFit.cover,
                                                     imageUrl:
                                                         selectedModel.image,
                                                   )),

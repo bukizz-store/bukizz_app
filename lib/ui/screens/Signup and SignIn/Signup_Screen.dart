@@ -1,6 +1,7 @@
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/font_family.dart';
@@ -11,6 +12,7 @@ import '../../../widgets/containers/Reusable_container.dart';
 import '../../../widgets/text and textforms/Reusable_TextForm.dart';
 import '../../../widgets/signup_text_widget.dart';
 import '../../../widgets/text and textforms/Reusable_text.dart';
+import '../../../widgets/text and textforms/newLoginTextForm.dart';
 
 class SignUp extends StatefulWidget {
   static const route = '/signUpRoute';
@@ -76,66 +78,69 @@ class _SignUpState extends State<SignUp> {
                       fontSize: 16,
                       height: 0.09,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFFA6A6A6),
+                      color: Colors.black,
 
                     );
                   },
                 ),
 
                 //name text
-                ReusableText(
-                  text: 'Name',
-                  fontSize: 14,
-                  height: 0.10,
-                  color: Color(0xFF121212),
-                  fontWeight: FontWeight.w500,
-                ),
+                // ReusableText(
+                //   text: 'Name',
+                //   fontSize: 14,
+                //   height: 0.10,
+                //   color: Color(0xFF121212),
+                //   fontWeight: FontWeight.w500,
+                // ),
                 SizedBox(
                   height: dimensions.height10,
                 ),
                 //Name form
-                //todo change  the icon maybe
-                ReusableTextField('Your Name', Icons.person_outline, false,
-                    _nameTextController),
+
+                // ReusableTextField('Your Name', Icons.person_outline, false,
+                //     _nameTextController),
+                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _nameTextController, hintText: 'Your Name', labelText: 'Name', isPasswordType: false, type: InputType.all,icon: Icons.person_outline,),
 
                 SizedBox(
                   height: dimensions.height16,
                 ),
 
                 //Email text
-                ReusableText(
-                  text: 'Email',
-                  fontSize: 14,
-                  height: 0.10,
-                  color: Color(0xFF121212),
-                  fontWeight: FontWeight.w500,
-                ),
+                // ReusableText(
+                //   text: 'Email',
+                //   fontSize: 14,
+                //   height: 0.10,
+                //   color: Color(0xFF121212),
+                //   fontWeight: FontWeight.w500,
+                // ),
                 SizedBox(
                   height: dimensions.height10,
                 ),
                 //Email Form
-                ReusableTextField('Your Email', Icons.person_outline, false,
-                    _emailTextController , ),
+                // ReusableTextField('Your Email', Icons.person_outline, false,
+                //     _emailTextController , ),
+                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _emailTextController, hintText: 'Your Email', labelText: 'Email', isPasswordType: false, type: InputType.email,icon: Icons.email_outlined,),
 
                 SizedBox(
                   height: dimensions.height16,
                 ),
 
                 //password text
-                ReusableText(
-                  text: 'Password',
-                  fontSize: 14,
-                  height: 0.10,
-                  color:  Color(0xFF121212),
-                  fontWeight: FontWeight.w500,
-                ),
-
+                // ReusableText(
+                //   text: 'Password',
+                //   fontSize: 14,
+                //   height: 0.10,
+                //   color:  Color(0xFF121212),
+                //   fontWeight: FontWeight.w500,
+                // ),
+                //
                 SizedBox(
                   height: dimensions.height10,
                 ),
                 //password form
-                ReusableTextField('Your Password', Icons.lock_outline, true,
-                    _passwordTextController),
+                // ReusableTextField('Your Password', Icons.lock_outline, true,
+                //     _passwordTextController),
+                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _passwordTextController, hintText: 'Your Password', labelText: 'Password', isPasswordType: true, type: InputType.all,icon: Icons.password,),
 
                 SizedBox(
                   height: dimensions.height24,

@@ -326,11 +326,11 @@ class _Checkout1State extends State<Checkout1> {
                 padding: EdgeInsets.only(bottom: dimensions.width24,left: dimensions.width24,right: dimensions.width24),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: AppColors.productButtonSelectedBorder,
+                      color: selectedAddress==null?Colors.grey:AppColors.productButtonSelectedBorder,
                       borderRadius: BorderRadius.circular(40),
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
-                          color:Color(0xFF0466b5),
+                          color:selectedAddress==null?Colors.black26:Color(0xFF0466b5),
                           offset:Offset(0,4),
 
                         )
