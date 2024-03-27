@@ -846,7 +846,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width: dimensions.width146,
+                                            width: 62.sp,
                                             height: dimensions.height10 * 9,
                                             child: ClipRRect(
                                                 borderRadius:

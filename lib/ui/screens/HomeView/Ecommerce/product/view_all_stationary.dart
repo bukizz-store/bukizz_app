@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../data/repository/category/category_repository.dart';
@@ -113,7 +114,7 @@ class _ViewAllStationaryScreenState extends State<ViewAllStationaryScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: dimensions.width146,
+                              width: 53.sp,
                               height: dimensions.height10 * 9,
                               child: ClipRRect(
                                   borderRadius: const BorderRadius.only(

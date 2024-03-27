@@ -2,6 +2,7 @@ import 'package:bukizz/utils/dimensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/repository/category/category_repository.dart';
@@ -26,13 +27,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
     var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
     Dimensions dimensions=Dimensions(context);
     BottomNavigationBarProvider provider = context.read<BottomNavigationBarProvider>();
-     return PopScope(
-       canPop: false,
-       onPopInvoked: (val){
-         context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-         return ;
-       },
-       child: Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (val){
+        context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+        return ;
+      },
+      child: Scaffold(
         appBar: AppBar(
           title: ReusableText(text: 'Categories',fontSize: 20,fontWeight: FontWeight.w500,),
           leading: IconButton(
@@ -47,10 +48,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
           child: GridView.builder(
 
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: dimensions.width24/2,
-              mainAxisSpacing: dimensions.height8*2,
-              mainAxisExtent: dimensions.height10*17.3
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 16,
+                mainAxisExtent: 55.sp
             ),
             itemCount: categoryRepo.category.length,//categoryRepo.category.length
             itemBuilder: ( context,  index) {
@@ -102,14 +103,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: dimensions.width146,
-                        height: dimensions.height10 * 9,
+                        width: 55.sp,
+                        height: 40.sp,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                          // border: Border.all(color: Colors.grey.withOpacity(0.6),width: 0.5)
+                        ),
                         child: ClipRRect(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(12),
                                 topRight: Radius.circular(12)),
                             child: CachedNetworkImage(
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.fill,
                               imageUrl: selectedModel.image,
                             )),
                       ),
@@ -146,7 +151,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             },
           ),
         ),
-           ),
-     );
+      ),
+    );
   }
 }
