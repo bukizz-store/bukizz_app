@@ -145,6 +145,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                         value.getSelectedStreamDataIndex
                                             .toString()]
                                     .image[index],
+                                placeholder: (context, url) => const SpinKitChasingDots(color: AppColors.borderColor, size: 17,),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
                               ),
                             ),
                           );
@@ -292,7 +294,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             price !=
                                     salePrice
                                 ? Text(
-                                    price,
+                                    price.toString(),
                                     style: const TextStyle(
                                       color: Color(0xFF7A7A7A),
                                       fontWeight: FontWeight.w500,
@@ -632,7 +634,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 // SizedBox(
                 //   height: dimensions.height24 ,
                 // ),
-                ReusableColoredBox(
+                productView.productData.length >2 ? ReusableColoredBox(
                   width: dimensions.screenWidth,
                   height: dimensions.height8 * 27,
                   backgroundColor: Colors.transparent,
@@ -684,7 +686,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                         child: Container(
                                           height: dimensions.height10 * 10,
                                           width: dimensions.width146,
-                                          margin: EdgeInsets.only(right: 16),
+                                          margin: const EdgeInsets.only(right: 16),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(12),
@@ -798,18 +800,28 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                                         ],
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                        height: dimensions
-                                                                .height24 /
-                                                            3),
-                                                    ReusableText(
-                                                      text: '20 % off',
-                                                      fontSize: 12,
-                                                      height: 0.11,
-                                                      color: Color(0xFF058FFF),
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
+                                                    // SizedBox(
+                                                    //     height: dimensions
+                                                    //             .height24 /
+                                                    //         3),
+                                                    (product.set.first.price - product.set.first.salePrice) *
+                                                        100 /
+                                                        product.set.first.price > 1
+                                                        ? Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        SizedBox(height: dimensions.height24 / 3),
+                                                        ReusableText(
+                                                          text:
+                                                          '${((product.set.first.price - product.set.first.salePrice) * 100 / product.set.first.price).floor()} % off',
+                                                          fontSize: 12,
+                                                          height: 0.11,
+                                                          color: Color(0xFF058FFF),
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ],
+                                                    )
+                                                        : SizedBox(),
                                                     SizedBox(
                                                         height: dimensions
                                                                 .height24 /
@@ -838,7 +850,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       ],
                     ),
                   ),
-                ),
+                ) : SizedBox(),
 
                 SizedBox(
                   height: dimensions.height24,

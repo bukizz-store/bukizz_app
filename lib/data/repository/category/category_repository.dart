@@ -9,7 +9,7 @@ class CategoryRepository extends ChangeNotifier{
     getCategoryFromFirebase();
   }
 
-  List<CategoryModel> category =[];
+  late List<CategoryModel> category;
 
   late CategoryModel selectedCategory ;
 

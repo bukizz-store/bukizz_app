@@ -760,7 +760,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     )),
               SizedBox(height: dimensions.height36),
 
-              topDeals.isNotEmpty ? Padding(
+              (categoryRepo.category.isNotEmpty && topDeals.isNotEmpty) ? Padding(
                 padding: EdgeInsets.only(left: dimensions.width16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

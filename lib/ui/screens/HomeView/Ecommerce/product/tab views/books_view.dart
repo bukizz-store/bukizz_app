@@ -30,7 +30,7 @@ class _BooksState extends State<Books> {
     // var productData = context.read<ProductProvider>();
     var schoolData = context.read<SchoolDataProvider>();
     Dimensions dimensions = Dimensions(context);
-    return productView.getIsProductAdded
+    return productView.productData.isNotEmpty
         ? Scaffold(
             body: Padding(
                 padding: EdgeInsets.symmetric(
@@ -127,9 +127,8 @@ class _BooksState extends State<Books> {
                                     RichText(
                                       text: TextSpan(
                                         text: product.set.first.price
-                                    .floor() != product.set.first.salePrice ?  product.set.first.price
                                             .floor()
-                                            .toString() : "",
+                                            .toString(),
                                         style: const TextStyle(
                                           color: Color(0xFFB7B7B7),
                                           fontWeight: FontWeight.w500,
@@ -161,7 +160,7 @@ class _BooksState extends State<Books> {
                                             SizedBox(height: dimensions.height24 / 3),
                                             ReusableText(
                                                 text:
-                                                    '${(product.set.first.price - product.set.first.salePrice) * 100 / product.set.first.price} % off',
+                                                    '${((product.set.first.price - product.set.first.salePrice) * 100 / product.set.first.price).floor()} % off',
                                                 fontSize: 12,
                                                 height: 0.11,
                                                 color: Color(0xFF058FFF),

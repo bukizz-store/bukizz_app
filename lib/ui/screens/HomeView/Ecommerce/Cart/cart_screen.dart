@@ -455,7 +455,7 @@ class _CartState extends State<Cart> {
                             RichText(
                               text: TextSpan(
                                 text:
-                                    "${((price - totalSalePrice) / price * 100).round().toString()}% off ",
+                                ((price - totalSalePrice) / price * 100).round() > 0 ? "${((price - totalSalePrice) / price * 100).round().toString()}% off " : "",
                                 style: const TextStyle(
                                   color: AppColors.productButtonSelectedBorder,
                                   fontWeight: FontWeight.w700,

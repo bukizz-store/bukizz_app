@@ -107,7 +107,6 @@ class ProductViewRepository extends ChangeNotifier {
         .listen((event) {
       productData = event.docs.map((e) => ProductModel.fromMap(e.data())).toList();
       productData.sort((a, b) => compareClassIds(a.classId, b.classId));
-      setProductLoaded(true);
       notifyListeners();
     });
     setProductLoaded(true);
