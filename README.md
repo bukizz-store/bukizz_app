@@ -34,4 +34,4 @@ To get started with Bukizz App, follow these steps:
 
 ## Figma Design Files
 
-- Link for Accessing - https://www.figma.com/design/TgFTJG2RzBrwpLfm1Fa6Gr/Bukizz?node-id=484-1136&t=cbg8XbSJmch4tCkD-1
+- Link for Accessing - [https://www.figma.com/design/TgFTJG2RzBrwpLfm1Fa6Gr/Bukizz?node-id=484-1136&t=cbg8XbSJmch4tCkD-1](https://www.figma.com/design/TgFTJG2RzBrwpLfm1Fa6Gr/Bukizz?node-id=484-1136&t=cbg8XbSJmch4tCkD-1)
