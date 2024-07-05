@@ -1,7 +1,7 @@
 # Bukizz App
 
-Bukizz is an innovative e-commerce platform designed specifically for schools, offering a convenient way for students and parents to purchase school booksets and uniforms online.
-This repository contains the code for the Bukizz Android and IOS Apps.
+- Bukizz is an innovative e-commerce platform designed specifically for schools, offering a convenient way for students and parents to purchase school booksets and uniforms online.
+- This repository contains the code for the Bukizz Android and IOS Apps.
 
 
 ## Features
