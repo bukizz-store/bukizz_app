@@ -35,3 +35,11 @@ To get started with Bukizz App, follow these steps:
 ## Figma Design Files
 
 - Link for Accessing - [https://www.figma.com/design/TgFTJG2RzBrwpLfm1Fa6Gr/Bukizz?node-id=484-1136&t=cbg8XbSJmch4tCkD-1](https://www.figma.com/design/TgFTJG2RzBrwpLfm1Fa6Gr/Bukizz?node-id=484-1136&t=cbg8XbSJmch4tCkD-1)
+
+
+## App Final Look
+
+The Snapshot Provides the Final Look of the Website 🔥🔥
+
+<img  alt="App Final Look Snapshot"  src="https://firebasestorage.googleapis.com/v0/b/expense-tracjer-a20e3.appspot.com/o/bukizz_app_final_look.png?alt=media&token=9da95ce9-7137-4d4f-ab18-f9c207be9bd6">
+
