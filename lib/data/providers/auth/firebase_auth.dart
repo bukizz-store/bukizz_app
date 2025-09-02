@@ -129,8 +129,9 @@ class AuthProvider extends ChangeNotifier {
           accessToken: googleSignInAuthentication?.accessToken);
       await googleSignUp(context, authCredential);
     } catch (e) {
+      print(e);
       debugPrint(e.toString());
-      AppConstants.showSnackBar(context, "Unable to Continue with Google",
+      AppConstants.showSnackBar(context, "Unable to sign in",
           AppColors.error, Icons.error_outline_rounded);
     }
   }

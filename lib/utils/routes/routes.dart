@@ -13,6 +13,9 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/product/view_all_stationary
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_rating.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/add_review.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/all_policies.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/privacy_policy.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/terms_of_use.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/queryContact/contact_for_query.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
@@ -31,9 +34,9 @@ import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
 import '../../ui/screens/Signup and SignIn/Signup_Screen.dart';
 import '../../ui/screens/Signup and SignIn/reset_password.dart';
 
-class RouteGenerator{
-  static Route<dynamic> generateRoute(RouteSettings settings){
-    switch (settings.name){
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
       case SignIn.route:
         return MaterialPageRoute(
           builder: (_) => const SignIn(),
@@ -53,9 +56,7 @@ class RouteGenerator{
           builder: (_) => Cart(),
         );
       case TabScreen.route:
-        return MaterialPageRoute(
-          builder: (_) => TabScreen()
-        );
+        return MaterialPageRoute(builder: (_) => TabScreen());
 
       case ProductDescriptionScreen.route:
         return MaterialPageRoute(
@@ -110,7 +111,9 @@ class RouteGenerator{
         );
 
       case AddAddress.route:
-        return MaterialPageRoute(builder: (_) => const AddAddress(),);
+        return MaterialPageRoute(
+          builder: (_) => const AddAddress(),
+        );
 
       case ReviewScreen.route:
         return MaterialPageRoute(
@@ -118,11 +121,11 @@ class RouteGenerator{
         );
       case ContactUsScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  ContactUsScreen(),
+          builder: (_) => ContactUsScreen(),
         );
       case ViewAllStationaryScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  ViewAllStationaryScreen(),
+          builder: (_) => ViewAllStationaryScreen(),
         );
       // case GeneralProductScreen.route:
       //   return MaterialPageRoute(
@@ -130,27 +133,39 @@ class RouteGenerator{
       //   );
       case GeneralProductDescriptionScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  GeneralProductDescriptionScreen(),
+          builder: (_) => GeneralProductDescriptionScreen(),
         );
       case Forms.route:
         return MaterialPageRoute(
-          builder: (_) =>  Forms(),
+          builder: (_) => Forms(),
         );
       case Forms2.route:
         return MaterialPageRoute(
-          builder: (_) =>  Forms2(),
+          builder: (_) => Forms2(),
         );
       case ForgotPasswordScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  ForgotPasswordScreen(),
+          builder: (_) => ForgotPasswordScreen(),
         );
       case UniformDescriptionScreen.route:
         return MaterialPageRoute(
-          builder: (_) =>  UniformDescriptionScreen(),
+          builder: (_) => UniformDescriptionScreen(),
         );
       case AddressScreen1.route:
         return MaterialPageRoute(
-          builder: (_) =>  AddressScreen1(),
+          builder: (_) => AddressScreen1(),
+        );
+      case PrivacyPolicy.route:
+        return MaterialPageRoute(
+          builder: (_) => PrivacyPolicy(),
+        );
+      case AllPoliciesScreen.route:
+        return MaterialPageRoute(
+          builder: (_) => AllPoliciesScreen(),
+        );
+      case TermsOfUse.route:
+        return MaterialPageRoute(
+          builder: (_) => TermsOfUse(),
         );
       default:
         return _errorRoute();
@@ -168,5 +183,3 @@ class RouteGenerator{
     );
   }
 }
-
-

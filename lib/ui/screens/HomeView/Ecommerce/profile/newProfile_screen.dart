@@ -4,6 +4,8 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/address_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/all_policies.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/privacy_policy.dart';
 import 'package:bukizz/utils/dimensions.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +77,9 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                   height: dimensions.height10,
                 ),
                 ReusableText(
-                  text: AppConstants.isLogin? AppConstants.userData.name : 'Guest User',
+                  text: AppConstants.isLogin
+                      ? AppConstants.userData.name
+                      : 'Guest User',
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
                 ),
@@ -83,7 +87,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                   height: dimensions.height10 * 2,
                 ),
                 ReusableText(
-                  text: AppConstants.isLogin? AppConstants.userData.email : '',
+                  text: AppConstants.isLogin ? AppConstants.userData.email : '',
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF121212).withOpacity(0.6),
@@ -92,104 +96,112 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                   height: dimensions.height16,
                 ),
                 ReusableText(
-                    text :AppConstants.isLogin ?  AppConstants.userData.address.phone : '',
+                    text: AppConstants.isLogin
+                        ? AppConstants.userData.address.phone
+                        : '',
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF121212).withOpacity(0.6)),
                 SizedBox(
                   height: dimensions.height10 * 5,
                 ),
-                AppConstants.isLogin? GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, AddressScreen1.route);
-                  },
-                  child: Container(
-                    height: dimensions.height10 * 8.5,
-                    width: dimensions.screenWidth,
-                    color: Colors.white,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: dimensions.width16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: dimensions.width10 * 2.5,
-                                  backgroundColor: Color(0xFFCCE8FF),
-                                  child: Icon(
-                                    Icons.home,
-                                    color: Color(0xFF0590FF),
+                AppConstants.isLogin
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, AddressScreen1.route);
+                        },
+                        child: Container(
+                          height: dimensions.height10 * 8.5,
+                          width: dimensions.screenWidth,
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: dimensions.width16),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: dimensions.width10 * 2.5,
+                                        backgroundColor: Color(0xFFCCE8FF),
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Color(0xFF0590FF),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: dimensions.height10,
+                                      ),
+                                      ReusableText(
+                                        text: 'Profile',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF121212),
+                                      )
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  width: dimensions.height10,
-                                ),
-                                ReusableText(
-                                  text: 'Profile',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF121212),
-                                )
-                              ],
-                            ),
-                            Icon(Icons.chevron_right),
-                          ],
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ) : Container(),
-                AppConstants.isLogin? GestureDetector(
-                  onTap: () {
-                    context.read<MyOrders>().fetchOrders();
-                    Navigator.pushNamed(context, OrderScreen.route);
-                  },
-                  child: Container(
-                    height: dimensions.height10 * 8.5,
-                    width: dimensions.screenWidth,
-                    color: Colors.white,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: dimensions.width16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: dimensions.width10 * 2.5,
-                                  backgroundColor: Color(0xFFCCE8FF),
-                                  child: Icon(
-                                    Icons.document_scanner,
-                                    color: Color(0xFF0590FF),
+                      )
+                    : Container(),
+                AppConstants.isLogin
+                    ? GestureDetector(
+                        onTap: () {
+                          context.read<MyOrders>().fetchOrders();
+                          Navigator.pushNamed(context, OrderScreen.route);
+                        },
+                        child: Container(
+                          height: dimensions.height10 * 8.5,
+                          width: dimensions.screenWidth,
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: dimensions.width16),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: dimensions.width10 * 2.5,
+                                        backgroundColor: Color(0xFFCCE8FF),
+                                        child: Icon(
+                                          Icons.document_scanner,
+                                          color: Color(0xFF0590FF),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: dimensions.height10,
+                                      ),
+                                      ReusableText(
+                                        text: 'Order History',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF121212),
+                                      )
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  width: dimensions.height10,
-                                ),
-                                ReusableText(
-                                  text: 'Order History',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF121212),
-                                )
-                              ],
-                            ),
-                            Icon(Icons.chevron_right),
-                          ],
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ) : Container(),
+                      )
+                    : Container(),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, ContactUsScreen.route);
@@ -280,9 +292,57 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                     ),
                   ),
                 ),
-                AppConstants.isLogin? GestureDetector(
+                AppConstants.isLogin
+                    ? GestureDetector(
+                        onTap: () {
+                          DeletePopUp(context);
+                        },
+                        child: Container(
+                          height: dimensions.height10 * 8.5,
+                          width: dimensions.screenWidth,
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: dimensions.width16),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: dimensions.width10 * 2.5,
+                                        backgroundColor: Color(0xFFCCE8FF),
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Color(0xFF0590FF),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: dimensions.height10,
+                                      ),
+                                      ReusableText(
+                                        text: 'Delete Your Account',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF121212),
+                                      )
+                                    ],
+                                  ),
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container(),
+                GestureDetector(
                   onTap: () {
-                    DeletePopUp(context);
+                    Navigator.pushNamed(context, AllPoliciesScreen.route);
                   },
                   child: Container(
                     height: dimensions.height10 * 8.5,
@@ -303,7 +363,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                                   radius: dimensions.width10 * 2.5,
                                   backgroundColor: Color(0xFFCCE8FF),
                                   child: Icon(
-                                    Icons.delete,
+                                    Icons.policy,
                                     color: Color(0xFF0590FF),
                                   ),
                                 ),
@@ -311,7 +371,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                                   width: dimensions.height10,
                                 ),
                                 ReusableText(
-                                  text: 'Delete Your Account',
+                                  text: 'Terms, Policies & Licenses',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFF121212),
@@ -324,7 +384,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                       ],
                     ),
                   ),
-                ): Container()
+                ),
               ],
             ),
           ),
@@ -333,12 +393,17 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
             padding: EdgeInsets.symmetric(
                 horizontal: dimensions.width24, vertical: dimensions.height24),
             child: InkWell(
-              onTap: AppConstants.isLogin?() {
-                 showCustomAboutDialog(context);
-
-              }:(){
-                  context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
-                    Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (route) => false);},
+              onTap: AppConstants.isLogin
+                  ? () {
+                      showCustomAboutDialog(context);
+                    }
+                  : () {
+                      context
+                          .read<BottomNavigationBarProvider>()
+                          .setSelectedIndex(0);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, SignIn.route, (route) => false);
+                    },
               child: Container(
                   width: dimensions.screenWidth,
                   height: dimensions.height48,
@@ -352,14 +417,17 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AppConstants.isLogin?  Icon(
-                        Icons.logout,
-                        color: Color(0xFF058FFF),
-                      ) : Icon(
-                        Icons.person,color: Color(0xFF058FFF),
-                      ),
+                      AppConstants.isLogin
+                          ? Icon(
+                              Icons.logout,
+                              color: Color(0xFF058FFF),
+                            )
+                          : Icon(
+                              Icons.person,
+                              color: Color(0xFF058FFF),
+                            ),
                       ReusableText(
-                        text: AppConstants.isLogin? 'Logout' : 'Sign In',
+                        text: AppConstants.isLogin ? 'Logout' : 'Sign In',
                         fontSize: 16,
                         color: Color(0xFF058FFF),
                       )
@@ -483,7 +551,7 @@ void DeletePopUp(BuildContext context) {
                   color: Color(0xFF121212),
                 ),
                 SizedBox(
-                  height: dimensions.height10 ,
+                  height: dimensions.height10,
                 ),
                 ReusableText(
                   text: 'to delete your account permanently',
@@ -503,9 +571,7 @@ void DeletePopUp(BuildContext context) {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    context
-                        .read<AuthProvider>()
-                        .deleteAccount(context);
+                    context.read<AuthProvider>().deleteAccount(context);
                   },
                   child: Container(
                     width: dimensions.width10 * 11.5,

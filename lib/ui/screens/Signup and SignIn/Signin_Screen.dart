@@ -227,41 +227,42 @@ class _SignInState extends State<SignIn> {
                 ),
 
                 //Sign in with google
-                // ReusableElevatedButton(
-                //   shadowColor: Colors.grey.withOpacity(0.6),
-                //   width: dimensions.width327,
-                //   height: dimensions.height48,
-                //   onPressed: () {
-                //     authProvider.googleSignInMethod(context);
-                //   },
-                //   buttonText: 'Sign in with Google',
-                //   buttonColor: Colors.white,
-                //   textColor: Color(0xFF121212),
-                //   fontSize: 14,
-                //   fontFamily: FontFamily.nunito.name,
-                //   fontWeight: FontWeight.w400,
-                //   imagePath: 'assets/google.png',
-                //   borderColor: Colors.black38,
-                // ),
-                SizedBox(
-                  height: dimensions.height8 * 2,
-                ),
                 ReusableElevatedButton(
+                  shadowColor: Colors.grey.withOpacity(0.6),
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () {
-                    authProvider.signInWithApple(context);
+                    authProvider.googleSignInMethod(context);
                   },
-                  buttonText: 'Sign in with Apple',
+                  buttonText: 'Sign in with Google',
                   buttonColor: Colors.white,
-                  iconData: Icons.apple,
                   textColor: Color(0xFF121212),
                   fontSize: 14,
                   fontFamily: FontFamily.nunito.name,
                   fontWeight: FontWeight.w400,
+                  imagePath: 'assets/google.png',
                   borderColor: Colors.black38,
-                  shadowColor: Colors.grey.withOpacity(0.6),
                 ),
+                SizedBox(
+                  height: dimensions.height8 * 2,
+                ),
+                //sign in with apple
+                // ReusableElevatedButton(
+                //   width: dimensions.width327,
+                //   height: dimensions.height48,
+                //   onPressed: () {
+                //     authProvider.signInWithApple(context);
+                //   },
+                //   buttonText: 'Sign in with Apple',
+                //   buttonColor: Colors.white,
+                //   iconData: Icons.apple,
+                //   textColor: Color(0xFF121212),
+                //   fontSize: 14,
+                //   fontFamily: FontFamily.nunito.name,
+                //   fontWeight: FontWeight.w400,
+                //   borderColor: Colors.black38,
+                //   shadowColor: Colors.grey.withOpacity(0.6),
+                // ),
               ],
             ),
           ),
