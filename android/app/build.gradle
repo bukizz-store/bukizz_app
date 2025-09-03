@@ -15,12 +15,12 @@ if (localPropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '2'
+    flutterVersionCode = '3'  // Incrementing version code
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0.1'
+    flutterVersionName = '1.0.2'  // Incrementing version name
 }
 
 // Load keystore properties for release signing
@@ -51,7 +51,7 @@ android {
 
     defaultConfig {
         applicationId "com.bukizz"
-        minSdkVersion 23
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -70,12 +70,17 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            debuggable false
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+            }
         }
         debug {
             signingConfig signingConfigs.debug
+            debuggable true
             minifyEnabled false
             shrinkResources false
         }
@@ -95,5 +100,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation platform('com.google.firebase:firebase-bom:34.2.0')
     implementation 'com.google.firebase:firebase-analytics'
+
+    // Removed direct Play Core artifacts to avoid forcing unavailable versions
+
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 }
