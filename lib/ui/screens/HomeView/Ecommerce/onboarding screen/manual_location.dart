@@ -109,7 +109,7 @@ class _SelectLocationState extends State<SelectLocation> {
                              Positioned(
                                left: 3,
                                right: 3,
-                               bottom:18.sp,
+                               bottom:17.6.sp,
                                child: Container(
                                  width:91.w,
                                  height: 35.sp,
@@ -134,11 +134,11 @@ class _SelectLocationState extends State<SelectLocation> {
                              ),
                              Positioned(
                                bottom:25.sp,
-                               left:32.w,
                                child: Container(
-                                   width:40.w,
+                                 alignment: Alignment.center,
+                                    width: 90.w,
                                    height:12.sp,
-                                   child: ReusableText(text: cities[index], fontSize: 24,fontWeight: FontWeight.w800,color: Colors.white,)
+                                   child: Center(child: ReusableText(text: cities[index], fontSize: 24,fontWeight: FontWeight.w800,color: Colors.white,))
                                ),
                              ),
                            ],

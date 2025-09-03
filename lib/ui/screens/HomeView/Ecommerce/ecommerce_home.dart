@@ -1,3 +1,5 @@
+import 'package:bukizz/constants/constants.dart';
+import 'package:bukizz/data/models/ecommerce/categoryModel.dart';
 import 'package:bukizz/data/models/ecommerce/products/product_model.dart';
 import 'package:bukizz/data/providers/tabController/TabController_provider.dart';
 import 'package:bukizz/data/repository/banners/banners.dart';
@@ -45,19 +47,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
     "Admission",
     "Extras",
   ];
-  List<String> stationaryText = [
-    'School Bags',
-    'Min. 50% Off',
-    '18 Notebook Set',
-    '@ Rs. 200/-'
-  ];
-
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
-  double _scaleFactor = 0.8;
   late double _height;
-
-  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -81,11 +73,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
     _height = dimensions.pageViewContainer;
     // var func = Provider.of<ProductModel>(context, listen: false);
     var schoolData = Provider.of<SchoolDataProvider>(context, listen: false);
-    var categoryRepo = Provider.of<CategoryRepository>(context, listen: false);
-    var banner = context.read<BannerRepository>();
+    var categoryRepo = context.watch<CategoryRepository>();
+    var banner = context.watch<BannerRepository>();
     var general = Provider.of<GeneralProductRepository>(context, listen: false);
-    
-    var topDeals = categoryRepo.category.getRange(categoryRepo.category.length-4 , categoryRepo.category.length);
+    late Iterable<CategoryModel> topDeals;
+    if (categoryRepo.category.isNotEmpty) {
+      topDeals = categoryRepo.category.getRange(
+          categoryRepo.category.length - 4, categoryRepo.category.length);
+    }
     // schoolData.loadData(context);
     return Scaffold(
       //container of screen size
@@ -121,57 +116,59 @@ class _EcommerceMainState extends State<EcommerceMain> {
                       itemBuilder:
                           (BuildContext context, int index, int realIndex) {
                         return RoundedImage(
-                          onPressed: () async {
-                            // if (banner.banners1[index].link.isNotEmpty) {
-                            //   if (banner.banners1[index].link
-                            //           .contains('http') ||
-                            //       banner.banners1[index].link
-                            //           .contains('https')) {
-                            //     Uri url =
-                            //         Uri.parse(banner.banners1[index].link);
-                            //     await launchUrl(url);
-                            //   } else if (banner.banners1[index].link[0] ==
-                            //       '/') {
-                            //     List<String> data =
-                            //         banner.banners1[index].link.split('/');
-                            //     if (data[1] == 'category') {
-                            //       var selectedModel = categoryRepo.category[
-                            //           categoryRepo.category.indexOf(categoryRepo
-                            //               .category
-                            //               .firstWhere((element) =>
-                            //                   element.name == data[2]))];
-                            //       context
-                            //           .read<CategoryRepository>()
-                            //           .selectedCategory = selectedModel;
-                            //       context
-                            //           .read<GeneralProductRepository>()
-                            //           .getGeneralProductFromFirebase(
-                            //               selectedModel.categoryId);
-                            //       Navigator.push(
-                            //           context,
-                            //           MaterialPageRoute(
-                            //               builder: (context) =>
-                            //                   GeneralProductScreen(
-                            //                       product:
-                            //                           selectedModel.name)));
-                            //     } else if (data[1] == 'order') {
-                            //       var orders = context.read<MyOrders>();
-                            //       orders.fetchOrders().then((value) =>
-                            //           orders.setOrder(orders.orders.indexWhere(
-                            //               (element) =>
-                            //                   element.orderId == data[2])));
-                            //       Navigator.pushNamed(
-                            //           context, OrderDetailsScreen.route);
-                            //     }
-                            //
-                            //     // context.read<TabProvider>().navigateToTab(0);
-                            //     // Navigator.pushNamed(context,ViewAll.route );
-                            //   }
-                            // }
-                            // NotificationRepository.pushNotificationData();
-                            //schoolData.pushRandomData();
-                            ProductModel.addProductData();
-                          },
+                          onPressed: AppConstants.isLogin
+                              ? () async {
+                                  if (banner.banners1[index].link.isNotEmpty) {
+                                    if (banner.banners1[index].link
+                                            .contains('http') ||
+                                        banner.banners1[index].link
+                                            .contains('https')) {
+                                      Uri url = Uri.parse(
+                                          banner.banners1[index].link);
+                                      await launchUrl(url);
+                                    } else if (banner.banners1[index].link[0] ==
+                                        '/') {
+                                      List<String> data = banner
+                                          .banners1[index].link
+                                          .split('/');
+                                      if (data[1] == 'category') {
+                                        var selectedModel =
+                                            categoryRepo.category[categoryRepo
+                                                .category
+                                                .indexOf(categoryRepo.category
+                                                    .firstWhere((element) =>
+                                                        element.name ==
+                                                        data[2]))];
+                                        context
+                                            .read<CategoryRepository>()
+                                            .selectedCategory = selectedModel;
+                                        context
+                                            .read<GeneralProductRepository>()
+                                            .getGeneralProductFromFirebase(
+                                                selectedModel.categoryId);
+                                        Navigator.pushNamed(
+                                            context, GeneralProductScreen.route,
+                                            arguments: {
+                                              'product': selectedModel.name,
+                                            });
+                                      } else if (data[1] == 'order') {
+                                        var orders = context.read<MyOrders>();
+                                        orders.fetchOrders().then((value) =>
+                                            orders.setOrder(orders.orders
+                                                .indexWhere((element) =>
+                                                    element.orderId ==
+                                                    data[2])));
+                                        Navigator.pushNamed(
+                                            context, OrderDetailsScreen.route);
+                                      }
+
+                                      // context.read<TabProvider>().navigateToTab(0);
+                                      // Navigator.pushNamed(context,ViewAll.route );
+                                    }
+                                  }
+                                  // NotificationRepository.pushNotificationData();
+                                }
+                              : () {},
                           width: dimensions.screenWidth,
                           height: dimensions.height192,
                           isNetworkImage: true,
@@ -235,20 +232,22 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 context.read<TabProvider>().navigateToTab(0);
                                 Navigator.pushNamed(context, ViewAll.route);
                               } else if (index == 1) {
-                                var selectedModel = categoryRepo.category.where((element) => element.categoryId == "Stationary Kit").first;
+                                var selectedModel = categoryRepo.category
+                                    .where((element) =>
+                                        element.categoryId == "Stationary Kit")
+                                    .first;
                                 context
                                     .read<CategoryRepository>()
                                     .selectedCategory = selectedModel;
                                 context
                                     .read<GeneralProductRepository>()
                                     .getGeneralProductFromFirebase(
-                                    selectedModel.categoryId);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            GeneralProductScreen(
-                                                product: selectedModel.name)));
+                                        selectedModel.categoryId);
+                                Navigator.pushNamed(
+                                    context, GeneralProductScreen.route,
+                                    arguments: {
+                                      'product': selectedModel.name,
+                                    });
                               } else if (index == 3) {
                                 Navigator.pushNamed(context, Forms.route);
                               } else if (index == 2) {
@@ -339,8 +338,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
               context.watch<SchoolDataProvider>().schoolData.isNotEmpty
                   ? Container(
                       height: 50.sp,
-                      // width: dimensions.width195,
-                      margin: EdgeInsets.only(left: 3.8.w , right: 3.8.w),
+                      width: 100.w,
+                      margin: EdgeInsets.only(left: 3.8.w),
                       // color: Colors.red,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -369,8 +368,8 @@ class _EcommerceMainState extends State<EcommerceMain> {
                               child: Stack(
                                 children: [
                                   Container(
-                                    height: dimensions.height10 * 14,
-                                    width: dimensions.width169,
+                                    height: 80.sp,
+                                    width: 45.2.w,
                                     decoration: ShapeDecoration(
                                       gradient: LinearGradient(
                                         begin: Alignment(-0.00, -1.00),
@@ -406,7 +405,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                       child: CachedNetworkImage(
                                         imageUrl:
                                             schoolData.schoolData[index].banner,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.fill,
                                         filterQuality: FilterQuality.low,
                                         height: dimensions.height151,
                                         width: dimensions.width195,
@@ -500,9 +499,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                 horizontal: dimensions.width16 * 0.8,
                                 vertical: dimensions.height8),
                             child: InkWell(
-                              onTap: () {
-
-                              },
+                              onTap: () {},
                               //
                               child: Stack(
                                 children: [
@@ -661,7 +658,7 @@ class _EcommerceMainState extends State<EcommerceMain> {
               SizedBox(height: dimensions.height16),
               categoryRepo.category.isNotEmpty
                   ? Container(
-                      height: dimensions.height10 * 17,
+                      height: 55.sp,
                       width: dimensions.screenWidth,
                       // color: Colors.red,
                       padding: EdgeInsets.only(left: dimensions.width16),
@@ -670,7 +667,9 @@ class _EcommerceMainState extends State<EcommerceMain> {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             // print(categoryRepo.category.length);
-                            var selectedModel = categoryRepo.category.getRange(0, categoryRepo.category.length - 4).elementAt(index);
+                            var selectedModel = categoryRepo.category
+                                .getRange(0, categoryRepo.category.length - 4)
+                                .elementAt(index);
                             return GestureDetector(
                               onTap: () {
                                 context
@@ -680,18 +679,15 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                     .read<GeneralProductRepository>()
                                     .getGeneralProductFromFirebase(
                                         selectedModel.categoryId);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            GeneralProductScreen(
-                                                product: selectedModel.name)));
+                                Navigator.pushNamed(
+                                    context, GeneralProductScreen.route,
+                                    arguments: {
+                                      'product': selectedModel.name,
+                                    });
                               },
                               child: Container(
-                                margin: EdgeInsets.only(
-                                    right: dimensions.width16,
-                                    bottom: dimensions.height10),
-                                width: dimensions.width146,
+                                margin: EdgeInsets.only(right: 16, bottom: 10),
+                                width: 50.sp,
                                 height: dimensions.height10,
                                 decoration: ShapeDecoration(
                                   color: Colors.white,
@@ -718,14 +714,14 @@ class _EcommerceMainState extends State<EcommerceMain> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      width: dimensions.width146,
-                                      height: dimensions.height10 * 9,
+                                      width: 50.sp,
+                                      height: 40.sp,
                                       child: ClipRRect(
                                           borderRadius: const BorderRadius.only(
                                               topLeft: Radius.circular(12),
                                               topRight: Radius.circular(12)),
                                           child: CachedNetworkImage(
-                                            fit: BoxFit.fitHeight,
+                                            fit: BoxFit.cover,
                                             imageUrl: selectedModel.image,
                                           )),
                                     ),
@@ -768,143 +764,177 @@ class _EcommerceMainState extends State<EcommerceMain> {
                     )),
               SizedBox(height: dimensions.height36),
 
-              Padding(
-                padding: EdgeInsets.only(left: dimensions.width16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 12),
-                      child: ReusableText(text: 'Deals for you', fontSize: 20 , textAlign: TextAlign.center,)
-                    ),
-                    SizedBox(
-                      height: dimensions.height10 * 3,
-                    ),
-                    Container(
-                      width: dimensions.screenWidth,
-                      height: 80.sp,
-                      child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: dimensions.width24 / 2,
-                            mainAxisSpacing: dimensions.height8,
+              (categoryRepo.category.isNotEmpty && topDeals.isNotEmpty)
+                  ? Padding(
+                      padding: EdgeInsets.only(left: dimensions.width16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.only(left: 12),
+                              child: ReusableText(
+                                text: 'Deals for you',
+                                fontSize: 20,
+                                textAlign: TextAlign.center,
+                              )),
+                          SizedBox(
+                            height: dimensions.height10 * 3,
                           ),
-                          itemCount: topDeals.length,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            var selectedModel = topDeals.elementAt(index);
-                            return categoryRepo.category.isNotEmpty
-                                ? GestureDetector(
-                                    onTap: () {
-                                      context
-                                          .read<CategoryRepository>()
-                                          .selectedCategory = selectedModel;
-                                      context
-                                          .read<GeneralProductRepository>()
-                                          .getGeneralProductFromFirebase(
-                                              selectedModel.categoryId);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  GeneralProductScreen(
-                                                      product:
-                                                          selectedModel.name)));
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          right: dimensions.width16,
-                                          bottom: dimensions.height10),
-                                      width: dimensions.width146,
-                                      height: dimensions.height10,
-                                      decoration: ShapeDecoration(
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                            width: 0.50,
-                                            strokeAlign:
-                                                BorderSide.strokeAlignOutside,
-                                            color: Color(0xFFD6D6D6),
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                        shadows: const [
-                                          BoxShadow(
-                                            color: Color(0x2600579E),
-                                            blurRadius: 12,
-                                            offset: Offset(0, 4),
-                                            spreadRadius: 0,
-                                          )
-                                        ],
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
+                          Container(
+                            width: dimensions.screenWidth,
+                            height: 88.sp,
+                            // color: Colors.red,
+                            child: GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 18.sp,
+                                        mainAxisSpacing: 20.sp,
+                                        mainAxisExtent: 57.sp),
+                                itemCount: topDeals.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var selectedModel = topDeals.elementAt(index);
+                                  return categoryRepo.category.isNotEmpty
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            context
+                                                    .read<CategoryRepository>()
+                                                    .selectedCategory =
+                                                selectedModel;
+                                            context
+                                                .read<
+                                                    GeneralProductRepository>()
+                                                .getGeneralProductFromFirebase(
+                                                    selectedModel.categoryId);
+                                            Navigator.pushNamed(context,
+                                                GeneralProductScreen.route,
+                                                arguments: {
+                                                  'product': selectedModel.name,
+                                                });
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                right: dimensions.width16,
+                                                bottom: dimensions.height10),
                                             width: 62.sp,
-                                            height: dimensions.height10 * 9,
-                                            child: ClipRRect(
+                                            height: dimensions.height10,
+                                            decoration: ShapeDecoration(
+                                              color: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                side: const BorderSide(
+                                                  width: 0.50,
+                                                  strokeAlign: BorderSide
+                                                      .strokeAlignOutside,
+                                                  color: Color(0xFFD6D6D6),
+                                                ),
                                                 borderRadius:
-                                                    const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(12),
-                                                        topRight:
-                                                            Radius.circular(
-                                                                12)),
-                                                child: CachedNetworkImage(
-                                                  fit: BoxFit.cover,
-                                                  imageUrl: selectedModel.image,
-                                                )),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    dimensions.width24 / 3,
-                                                vertical:
-                                                    dimensions.height10 * 2),
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              shadows: const [
+                                                BoxShadow(
+                                                  color: Color(0x2600579E),
+                                                  blurRadius: 12,
+                                                  offset: Offset(0, 4),
+                                                  spreadRadius: 0,
+                                                )
+                                              ],
+                                            ),
                                             child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                ReusableText(
-                                                  text: selectedModel.name,
-                                                  fontSize: 14,
-                                                  color: Color(0xFF444444),
-                                                  fontWeight: FontWeight.w500,
+                                                Container(
+                                                  width: 62.sp,
+                                                  height: 39.sp,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topRight: Radius
+                                                                .circular(10),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    10)),
+                                                    // border: Border.all(color: Colors.grey.withOpacity(0.6))
+                                                  ),
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                              topLeft: Radius
+                                                                  .circular(12),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      12)),
+                                                      child: CachedNetworkImage(
+                                                        fit: BoxFit.cover,
+                                                        imageUrl:
+                                                            selectedModel.image,
+                                                      )),
                                                 ),
-                                                SizedBox(
-                                                  height:
-                                                      dimensions.height10 * 2,
-                                                ),
-                                                ReusableText(
-                                                  text: selectedModel.offers,
-                                                  fontSize: 14,
-                                                  color: Color(0xFF121212),
-                                                  fontWeight: FontWeight.w700,
-                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          dimensions.width24 /
+                                                              3,
+                                                      vertical:
+                                                          dimensions.height10 *
+                                                              2),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      ReusableText(
+                                                        text:
+                                                            selectedModel.name,
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF444444),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                      SizedBox(
+                                                        height: dimensions
+                                                                .height10 *
+                                                            2,
+                                                      ),
+                                                      ReusableText(
+                                                        text: selectedModel
+                                                            .offers,
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF121212),
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : const Center(
-                                    child: SpinKitChasingDots(
-                                    color: AppColors.primaryColor,
-                                    size: 24,
-                                  ));
-                          }),
+                                          ),
+                                        )
+                                      : const Center(
+                                          child: SpinKitChasingDots(
+                                          color: AppColors.primaryColor,
+                                          size: 24,
+                                        ));
+                                }),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: SpinKitChasingDots(
+                        color: AppColors.primaryColor,
+                        size: 24,
+                      ),
                     ),
-                  ],
-                ),
-              ),
 
+              // SizedBox(height: 20.sp,)
             ],
           ),
         ),

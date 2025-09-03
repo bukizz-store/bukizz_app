@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/providers/auth/updateUserData.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../../../../widgets/address/update_address.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
@@ -51,6 +52,12 @@ class _Checkout1State extends State<Checkout1> {
         print('Delivery unavailable at this location');
       }
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -118,7 +125,7 @@ class _Checkout1State extends State<Checkout1> {
 
               SizedBox(height: dimensions.height8*1.5,),
               //add new address
-              AppConstants.userData.alternateAddress.pinCode.isEmpty || AppConstants.userData.address.pinCode.isEmpty ?  Container(
+              value.alternateAddress.pinCode.isEmpty || value.address.pinCode.isEmpty ?  Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height48,
                 color: Colors.white,
@@ -144,7 +151,7 @@ class _Checkout1State extends State<Checkout1> {
               SizedBox(height: dimensions.height8*1.5,),
 
               //address selection
-              AppConstants.userData.address.pinCode.isNotEmpty ? Container(
+              value.address.pinCode.isNotEmpty ? Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height8*12,
                 color: Colors.white,
@@ -160,7 +167,6 @@ class _Checkout1State extends State<Checkout1> {
                               setState(() {
                                 selectedAddress = value;
                                 context.read<OrderViewRespository>().setUserAddress(context.read<UpdateAddressRepository>().address);
-                                debugPrint(selectedAddress);
                               });
                             },
                           ),
@@ -195,7 +201,7 @@ class _Checkout1State extends State<Checkout1> {
                             ],
                           ),
                           SizedBox(width: dimensions.width16/3,),
-                          GestureDetector(
+                          InkWell(
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateAddress(address: context.watch<UpdateAddressRepository>().address , keyAddress: true,)));
                             },
@@ -218,7 +224,7 @@ class _Checkout1State extends State<Checkout1> {
                     )
                 ),
               ) : Container(),
-              AppConstants.userData.alternateAddress.pinCode.isNotEmpty ?  Container(
+              value.alternateAddress.pinCode.isNotEmpty ?  Container(
                 width: dimensions.screenWidth,
                 height: dimensions.height8*12,
                 color: Colors.white,
@@ -320,11 +326,11 @@ class _Checkout1State extends State<Checkout1> {
                 padding: EdgeInsets.only(bottom: dimensions.width24,left: dimensions.width24,right: dimensions.width24),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: AppColors.productButtonSelectedBorder,
+                      color: selectedAddress==null?Colors.grey:AppColors.productButtonSelectedBorder,
                       borderRadius: BorderRadius.circular(40),
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
-                          color:Color(0xFF0466b5),
+                          color:selectedAddress==null?Colors.black26:Color(0xFF0466b5),
                           offset:Offset(0,4),
 
                         )

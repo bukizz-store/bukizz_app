@@ -1,18 +1,16 @@
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_verification_screen.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/phone_otp_verification_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/font_family.dart';
-import '../../../data/providers/auth/firebase_auth.dart';
-import '../../../utils/dimensions.dart';
-import '../../../widgets/buttons/Reusable_Button.dart';
-import '../../../widgets/containers/Reusable_container.dart';
-import '../../../widgets/text and textforms/Reusable_TextForm.dart';
-import '../../../widgets/signup_text_widget.dart';
-import '../../../widgets/text and textforms/Reusable_text.dart';
+import '../../../data/services/phone_otp_service.dart';
+import '../../../data/services/otp_service.dart';
 import '../../../widgets/text and textforms/newLoginTextForm.dart';
+
+enum AuthMethod { email, phone }
 
 class SignUp extends StatefulWidget {
   static const route = '/signUpRoute';
@@ -22,173 +20,100 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _phoneTextController = TextEditingController();
   final TextEditingController _nameTextController = TextEditingController();
+
+  AuthMethod selectedAuthMethod = AuthMethod.email;
+  late TabController _tabController;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    //dimension construction
-    Dimensions dimensions = Dimensions(context);
-    var authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Color(0xFFF5FAFF),
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              dimensions.width24,
-              dimensions.height16,
-              dimensions.width24,
-              0,
+    return WillPopScope(
+      onWillPop: () async {
+        // Safely dispose of TabController before popping
+        try {
+          if (_tabController.index != null) {
+            _tabController.animateTo(0);
+          }
+        } catch (e) {
+          print('TabController disposal warning: $e');
+        }
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF5FAFF),
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFF5FAFF),
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
+            onPressed: () {
+              // Navigate directly to SignIn screen instead of trying to pop
+              Navigator.pushReplacementNamed(context, SignIn.route);
+            },
+          ),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.symmetric(
+              horizontal: 6.w,
+              vertical: 2.h,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //welcome text //done
-                ReusableContainer(
-                  width: dimensions.width327,
-                  height: dimensions.height32,
-                  child: () {
-                    return ReusableText(
-                      text: 'Sign Up',
-                      fontSize: 24,
-                      height: 0.06,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: FontFamily.openSans,
-                      color: Color(0xFF121212),
-                    );
-                  },
-                ),
+                // Header Section
+                _buildHeader(),
 
-                //sign to your account text //done
-                ReusableContainer(
-                  width: dimensions.width327,
-                  height: dimensions.height24,
-                  child: () {
-                    return ReusableText(
-                      text: 'Create account and choose favorite menu',
-                      fontSize: 16,
-                      height: 0.09,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                SizedBox(height: 3.h),
 
-                    );
-                  },
-                ),
+                // Name Field
+                _buildNameField(),
 
-                //name text
-                //name text
-                // ReusableText(
-                //   text: 'Name',
-                //   fontSize: 14,
-                //   height: 0.10,
-                //   color: Color(0xFF121212),
-                //   fontWeight: FontWeight.w500,
-                // ),
-                SizedBox(
-                  height: dimensions.height10,
-                ),
-                //Name form
+                SizedBox(height: 2.5.h),
 
-                // ReusableTextField('Your Name', Icons.person_outline, false,
-                //     _nameTextController),
-                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _nameTextController, hintText: 'Your Name', labelText: 'Name', isPasswordType: false, type: InputType.all,icon: Icons.person_outline,),
+                // Authentication Method Tabs
+                _buildAuthTabs(),
 
-                SizedBox(
-                  height: dimensions.height16,
-                ),
+                SizedBox(height: 2.5.h),
 
-                //Email text
-                // ReusableText(
-                //   text: 'Email',
-                //   fontSize: 14,
-                //   height: 0.10,
-                //   color: Color(0xFF121212),
-                //   fontWeight: FontWeight.w500,
-                // ),
-                SizedBox(
-                  height: dimensions.height10,
-                ),
-                //Email Form
-                // ReusableTextField('Your Email', Icons.person_outline, false,
-                //     _emailTextController , ),
-                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _emailTextController, hintText: 'Your Email', labelText: 'Email', isPasswordType: false, type: InputType.email,icon: Icons.email_outlined,),
+                // Dynamic Form Fields
+                _buildFormFields(),
 
-                SizedBox(
-                  height: dimensions.height16,
-                ),
+                SizedBox(height: 4.h),
 
-                //password text
-                // ReusableText(
-                //   text: 'Password',
-                //   fontSize: 14,
-                //   height: 0.10,
-                //   color:  Color(0xFF121212),
-                //   fontWeight: FontWeight.w500,
-                // ),
-                //
-                SizedBox(
-                  height: dimensions.height10,
-                ),
-                //password form
-                // ReusableTextField('Your Password', Icons.lock_outline, true,
-                //     _passwordTextController),
-                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _passwordTextController, hintText: 'Your Password', labelText: 'Password', isPasswordType: true, type: InputType.all,icon: Icons.password,),
+                // Send OTP Button
+                _buildSendOTPButton(),
 
-                SizedBox(
-                  height: dimensions.height24,
-                ),
+                SizedBox(height: 3.h),
 
+                // Sign In Option
+                _buildSignInOption(),
 
-                //Register button
-                ReusableElevatedButton(
-                  width: dimensions.width327,
-                  height: dimensions.height48,
-                  onPressed: () async {
-                    if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(_emailTextController.text))
-                    {
-                      AppConstants.showSnackBar(context, "Enter a valid Email", AppColors.error, Icons.error_outline_rounded);
-                      return;
-                    }
-                    AppConstants.buildShowDialog(context);
-                    String email = _emailTextController.text.trim();
-                    String password = _passwordTextController.text.trim();
-                    String name = _nameTextController.text.trim();
-                    await authProvider.signUpWithEmailAndPassword(name : name, email: email, password : password , context: context);
-                  },
-                  buttonText: 'Register',
-                  fontFamily: FontFamily.nunito.name,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
+                SizedBox(height: 2.h),
 
-                SizedBox(
-                  height: dimensions.height24,
-                ),
+                // Terms and Policy
+                _buildTermsSection(),
 
-                signUpOption(
-                    'Have an account?', 'Sign In', context, SignIn.route,
-                ),
-
-                SizedBox(
-                  height: dimensions.height138,
-                ),
-
-                termsAndService('By clicking Register, you agree to our',
-                    'Terms, Data Policy.',
-                    (){
-                      showCustomAboutDialog(context);
-                    }
-                ),
+                SizedBox(height: 2.h), // Bottom padding
               ],
             ),
           ),
@@ -196,80 +121,417 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-}
 
+  Widget _buildHeader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Sign Up',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.w700,
+            fontFamily: FontFamily.openSans.name,
+            color: const Color(0xFF121212),
+          ),
+        ),
+        SizedBox(height: 1.h),
+        Text(
+          'Create account and choose favorite menu',
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
+            color: Colors.black54,
+            height: 1.4,
+          ),
+        ),
+      ],
+    );
+  }
 
-void showCustomAboutDialog(BuildContext context) {
-  Dimensions dimensions=Dimensions(context);
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return  AlertDialog(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ReusableText(
-                  text: 'Privacy Policy',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF121212),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pop();
-                  },
-                  child: Icon(Icons.close_sharp)
-                )
-              ],
+  Widget _buildNameField() {
+    return Container(
+      width: double.infinity,
+      child: CustomLoginForm(
+        width: 100.w,
+        height: 7.h,
+        controller: _nameTextController,
+        hintText: 'Your Name',
+        labelText: 'Name',
+        isPasswordType: false,
+        type: InputType.all,
+        icon: Icons.person_outline,
+      ),
+    );
+  }
+
+  Widget _buildAuthTabs() {
+    return Container(
+      height: 6.h,
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: TabBar(
+        controller: _tabController,
+        indicator: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryColor.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
-            ReusableText(text: 'Last Updated: 10/02/2024', fontSize: 12,fontWeight: FontWeight.w500,color: Color(0xFFA5A5A5),),
           ],
         ),
-        content: Container(
-          width: dimensions.width10 * 34.5,
-          height: dimensions.height10 * 40.4,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        indicatorPadding: const EdgeInsets.all(4),
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.grey[600],
+        labelStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 14.sp,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 14.sp,
+        ),
+        dividerColor: Colors.transparent,
+        onTap: (index) {
+          setState(() {
+            selectedAuthMethod =
+                index == 0 ? AuthMethod.email : AuthMethod.phone;
+          });
+        },
+        tabs: [
+          Tab(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      customTextSpan('Welcome to Bukizz, the mobile application developed and managed by Bukizz. We are committed to protecting the privacy and security of our users\' data. This Privacy Policy outlines the types of information we collect, how we use it, and the measures we take to protect it.\n1. Information Collection\n'),
-                      customTextSpan('Personal Information: We may collect personal information such as your name, email address, phone number, and payment information when you register for our app, make a purchase, or interact with our services.\nUsage Data: We collect information about how you use our app, including the features you use, the time spent on the app, and your location data.\nDevice Information: We collect information from your mobile device, including hardware model, operating system, unique device identifiers, and mobile network information.\n'),
-                      customTextSpan('2. Use of Information\nThe information we collect is used to:\n'),
-                      customTextSpan('Provide, maintain, and improve our services.\nProcess transactions and send related information, including confirmations and invoices.\nSend you technical notices, updates, security alerts, and support messages.\nRespond to your comments, questions, and requests for customer service.\nCommunicate with you about products, services, offers, promotions, and events.\n'),
-                      customTextSpan('3. Sharing of Information\nWe do not share your personal information with third parties except:\n'),
-                      customTextSpan('With your consent.\nFor legal reasons, including to meet any applicable law, regulation, legal process, or enforceable governmental request.\nTo detect, prevent, or otherwise address fraud, security, or technical issues.\n'),
-                      customTextSpan('4. Data Security\nWe implement a variety of security measures to maintain the safety of your personal information. However, no method of transmission over the internet or method of electronic storage is 100% secure.\n5. Your Rights\nYou have the right to access, update, delete, or change your personal information. You can do this directly through your account settings or by contacting us.\n6. Children\'s Privacy\nOur app does not knowingly collect or solicit any information from anyone under the age of 13. If we learn that we have collected personal information from a child under age 13 without parental consent, we will delete that information as quickly as possible.\n7. Changes to This Privacy Policy\nWe may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top.\n8. Contact Us\nIf you have any questions about this Privacy Policy, please contact us at [bukizzstore@gmail.com].'),
-                    ],
-                  ),
-                ),
-
+                Icon(Icons.email_outlined, size: 20.sp),
+                SizedBox(width: 2.w),
+                Text('Email'),
               ],
             ),
           ),
-        ),
+          Tab(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.phone_outlined, size: 20.sp),
+                SizedBox(width: 2.w),
+                Text('Phone'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
+  Widget _buildFormFields() {
+    return SizedBox(
+      height: 18.h, // Responsive height
+      child: TabBarView(
+        controller: _tabController,
+        children: [
+          // Email Form
+          _buildEmailForm(),
+          // Phone Form
+          _buildPhoneForm(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmailForm() {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          child: CustomLoginForm(
+            width: 100.w,
+            height: 7.h,
+            controller: _emailTextController,
+            hintText: 'Your Email',
+            labelText: 'Email',
+            isPasswordType: false,
+            type: InputType.email,
+            icon: Icons.email_outlined,
+          ),
+        ),
+        SizedBox(height: 2.h),
+        Container(
+          width: double.infinity,
+          child: CustomLoginForm(
+            width: 100.w,
+            height: 7.h,
+            controller: _passwordTextController,
+            hintText: 'Your Password',
+            labelText: 'Password',
+            isPasswordType: true,
+            type: InputType.all,
+            icon: Icons.lock_outline,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPhoneForm() {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          child: CustomLoginForm(
+            width: 100.w,
+            height: 7.h,
+            controller: _phoneTextController,
+            hintText: 'Your Phone Number',
+            labelText: 'Phone Number',
+            isPasswordType: false,
+            type: InputType.phone,
+            icon: Icons.phone_outlined,
+          ),
+        ),
+        SizedBox(height: 2.h),
+        Container(
+          width: double.infinity,
+          child: CustomLoginForm(
+            width: 100.w,
+            height: 7.h,
+            controller: _passwordTextController,
+            hintText: 'Your Password',
+            labelText: 'Password',
+            isPasswordType: true,
+            type: InputType.all,
+            icon: Icons.lock_outline,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSendOTPButton() {
+    return Container(
+      width: double.infinity,
+      height: 6.h,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : _handleSendOTP,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryColor,
+          disabledBackgroundColor: Colors.grey[300],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: isLoading ? 0 : 2,
+          shadowColor: AppColors.primaryColor.withOpacity(0.3),
+        ),
+        child: isLoading
+            ? SizedBox(
+                height: 24,
+                width: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : Text(
+                'Send OTP',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: FontFamily.nunito.name,
+                  color: Colors.white,
+                ),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildSignInOption() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Have an account? ',
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, SignIn.route),
+            child: Text(
+              'Sign In',
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTermsSection() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4.w),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: Colors.grey[600],
+              height: 1.4,
+            ),
+            children: [
+              const TextSpan(text: 'By clicking Send OTP, you agree to our '),
+              TextSpan(
+                text: 'Terms, Data Policy.',
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+                // You can add gesture recognizer here for tap functionality
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _handleSendOTP() async {
+    // Validate name
+    if (_nameTextController.text.trim().isEmpty) {
+      AppConstants.showSnackBar(context, "Please enter your name",
+          AppColors.error, Icons.error_outline_rounded);
+      return;
+    }
+
+    // Validate password
+    if (_passwordTextController.text.trim().length < 6) {
+      AppConstants.showSnackBar(
+          context,
+          "Password must be at least 6 characters",
+          AppColors.error,
+          Icons.error_outline_rounded);
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    if (selectedAuthMethod == AuthMethod.email) {
+      await _handleEmailOTP();
+    } else {
+      await _handlePhoneOTP();
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> _handleEmailOTP() async {
+    // Validate email
+    if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(_emailTextController.text)) {
+      AppConstants.showSnackBar(context, "Enter a valid Email", AppColors.error,
+          Icons.error_outline_rounded);
+      return;
+    }
+
+    String email = _emailTextController.text.trim();
+    String password = _passwordTextController.text.trim();
+    String name = _nameTextController.text.trim();
+
+    // Use fast OTP sending for instant response
+    try {
+      await OTPService.sendOTPFast(email);
+
+      // Navigate immediately without waiting for email delivery
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OTPVerificationScreen(
+            email: email,
+            name: name,
+            password: password,
+          ),
+        ),
       );
 
-    },
-  );
-}
-//
+      // Show success message
+      AppConstants.showSnackBar(
+        context,
+        "OTP sent to $email",
+        AppColors.green,
+        Icons.check_circle_outline_rounded,
+      );
+    } catch (e) {
+      AppConstants.showSnackBar(
+        context,
+        "Failed to send OTP. Please try again.",
+        AppColors.error,
+        Icons.error_outline_rounded,
+      );
+    }
+  }
 
-TextSpan customTextSpan(String text) {
-  return TextSpan(
-    text: text,
-    style: const TextStyle(
-      color: Color(0xFF282828),
-      fontSize: 12,
-      fontFamily: 'Nunito',
-      fontWeight: FontWeight.w400,
-      height: 1.5, // Adjust the height as needed
-    ),
-  );
+  Future<void> _handlePhoneOTP() async {
+    // Validate phone number
+    String phoneNumber = _phoneTextController.text.trim();
+    if (phoneNumber.isEmpty) {
+      AppConstants.showSnackBar(context, "Please enter your phone number",
+          AppColors.error, Icons.error_outline_rounded);
+      return;
+    }
+
+    // Basic phone number validation (10 digits)
+    if (!RegExp(r'^[0-9]{10}$').hasMatch(phoneNumber)) {
+      AppConstants.showSnackBar(
+          context,
+          "Please enter a valid 10-digit phone number",
+          AppColors.error,
+          Icons.error_outline_rounded);
+      return;
+    }
+
+    String name = _nameTextController.text.trim();
+    String password = _passwordTextController.text.trim();
+
+    // Send phone OTP using Firebase
+    await PhoneOTPService.sendPhoneOTP(
+      phoneNumber: phoneNumber,
+      context: context,
+      onCodeSent: (verificationId) {
+        // Navigate to phone OTP verification screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PhoneOTPVerificationScreen(
+              phoneNumber: phoneNumber,
+              name: name,
+              password: password,
+              verificationId: verificationId,
+            ),
+          ),
+        );
+      },
+      onError: (error) {
+        AppConstants.showSnackBar(
+            context, error, AppColors.error, Icons.error_outline_rounded);
+      },
+    );
+  }
 }

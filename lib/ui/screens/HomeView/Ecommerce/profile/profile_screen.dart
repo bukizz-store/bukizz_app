@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../constants/font_family.dart';
+import '../../../../../data/models/user_details.dart';
 import '../../../../../data/providers/auth/firebase_auth.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/repository/address/update_address.dart';
@@ -31,10 +32,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = AppConstants.userData.name ?? '';
-    _emailController.text = AppConstants.userData.email ?? '';
-    _phoneController.text = AppConstants.userData.mobile ?? '';
+    _loadUserData();
   }
+
+  void _loadUserData() async {
+    // Try to load user data if not already loaded
+    if (AppConstants.userData.name.isEmpty || 
+        AppConstants.userData.email.isEmpty) {
+      MainUserDetails? savedUser = await MainUserDetails.loadFromSharedPreferences();
+      if (savedUser != null) {
+        AppConstants.userData = savedUser;
+        AppConstants.isLogin = true;
+        print("Profile: User data reloaded from SharedPreferences");
+      }
+    }
+    
+    // Set the text controllers with user data
+    setState(() {
+      _nameController.text = AppConstants.userData.name;
+      _emailController.text = AppConstants.userData.email;
+      _phoneController.text = AppConstants.userData.mobile;
+    });
+    
+    print("Profile initialized with: Name=${_nameController.text}, Email=${_emailController.text}, Phone=${_phoneController.text}");
+  }
+
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
@@ -187,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SizedBox(height: dimensions.height24/3,),
                     // TextButton(onPressed: (){
-                    //
+
                     // }, child: ReusableText(text: 'Save Changes', fontSize: 14,fontWeight: FontWeight.w700,color: Color(0xFF00579E),)),
                     SizedBox(height: dimensions.height24/2,),
                     //address

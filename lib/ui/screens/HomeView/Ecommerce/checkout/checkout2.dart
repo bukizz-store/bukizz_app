@@ -16,6 +16,7 @@ import '../../../../../constants/constants.dart';
 import '../../../../../data/models/ecommerce/products/product_model.dart';
 import '../../../../../data/models/ecommerce/products/variation/set_model.dart';
 import '../../../../../data/providers/cart_provider.dart';
+import '../../../../../widgets/address/update_address.dart';
 import '../../../../../widgets/buttons/cart_button.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
@@ -201,22 +202,27 @@ class _Checkout2State extends State<Checkout2> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: dimensions.height8),
-                              child: Container(
-                                width: dimensions.width16 * 4,
-                                height: dimensions.height8 * 4.5,
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        width: 0.50, color: Color(0xFFD6D6D6)),
-                                    borderRadius: BorderRadius.circular(6),
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateAddress(address: context.watch<OrderViewRespository>().getUserAddress , keyAddress: false,)));
+                                },
+                                child: Container(
+                                  width: dimensions.width16 * 4,
+                                  height: dimensions.height8 * 4.5,
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 0.50, color: Color(0xFFD6D6D6)),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
                                   ),
-                                ),
-                                child: Center(
-                                  child: ReusableText(
-                                    text: 'Change',
-                                    fontSize: 14,
-                                    color: Color(0xFF00579E),
-                                    fontWeight: FontWeight.w600,
+                                  child: Center(
+                                    child: ReusableText(
+                                      text: 'Change',
+                                      fontSize: 14,
+                                      color: Color(0xFF00579E),
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -789,7 +795,7 @@ class _Checkout2State extends State<Checkout2> {
                               RichText(
                                 text: TextSpan(
                                   text:
-                                      "${((price - totalSalePrice) / price * 100).round().toString()}% off ",
+                                  ((price - totalSalePrice) / price * 100).round() >0 ? "${((price - totalSalePrice) / price * 100).round().toString()}% off " : "",
                                   style: TextStyle(
                                     color:
                                         AppColors.productButtonSelectedBorder,
@@ -799,7 +805,7 @@ class _Checkout2State extends State<Checkout2> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: price.toString(),
+                                      text:price != totalSalePrice ? price.toString() : "",
                                       style: const TextStyle(
                                         color: Color(0xFFB7B7B7),
                                         fontWeight: FontWeight.w400,

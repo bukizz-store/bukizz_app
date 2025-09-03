@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/models/user_details.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
@@ -72,6 +69,7 @@ class AuthProvider extends ChangeNotifier {
         userDetails = MainUserDetails.fromMap(querySnapshot.docs.first.data());
 
         AppConstants.userData = userDetails;
+        AppConstants.isLogin = true;
 
         // print(userDetails);
 
@@ -85,11 +83,15 @@ class AuthProvider extends ChangeNotifier {
               context, SelectLocation.route, (route) => false);
         }
       } else {
-        if(context.mounted)
-          {
-            AppConstants.showSnackBar(context, "Failed to Login" , AppColors.error , Icons.error_outline_rounded,);
-            Navigator.of(context).pop();
-          }
+        if (context.mounted) {
+          AppConstants.showSnackBar(
+            context,
+            "Failed to Login",
+            AppColors.error,
+            Icons.error_outline_rounded,
+          );
+          Navigator.of(context).pop();
+        }
       }
       notifyListeners();
     } catch (e) {
@@ -108,15 +110,16 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage , AppColors.error , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, errorMessage, AppColors.error,
+            Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
       print("Error signing in: $e");
     }
   }
 
-  Future<void> googleSignInMethod(BuildContext context) async{
-    try{
+  Future<void> googleSignInMethod(BuildContext context) async {
+    try {
       final GoogleSignInAccount? googleSignInAccount =
           await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleSignInAuthentication =
@@ -124,22 +127,24 @@ class AuthProvider extends ChangeNotifier {
       final AuthCredential authCredential = GoogleAuthProvider.credential(
           idToken: googleSignInAuthentication?.idToken,
           accessToken: googleSignInAuthentication?.accessToken);
-      await googleSignUp(context , authCredential);
-    }
-    catch(e){
+      await googleSignUp(context, authCredential);
+    } catch (e) {
+      print(e);
       debugPrint(e.toString());
-      AppConstants.showSnackBar(context, "Unable to Continue with Google" , AppColors.error , Icons.error_outline_rounded);
+      AppConstants.showSnackBar(context, "Unable to sign in", AppColors.error,
+          Icons.error_outline_rounded);
     }
   }
 
-  Future<void> googleSignUp(BuildContext context ,  AuthCredential authCredential) async {
-      // Getting users credential
-    try{
+  Future<void> googleSignUp(
+      BuildContext context, AuthCredential authCredential) async {
+    // Getting users credential
+    try {
       AppConstants.buildShowDialog(context);
       await _auth.signInWithCredential(authCredential).then((value) async {
         if (value.user != null) {
           MainUserDetails userDetails = MainUserDetails(
-            name: value.user!.displayName!,
+            name: value.user!.displayName ?? 'Google User',
             email: value.user!.email!,
             password: '',
             address: Address(
@@ -148,9 +153,9 @@ class AuthProvider extends ChangeNotifier {
               state: '',
               pinCode: '',
               street: '',
-              phone: '',
-              email: '',
-              name: '',
+              phone: value.user!.phoneNumber ?? '',
+              email: value.user!.email ?? '',
+              name: value.user!.displayName ?? 'Google User',
             ),
             uid: value.user!.uid,
             dob: DateTime.now().toIso8601String(),
@@ -168,45 +173,52 @@ class AuthProvider extends ChangeNotifier {
             studentsUID: [],
             orderID: [],
           );
-
           if (_auth.currentUser != null) {
-            // // Push user data to Firebase
+            // Push user data to Firebase first
             await userDetails.pushToFirebase();
 
+            // Then fetch the latest data from Firebase to ensure consistency
             QuerySnapshot<Map<String, dynamic>> querySnapshot =
-            await FirebaseFirestore.instance
-                .collection('userDetails')
-                .where('email', isEqualTo: value.user!.email)
-                .get();
+                await FirebaseFirestore.instance
+                    .collection('userDetails')
+                    .where('email', isEqualTo: value.user!.email)
+                    .get();
 
-            userDetails =
-                MainUserDetails.fromMap(querySnapshot.docs.first.data());
+            if (querySnapshot.docs.isNotEmpty) {
+              userDetails =
+                  MainUserDetails.fromMap(querySnapshot.docs.first.data());
+            }
 
+            // Set the global user data
             AppConstants.userData = userDetails;
+            AppConstants.isLogin = true;
+
+            // Save to SharedPreferences
             await userDetails.saveToSharedPreferences();
 
+            print(
+                "Google Sign-in Success: ${userDetails.name}, ${userDetails.email}");
+
+            // Navigate to the location selection screen
             if (context.mounted) {
+              Navigator.of(context).pop();
               Navigator.pushNamedAndRemoveUntil(
                   context, SelectLocation.route, (route) => false);
-            }
-          } else {
-            if (context.mounted) {
-              AppConstants.showSnackBar(context,
-                  "Error signing in with Google. Please try again later" , AppColors.error , Icons.error_outline_rounded);
             }
           }
         }
       });
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        AppConstants.showSnackBar(
+            context,
+            "Unable to sign in with Google: ${e.toString()}",
+            AppColors.error,
+            Icons.error_outline_rounded);
+      }
+      debugPrint("Google sign-up error: $e");
     }
-    catch(e){
-      AppConstants.showSnackBar(context, e.toString() , AppColors.error , Icons.error_outline_rounded);
-      GoogleSignIn().signOut();
-    }
-
-
-      // if result not null we simply call the MaterialpageRoute,
-      // for go to the HomePage scree
-      notifyListeners();
   }
 
   Future<void> signUpWithEmailAndPassword({
@@ -276,6 +288,8 @@ class AuthProvider extends ChangeNotifier {
           print("Error due to $e");
         }
 
+        AppConstants.isLogin = true;
+
         // Navigate to the home screen
         if (context.mounted) {
           Navigator.pushNamedAndRemoveUntil(
@@ -284,7 +298,8 @@ class AuthProvider extends ChangeNotifier {
 
         notifyListeners();
       } else {
-        AppConstants.showSnackBar(context, "Failed to SignUp" , AppColors.error , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, "Failed to SignUp", AppColors.error,
+            Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
     } catch (e) {
@@ -300,9 +315,101 @@ class AuthProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        AppConstants.showSnackBar(context, errorMessage , AppColors.error , Icons.error_outline_rounded);
+        AppConstants.showSnackBar(context, errorMessage, AppColors.error,
+            Icons.error_outline_rounded);
         Navigator.of(context).pop();
       }
+    }
+  }
+
+  // sign in with apple
+  Future<void> signInWithApple(BuildContext context) async {
+    final appleProvider = AppleAuthProvider();
+    final authResult =
+        await FirebaseAuth.instance.signInWithProvider(appleProvider);
+
+    if (authResult.user!.uid.isNotEmpty) {
+      Address address = Address(
+        houseNo: '',
+        city: '',
+        state: '',
+        pinCode: '',
+        street: '',
+        phone: authResult.user!.phoneNumber ?? "",
+        email: 'apple@email.com',
+        name: 'apple_user',
+      );
+
+      Address alternateAddress = Address(
+        houseNo: '',
+        city: '',
+        state: '',
+        pinCode: '',
+        street: '',
+        phone: '',
+        email: '',
+        name: '',
+      );
+
+      print(authResult.user!.uid);
+
+      MainUserDetails userDetails = MainUserDetails(
+        name: 'apple_user',
+        email: 'apple@email.com',
+        password: '',
+        address: address,
+        uid: authResult.user!.uid,
+        dob: DateTime.now().toIso8601String(),
+        mobile: authResult.user!.phoneNumber ?? "",
+        alternateAddress: alternateAddress,
+        studentsUID: [],
+        orderID: [],
+      );
+
+      try {
+        // Push user data to Firebase
+        await userDetails.pushToFirebase();
+        // Save user details to shared preferences
+        await userDetails.saveToSharedPreferences();
+      } catch (e) {
+        print("Error due to $e");
+      }
+
+      AppConstants.isLogin = true;
+
+      // Navigate to the home screen
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, SelectLocation.route, (route) => false);
+      }
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteAccount(BuildContext context) async {
+    try {
+      AppConstants.isLogin = false;
+      user!
+          .delete()
+          .then((value) => FirebaseFirestore.instance
+              .collection('deletedAccount')
+              .add(AppConstants.userData.toMap())
+              .then((value) => AppConstants.showSnackBarTop(
+                  context,
+                  "Account User Deleted!",
+                  AppColors.green,
+                  Icons.check_circle_outline_rounded))
+              .catchError((e) => AppConstants.showSnackBarTop(context,
+                  e.toString(), AppColors.error, Icons.error_outline_rounded)))
+          .catchError((e) => AppConstants.showSnackBarTop(context, e.toString(),
+              AppColors.error, Icons.error_outline_rounded));
+      signOut(context);
+    } catch (e) {
+      print(e.toString());
+      // AppConstants.showSnackBarTop(context,
+      //     e.toString(), AppColors.error, Icons.error_outline_rounded);
+      return null;
     }
   }
 
@@ -340,10 +447,206 @@ class AuthProvider extends ChangeNotifier {
       orderID: [],
     );
     await GoogleSignIn().signOut();
+    AppConstants.isLogin = false;
     await _auth.signOut().then((value) => {
           Navigator.pushNamedAndRemoveUntil(
               context, SignIn.route, (route) => false)
         });
     notifyListeners();
+  }
+
+  // Sign up with phone number
+  Future<void> signUpWithPhoneNumber({
+    required String name,
+    required String phoneNumber,
+    required String password,
+    required String verificationId,
+    required String smsCode,
+    required BuildContext context,
+  }) async {
+    try {
+      // Hash the password using SHA-256
+      String hashPassword(String password) {
+        var bytes = utf8.encode(password);
+        var digest = sha256.convert(bytes);
+        return digest.toString();
+      }
+
+      // Create phone credential
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: smsCode,
+      );
+
+      // Create a Firebase user using phone credential
+      UserCredential authResult = await _auth.signInWithCredential(credential);
+
+      if (authResult.user != null && authResult.user!.uid.isNotEmpty) {
+        Address address = Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: phoneNumber,
+          email: '', // No email for phone signup
+          name: name,
+        );
+
+        Address alternateAddress = Address(
+          houseNo: '',
+          city: '',
+          state: '',
+          pinCode: '',
+          street: '',
+          phone: '',
+          email: '',
+          name: '',
+        );
+
+        print(authResult.user!.uid);
+
+        MainUserDetails userDetails = MainUserDetails(
+          name: name,
+          email: '', // No email for phone signup
+          password: hashPassword(password),
+          address: address,
+          uid: authResult.user!.uid,
+          dob: DateTime.now().toIso8601String(),
+          mobile: phoneNumber,
+          alternateAddress: alternateAddress,
+          studentsUID: [],
+          orderID: [],
+        );
+
+        try {
+          // Push user data to Firebase
+          await userDetails.pushToFirebase();
+          // Save user details to shared preferences
+          await userDetails.saveToSharedPreferences();
+        } catch (e) {
+          print("Error due to $e");
+        }
+
+        AppConstants.userData = userDetails;
+        AppConstants.isLogin = true;
+
+        // Navigate to the home screen
+        if (context.mounted) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, SelectLocation.route, (route) => false);
+        }
+
+        notifyListeners();
+      } else {
+        AppConstants.showSnackBar(context, "Failed to SignUp", AppColors.error,
+            Icons.error_outline_rounded);
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      String errorMessage = "An error occurred during sign-up.";
+
+      if (e is FirebaseAuthException) {
+        print(e.code);
+        if (e.code == 'invalid-verification-code') {
+          errorMessage = "Invalid verification code.";
+        } else if (e.code == 'invalid-verification-id') {
+          errorMessage = "Invalid verification ID.";
+        } else {
+          errorMessage = "Error: ${e.message}";
+        }
+      }
+
+      if (context.mounted) {
+        AppConstants.showSnackBar(context, errorMessage, AppColors.error,
+            Icons.error_outline_rounded);
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
+  // Sign in with phone number (for existing users)
+  Future<void> signInWithPhoneNumber({
+    required String phoneNumber,
+    required String verificationId,
+    required String smsCode,
+    required BuildContext context,
+  }) async {
+    try {
+      // Create phone credential
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: smsCode,
+      );
+
+      // Sign in with phone credential
+      UserCredential authResult = await _auth.signInWithCredential(credential);
+
+      if (authResult.user != null && authResult.user!.uid.isNotEmpty) {
+        // Fetch user data from Firebase
+        QuerySnapshot<Map<String, dynamic>> querySnapshot =
+            await FirebaseFirestore.instance
+                .collection('userDetails')
+                .where('mobile', isEqualTo: phoneNumber)
+                .get();
+
+        if (querySnapshot.docs.isNotEmpty) {
+          MainUserDetails userDetails =
+              MainUserDetails.fromMap(querySnapshot.docs.first.data());
+
+          AppConstants.userData = userDetails;
+          AppConstants.isLogin = true;
+
+          // Save to SharedPreferences
+          await userDetails.saveToSharedPreferences();
+
+          if (context.mounted) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, SelectLocation.route, (route) => false);
+          }
+        } else {
+          if (context.mounted) {
+            AppConstants.showSnackBar(
+              context,
+              "No user found with this phone number",
+              AppColors.error,
+              Icons.error_outline_rounded,
+            );
+            Navigator.of(context).pop();
+          }
+        }
+      } else {
+        if (context.mounted) {
+          AppConstants.showSnackBar(
+            context,
+            "Failed to Login",
+            AppColors.error,
+            Icons.error_outline_rounded,
+          );
+          Navigator.of(context).pop();
+        }
+      }
+      notifyListeners();
+    } catch (e) {
+      String errorMessage = "An error occurred during sign-in.";
+
+      if (e is FirebaseAuthException) {
+        print(e.code);
+        if (e.code == 'invalid-verification-code') {
+          errorMessage = "Invalid verification code.";
+        } else if (e.code == 'invalid-verification-id') {
+          errorMessage = "Invalid verification ID.";
+        } else {
+          errorMessage = "Error: ${e.message}";
+        }
+      }
+
+      if (context.mounted) {
+        AppConstants.showSnackBar(context, errorMessage, AppColors.error,
+            Icons.error_outline_rounded);
+        Navigator.of(context).pop();
+      }
+      print("Error signing in: $e");
+    }
   }
 }

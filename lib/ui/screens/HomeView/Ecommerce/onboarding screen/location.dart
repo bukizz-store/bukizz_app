@@ -29,76 +29,104 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     return Scaffold(
-      body:Stack(
-        children: [
-        Positioned(
-            top: dimensions.height10*7.5,
-            left: dimensions.width24,
-            right: dimensions.width24,
-            child: SizedBox(
-              width: dimensions.width342,
-              child: const Text(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+          child: Column(
+            children: [
+              // Top spacing
+              SizedBox(height: dimensions.height10 * 3),
+
+              // Title text
+              Text(
                 'Set your location to start exploring schools near you',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF121212),
-                  fontSize: 20,
+                  fontSize: MediaQuery.of(context).size.width < 360 ? 18 : 20,
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w500,
-                  height: 0,
+                  height: 1.2,
                 ),
               ),
-            ),
-           ),
-        Positioned(
-            top: dimensions.height10*17,
-            left: dimensions.width10*2.8,
-            right: dimensions.width10*2.7,
-            child: Container(
-                width: dimensions.width342,
-                height: dimensions.height10*44.9,
-                child: SvgPicture.asset('assets/location.svg')
-            ),
-         ),
-        Positioned(
-          left: dimensions.width24,
-          right: dimensions.width24,
-          bottom: dimensions.height10*10.9,
-          child: ReusableElevatedButton(
-              width: dimensions.width342,
-              height: dimensions.height10 * 5.4,
-              onPressed: getLocation,
-              buttonText: 'Enable Device Loaction',
-              fontWeight: FontWeight.w700,
-              fontFamily: FontFamily.nunito.name,
-              fontSize: 17,
-          ),
-          ),
-        Positioned(
-          left: dimensions.width24,
-          right: dimensions.width24,
-          bottom: dimensions.height10*4.5,
-          child: ReusableElevatedButton(
-            shadowColor: Color(0xFFE0EFFF).withOpacity(0.9),
-            width: dimensions.width342,
-            height: dimensions.height10 * 5.4,
-            onPressed: () {
 
-              Navigator.pushNamed(context, SelectLocation.route);
-            },
-            buttonText: 'Enter Your Location Manually',
-            buttonColor: Color(0xFFE0EFFF),
-            textColor: Color(0xFF058FFF),
-            borderColor: Color(0xFF058FFF),
-            fontWeight: FontWeight.w700,
-            fontFamily: FontFamily.nunito.name,
-            fontSize: 17,
+              // Flexible space for the image
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxHeight: dimensions.height10 * 35,
+                      maxWidth: MediaQuery.of(context).size.width * 0.8,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1.0,
+                      child: SvgPicture.asset(
+                        'assets/location.svg',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Bottom section with buttons
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // First button
+                    SizedBox(
+                      width: double.infinity,
+                      height: dimensions.height10 * 5.4,
+                      child: ReusableElevatedButton(
+                        width: double.infinity,
+                        height: dimensions.height10 * 5.4,
+                        onPressed: getLocation,
+                        buttonText: 'Enable Device Location',
+                        fontWeight: FontWeight.w700,
+                        fontFamily: FontFamily.nunito.name,
+                        fontSize:
+                            MediaQuery.of(context).size.width < 360 ? 15 : 17,
+                      ),
+                    ),
+
+                    SizedBox(height: dimensions.height10 * 1.5),
+
+                    // Second button
+                    SizedBox(
+                      width: double.infinity,
+                      height: dimensions.height10 * 5.4,
+                      child: ReusableElevatedButton(
+                        shadowColor: Color(0xFFE0EFFF).withOpacity(0.9),
+                        width: double.infinity,
+                        height: dimensions.height10 * 5.4,
+                        onPressed: () {
+                          Navigator.pushNamed(context, SelectLocation.route);
+                        },
+                        buttonText: 'Enter Your Location Manually',
+                        buttonColor: Color(0xFFE0EFFF),
+                        textColor: Color(0xFF058FFF),
+                        borderColor: Color(0xFF058FFF),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: FontFamily.nunito.name,
+                        fontSize:
+                            MediaQuery.of(context).size.width < 360 ? 15 : 17,
+                      ),
+                    ),
+
+                    // Bottom spacing
+                    SizedBox(height: dimensions.height10 * 2),
+                  ],
+                ),
+              ),
+            ],
           ),
-        )
-      ],
-    )
-  );
-}
+        ),
+      ),
+    );
+  }
 
   void getLocation() async {
     bool serviceEnabled;
@@ -143,7 +171,6 @@ class _LocationScreenState extends State<LocationScreen> {
       }
     }
 
-
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
       // print("checked");
@@ -174,11 +201,15 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
-  void navigateToPage(Address address){
+  void navigateToPage(Address address) {
     context.read<UpdateUserData>().updateUserAddress(address);
 
-    context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+    context
+        .read<SchoolDataProvider>()
+        .loadData(context)
+        .then((value) => debugPrint("School Data Loaded Successfully"));
 
-    Navigator.pushNamedAndRemoveUntil(context, MainScreen.route, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(
+        context, MainScreen.route, (route) => false);
   }
 }

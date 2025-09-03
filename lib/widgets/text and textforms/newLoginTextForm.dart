@@ -99,7 +99,7 @@ class _CustomLoginFormState extends State<CustomLoginForm> {
             height: 0,
           ),
           labelStyle:TextStyle(
-              color: Colors.grey
+            color: Colors.grey
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.height / 4),

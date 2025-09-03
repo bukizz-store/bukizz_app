@@ -48,10 +48,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
           child: GridView.builder(
 
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 16,
-                mainAxisExtent: 55.sp
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 16,
+              mainAxisExtent: 55.sp
             ),
             itemCount: categoryRepo.category.length,//categoryRepo.category.length
             itemBuilder: ( context,  index) {
@@ -107,7 +107,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         height: 40.sp,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                          // border: Border.all(color: Colors.grey.withOpacity(0.6),width: 0.5)
+                         // border: Border.all(color: Colors.grey.withOpacity(0.6),width: 0.5)
                         ),
                         child: ClipRRect(
                             borderRadius: const BorderRadius.only(

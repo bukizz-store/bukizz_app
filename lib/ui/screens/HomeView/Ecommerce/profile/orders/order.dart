@@ -1,5 +1,6 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _OrderScreenState extends State<OrderScreen> {
             leading: IconButton(icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,),onPressed: (){Navigator.of(context).pop();},),
             title: ReusableText(text: 'My Orders',fontSize: 20,fontWeight: FontWeight.w500,),
           ),
-        body:
+        body:orderData.orders.length!=0?
           SingleChildScrollView(
           child: Column(
             children: [
@@ -47,8 +48,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   Container(
                       padding: EdgeInsets.only(left: dimensions.width16/2,),
                       width: dimensions.screenWidth,
-                      height: dimensions.height10 *
-                          19.6*
+                      height: 61.sp*
                           (orderData.orders.length),
                       color: Colors.white,
                       child: ListView.builder(
@@ -214,7 +214,62 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
             ],
           ),
-        )
+        ):SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 45.sp,),
+              Container(
+                width: dimensions.screenWidth,
+                height: dimensions.height40*5.5,
+                child: Image.asset('assets/noOrder.png'),
+              ),
+              SizedBox(
+                width: 55.sp,
+                child: const Text(
+                  'No Orders Yet',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF00579E),
+                    fontSize: 20,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+              ),
+              SizedBox(height: dimensions.height32,),
+              SizedBox(
+                width: 70.sp,
+                child: const Text(
+                  'Don\'t worry, your next order is just a few clicks away!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF7A7A7A),
+                    fontSize: 14,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.sp,),
+              ElevatedButton(
+                  onPressed: (){
+                    context.read<BottomNavigationBarProvider>().setSelectedIndex(0);
+                    Navigator.pushNamed(context, MainScreen.route);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    backgroundColor: Colors.transparent,
+                    side: BorderSide(color: Color(0xFF00579E)),
+                  ),
+                  child: ReusableText(text: 'Keep Exploring', fontSize: 16,color: Color(0xFF00579E),fontWeight: FontWeight.w700,)
+              ),
+            ],
+          ),
+        ),
 
       ) : const Scaffold(body: Center(child: SpinKitChasingDots(color: AppColors.primaryColor, size: 24,),));
     });

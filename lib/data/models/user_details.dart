@@ -4,7 +4,6 @@ import 'package:bukizz/constants/shared_pref_helper.dart';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../../constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -150,25 +149,30 @@ class MainUserDetails {
   // Load user details from shared preferences
   static Future<MainUserDetails?> loadFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? email = prefs.getString(SharedPrefHelper.email) ?? '';
-    String? password = prefs.getString(SharedPrefHelper.password) ?? '';
     String? userData = prefs.getString(SharedPrefHelper.userData) ?? '';
     String? uid = prefs.getString(SharedPrefHelper.uid) ?? '';
     AppConstants.location = prefs.getString(SharedPrefHelper.location) ?? '';
-
-    // print(AppConstants.locationSet);
     bool? isLogin = prefs.getBool('isLogin') ?? false;
-
-    print(userData);
-
-    if (userData != '') {
-      Map<String, dynamic> map = jsonDecode(userData);
-      AppConstants.isLogin = isLogin;
-      AppConstants.userData = MainUserDetails.fromMap(map);
-      return MainUserDetails.fromMap(map);
+    print("Loading user data from SharedPreferences: $userData");
+    
+    if (userData != '' && uid != '' && isLogin) {
+      try {
+        Map<String, dynamic> map = jsonDecode(userData);
+        AppConstants.isLogin = isLogin;
+        AppConstants.userData = MainUserDetails.fromMap(map);
+        print("User data loaded successfully: Name=${AppConstants.userData.name}, Email=${AppConstants.userData.email}");
+        return MainUserDetails.fromMap(map);
+      } catch (e) {
+        print("Error parsing user data from SharedPreferences: $e");
+        // Clear corrupted data
+        prefs.remove(SharedPrefHelper.userData);
+        prefs.setBool('isLogin', false);
+        return null;
+      }
+    } else {
+      print("No valid user data found in SharedPreferences");
+      return null;
     }
-
-    return MainUserDetails(name: '', email: '', password: '', uid: '', dob: '', mobile: '', address: Address(name: '', houseNo: '', street: '', city: '', state: '', pinCode: '', phone: '', email: ''), alternateAddress: Address(name: '', houseNo: '', street: '', city: '', state: '', pinCode: '', phone: '', email: ''));
   }
 
   // Create a UserDetails instance from QuerySnapshot data

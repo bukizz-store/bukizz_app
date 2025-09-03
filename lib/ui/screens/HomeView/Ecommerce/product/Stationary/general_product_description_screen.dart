@@ -28,7 +28,7 @@ import '../../checkout/checkout1.dart';
 import 'general_product_screen.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 class GeneralProductDescriptionScreen extends StatefulWidget {
   static const route = '/bag description';
@@ -47,7 +47,7 @@ class _GeneralProductDescriptionScreenState
   void initState() {
     // TODO: implement initState
     pinController.text =
-    AppConstants.isLogin ? AppConstants.userData.address.pinCode : '';
+        AppConstants.isLogin ? AppConstants.userData.address.pinCode : '';
     super.initState();
   }
 
@@ -114,7 +114,7 @@ class _GeneralProductDescriptionScreenState
                           )),
                     ),
                     if (value.selectedProduct.set[value.selectedVariationIndex]
-                        .image.length >
+                            .image.length >
                         1)
                       Positioned(
                         bottom: 5.sp,
@@ -185,29 +185,29 @@ class _GeneralProductDescriptionScreenState
                           children: [
                             //discount text
                             (value
-                                .selectedProduct
-                                .set[value
-                                .selectedVariationIndex]
-                                .price -
-                                value
-                                    .selectedProduct
-                                    .set[value
-                                    .selectedVariationIndex]
-                                    .salePrice) *
-                                100 /
-                                value
-                                    .selectedProduct
-                                    .set[value.selectedVariationIndex]
-                                    .price >
-                                0
+                                                .selectedProduct
+                                                .set[value
+                                                    .selectedVariationIndex]
+                                                .price -
+                                            value
+                                                .selectedProduct
+                                                .set[value
+                                                    .selectedVariationIndex]
+                                                .salePrice) *
+                                        100 /
+                                        value
+                                            .selectedProduct
+                                            .set[value.selectedVariationIndex]
+                                            .price >
+                                    0
                                 ? ReusableText(
-                              text:
-                              '${((value.selectedProduct.set[value.selectedVariationIndex].price - value.selectedProduct.set[value.selectedVariationIndex].salePrice) * 100 / value.selectedProduct.set[value.selectedVariationIndex].price).round()}% Off',
-                              fontSize: 16,
-                              color: Color(0xFF058FFF),
-                              fontWeight: FontWeight.w700,
-                              height: 0.11,
-                            )
+                                    text:
+                                        '${((value.selectedProduct.set[value.selectedVariationIndex].price - value.selectedProduct.set[value.selectedVariationIndex].salePrice) * 100 / value.selectedProduct.set[value.selectedVariationIndex].price).round()}% Off',
+                                    fontSize: 16,
+                                    color: Color(0xFF058FFF),
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.11,
+                                  )
                                 : Container(),
                             SizedBox(
                               width: dimensions.width24 / 4,
@@ -293,26 +293,26 @@ class _GeneralProductDescriptionScreenState
                                           decoration: BoxDecoration(
                                               border: Border.all(
                                                   color: index ==
-                                                      value
-                                                          .selectedVariationIndex
+                                                          value
+                                                              .selectedVariationIndex
                                                       ? Colors.blue
                                                       : Colors.black38,
                                                   width: 2),
                                               borderRadius:
-                                              BorderRadius.circular(30)),
+                                                  BorderRadius.circular(30)),
                                           child: CircleAvatar(
                                               backgroundColor:
-                                              Colors.transparent,
+                                                  Colors.transparent,
                                               radius: 30,
                                               child: ClipOval(
                                                   child: CachedNetworkImage(
-                                                    imageUrl: value
-                                                        .selectedProduct
-                                                        .variation[
-                                                    index.toString()]!['0']!
-                                                        .image[0],
-                                                    fit: BoxFit.cover,
-                                                  ))),
+                                                imageUrl: value
+                                                    .selectedProduct
+                                                    .variation[
+                                                        index.toString()]!['0']!
+                                                    .image[0],
+                                                fit: BoxFit.cover,
+                                              ))),
                                         ),
                                       ),
                                       SizedBox(
@@ -536,14 +536,14 @@ class _GeneralProductDescriptionScreenState
                                   padding: const EdgeInsets.only(left: 8),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: dimensions.height16,
                                       ),
                                       ReusableText(
                                         text:
-                                        '${value.generalProduct[index].board}',
+                                            '${value.generalProduct[index].board}',
                                         fontSize: 14,
                                         height: 0.11,
                                         color: Color(0xFF058FFF),
@@ -555,19 +555,19 @@ class _GeneralProductDescriptionScreenState
                                       RichText(
                                         text: TextSpan(
                                           text:
-                                          '${value.generalProduct[index].set[0].price} ',
+                                              '${value.generalProduct[index].set[0].price} ',
                                           style: const TextStyle(
                                             color: Color(0xFFB7B7B7),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
                                             fontFamily: 'nunito',
                                             decoration:
-                                            TextDecoration.lineThrough,
+                                                TextDecoration.lineThrough,
                                           ),
                                           children: [
                                             TextSpan(
                                               text:
-                                              ' ₹ ${value.generalProduct[index].set[0].salePrice}',
+                                                  ' ₹ ${value.generalProduct[index].set[0].salePrice}',
                                               style: const TextStyle(
                                                 color: Color(0xFF121212),
                                                 fontWeight: FontWeight.w700,
@@ -615,127 +615,127 @@ class _GeneralProductDescriptionScreenState
                 ),
                 categoryRepo.category.isNotEmpty
                     ? Container(
-                  height: dimensions.height10 * 17,
-                  width: dimensions.screenWidth,
-                  // color: Colors.red,
-                  padding: EdgeInsets.only(left: dimensions.width16),
-                  child: ListView.builder(
-                      itemCount: categoryRepo.category.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        // print(categoryRepo.category.length);
-                        var selectedModel = categoryRepo.category[index];
-                        return (selectedModel.categoryId !=
-                            value.selectedProduct.categoryId)
-                            ? GestureDetector(
-                          onTap: () {
-                            context
-                                .read<CategoryRepository>()
-                                .selectedCategory = selectedModel;
-                            context
-                                .read<GeneralProductRepository>()
-                                .getGeneralProductFromFirebase(
-                                selectedModel.categoryId);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        GeneralProductScreen(
-                                            product: selectedModel
-                                                .name)));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                right: dimensions.width16,
-                                bottom: dimensions.height10),
-                            width: dimensions.width146,
-                            height: dimensions.height10,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  strokeAlign:
-                                  BorderSide.strokeAlignOutside,
-                                  color: Color(0xFFD6D6D6),
-                                ),
-                                borderRadius:
-                                BorderRadius.circular(12),
-                              ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x2600579E),
-                                  blurRadius: 12,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: dimensions.width146,
-                                  height: dimensions.height10 * 9,
-                                  child: ClipRRect(
-                                      borderRadius:
-                                      const BorderRadius.only(
-                                          topLeft:
-                                          Radius.circular(
-                                              12),
-                                          topRight:
-                                          Radius.circular(
-                                              12)),
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl:
-                                        selectedModel.image,
-                                      )),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                      dimensions.width24 / 3,
-                                      vertical:
-                                      dimensions.height10 * 2),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      ReusableText(
-                                        text: selectedModel.name,
-                                        fontSize: 14,
-                                        color: Color(0xFF444444),
-                                        fontWeight: FontWeight.w500,
+                        height: dimensions.height10 * 17,
+                        width: dimensions.screenWidth,
+                        // color: Colors.red,
+                        padding: EdgeInsets.only(left: dimensions.width16),
+                        child: ListView.builder(
+                            itemCount: categoryRepo.category.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              // print(categoryRepo.category.length);
+                              var selectedModel = categoryRepo.category[index];
+                              return (selectedModel.categoryId !=
+                                      value.selectedProduct.categoryId)
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        context
+                                            .read<CategoryRepository>()
+                                            .selectedCategory = selectedModel;
+                                        context
+                                            .read<GeneralProductRepository>()
+                                            .getGeneralProductFromFirebase(
+                                                selectedModel.categoryId);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    GeneralProductScreen(
+                                                        product: selectedModel
+                                                            .name)));
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            right: dimensions.width16,
+                                            bottom: dimensions.height10),
+                                        width: dimensions.width146,
+                                        height: dimensions.height10,
+                                        decoration: ShapeDecoration(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            side: const BorderSide(
+                                              width: 0.50,
+                                              strokeAlign:
+                                                  BorderSide.strokeAlignOutside,
+                                              color: Color(0xFFD6D6D6),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          shadows: const [
+                                            BoxShadow(
+                                              color: Color(0x2600579E),
+                                              blurRadius: 12,
+                                              offset: Offset(0, 4),
+                                              spreadRadius: 0,
+                                            )
+                                          ],
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: dimensions.width146,
+                                              height: dimensions.height10 * 9,
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  12),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  12)),
+                                                  child: CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                    imageUrl:
+                                                        selectedModel.image,
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      dimensions.width24 / 3,
+                                                  vertical:
+                                                      dimensions.height10 * 2),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ReusableText(
+                                                    text: selectedModel.name,
+                                                    fontSize: 14,
+                                                    color: Color(0xFF444444),
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        dimensions.height10 * 2,
+                                                  ),
+                                                  ReusableText(
+                                                    text: selectedModel.offers,
+                                                    fontSize: 14,
+                                                    color: Color(0xFF121212),
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      SizedBox(
-                                        height:
-                                        dimensions.height10 * 2,
-                                      ),
-                                      ReusableText(
-                                        text: selectedModel.offers,
-                                        fontSize: 14,
-                                        color: Color(0xFF121212),
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                            : Container();
-                      }),
-                )
+                                    )
+                                  : Container();
+                            }),
+                      )
                     : Center(
-                    child: SpinKitChasingDots(
-                      color: AppColors.primaryColor,
-                      size: 24,
-                    )),
+                        child: SpinKitChasingDots(
+                        color: AppColors.primaryColor,
+                        size: 24,
+                      )),
 
                 SizedBox(
                   height: dimensions.height24 / 3,
@@ -760,35 +760,35 @@ class _GeneralProductDescriptionScreenState
                   InkWell(
                     onTap: AppConstants.isLogin
                         ? () async {
-                      if(!stockOut){
-                        var schoolData = context.read<SchoolDataProvider>();
-                        await context
-                            .read<CartProvider>()
-                            .addProductInCart(
-                            'all',
-                            value.selectedProduct
-                                .set[value.selectedVariationIndex].name,
-                            'null',
-                            1,
-                            value.selectedProduct.productId,
-                            context,
-                            AppString.generalType)
-                            .then((value) => AppConstants.showCartSnackBar(
-                          context,
-                        ));
-                      }
-                    }
+                            if(!stockOut){
+                              var schoolData = context.read<SchoolDataProvider>();
+                              await context
+                                  .read<CartProvider>()
+                                  .addProductInCart(
+                                  'all',
+                                  value.selectedProduct
+                                      .set[value.selectedVariationIndex].name,
+                                  'null',
+                                  1,
+                                  value.selectedProduct.productId,
+                                  context,
+                                  AppString.generalType)
+                                  .then((value) => AppConstants.showCartSnackBar(
+                                context,
+                              ));
+                            }
+                          }
                         : () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, SignIn.route, (route) => false);
-                    },
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, SignIn.route, (route) => false);
+                          },
                     child: Container(
                       height: dimensions.height8 * 6,
                       width: dimensions.width146,
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side:
-                          BorderSide(width: 0.50, color: stockOut?Colors.grey:Color(0xFF00579E)),
+                              BorderSide(width: 0.50, color: stockOut?Colors.grey:Color(0xFF00579E)),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -818,12 +818,12 @@ class _GeneralProductDescriptionScreenState
                       cartView.setTotalPrice(value
                           .selectedProduct
                           .variation[value.selectedVariationIndex.toString()]![
-                      '0']!
+                              '0']!
                           .price);
                       cartView.setSalePrice(value
                           .selectedProduct
                           .variation[value.selectedVariationIndex.toString()]![
-                      '0']!
+                              '0']!
                           .salePrice);
                       await context.read<CartViewRepository>().getCartProduct(
                           value.selectedProduct.productId,
@@ -904,7 +904,7 @@ class _GeneralProductDescriptionScreenState
 
     // Format the delivery date
     String formattedDeliveryDate =
-    DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
 
     // Display the delivery date
     print('Delivery Date: $formattedDeliveryDate');

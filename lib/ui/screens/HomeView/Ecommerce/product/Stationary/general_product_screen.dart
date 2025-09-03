@@ -58,7 +58,7 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: dimensions.width24 / 1.5,
                     mainAxisSpacing: dimensions.height8 * 2,
-                    mainAxisExtent:55.sp),
+                    mainAxisExtent:57.sp),
                 itemCount: value.generalProduct.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -88,10 +88,12 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                             alignment: Alignment.center,
                             width: dimensions.width169,
                             height: dimensions.height105 * 0.95,
+
                             child: Image(
                               image: CachedNetworkImageProvider(
                                   value.generalProduct[index].set[0].image[0]),
                                   fit: BoxFit.cover,
+
                               ),
                             ),
                           SizedBox(height: dimensions.height24 / 5),
@@ -132,8 +134,26 @@ class _GeneralProductScreenState extends State<GeneralProductScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: dimensions.height24 / 3),
                                 // SizedBox(height: dimensions.height24 / 3),
+                                (value.generalProduct[index].set[0].price - value.generalProduct[index].set[0].salePrice) *
+                                    100 /
+                                    value.generalProduct[index].set[0].price > 1
+                                    ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: dimensions.height24 / 3),
+                                    ReusableText(
+                                      text:
+                                      '${((value.generalProduct[index].set[0].price - value.generalProduct[index].set[0].salePrice) * 100 / value.generalProduct[index].set[0].price).floor()} % off',
+                                      fontSize: 12,
+                                      height: 0.11,
+                                      color: Color(0xFF058FFF),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ],
+                                )
+                                    : SizedBox(),
+                                SizedBox(height: dimensions.height24 / 3),
                                 // Row(
                                 //   children: List.generate(
                                 //     5,

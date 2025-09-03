@@ -50,7 +50,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     // TODO: implement initState
     super.initState();
     pinController.text =
-    AppConstants.isLogin ? AppConstants.userData.address.pinCode : '';
+        AppConstants.isLogin ? AppConstants.userData.address.pinCode : '';
     // checkDeliverable();
   }
 
@@ -65,21 +65,21 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     return Consumer<ProductViewRepository>(
       builder: (context, value, child) {
         var off = ((value
-            .selectedProduct
-            .variation[value.getSelectedSetDataIndex.toString()]![
-        value.getSelectedStreamDataIndex.toString()]!
-            .price -
-            value
-                .selectedProduct
-                .variation[value.getSelectedSetDataIndex.toString()]![
-            value.getSelectedStreamDataIndex.toString()]!
-                .salePrice) *
-            100 /
-            value
-                .selectedProduct
-                .variation[value.getSelectedSetDataIndex.toString()]![
-            value.getSelectedStreamDataIndex.toString()]!
-                .price)
+                        .selectedProduct
+                        .variation[value.getSelectedSetDataIndex.toString()]![
+                            value.getSelectedStreamDataIndex.toString()]!
+                        .price -
+                    value
+                        .selectedProduct
+                        .variation[value.getSelectedSetDataIndex.toString()]![
+                            value.getSelectedStreamDataIndex.toString()]!
+                        .salePrice) *
+                100 /
+                value
+                    .selectedProduct
+                    .variation[value.getSelectedSetDataIndex.toString()]![
+                        value.getSelectedStreamDataIndex.toString()]!
+                    .price)
             .round();
 
         var price = value
@@ -126,14 +126,14 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         itemCount: value
                             .selectedProduct
                             .variation[value.getSelectedSetDataIndex.toString()]
-                        [value.getSelectedStreamDataIndex.toString()]
+                                [value.getSelectedStreamDataIndex.toString()]
                             .image
                             .length,
                         itemBuilder: (context, index) {
                           return Container(
                             decoration: BoxDecoration(
-                              //borderRadius: BorderRadius.circular(30),
-                            ),
+                                //borderRadius: BorderRadius.circular(30),
+                                ),
                             // child: Image.asset('assets/school/perticular bookset/book.png',fit: BoxFit.contain,),
                             child: ClipRRect(
                               //borderRadius: BorderRadius.circular(30),
@@ -141,9 +141,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                 imageUrl: value
                                     .selectedProduct
                                     .variation[value.getSelectedSetDataIndex
-                                    .toString()][
-                                value.getSelectedStreamDataIndex
-                                    .toString()]
+                                            .toString()][
+                                        value.getSelectedStreamDataIndex
+                                            .toString()]
                                     .image[index],
                                 placeholder: (context, url) => const SpinKitChasingDots(color: AppColors.borderColor, size: 17,),
                                 errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -166,11 +166,11 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                           )),
                     ),
                     if (value
-                        .selectedProduct
-                        .variation[value.getSelectedSetDataIndex.toString()]
-                    [value.getSelectedStreamDataIndex.toString()]
-                        .image
-                        .length >
+                            .selectedProduct
+                            .variation[value.getSelectedSetDataIndex.toString()]
+                                [value.getSelectedStreamDataIndex.toString()]
+                            .image
+                            .length >
                         1)
                       Positioned(
                         bottom: 5.sp,
@@ -179,8 +179,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                           dotsCount: value
                               .selectedProduct
                               .variation[
-                          value.getSelectedSetDataIndex.toString()]
-                          [value.getSelectedStreamDataIndex.toString()]
+                                  value.getSelectedSetDataIndex.toString()]
+                                  [value.getSelectedStreamDataIndex.toString()]
                               .image
                               .length,
                           position: _currPageValue.toInt(),
@@ -229,7 +229,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             ReusableText(
                               text:
-                              '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}',
+                                  '${schoolData.selectedSchool.address},${schoolData.selectedSchool.city}, ${schoolData.selectedSchool.state}',
                               fontSize: 14,
                               color: Color(0xFF7A7A7A),
                               fontWeight: FontWeight.w500,
@@ -292,17 +292,17 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                             price !=
-                                salePrice
+                                    salePrice
                                 ? Text(
-                              price.toString(),
-                              style: const TextStyle(
-                                color: Color(0xFF7A7A7A),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                decoration: TextDecoration.lineThrough,
-                                fontFamily: 'nunito',
-                              ),
-                            )
+                                    price.toString(),
+                                    style: const TextStyle(
+                                      color: Color(0xFF7A7A7A),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      decoration: TextDecoration.lineThrough,
+                                      fontFamily: 'nunito',
+                                    ),
+                                  )
                                 : Container(),
 
                             SizedBox(
@@ -323,13 +323,13 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             ),
                             off != 0
                                 ? ReusableText(
-                              text: '$off% Off',
-                              fontSize: 20,
-                              color: Color(0xFF058FFF),
-                              fontWeight: FontWeight.w700,
-                              height: 0.11,
-                              fontFamily: FontFamily.nunito,
-                            )
+                                    text: '$off% Off',
+                                    fontSize: 20,
+                                    color: Color(0xFF058FFF),
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.11,
+                                    fontFamily: FontFamily.nunito,
+                                  )
                                 : Container(),
                           ],
                         )
@@ -341,167 +341,167 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 // ProductButtons(title: "Set", length: 2, selectedIndex: 0,),
                 value.selectedProduct.set.isNotEmpty
                     ? Container(
-                  // width: double.infinity,
-                  padding: EdgeInsets.only(
-                      left: dimensions.width24,
-                      bottom: dimensions.height16),
-                  // height: 200,
-                  color: AppColors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Choose Set",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          )),
-                      const SizedBox(height: 8),
-                      Container(
-                        height: 40,
-                        child: ListView.builder(
-                            itemCount: value.getProductDetail.set.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  value.setSelectedSetData(index);
-                                  // value.setProductName(
-                                  //     schoolData.selectedSchool.name);
-                                  value.setSelectedIndex();
-                                  value.setTotalSalePrice();
-                                  value.setTotalPrice();
-                                },
-                                child: Container(
-                                  height: 30,
-                                  margin: const EdgeInsets.only(left: 8),
-                                  decoration: BoxDecoration(
-                                      color: value.getSelectedSetDataIndex ==
-                                          index
-                                          ? AppColors
-                                          .productButtonSelectedBG
-                                          : AppColors
-                                          .productButtonUnSelectedBG,
-                                      borderRadius:
-                                      BorderRadius.circular(100),
-                                      border: Border.all(
-                                        color: value.getSelectedSetDataIndex ==
-                                            index
-                                            ? AppColors
-                                            .productButtonSelectedBorder
-                                            : AppColors
-                                            .productButtonUnSelectedBorder,
-                                      )),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Text(
-                                        value.getProductDetail.set[index]
-                                            .name,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'nunito'),
+                        // width: double.infinity,
+                        padding: EdgeInsets.only(
+                            left: dimensions.width24,
+                            bottom: dimensions.height16),
+                        // height: 200,
+                        color: AppColors.white,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Choose Set",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            const SizedBox(height: 8),
+                            Container(
+                              height: 40,
+                              child: ListView.builder(
+                                  itemCount: value.getProductDetail.set.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        value.setSelectedSetData(index);
+                                        // value.setProductName(
+                                        //     schoolData.selectedSchool.name);
+                                        value.setSelectedIndex();
+                                        value.setTotalSalePrice();
+                                        value.setTotalPrice();
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        margin: const EdgeInsets.only(left: 8),
+                                        decoration: BoxDecoration(
+                                            color: value.getSelectedSetDataIndex ==
+                                                    index
+                                                ? AppColors
+                                                    .productButtonSelectedBG
+                                                : AppColors
+                                                    .productButtonUnSelectedBG,
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            border: Border.all(
+                                              color: value.getSelectedSetDataIndex ==
+                                                      index
+                                                  ? AppColors
+                                                      .productButtonSelectedBorder
+                                                  : AppColors
+                                                      .productButtonUnSelectedBorder,
+                                            )),
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Text(
+                                              value.getProductDetail.set[index]
+                                                  .name,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'nunito'),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+                                    );
+                                  }),
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
-                )
                     : Container(),
 
                 // SizedBox(height: 8,),
                 value.selectedProduct.stream.isNotEmpty
                     ? Container(
-                  // width: double.infinity,
+                        // width: double.infinity,
                   padding: EdgeInsets.only(
                       left: dimensions.width24,
                       bottom: dimensions.height16),
-                  // height: 200,
-                  color: AppColors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Select Stream",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          )),
-                      const SizedBox(height: 8),
-                      Container(
-                        height: 40,
-                        child: ListView.builder(
-                            itemCount:
-                            value.getProductDetail.stream.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  value.setSelectedStreamData(index);
-                                  // value.setProductName(
-                                  //     schoolData.selectedSchool.name);
-                                  value.setSelectedIndex();
-                                  value.setTotalSalePrice();
-                                  value.setTotalPrice();
-                                },
-                                child: Container(
-                                  height: 40,
-                                  margin: const EdgeInsets.only(left: 8),
-                                  decoration: BoxDecoration(
-                                      color: value.getSelectedStreamDataIndex ==
-                                          index
-                                          ? AppColors
-                                          .productButtonSelectedBG
-                                          : AppColors
-                                          .productButtonUnSelectedBG,
-                                      borderRadius:
-                                      BorderRadius.circular(100),
-                                      border: Border.all(
-                                        color: value.getSelectedStreamDataIndex ==
-                                            index
-                                            ? AppColors
-                                            .productButtonSelectedBorder
-                                            : AppColors
-                                            .productButtonUnSelectedBorder,
-                                      )),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: Text(value.getProductDetail
-                                          .stream[index].name),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+                        // height: 200,
+                        color: AppColors.white,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Select Stream",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            const SizedBox(height: 8),
+                            Container(
+                              height: 40,
+                              child: ListView.builder(
+                                  itemCount:
+                                      value.getProductDetail.stream.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        value.setSelectedStreamData(index);
+                                        // value.setProductName(
+                                        //     schoolData.selectedSchool.name);
+                                        value.setSelectedIndex();
+                                        value.setTotalSalePrice();
+                                        value.setTotalPrice();
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        margin: const EdgeInsets.only(left: 8),
+                                        decoration: BoxDecoration(
+                                            color: value.getSelectedStreamDataIndex ==
+                                                    index
+                                                ? AppColors
+                                                    .productButtonSelectedBG
+                                                : AppColors
+                                                    .productButtonUnSelectedBG,
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            border: Border.all(
+                                              color: value.getSelectedStreamDataIndex ==
+                                                      index
+                                                  ? AppColors
+                                                      .productButtonSelectedBorder
+                                                  : AppColors
+                                                      .productButtonUnSelectedBorder,
+                                            )),
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Text(value.getProductDetail
+                                                .stream[index].name),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
-                )
                     : Container(),
 
                 if(stockOut)
-                  Container(
-                    color: AppColors.white,
-                    padding: EdgeInsets.only(
-                        left: dimensions.width24,
-                        bottom: dimensions.height16),
-                    width: 345,
-                    child: Text(
-                      'Out of Stock',
-                      style: TextStyle(
-                        color: Color(0xFFFC2A2A),
-                        fontSize: 16,
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
-                      ),
+                Container(
+                  color: AppColors.white,
+                  padding: EdgeInsets.only(
+                      left: dimensions.width24,
+                      bottom: dimensions.height16),
+                  width: 345,
+                  child: Text(
+                    'Out of Stock',
+                    style: TextStyle(
+                      color: Color(0xFFFC2A2A),
+                      fontSize: 16,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
                     ),
                   ),
+                ),
                 //expandable text
                 SizedBox(
                   height: dimensions.height16 / 2,
@@ -659,191 +659,191 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                         Expanded(
                           child: ListView.builder(
                               itemCount:
-                              schoolData.selectedSchool.productsId.length,
+                                  schoolData.selectedSchool.productsId.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 var product = productView.productData[index];
                                 return (product.productId !=
-                                    value.selectedProduct.productId)
+                                        value.selectedProduct.productId)
                                     ? GestureDetector(
-                                  onTap: () {
-                                    // productData.setProductDetail(product);
-                                    productView.setProductDetail(
-                                        productView.productData[index]);
-                                    productView.setProductName(
-                                        schoolData.schoolName);
-                                    productView.setSelectedSetData(0);
-                                    productView.setSelectedStreamData(0);
-                                    productView.setTotalSalePrice();
-                                    productView.setTotalPrice();
-                                    productView.setSelectedIndex();
-                                    context
-                                        .read<ProductReview>()
-                                        .fetchReviews(product.productId);
-                                    Navigator.of(context).pushNamed(
-                                        ProductDescriptionScreen.route);
-                                  },
-                                  child: Container(
-                                    height: dimensions.height10 * 10,
-                                    width: dimensions.width146,
-                                    margin: const EdgeInsets.only(right: 16),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(12),
-                                      color: Colors.white,
-                                      // boxShadow: [
-                                      //   BoxShadow(
-                                      //     color: Colors.grey.withOpacity(0.3),
-                                      //     spreadRadius: 2,
-                                      //     blurRadius: 5,
-                                      //     offset: const Offset(0, 3),
-                                      //   ),
-                                      // ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-                                          width: dimensions.width169,
-                                          height:
-                                          dimensions.height105 * 0.95,
-                                          decoration: const BoxDecoration(
+                                        onTap: () {
+                                          // productData.setProductDetail(product);
+                                          productView.setProductDetail(
+                                              productView.productData[index]);
+                                          productView.setProductName(
+                                              schoolData.schoolName);
+                                          productView.setSelectedSetData(0);
+                                          productView.setSelectedStreamData(0);
+                                          productView.setTotalSalePrice();
+                                          productView.setTotalPrice();
+                                          productView.setSelectedIndex();
+                                          context
+                                              .read<ProductReview>()
+                                              .fetchReviews(product.productId);
+                                          Navigator.of(context).pushNamed(
+                                              ProductDescriptionScreen.route);
+                                        },
+                                        child: Container(
+                                          height: dimensions.height10 * 10,
+                                          width: dimensions.width146,
+                                          margin: const EdgeInsets.only(right: 16),
+                                          decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.only(
-                                              topLeft:
-                                              Radius.circular(12),
-                                              topRight:
-                                              Radius.circular(12),
-                                            ),
-                                            gradient: LinearGradient(
-                                              begin:
-                                              Alignment(0.00, -1.00),
-                                              end: Alignment(0, 1),
-                                              colors: [
-                                                Color(0xFF39A7FF),
-                                                Color(0xFF0074D1)
-                                              ],
-                                            ),
+                                                BorderRadius.circular(12),
+                                            color: Colors.white,
+                                            // boxShadow: [
+                                            //   BoxShadow(
+                                            //     color: Colors.grey.withOpacity(0.3),
+                                            //     spreadRadius: 2,
+                                            //     blurRadius: 5,
+                                            //     offset: const Offset(0, 3),
+                                            //   ),
+                                            // ],
                                           ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "CLASS",
-                                                style: GoogleFonts.lora(
-                                                    fontSize: 12,
-                                                    color:
-                                                    AppColors.white,
-                                                    fontWeight:
-                                                    FontWeight.w400),
-                                              ),
-                                              Text(
-                                                product.name.substring(6),
-                                                style: GoogleFonts
-                                                    .spaceGrotesk(
-                                                    fontSize: 36,
-                                                    color: AppColors
-                                                        .white,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                            dimensions.height24 / 5),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 8),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: product
-                                                      .set.first.price
-                                                      .floor()
-                                                      .toString(),
-                                                  style: const TextStyle(
-                                                    color:
-                                                    Color(0xFFB7B7B7),
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: 14,
-                                                    decoration:
-                                                    TextDecoration
-                                                        .lineThrough,
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width: dimensions.width169,
+                                                height:
+                                                    dimensions.height105 * 0.95,
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(12),
+                                                    topRight:
+                                                        Radius.circular(12),
                                                   ),
+                                                  gradient: LinearGradient(
+                                                    begin:
+                                                        Alignment(0.00, -1.00),
+                                                    end: Alignment(0, 1),
+                                                    colors: [
+                                                      Color(0xFF39A7FF),
+                                                      Color(0xFF0074D1)
+                                                    ],
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
-                                                    TextSpan(
-                                                      text:
-                                                      ' ₹ ${product.set.first.salePrice}',
-                                                      style:
-                                                      const TextStyle(
-                                                        color: Color(
-                                                            0xFF121212),
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w700,
-                                                        decoration:
-                                                        TextDecoration
-                                                            .none,
-                                                        fontSize: 14,
-                                                      ),
+                                                    Text(
+                                                      "CLASS",
+                                                      style: GoogleFonts.lora(
+                                                          fontSize: 12,
+                                                          color:
+                                                              AppColors.white,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                    Text(
+                                                      product.name.substring(6),
+                                                      style: GoogleFonts
+                                                          .spaceGrotesk(
+                                                              fontSize: 36,
+                                                              color: AppColors
+                                                                  .white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                              // SizedBox(
-                                              //     height: dimensions
-                                              //             .height24 /
-                                              //         3),
-                                              (product.set.first.price - product.set.first.salePrice) *
-                                                  100 /
-                                                  product.set.first.price > 1
-                                                  ? Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(height: dimensions.height24 / 3),
-                                                  ReusableText(
-                                                    text:
-                                                    '${((product.set.first.price - product.set.first.salePrice) * 100 / product.set.first.price).floor()} % off',
-                                                    fontSize: 12,
-                                                    height: 0.11,
-                                                    color: Color(0xFF058FFF),
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ],
-                                              )
-                                                  : SizedBox(),
                                               SizedBox(
-                                                  height: dimensions
-                                                      .height24 /
-                                                      3),
-                                              Row(
-                                                children: List.generate(
-                                                  5,
-                                                      (index) => Icon(
-                                                    Icons.star,
-                                                    size: 16,
-                                                    color:
-                                                    Color(0xFF058FFF),
-                                                  ),
+                                                  height:
+                                                      dimensions.height24 / 5),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: product
+                                                            .set.first.price
+                                                            .floor()
+                                                            .toString(),
+                                                        style: const TextStyle(
+                                                          color:
+                                                              Color(0xFFB7B7B7),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                        ),
+                                                        children: [
+                                                          TextSpan(
+                                                            text:
+                                                                ' ₹ ${product.set.first.salePrice}',
+                                                            style:
+                                                                const TextStyle(
+                                                              color: Color(
+                                                                  0xFF121212),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    // SizedBox(
+                                                    //     height: dimensions
+                                                    //             .height24 /
+                                                    //         3),
+                                                    (product.set.first.price - product.set.first.salePrice) *
+                                                        100 /
+                                                        product.set.first.price > 1
+                                                        ? Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        SizedBox(height: dimensions.height24 / 3),
+                                                        ReusableText(
+                                                          text:
+                                                          '${((product.set.first.price - product.set.first.salePrice) * 100 / product.set.first.price).floor()} % off',
+                                                          fontSize: 12,
+                                                          height: 0.11,
+                                                          color: Color(0xFF058FFF),
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ],
+                                                    )
+                                                        : SizedBox(),
+                                                    SizedBox(
+                                                        height: dimensions
+                                                                .height24 /
+                                                            3),
+                                                    Row(
+                                                      children: List.generate(
+                                                        5,
+                                                        (index) => Icon(
+                                                          Icons.star,
+                                                          size: 16,
+                                                          color:
+                                                              Color(0xFF058FFF),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                )
+                                      )
                                     : Container();
                               }),
                         )
@@ -868,116 +868,116 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                 ),
                 categoryRepo.category.isNotEmpty
                     ? Container(
-                  height: dimensions.height10 * 17,
-                  width: dimensions.screenWidth,
-                  // color: Colors.red,
-                  padding: EdgeInsets.only(left: dimensions.width24),
-                  child: ListView.builder(
-                      itemCount: categoryRepo.category.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        // print(categoryRepo.category.length);
-                        var selectedModel = categoryRepo.category[index];
-                        return GestureDetector(
-                          onTap: () {
-                            context
-                                .read<CategoryRepository>()
-                                .selectedCategory = selectedModel;
-                            context
-                                .read<GeneralProductRepository>()
-                                .getGeneralProductFromFirebase(
-                                selectedModel.categoryId);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        GeneralProductScreen(
-                                            product:
-                                            selectedModel.name)));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                right: dimensions.width16,
-                                bottom: dimensions.height10),
-                            width: dimensions.width146,
-                            height: dimensions.height10,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  strokeAlign:
-                                  BorderSide.strokeAlignOutside,
-                                  color: Color(0xFFD6D6D6),
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x2600579E),
-                                  blurRadius: 12,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Container(
+                        height: dimensions.height10 * 17,
+                        width: dimensions.screenWidth,
+                        // color: Colors.red,
+                        padding: EdgeInsets.only(left: dimensions.width24),
+                        child: ListView.builder(
+                            itemCount: categoryRepo.category.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              // print(categoryRepo.category.length);
+                              var selectedModel = categoryRepo.category[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  context
+                                      .read<CategoryRepository>()
+                                      .selectedCategory = selectedModel;
+                                  context
+                                      .read<GeneralProductRepository>()
+                                      .getGeneralProductFromFirebase(
+                                          selectedModel.categoryId);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              GeneralProductScreen(
+                                                  product:
+                                                      selectedModel.name)));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      right: dimensions.width16,
+                                      bottom: dimensions.height10),
                                   width: dimensions.width146,
-                                  height: dimensions.height10 * 9,
-                                  child: ClipRRect(
-                                      borderRadius:
-                                      const BorderRadius.only(
-                                          topLeft:
-                                          Radius.circular(12),
-                                          topRight:
-                                          Radius.circular(12)),
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl: selectedModel.image,
-                                      )),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: dimensions.width24 / 3,
-                                      vertical: dimensions.height10 * 2),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      ReusableText(
-                                        text: selectedModel.name,
-                                        fontSize: 14,
-                                        color: Color(0xFF444444),
-                                        fontWeight: FontWeight.w500,
+                                  height: dimensions.height10,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                        width: 0.50,
+                                        strokeAlign:
+                                            BorderSide.strokeAlignOutside,
+                                        color: Color(0xFFD6D6D6),
                                       ),
-                                      SizedBox(
-                                        height: dimensions.height10 * 2,
-                                      ),
-                                      ReusableText(
-                                        text: selectedModel.offers,
-                                        fontSize: 14,
-                                        color: Color(0xFF121212),
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x2600579E),
+                                        blurRadius: 12,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
-                )
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: dimensions.width146,
+                                        height: dimensions.height10 * 9,
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(12),
+                                                    topRight:
+                                                        Radius.circular(12)),
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.cover,
+                                              imageUrl: selectedModel.image,
+                                            )),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: dimensions.width24 / 3,
+                                            vertical: dimensions.height10 * 2),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ReusableText(
+                                              text: selectedModel.name,
+                                              fontSize: 14,
+                                              color: Color(0xFF444444),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            SizedBox(
+                                              height: dimensions.height10 * 2,
+                                            ),
+                                            ReusableText(
+                                              text: selectedModel.offers,
+                                              fontSize: 14,
+                                              color: Color(0xFF121212),
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      )
                     : Center(
-                    child: SpinKitChasingDots(
-                      color: AppColors.primaryColor,
-                      size: 24,
-                    )),
+                        child: SpinKitChasingDots(
+                        color: AppColors.primaryColor,
+                        size: 24,
+                      )),
                 SizedBox(height: dimensions.height8),
 
                 ReviewListWidget(),
@@ -1034,7 +1034,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side:
-                          BorderSide(width: 0.50, color: stockOut? Colors.grey:Color(0xFF00579E)),
+                              BorderSide(width: 0.50, color: stockOut? Colors.grey:Color(0xFF00579E)),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -1048,7 +1048,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                             fontWeight: FontWeight.w700,
                             color: stockOut?Colors.grey:Color(0xFF00579E),
                           ),
-                          Icon(
+                           Icon(
                             Icons.shopping_cart,
                             color: stockOut?Colors.grey:Color(0xFF00579E),
                           ),
@@ -1161,7 +1161,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
 
     // Format the delivery date
     String formattedDeliveryDate =
-    DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(deliveryDate);
 
     // Display the delivery date
     print('Delivery Date: $formattedDeliveryDate');

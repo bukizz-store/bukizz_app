@@ -18,6 +18,7 @@ class _FormsState extends State<Forms> {
   TextEditingController nameController=TextEditingController();
   TextEditingController emailController=TextEditingController();
   TextEditingController addressController=TextEditingController();
+  TextEditingController dobController=TextEditingController();
   TextEditingController messageController=TextEditingController();
   TextEditingController aadharController=TextEditingController();
   TextEditingController genderController=TextEditingController();
@@ -104,7 +105,7 @@ class _FormsState extends State<Forms> {
                 isPhoneNo: true,
                 width: dimensions.width342,
                 height: dimensions.height48,
-                controller: addressController,
+                controller: dobController,
                 hintText:   'Date of Birth (Required) *',
                 labelText: 'Date of Birth',
               ),

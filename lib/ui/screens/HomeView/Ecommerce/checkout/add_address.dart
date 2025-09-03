@@ -1,5 +1,3 @@
-
-
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/providers/auth/updateUserData.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -11,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
+import '../../../../../data/repository/address/update_address.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import 'package:geolocator/geolocator.dart';
@@ -25,6 +24,7 @@ class AddAddress extends StatefulWidget {
 
 class _AddAddressState extends State<AddAddress> {
   bool showAlternatePhoneField = false;
+  bool isLoading = false; // Add loading state
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController alternatePhoneController = TextEditingController();
@@ -51,7 +51,7 @@ class _AddAddressState extends State<AddAddress> {
             ),
             Container(
               width: dimensions.screenWidth,
-              height: dimensions.height8 * 62,
+              // height: dimensions.height8 * 62,
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -96,7 +96,7 @@ class _AddAddressState extends State<AddAddress> {
                         height: dimensions.height8 * 2,
                       ),
                       GestureDetector(
-                        onTap: onUseMyLocationTap,
+                        onTap: () => onUseMyLocationTap(context),
                         child: Container(
                           width: dimensions.screenWidth,
                           height: dimensions.height8 * 5.5,
@@ -108,8 +108,7 @@ class _AddAddressState extends State<AddAddress> {
                             ),
                           ),
                           child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 Icons.my_location,
@@ -125,7 +124,9 @@ class _AddAddressState extends State<AddAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(height: dimensions.height16,),
+                      SizedBox(
+                        height: dimensions.height16,
+                      ),
                       CustomTextForm(
                         width: dimensions.screenWidth,
                         height: dimensions.height8 * 5.5,
@@ -186,6 +187,7 @@ class _AddAddressState extends State<AddAddress> {
                             width: dimensions.width16 * 9.2,
                             height: dimensions.height8 * 5.5,
                             hintText: 'State (Required) *',
+                            labelText: 'State (Required) *',
                             controller: stateController,
                           ),
                           CustomTextForm(
@@ -226,54 +228,135 @@ class _AddAddressState extends State<AddAddress> {
         ),
       ),
       bottomNavigationBar: InkWell(
-        onTap: () {
-          //Save Address logic here
-          if (phoneController.text.length != 10) {
-            AppConstants.showSnackBarTop(context, 'Please Enter Valid Number', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
-          if (pinCodeController.text.length != 6) {
-            AppConstants.showSnackBarTop(context, 'Please Enter Valid Pincode', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
-          if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text.toString())) {
-            AppConstants.showSnackBarTop(context, 'Please Enter a valid Email', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
-          if (buildingnameController.text.isEmpty) {
-            AppConstants.showSnackBarTop(context, 'Please Enter House No.', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
-          if (addressController.text.isEmpty) {
-            AppConstants.showSnackBarTop(context, 'Please Enter Street Name', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
-          if (nameController.text.isEmpty) {
-            AppConstants.showSnackBarTop(context, 'Please Enter Full Name', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
-          if (stateController.text.isEmpty) {
-            AppConstants.showSnackBarTop(context, 'Please Enter State', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
-          if (cityController.text.isEmpty) {
-            AppConstants.showSnackBarTop(context, 'Please Enter City', AppColors.error, Icons.error_outline_rounded);
-            return;
-          }
+        onTap: isLoading
+            ? null
+            : () async {
+                // Disable tap when loading and make async
+                //Save Address logic here
+                if (phoneController.text.length != 10) {
+                  AppConstants.showSnackBarTop(
+                      context,
+                      'Please Enter Valid Number',
+                      AppColors.error,
+                      Icons.error_outline_rounded);
+                  return;
+                }
+                if (pinCodeController.text.length != 6) {
+                  AppConstants.showSnackBarTop(
+                      context,
+                      'Please Enter Valid Pincode',
+                      AppColors.error,
+                      Icons.error_outline_rounded);
+                  return;
+                }
+                if (!RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(emailController.text.toString())) {
+                  AppConstants.showSnackBarTop(
+                      context,
+                      'Please Enter a valid Email',
+                      AppColors.error,
+                      Icons.error_outline_rounded);
+                  return;
+                }
+                if (buildingnameController.text.isEmpty) {
+                  AppConstants.showSnackBarTop(
+                      context,
+                      'Please Enter House No.',
+                      AppColors.error,
+                      Icons.error_outline_rounded);
+                  return;
+                }
+                if (addressController.text.isEmpty) {
+                  AppConstants.showSnackBarTop(
+                      context,
+                      'Please Enter Street Name',
+                      AppColors.error,
+                      Icons.error_outline_rounded);
+                  return;
+                }
+                if (nameController.text.isEmpty) {
+                  AppConstants.showSnackBarTop(
+                      context,
+                      'Please Enter Full Name',
+                      AppColors.error,
+                      Icons.error_outline_rounded);
+                  return;
+                }
+                if (stateController.text.isEmpty) {
+                  AppConstants.showSnackBarTop(context, 'Please Enter State',
+                      AppColors.error, Icons.error_outline_rounded);
+                  return;
+                }
+                if (cityController.text.isEmpty) {
+                  AppConstants.showSnackBarTop(context, 'Please Enter City',
+                      AppColors.error, Icons.error_outline_rounded);
+                  return;
+                }
 
-          Address address = Address(
-            name: nameController.text,
-            houseNo: buildingnameController.text,
-            street: fullAddress,
-            city: cityController.text,
-            state: stateController.text,
-            pinCode: pinCodeController.text,
-            phone: phoneController.text,
-            email: emailController.text,
-          );
-          context.read<UpdateUserData>().updateUserAlternateAddress(address);
-          Navigator.of(context).pop();
-        },
+                setState(() {
+                  isLoading = true;
+                });
+
+                try {
+                  Address address = Address(
+                      name: nameController.text,
+                      houseNo: buildingnameController.text,
+                      street: addressController.text,
+                      city: cityController.text,
+                      state: stateController.text,
+                      pinCode: pinCodeController.text,
+                      phone: phoneController.text,
+                      email: emailController.text);
+
+                  if (context.read<UpdateAddressRepository>().address.pinCode ==
+                      '') {
+                    await context
+                        .read<UpdateUserData>()
+                        .updateUserAddress(address);
+                    context.read<UpdateAddressRepository>().address = address;
+                  } else {
+                    await context
+                        .read<UpdateUserData>()
+                        .updateUserAlternateAddress(address);
+                    context.read<UpdateAddressRepository>().alternateAddress =
+                        address;
+                  }
+
+                  AppConstants.showSnackBarTop(
+                      context,
+                      'Address added successfully',
+                      AppColors.success,
+                      Icons.check_circle);
+                  Navigator.of(context).pop();
+                } catch (e) {
+                  print('Error adding address: $e');
+
+                  // Show user-friendly error message based on error type
+                  if (e.toString().contains('UNAVAILABLE') ||
+                      e.toString().contains('UnknownHostException') ||
+                      e.toString().contains('firestore.googleapis.com') ||
+                      e.toString().contains('Unable to resolve host')) {
+                    AppConstants.showSnackBarTop(
+                        context,
+                        'Network error. Please check your internet connection and try again.',
+                        AppColors.error,
+                        Icons.wifi_off);
+                  } else {
+                    AppConstants.showSnackBarTop(
+                        context,
+                        'Failed to add address. Please try again.',
+                        AppColors.error,
+                        Icons.error_outline_rounded);
+                  }
+                } finally {
+                  if (mounted) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                }
+              },
         child: Container(
           height: dimensions.height8 * 9,
           width: dimensions.screenWidth,
@@ -285,75 +368,104 @@ class _AddAddressState extends State<AddAddress> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: Color(0xFF058FFF),
+                color: isLoading ? Colors.grey : Color(0xFF058FFF),
               ),
               child: Center(
-                child: ReusableText(
-                  text: 'Save Address',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
+                child: isLoading
+                    ? CircularProgressIndicator(color: Colors.white)
+                    : ReusableText(
+                        text: 'Save Address',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
               ),
             ),
           ),
         ),
       ),
-
     );
   }
 
-  void onUseMyLocationTap() async {
+  void onUseMyLocationTap(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent user from dismissing the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(), // Show circular progress indicator
+              SizedBox(width: 20), // Add some spacing
+              Text(
+                  'Fetching location...'), // Text to indicate fetching location
+            ],
+          ),
+        );
+      },
+    );
+
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check if location services are enabled
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      print('Location services are not enabled');
-      return;
-    }
-
-    // Check if location permission is granted
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      // If permission is not granted, request it
-      permission = await Geolocator.requestPermission();
-
-      if (permission == LocationPermission.denied) {
-        // Handle case when permission is not granted by showing a message or UI
-        print('Location permission denied');
+    try {
+      // Check if location services are enabled
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        print('Location services are not enabled');
+        Navigator.pop(context); // Dismiss the dialog
         return;
       }
-    }
 
-    if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
-      // Get current position
-      Position position = await Geolocator.getCurrentPosition();
+      // Check if location permission is granted
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        // If permission is not granted, request it
+        permission = await Geolocator.requestPermission();
 
-      // Get location details using placemark
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
+        if (permission == LocationPermission.denied) {
+          // Handle case when permission is not granted by showing a message or UI
+          print('Location permission denied');
+          Navigator.pop(context); // Dismiss the dialog
+          return;
+        }
+      }
 
-      // Extract relevant address components
-      String colony = placemarks.first.subLocality ?? ''; // Colony name
-      String street = placemarks.first.thoroughfare ?? ''; // Street name
-      String sector =
-          placemarks.first.subAdministrativeArea ?? ''; // Sector name
+      if (permission == LocationPermission.always ||
+          permission == LocationPermission.whileInUse) {
+        // Get current position
+        Position position = await Geolocator.getCurrentPosition();
 
-      // Construct the full address excluding house number/house name
+        // Get location details using placemark
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude,
+          position.longitude,
+        );
 
-      setState(() {
-        pinCodeController.text = placemarks.first.postalCode ?? '';
-        stateController.text = placemarks.first.administrativeArea ?? '';
-        cityController.text = placemarks.first.locality ?? '';
-        buildingnameController.text = placemarks.first.name ?? '';
-        addressController.text = fullAddress;
-        fullAddress = '$colony, $street, $sector';
-      });
+        // Extract relevant address components
+        String colony = placemarks.first.subLocality ?? ''; // Colony name
+        String street = placemarks.first.thoroughfare ?? ''; // Street name
+        String sector =
+            placemarks.first.subAdministrativeArea ?? ''; // Sector name
+
+        // Construct the full address excluding house number/house name
+        String fullAddress = '$colony, $street, $sector';
+
+        // Update UI with fetched address details
+        setState(() {
+          pinCodeController.text = placemarks.first.postalCode ?? '';
+          stateController.text = placemarks.first.administrativeArea ?? '';
+          cityController.text = placemarks.first.locality ?? '';
+          buildingnameController.text = placemarks.first.name ?? '';
+          addressController.text = fullAddress;
+        });
+      }
+    } catch (e) {
+      print('Error fetching location: $e');
+    } finally {
+      // Dismiss the dialog after fetching location
+      Navigator.pop(context);
     }
   }
 }
