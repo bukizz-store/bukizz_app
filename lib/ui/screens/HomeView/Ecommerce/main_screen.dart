@@ -37,33 +37,49 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Consumer<BottomNavigationBarProvider>(builder: (context , bottomProvider , child){
       return Scaffold(
-        body: _buildCurrentScreen(),
+        body: Column(
+          children: [
+            Expanded(child: _buildCurrentScreen()),
+            Container(
+              height: 1,
+              color: Colors.grey[300],
+            ),
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
               items:<BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(AppImage.homeIcon,color: context.watch<BottomNavigationBarProvider>().selectedIndex == 0 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
+                  icon: context.watch<BottomNavigationBarProvider>().selectedIndex == 0 ? SvgPicture.asset(AppImage.homeIcon,color:  AppColors.productButtonSelectedBorder) : SvgPicture.asset(AppImage.home_simple,color: AppColors.schoolTextColor),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(AppImage.cartIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 1 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
-                  label: 'Cart',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(AppImage.notificationIcon,color: context.watch<BottomNavigationBarProvider>().selectedIndex == 2 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
-                  label: 'Notification',
-
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(AppImage.categoriesIcons, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 3 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor,),
+                  icon: context.watch<BottomNavigationBarProvider>().selectedIndex == 1 
+                  ? SvgPicture.asset(AppImage.categoriesIcons, color: AppColors.productButtonSelectedBorder)
+                  : SvgPicture.asset(AppImage.categories_simple, color: AppColors.schoolTextColor),
                   label: 'Categories',
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(AppImage.profileIcon, color: context.watch<BottomNavigationBarProvider>().selectedIndex == 4 ? AppColors.productButtonSelectedBorder : AppColors.schoolTextColor),
-                  label: 'Profile',
+                  icon: context.watch<BottomNavigationBarProvider>().selectedIndex == 2 
+                  ? SvgPicture.asset(AppImage.notificationIcon, color: AppColors.productButtonSelectedBorder)
+                  : SvgPicture.asset(AppImage.notification_simple, color: AppColors.schoolTextColor),
+                  label: 'Notification',
+                ),
+                BottomNavigationBarItem(
+                  icon: context.watch<BottomNavigationBarProvider>().selectedIndex == 3 
+                  ? SvgPicture.asset(AppImage.cartIcon, color: AppColors.productButtonSelectedBorder)
+                  : SvgPicture.asset(AppImage.cart_simple, color: AppColors.schoolTextColor),
+                  label: 'Cart',
+                ),
+                
+                BottomNavigationBarItem(
+                  icon: context.watch<BottomNavigationBarProvider>().selectedIndex == 4 
+                  ? SvgPicture.asset(AppImage.profileIcon, color: AppColors.productButtonSelectedBorder)
+                  : SvgPicture.asset(AppImage.profile_simple, color: AppColors.schoolTextColor),
+                  label: 'Account',
                 ),
 
               ],
-              unselectedItemColor: AppColors.schoolTextColor,
+              // unselectedItemColor: AppColors.schoolTextColor,
               unselectedFontSize: 10,
               selectedFontSize: 12,
               selectedItemColor: AppColors.productButtonSelectedBorder,
@@ -71,6 +87,7 @@ class _MainScreenState extends State<MainScreen> {
               showUnselectedLabels: true,
               onTap: bottomProvider.setSelectedIndex,
               type: BottomNavigationBarType.fixed,
+              elevation: 10,
             )
       );
     },);
@@ -82,11 +99,11 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomeScreen();
       case 1:
-        return const Cart();
+        return const CategoryScreen();
       case 2:
         return const NotificationScreen();
       case 3:
-        return const CategoryScreen();
+        return const Cart();
       case 4:
         return const NewProfileScreen();
       default:

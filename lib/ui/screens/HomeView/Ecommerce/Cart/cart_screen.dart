@@ -72,7 +72,7 @@ class _CartState extends State<Cart> {
     }else{
       // var cartData = context.watch<CartViewRepository>();
       var cartProvider = context.read<CartProvider>();
-      var address = context.watch<UpdateAddressRepository>().address;
+      // var address = context.watch<UpdateAddressRepository>().address;
       return Consumer<CartViewRepository>(
           builder: (context, cartViewData, child) {
             if (cartViewData.getCartData.isEmpty) {
@@ -102,104 +102,6 @@ class _CartState extends State<Cart> {
                           height: dimensions.height24 / 2,
                         ),
                         //1st container with address info
-                        (address.pinCode.isNotEmpty)
-                            ? Container(
-                          height: dimensions.height40 * 2,
-                          width: dimensions.screenWidth,
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: dimensions.height24 / 2,
-                              horizontal: dimensions.width24,
-                            ),
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        ReusableText(
-                                          text: 'Deliver to: ',
-                                          fontSize: 16,
-                                          height: 0,
-                                          color: Color(0xFF282828),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        ReusableText(
-                                          text:
-                                          AppConstants.userData.name,
-                                          fontSize: 16,
-                                          height: 0,
-                                          color: Color(0xFF121212),
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ],
-                                    ),
-                                    // SizedBox(
-                                    //   height: dimensions.height8/2,
-                                    // ),
-                                    Flexible(
-                                        child: Container(
-                                          width: dimensions.width24 * 9.5,
-                                          child: ReusableText(
-                                            text:
-                                            "${address.houseNo}, ${address.street}, ${address.city}, ${address.state}, ${address.pinCode}",
-                                            fontSize: 14,
-                                            height: 0,
-                                            color: Color(0xFF7A7A7A),
-                                            fontWeight: FontWeight.w600,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                        builder: (_) => UpdateAddress(
-                                          address: context
-                                              .watch<
-                                              UpdateAddressRepository>()
-                                              .address,
-                                          keyAddress: true,
-                                        )));
-                                  },
-                                  child: Container(
-                                    width: dimensions.width65,
-                                    height: dimensions.height36,
-                                    decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 0.50,
-                                            color: Color(0xFFD6D6D6)),
-                                        borderRadius:
-                                        BorderRadius.circular(6),
-                                      ),
-                                    ),
-                                    child: Center(
-                                        child: ReusableText(
-                                          text: 'Change',
-                                          fontSize: 14,
-                                          height: 0,
-                                          color: Color(0xFF00579E),
-                                          fontWeight: FontWeight.w600,
-                                        )),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                            : Container(),
 
                         SizedBox(
                           height: dimensions.height24 / 2,
@@ -224,7 +126,7 @@ class _CartState extends State<Cart> {
                         boxShadow: const [
                           BoxShadow(
                             color: Colors.black,
-                            blurRadius: 12,
+                            blurRadius: 5,
                             offset: Offset(0, 4),
                             spreadRadius: 0,
                           )
@@ -365,9 +267,20 @@ class _CartState extends State<Cart> {
             totalPrice += price * quantity;
             salePrice += totalSalePrice * quantity;
             items.add(Container(
-              // height: dimensions.height192,
+              // add shadow to container
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              margin: EdgeInsets.only(bottom: dimensions.height8),
               width: dimensions.screenWidth,
-              color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: dimensions.width24 / 1.5,

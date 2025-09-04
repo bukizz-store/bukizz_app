@@ -1112,7 +1112,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   }
 
   void send() {
-    context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
+    context.read<BottomNavigationBarProvider>().setSelectedIndex(3);
     Navigator.of(context)
         .pushNamedAndRemoveUntil(MainScreen.route, (route) => false);
   }

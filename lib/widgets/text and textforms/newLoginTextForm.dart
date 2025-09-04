@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,15 +16,19 @@ class CustomLoginForm extends StatefulWidget {
   final bool isPasswordType;
   final IconData ?trailingIcon;
   final InputType type;
+  final Function(String)? onChanged; // Add onChanged callback
 
   CustomLoginForm({
     required this.width,
     required this.height,
     required this.controller,
     required this.hintText,
-    this.icon, required this.labelText, required this.isPasswordType,
+    this.icon, 
+    required this.labelText, 
+    required this.isPasswordType,
     this.trailingIcon,
-    required this.type
+    required this.type,
+    this.onChanged, // Add onChanged parameter
   });
 
   @override
@@ -61,6 +64,7 @@ class _CustomLoginFormState extends State<CustomLoginForm> {
         obscureText: widget.isPasswordType && !isPasswordVisible,
         enableSuggestions: !widget.isPasswordType,
         autocorrect: !widget.isPasswordType,
+        onChanged: widget.onChanged, // Add onChanged callback
         decoration: InputDecoration(
           prefixIcon: widget.icon != null
               ? Padding(

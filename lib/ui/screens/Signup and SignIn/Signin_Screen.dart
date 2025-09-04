@@ -1,11 +1,10 @@
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
-import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/reset_password.dart';
-import 'package:bukizz/widgets/navigator/page_navigator.dart';
+import 'package:bukizz/ui/screens/Signup%20and%20SignIn/phone_login_otp_screen.dart';
+import 'package:bukizz/data/services/phone_otp_service.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/newLoginTextForm.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -13,16 +12,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/font_family.dart';
 import '../../../data/providers/auth/firebase_auth.dart';
-import '../../../data/providers/school_repository.dart';
-import '../../../data/repository/banners/banners.dart';
-import '../../../data/repository/category/category_repository.dart';
 import '../../../utils/dimensions.dart';
 import '../../../widgets/buttons/Reusable_Button.dart';
 import '../../../widgets/containers/Reusable_container.dart';
-import '../../../widgets/text and textforms/Reusable_TextForm.dart';
 import '../../../widgets/signup_text_widget.dart';
 import '../../../widgets/text and textforms/Reusable_text.dart';
-import '../../../widgets/text and textforms/newLoginTextForm.dart';
 import '../HomeView/Ecommerce/main_screen.dart';
 import 'Signup_Screen.dart';
 
@@ -36,7 +30,9 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final TextEditingController _passwordTextController = TextEditingController();
-  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _emailOrPhoneController = TextEditingController();
+  bool _isPhoneLogin = false;
+  
   Future<void> signIn(BuildContext context) async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
@@ -48,6 +44,112 @@ class _SignInState extends State<SignIn> {
       // If location is not enabled, navigate to the location screen
       Navigator.pushNamedAndRemoveUntil(
           context, LocationScreen.route, (route) => false);
+    }
+  }
+
+  bool _isPhoneInput(String input) {
+    // Remove any non-digit characters
+    String digitsOnly = input.replaceAll(RegExp(r'[^\d]'), '');
+    
+    // Check if input starts with phone number patterns or has only digits
+    // Hide password field immediately when user starts typing digits
+    if (digitsOnly.isNotEmpty && input.trim() == digitsOnly) {
+      // If input contains only digits, treat as phone input
+      return true;
+    }
+    
+    // Also check for common phone number starting patterns
+    if (digitsOnly.isNotEmpty && RegExp(r'^[6-9]').hasMatch(digitsOnly)) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  bool _isPhoneNumber(String input) {
+    // Remove any non-digit characters
+    String digitsOnly = input.replaceAll(RegExp(r'[^\d]'), '');
+    
+    // Check if it's a complete 10-digit number (Indian mobile number format)
+    return RegExp(r'^[6-9][0-9]{9}$').hasMatch(digitsOnly);
+  }
+
+  bool _isValidEmail(String email) {
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+  }
+
+  void _updateLoginType() {
+    setState(() {
+      // Use the new _isPhoneInput method for immediate detection
+      _isPhoneLogin = _isPhoneInput(_emailOrPhoneController.text);
+      
+      // Clear password field when switching to phone input
+      if (_isPhoneLogin) {
+        _passwordTextController.clear();
+      }
+    });
+  }
+
+  void _handleLogin() async {
+    String input = _emailOrPhoneController.text.trim();
+
+    if (input.isEmpty) {
+      AppConstants.showSnackBar(context, "Please enter your email or phone number",
+          AppColors.error, Icons.error_outline_rounded);
+      return;
+    }
+
+    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    if (_isPhoneNumber(input)) {
+      // Handle phone number login with OTP (no password needed)
+      String phoneNumber = input.replaceAll(RegExp(r'[^\d]'), '');
+      
+      // Show loading
+      AppConstants.buildShowDialog(context);
+
+      // Send OTP for phone login
+      await PhoneOTPService.sendPhoneOTP(
+        phoneNumber: phoneNumber,
+        context: context,
+        onCodeSent: (verificationId) {
+          // Dismiss loading dialog
+          Navigator.of(context).pop();
+          
+          // Navigate to phone login OTP screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PhoneLoginOTPScreen(
+                phoneNumber: phoneNumber,
+                verificationId: verificationId,
+              ),
+            ),
+          );
+        },
+        onError: (error) {
+          // Dismiss loading dialog
+          Navigator.of(context).pop();
+          AppConstants.showSnackBar(
+              context, error, AppColors.error, Icons.error_outline_rounded);
+        },
+      );
+    } else if (_isValidEmail(input)) {
+      // Handle email login (password required)
+      String password = _passwordTextController.text.trim();
+      
+      if (password.isEmpty) {
+        AppConstants.showSnackBar(context, "Please enter your password",
+            AppColors.error, Icons.error_outline_rounded);
+        return;
+      }
+      
+      AppConstants.buildShowDialog(context);
+      await authProvider.signInWithEmailAndPassword(input, password, context);
+    } else {
+      AppConstants.showSnackBar(context, "Please enter a valid email or phone number",
+          AppColors.error, Icons.error_outline_rounded);
     }
   }
 
@@ -126,54 +228,80 @@ class _SignInState extends State<SignIn> {
                 ),
 
                  SizedBox(height: 20.sp,),
-                //Email Form
-                // ReusableTextField('Your Email', Icons.person_outline, false,
-                //     _emailTextController),
-                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _emailTextController, hintText: 'Your Email', labelText: 'Email', isPasswordType: false, type: InputType.email,icon: Icons.email_outlined,),
+                //Email or Phone Form
+                CustomLoginForm(
+                  width: 90.sp, 
+                  height: 30.sp, 
+                  controller: _emailOrPhoneController, 
+                  hintText: 'Your Email or Phone Number', 
+                  labelText: 'Email / Phone', 
+                  isPasswordType: false, 
+                  type: InputType.all,
+                  icon: _isPhoneNumber(_emailOrPhoneController.text) 
+                      ? Icons.phone_outlined 
+                      : Icons.email_outlined,
+                  onChanged: (value) => _updateLoginType(), // Add onChanged callback
+                ),
 
                 SizedBox(
                   height: dimensions.height16,
                 ),
 
-                //password text
+                // Show password field only for email login
+                if (!_isPhoneLogin) ...[
+                  SizedBox(
+                    height: dimensions.height10,
+                  ),
+                  //password form
+                  CustomLoginForm(width: 90.sp, height: 30.sp, controller: _passwordTextController, hintText: 'Your Password', labelText: 'Password', isPasswordType: true, type: InputType.all,icon: Icons.password,),
+
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, ForgotPasswordScreen.route);
+                      },
+                      child: ReusableText(
+                        text: "Forget Password ?",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.blue,
+                      )),
+                ] else ...[
+                  // Show info for phone login
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    margin: EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.green.shade200),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.sms_outlined, color: Colors.green.shade600, size: 16),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'We\'ll send an OTP to verify your phone number',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.green.shade700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
 
                 SizedBox(
-                  height: dimensions.height10,
+                  height: dimensions.height24,
                 ),
-                //password form
-                // ReusableTextField('Your Password', Icons.lock_outline, true,
-                //     _passwordTextController),
 
-                CustomLoginForm(width: 90.sp, height: 30.sp, controller: _passwordTextController, hintText: 'Your Password', labelText: 'Password', isPasswordType: true, type: InputType.all,icon: Icons.password,),
-
-                TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, ForgotPasswordScreen.route);
-                    },
-                    child: ReusableText(
-                      text: "Forget Password ?",
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blue,
-                    )),
                 //login button
                 ReusableElevatedButton(
                   width: dimensions.width327,
                   height: dimensions.height48,
-                  onPressed: () async {
-                    if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(_emailTextController.text)) {
-                      AppConstants.showSnackBar(context, "Enter a valid Email",
-                          AppColors.error, Icons.error_outline_rounded);
-                      return;
-                    }
-                    AppConstants.buildShowDialog(context);
-                    String email = _emailTextController.text.trim();
-                    String password = _passwordTextController.text.trim();
-                    await authProvider.signInWithEmailAndPassword(
-                        email, password, context);
-                  },
+                  onPressed: _handleLogin,
                   buttonText: 'Login',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -246,23 +374,31 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   height: dimensions.height8 * 2,
                 ),
-                //sign in with apple
-                // ReusableElevatedButton(
-                //   width: dimensions.width327,
-                //   height: dimensions.height48,
-                //   onPressed: () {
-                //     authProvider.signInWithApple(context);
-                //   },
-                //   buttonText: 'Sign in with Apple',
-                //   buttonColor: Colors.white,
-                //   iconData: Icons.apple,
-                //   textColor: Color(0xFF121212),
-                //   fontSize: 14,
-                //   fontFamily: FontFamily.nunito.name,
-                //   fontWeight: FontWeight.w400,
-                //   borderColor: Colors.black38,
-                //   shadowColor: Colors.grey.withOpacity(0.6),
-                // ),
+                
+                // Info text about login methods
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.blue.shade200),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline, color: Colors.blue.shade600, size: 16),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Enter your email for password login or phone number for OTP login',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.blue.shade700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -271,5 +407,3 @@ class _SignInState extends State<SignIn> {
     );
   }
 }
-
-//avbqdal;aslmkn

@@ -329,221 +329,48 @@ class AppConstants {
 
   // Premium cart snackbar inspired by modern e-commerce apps
   static Future<void> showCartSnackBar(BuildContext context) async {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    var snackBar = SnackBar(
+var snackBar = SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
-      margin: EdgeInsets.only(
-        bottom: 100,
-        left: 16,
-        right: 16,
-      ),
-      duration: Duration(seconds: 4),
-      content: TweenAnimationBuilder(
-        duration: Duration(milliseconds: 500),
-        tween: Tween<double>(begin: 0.0, end: 1.0),
-        builder: (context, double value, child) {
-          return Transform.translate(
-            offset: Offset(0, 60 * (1 - value)),
-            child: Transform.scale(
-              scale: 0.8 + (0.2 * value),
-              child: Opacity(
-                opacity: value,
-                child: GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    context
-                        .read<BottomNavigationBarProvider>()
-                        .setSelectedIndex(1);
-                    Navigator.pushNamed(context, MainScreen.route);
-                  },
-                  child: Container(
-                    constraints: BoxConstraints(
-                      minHeight: 72,
-                      maxWidth: screenWidth - 32,
-                    ),
-                    decoration: BoxDecoration(
-                      // Premium dark theme with subtle gradient
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xFF1A1A1A),
-                          Color(0xFF2D2D2D),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.1),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        // Premium shadow effect
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          blurRadius: 32,
-                          offset: Offset(0, 16),
-                          spreadRadius: 0,
-                        ),
-                        BoxShadow(
-                          color: AppColors.primaryColor.withOpacity(0.1),
-                          blurRadius: 24,
-                          offset: Offset(0, 8),
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      children: [
-                        // Subtle animated background effect
-                        Positioned.fill(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(24),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.white.withOpacity(0.05),
-                                    Colors.transparent,
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Content
-                        Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            children: [
-                              // Animated cart icon
-                              TweenAnimationBuilder(
-                                duration: Duration(milliseconds: 800),
-                                tween: Tween<double>(begin: 0.0, end: 1.0),
-                                builder: (context, double iconValue, child) {
-                                  return Transform.scale(
-                                    scale: iconValue,
-                                    child: Container(
-                                      width: 48,
-                                      height: 48,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            AppColors.primaryColor,
-                                            AppColors.primaryColor
-                                                .withOpacity(0.8),
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ),
-                                        borderRadius: BorderRadius.circular(16),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: AppColors.primaryColor
-                                                .withOpacity(0.3),
-                                            blurRadius: 12,
-                                            offset: Offset(0, 4),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Icon(
-                                        Icons.shopping_bag_outlined,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(width: 16),
-
-                              // Text content
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      'Added to Cart',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
-                                        letterSpacing: -0.3,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      'Tap to review your items',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white.withOpacity(0.7),
-                                        letterSpacing: -0.1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              // Modern CTA button
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryColor,
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.4),
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      'View',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                                    SizedBox(width: 6),
-                                    Icon(
-                                      Icons.arrow_forward_rounded,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
+      content: GestureDetector(
+        onTap: (){
+          context.read<BottomNavigationBarProvider>().setSelectedIndex(3);
+          Navigator.pushNamed(context,  MainScreen.route);
         },
+        child: Container(
+          width: 270,
+          height: 60,
+          padding: const EdgeInsets.all(16),
+          clipBehavior: Clip.antiAlias,
+          decoration: ShapeDecoration(
+            color: Color(0xFF444444),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            shadows: const [
+              BoxShadow(
+                color: Color(0xFF39A7FF),
+                // blurRadius: 12,
+                offset: Offset(0, 5),
+                // spreadRadius: 0,
+              )
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ReusableText(text: 'Added to Cart', fontSize: 16,fontWeight: FontWeight.w600,color: Color(0xFFF9F9F9),),
+              ReusableText(text: 'Go to Cart', fontSize: 16,fontWeight: FontWeight.w700,color:Color(0xFF39A7FF),)
+            ],
+          ),
+        ),
       ),
+      duration: const Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
   }
 
   // Helper methods for dynamic styling

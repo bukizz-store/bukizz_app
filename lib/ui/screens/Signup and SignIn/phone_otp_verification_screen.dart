@@ -114,9 +114,43 @@ class _PhoneOTPVerificationScreenState
     });
 
     try {
+      // For signup: Check if we have a valid verification ID from Firebase
+      String? actualVerificationId;
+      
+      // If we have a temporary verification ID, try to get the real one
+      if (widget.verificationId.startsWith('temp_')) {
+        actualVerificationId = await PhoneOTPService.getStoredVerificationId();
+        
+        // If we don't have the real verification ID yet, wait a bit and try again
+        if (actualVerificationId == null) {
+          // Wait up to 5 seconds for Firebase to respond
+          for (int i = 0; i < 10; i++) {
+            await Future.delayed(Duration(milliseconds: 500));
+            actualVerificationId = await PhoneOTPService.getStoredVerificationId();
+            if (actualVerificationId != null) break;
+          }
+        }
+        
+        // If still no verification ID, show error
+        if (actualVerificationId == null) {
+          AppConstants.showSnackBar(
+            context,
+            "Verification failed. Please try again.",
+            AppColors.error,
+            Icons.error_outline_rounded,
+          );
+          setState(() {
+            isVerifying = false;
+          });
+          return;
+        }
+      } else {
+        actualVerificationId = widget.verificationId;
+      }
+
       final isValid = await PhoneOTPService.verifyPhoneOTP(enteredOTP);
 
-      if (isValid) {
+      if (isValid && actualVerificationId != null) {
         // OTP verified successfully, proceed with account creation
         AppConstants.showSnackBar(
           context,
@@ -135,7 +169,7 @@ class _PhoneOTPVerificationScreenState
           name: widget.name,
           phoneNumber: widget.phoneNumber,
           password: widget.password,
-          verificationId: widget.verificationId,
+          verificationId: actualVerificationId,
           smsCode: enteredOTP,
           context: context,
         );

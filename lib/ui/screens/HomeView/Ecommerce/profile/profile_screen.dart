@@ -3,6 +3,8 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/utils/performance_optimizer.dart';
+import 'package:bukizz/utils/fast_navigation.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -93,51 +95,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        OutlinedButton(
-                          onPressed: () {
+                        PerformanceOptimizer.fastGestureDetector(
+                          onTap: () {
                             context.read<MyOrders>().fetchOrders();
-                            Navigator.pushNamed(context, OrderScreen.route);
+                            FastNavigation.pushNamedInstant(context, OrderScreen.route);
                           },
-                          style: OutlinedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              side: BorderSide(color: Color(0xFF00579E), ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: dimensions.width10*2,
+                              vertical: dimensions.height10,
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: dimensions.width10*2)
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.local_shipping,color: Color(0xFF00579E),),
-                              SizedBox(width: dimensions.width10,),
-                              ReusableText(
-                                text: 'Your Orders',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF00579E),
-                              ),
-                            ],
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xFF00579E)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.local_shipping, color: Color(0xFF00579E)),
+                                SizedBox(width: dimensions.width10),
+                                ReusableText(
+                                  text: 'Your Orders',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF00579E),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, ContactUsScreen.route);
+                        PerformanceOptimizer.fastGestureDetector(
+                          onTap: () {
+                            FastNavigation.pushNamedInstant(context, ContactUsScreen.route);
                           },
-                          style: OutlinedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              side: BorderSide(color: Color(0xFF00579E), ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: dimensions.width10*3,
+                              vertical: dimensions.height10,
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: dimensions.width10*3)
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.support_agent,color: Color(0xFF00579E),),
-                              SizedBox(width: dimensions.width10,),
-                              ReusableText(
-                                text: 'Contact Us',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF00579E),
-                              ),
-                            ],
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xFF00579E)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.support_agent, color: Color(0xFF00579E)),
+                                SizedBox(width: dimensions.width10),
+                                ReusableText(
+                                  text: 'Contact Us',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF00579E),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -317,8 +327,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-
-
 void showCustomAboutDialog(BuildContext context) {
   Dimensions dimensions=Dimensions(context);
   showDialog(
@@ -386,9 +394,7 @@ void showCustomAboutDialog(BuildContext context) {
             ],
           ),
         )
-
       );
-
     },
   );
 }

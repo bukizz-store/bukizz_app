@@ -1,12 +1,10 @@
-import 'package:bukizz/constants/colors.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/checkout/add_address.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/main_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/address_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/contact_us.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/all_policies.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/privacy_policy.dart';
 import 'package:bukizz/utils/dimensions.dart';
+import 'package:bukizz/utils/crashlytics_service.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -204,6 +202,53 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                     : Container(),
                 GestureDetector(
                   onTap: () {
+                    Navigator.pushNamed(context, SelectLocation.route);
+                  },
+                  child: Container(
+                    height: dimensions.height10 * 8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFCCE8FF),
+                                  child: Icon(
+                                    Icons.location_on,
+                                    color: Color(0xFF0590FF),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: dimensions.height10,
+                                ),
+                                ReusableText(
+                                  text: 'My City',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // add a route for address screen
+                
+                GestureDetector(
+                  onTap: () {
                     Navigator.pushNamed(context, ContactUsScreen.route);
                   },
                   child: Container(
@@ -234,51 +279,6 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                                 ),
                                 ReusableText(
                                   text: 'Contact Us',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF121212),
-                                )
-                              ],
-                            ),
-                            Icon(Icons.chevron_right),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, SelectLocation.route);
-                  },
-                  child: Container(
-                    height: dimensions.height10 * 8.5,
-                    width: dimensions.screenWidth,
-                    color: Colors.white,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: dimensions.width16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: dimensions.width10 * 2.5,
-                                  backgroundColor: Color(0xFFCCE8FF),
-                                  child: Icon(
-                                    Icons.location_on,
-                                    color: Color(0xFF0590FF),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: dimensions.height10,
-                                ),
-                                ReusableText(
-                                  text: 'Change Location',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFF121212),
@@ -372,6 +372,166 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                                 ),
                                 ReusableText(
                                   text: 'Terms, Policies & Licenses',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Firebase Crashlytics Test Section
+                SizedBox(height: dimensions.height10),
+                Container(
+                  width: dimensions.screenWidth,
+                  padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                  child: ReusableText(
+                    text: 'Crashlytics Testing (Debug Only)',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.orange,
+                  ),
+                ),
+                SizedBox(height: dimensions.height10),
+                GestureDetector(
+                  onTap: () {
+                    CrashlyticsService.log('User triggered test log from profile');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Test log sent to Firebase Crashlytics!'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: dimensions.height10 * 8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFE8F5E8),
+                                  child: Icon(
+                                    Icons.bug_report,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                SizedBox(width: dimensions.height10),
+                                ReusableText(
+                                  text: 'Send Test Log',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    try {
+                      throw Exception('Test non-fatal error from profile screen');
+                    } catch (error, stackTrace) {
+                      CrashlyticsService.recordError(
+                        error,
+                        stackTrace,
+                        reason: 'User triggered test non-fatal error',
+                        fatal: false,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Test error recorded in Crashlytics!'),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    height: dimensions.height10 * 8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFFFF3CD),
+                                  child: Icon(
+                                    Icons.warning,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                                SizedBox(width: dimensions.height10),
+                                ReusableText(
+                                  text: 'Send Test Error',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF121212),
+                                )
+                              ],
+                            ),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showTestCrashDialog(context);
+                  },
+                  child: Container(
+                    height: dimensions.height10 * 8.5,
+                    width: dimensions.screenWidth,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: dimensions.width10 * 2.5,
+                                  backgroundColor: Color(0xFFF8D7DA),
+                                  child: Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                SizedBox(width: dimensions.height10),
+                                ReusableText(
+                                  text: 'Test Fatal Crash (Use Carefully!)',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFF121212),
@@ -618,6 +778,137 @@ void DeletePopUp(BuildContext context) {
               ],
             ),
           ));
+    },
+  );
+}
+
+void showTestCrashDialog(BuildContext context) {
+  Dimensions dimensions = Dimensions(context);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Center(
+          child: Column(
+            children: [
+              Icon(
+                Icons.warning,
+                color: Colors.red,
+                size: 48,
+              ),
+              SizedBox(height: dimensions.height10),
+              ReusableText(
+                text: 'Warning: Fatal Crash Test',
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF121212),
+              ),
+              SizedBox(height: dimensions.height10),
+              ReusableText(
+                text: 'This will forcefully crash the app to test Firebase Crashlytics. The app will close immediately.',
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF444444),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+        content: Container(
+          height: dimensions.height10 * 8.5,
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                      // Send a test crash report without actually crashing
+                      await CrashlyticsService.sendTestCrashReport();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('🔥 Test crash report sent to Firebase!'),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: dimensions.width10 * 11.5,
+                      height: dimensions.height10 * 3.5,
+                      decoration: ShapeDecoration(
+                        color: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: Center(
+                        child: ReusableText(
+                          text: 'Test Report',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      // Force a fatal crash for testing
+                      CrashlyticsService.testCrash();
+                    },
+                    child: Container(
+                      width: dimensions.width10 * 11.5,
+                      height: dimensions.height10 * 3.5,
+                      decoration: ShapeDecoration(
+                        color: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: Center(
+                        child: ReusableText(
+                          text: 'Fatal Crash',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: dimensions.height10),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: dimensions.screenWidth * 0.7,
+                  height: dimensions.height10 * 3.5,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF058FFF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  child: Center(
+                    child: ReusableText(
+                      text: 'Cancel',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     },
   );
 }

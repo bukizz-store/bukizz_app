@@ -690,7 +690,7 @@ class _UniformDescriptionScreenState extends State<UniformDescriptionScreen> {
   }
 
   void send() {
-    context.read<BottomNavigationBarProvider>().setSelectedIndex(1);
+    context.read<BottomNavigationBarProvider>().setSelectedIndex(3);
     Navigator.of(context)
         .pushNamedAndRemoveUntil(MainScreen.route, (route) => false);
   }

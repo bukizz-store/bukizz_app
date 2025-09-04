@@ -52,6 +52,56 @@ class PhoneOTPService {
     }
   }
 
+  // Send OTP to phone number using Firebase with immediate navigation
+  static Future<bool> sendPhoneOTPFast({
+    required String phoneNumber,
+    required BuildContext context,
+    required Function(String verificationId) onCodeSent,
+    required Function(String error) onError,
+  }) async {
+    try {
+      // Ensure phone number is in proper format (+91XXXXXXXXXX)
+      String formattedPhone = _formatPhoneNumber(phoneNumber);
+      
+      // Store phone number immediately for instant navigation
+      await _storePhoneNumber(formattedPhone);
+
+      // Start Firebase verification in background (don't await)
+      _auth.verifyPhoneNumber(
+        phoneNumber: formattedPhone,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          print('Auto-verification completed');
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print('Phone verification failed: ${e.message}');
+          onError(e.message ?? 'Phone verification failed');
+        },
+        codeSent: (String verificationId, int? resendToken) async {
+          print('OTP sent to $formattedPhone');
+          
+          // Store verification ID when Firebase responds
+          await _storeVerificationData(verificationId, formattedPhone);
+          
+          // Call success callback with verification ID
+          onCodeSent(verificationId);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          print('Code auto retrieval timeout');
+          // Store verification ID even on timeout
+          _storeVerificationData(verificationId, formattedPhone);
+        },
+        timeout: const Duration(seconds: 60),
+      );
+
+      // Return immediately for fast navigation
+      return true;
+    } catch (e) {
+      print('Error sending phone OTP: $e');
+      onError('Failed to send OTP. Please try again.');
+      return false;
+    }
+  }
+
   // Verify phone OTP
   static Future<bool> verifyPhoneOTP(String otp) async {
     try {
@@ -124,6 +174,13 @@ class PhoneOTPService {
       String verificationId, String phoneNumber) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_verificationIdKey, verificationId);
+    await prefs.setString(_phoneNumberKey, phoneNumber);
+    await prefs.setInt(_timestampKey, DateTime.now().millisecondsSinceEpoch);
+  }
+
+  // Store phone number separately for immediate use
+  static Future<void> _storePhoneNumber(String phoneNumber) async {
+    final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_phoneNumberKey, phoneNumber);
     await prefs.setInt(_timestampKey, DateTime.now().millisecondsSinceEpoch);
   }
