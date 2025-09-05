@@ -36,10 +36,6 @@ RETURN PROCESS
 To return an item, please email customer service at bukizzstore@gmail.com to obtain an Return Merchandise Authorization (RMA) number. After receiving an RMA number, place the item securely in its original packaging and include your proof of purchase, then mail your return to the following address:
 
 The Companies Delivery Partner Will Pick up The Order
-Attn: Returns
-RMA #
-__________
-__________, __________
 
 Please note, you will be responsible for all return shipping charges. We strongly recommend that you use a trackable method to mail your return.
 
@@ -200,40 +196,39 @@ bukizzstore@gmail.com''';
               ),
               const SizedBox(height: 12),
 
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    "Bukizz Store",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "GEETA NAGAR",
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                  Text(
+                    "Kanpur Nagar, Uttar Pradesh 208025",
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                  Text(
+                    "India",
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                  Text(
+                    "Phone: (+91)9369467134",
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                  Text(
+                    "Email: bukizzstore@gmail.com",
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
               const SelectableText(
                 "The Companies Delivery Partner Will Pick up The Order",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                  height: 1.5,
-                ),
-              ),
-              const SelectableText(
-                "Attn: Returns",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                  height: 1.5,
-                ),
-              ),
-              const SelectableText(
-                "RMA #",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                  height: 1.5,
-                ),
-              ),
-              const SelectableText(
-                "__________",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                  height: 1.5,
-                ),
-              ),
-              const SelectableText(
-                "__________, __________",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black87,

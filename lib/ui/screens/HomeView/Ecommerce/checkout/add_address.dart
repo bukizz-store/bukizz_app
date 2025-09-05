@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/providers/auth/updateUserData.dart';
 import 'package:bukizz/utils/dimensions.dart';
-import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../data/repository/address/update_address.dart';
-import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -26,7 +24,10 @@ class AddAddress extends StatefulWidget {
 
 class _AddAddressState extends State<AddAddress> {
   bool showAlternatePhoneField = false;
-  bool isLoading = false; // Add loading state
+  bool isLoading = false;
+  bool isLocationLoading = false; // Separate loading state for location
+  Position? _cachedPosition; // Cache last known position
+  DateTime? _lastLocationFetch; // Track when we last fetched location
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController alternatePhoneController = TextEditingController();
@@ -53,7 +54,6 @@ class _AddAddressState extends State<AddAddress> {
             ),
             Container(
               width: dimensions.screenWidth,
-              // height: dimensions.height8 * 62,
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -97,35 +97,7 @@ class _AddAddressState extends State<AddAddress> {
                       SizedBox(
                         height: dimensions.height8 * 2,
                       ),
-                      GestureDetector(
-                        onTap: () => onUseMyLocationTap(context),
-                        child: Container(
-                          width: dimensions.screenWidth,
-                          height: dimensions.height8 * 5.5,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1, color: Color(0xFF00579E)),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.my_location,
-                                color: Color(0xFF00579E),
-                              ),
-                              ReusableText(
-                                text: 'Use my location',
-                                fontSize: 14,
-                                color: Color(0xFF00579E),
-                                fontWeight: FontWeight.w600,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      _buildLocationButton(dimensions),
                       SizedBox(
                         height: dimensions.height16,
                       ),
@@ -233,8 +205,6 @@ class _AddAddressState extends State<AddAddress> {
         onTap: isLoading
             ? null
             : () async {
-                // Disable tap when loading and make async
-                //Save Address logic here
                 if (phoneController.text.length != 10) {
                   AppConstants.showSnackBarTop(
                       context,
@@ -247,16 +217,6 @@ class _AddAddressState extends State<AddAddress> {
                   AppConstants.showSnackBarTop(
                       context,
                       'Please Enter Valid Pincode',
-                      AppColors.error,
-                      Icons.error_outline_rounded);
-                  return;
-                }
-                if (!RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(emailController.text.toString())) {
-                  AppConstants.showSnackBarTop(
-                      context,
-                      'Please Enter a valid Email',
                       AppColors.error,
                       Icons.error_outline_rounded);
                   return;
@@ -334,7 +294,6 @@ class _AddAddressState extends State<AddAddress> {
                 } catch (e) {
                   print('Error adding address: $e');
 
-                  // Show user-friendly error message based on error type
                   if (e.toString().contains('UNAVAILABLE') ||
                       e.toString().contains('UnknownHostException') ||
                       e.toString().contains('firestore.googleapis.com') ||
@@ -359,140 +318,278 @@ class _AddAddressState extends State<AddAddress> {
                   }
                 }
               },
-        child: SafeArea(child : Container(
-          height: dimensions.height8 * 9,
-          width: dimensions.screenWidth,
-          color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: dimensions.width24,
-                vertical: dimensions.height8),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: isLoading ? Colors.grey : Color(0xFF058FFF),
-              ),
-              child: Center(
-                child: isLoading
-                    ? CircularProgressIndicator(color: Colors.white)
-                    : ReusableText(
-                        text: 'Save Address',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
+        child: SafeArea(
+          child: Container(
+            height: dimensions.height8 * 9,
+            width: dimensions.screenWidth,
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: dimensions.width24, vertical: dimensions.height8),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: isLoading ? Colors.grey : Color(0xFF058FFF),
+                ),
+                child: Center(
+                  child: isLoading
+                      ? CircularProgressIndicator(color: Colors.white)
+                      : ReusableText(
+                          text: 'Save Address',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                ),
               ),
             ),
           ),
-        ),)
+        ),
       ),
     );
   }
 
   void onUseMyLocationTap(BuildContext context) async {
-    // Show loading dialog
+    if (isLocationLoading) return;
+
+    setState(() {
+      isLocationLoading = true;
+    });
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              CircularProgressIndicator(),
-              SizedBox(width: 20),
-              Text('Fetching location...'),
+              CircularProgressIndicator(
+                strokeWidth: 3,
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00579E)),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Getting your location...',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'This will only take a moment',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
             ],
           ),
         );
       },
     );
 
-    bool serviceEnabled;
-    LocationPermission permission;
-
     try {
-      // Check if location services are enabled
-      serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        print('Location services are not enabled');
-        Navigator.pop(context);
-        return;
-      }
+      Position position;
 
-      // Check if location permission is granted
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-
+      if (_cachedPosition != null &&
+          _lastLocationFetch != null &&
+          DateTime.now().difference(_lastLocationFetch!).inMinutes < 5) {
+        position = _cachedPosition!;
+        print('Using cached position');
+      } else {
+        LocationPermission permission = await Geolocator.checkPermission();
         if (permission == LocationPermission.denied) {
-          print('Location permission denied');
-          Navigator.pop(context);
-          return;
+          permission = await Geolocator.requestPermission().timeout(
+            Duration(seconds: 5),
+            onTimeout: () => LocationPermission.denied,
+          );
+        }
+
+        if (permission == LocationPermission.denied ||
+            permission == LocationPermission.deniedForever) {
+          throw Exception('Location permission denied');
+        }
+
+        bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (!serviceEnabled) {
+          throw Exception('Location services are disabled');
+        }
+
+        Position? lastKnown = await Geolocator.getLastKnownPosition().timeout(
+          Duration(seconds: 2),
+          onTimeout: () => null,
+        );
+
+        if (lastKnown != null) {
+          position = lastKnown;
+          _cachedPosition = position;
+          _lastLocationFetch = DateTime.now();
+          _updateLocationInBackground();
+        } else {
+          position = await _getFreshPosition();
         }
       }
 
-      if (permission == LocationPermission.always ||
-          permission == LocationPermission.whileInUse) {
-        // Get current position with optimized settings and timeout
-        Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy
-              .medium, // Changed from default to medium for faster response
-          timeLimit: Duration(
-              seconds: 8), // Added timeout to prevent indefinite waiting
-        ).timeout(
-          Duration(seconds: 12), // Additional timeout wrapper
-          onTimeout: () async {
-            // Fallback to lower accuracy if timeout
-            return await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.low,
-              timeLimit: Duration(seconds: 5),
-            );
-          },
-        );
-
-        // Get location details using placemark with timeout
-        List<Placemark> placemarks = await placemarkFromCoordinates(
-          position.latitude,
-          position.longitude,
-        ).timeout(
-          Duration(seconds: 8),
-          onTimeout: () => throw TimeoutException('Geocoding timeout'),
-        );
-
-        // Extract relevant address components
-        String colony = placemarks.first.subLocality ?? '';
-        String street = placemarks.first.thoroughfare ?? '';
-        String sector = placemarks.first.subAdministrativeArea ?? '';
-        String fullAddress = '$colony, $street, $sector';
-
-        // Update UI with fetched address details
-        setState(() {
-          pinCodeController.text = placemarks.first.postalCode ?? '';
-          stateController.text = placemarks.first.administrativeArea ?? '';
-          cityController.text = placemarks.first.locality ?? '';
-          buildingnameController.text = placemarks.first.name ?? '';
-          addressController.text = fullAddress;
-        });
-      }
+      await _updateAddressFields(position);
     } catch (e) {
       print('Error fetching location: $e');
 
-      // Show error message to user
+      String errorMessage = 'Unable to get location. Please enter manually.';
+      Color errorColor = Colors.orange;
+
+      if (e.toString().contains('permission')) {
+        errorMessage =
+            'Location permission required. Please enable in settings.';
+        errorColor = Colors.red;
+      } else if (e.toString().contains('disabled') ||
+          e.toString().contains('services')) {
+        errorMessage = 'Please enable location services and try again.';
+        errorColor = Colors.amber;
+      } else if (e.toString().contains('timeout')) {
+        errorMessage = 'Location request timed out. Please try again.';
+        errorColor = Colors.orange;
+      }
+
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Unable to get location. Please enter manually.'),
-            backgroundColor: Colors.orange,
-            duration: Duration(seconds: 3),
-          ),
+        AppConstants.showSnackBarTop(
+          context,
+          errorMessage,
+          errorColor,
+          Icons.location_off,
         );
       }
     } finally {
-      // Always close the dialog
-      if (mounted && Navigator.canPop(context)) {
-        Navigator.pop(context);
+      if (mounted) {
+        setState(() {
+          isLocationLoading = false;
+        });
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
       }
     }
+  }
+
+  Future<Position> _getFreshPosition() async {
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy:
+          LocationAccuracy.medium, // Use medium instead of balanced
+      timeLimit: Duration(seconds: 4), // Reduced timeout
+    ).timeout(
+      Duration(seconds: 6),
+      onTimeout: () async {
+        // Quick fallback with lower accuracy
+        return await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low,
+          timeLimit: Duration(seconds: 3),
+        );
+      },
+    );
+  }
+
+  void _updateLocationInBackground() {
+    _getFreshPosition().then((position) {
+      _cachedPosition = position;
+      _lastLocationFetch = DateTime.now();
+      if (mounted) {
+        _updateAddressFields(position);
+      }
+    }).catchError((e) {
+      print('Background location update failed: $e');
+    });
+  }
+
+  Future<void> _updateAddressFields(Position position) async {
+    try {
+      final List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      ).timeout(
+        Duration(seconds: 4),
+        onTimeout: () => throw TimeoutException('Geocoding timeout'),
+      );
+
+      if (placemarks.isNotEmpty && mounted) {
+        final placemark = placemarks.first;
+
+        final addressComponents = _buildAddressComponents(placemark);
+
+        setState(() {
+          pinCodeController.text = addressComponents['pinCode'] ?? '';
+          stateController.text = addressComponents['state'] ?? '';
+          cityController.text = addressComponents['city'] ?? '';
+          buildingnameController.text = addressComponents['building'] ?? '';
+          addressController.text = addressComponents['fullAddress'] ?? '';
+        });
+
+        AppConstants.showSnackBarTop(
+          context,
+          'Location detected successfully!',
+          AppColors.success,
+          Icons.location_on,
+          time: 2,
+        );
+      }
+    } catch (e) {
+      print('Geocoding error: $e');
+    }
+  }
+
+  Map<String, String> _buildAddressComponents(Placemark placemark) {
+    return {
+      'pinCode': placemark.postalCode ?? '',
+      'state': placemark.administrativeArea ?? '',
+      'city': placemark.locality ?? placemark.subAdministrativeArea ?? '',
+      'building': placemark.name ?? placemark.street ?? '',
+      'fullAddress': [
+        placemark.subLocality,
+        placemark.thoroughfare,
+        placemark.subAdministrativeArea,
+      ].where((s) => s != null && s.isNotEmpty).join(', '),
+    };
+  }
+
+  Widget _buildLocationButton(Dimensions dimensions) {
+    return GestureDetector(
+      onTap: isLocationLoading ? null : () => onUseMyLocationTap(context),
+      child: Container(
+        width: dimensions.screenWidth,
+        height: dimensions.height8 * 5.5,
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 1,
+              color: isLocationLoading ? Colors.grey : Color(0xFF00579E),
+            ),
+            borderRadius: BorderRadius.circular(100),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (isLocationLoading)
+              SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00579E)),
+                ),
+              )
+            else
+              Icon(
+                Icons.my_location,
+                color: Color(0xFF00579E),
+              ),
+            SizedBox(width: 8),
+            ReusableText(
+              text:
+                  isLocationLoading ? 'Getting location...' : 'Use my location',
+              fontSize: 14,
+              color: isLocationLoading ? Colors.grey : Color(0xFF00579E),
+              fontWeight: FontWeight.w600,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -234,56 +234,56 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                 //     },
                 //   ),
                 //   SizedBox(height: dimensions.height10),
-                //   Padding(
-                //     padding: EdgeInsets.symmetric(
-                //       horizontal: dimensions.width16,
-                //     vertical: dimensions.height16
-                //       ),
-                //     child: InkWell(
-                //     onTap: AppConstants.isLogin
-                //         ? () {
-                //             showCustomAboutDialog(context);
-                //           }
-                //         : () {
-                //             context
-                //                 .read<BottomNavigationBarProvider>()
-                //                 .setSelectedIndex(0);
-                //             Navigator.pushNamedAndRemoveUntil(
-                //                 context, SignIn.route, (route) => false);
-                //           },
-                //     child: Container(
-                //         width: dimensions.screenWidth,
-                //         height: dimensions.height48,
-                //         decoration: ShapeDecoration(
-                //           shape: RoundedRectangleBorder(
-                //             side:
-                //                 BorderSide(width: 1, color: Color(0xFF058FFF)),
-                //             borderRadius: BorderRadius.circular(100),
-                //           ),
-                //         ),
-                //         child: Row(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           crossAxisAlignment: CrossAxisAlignment.center,
-                //           children: [
-                //             AppConstants.isLogin
-                //                 ? Icon(
-                //                     Icons.logout,
-                //                     color: Color(0xFF058FFF),
-                //                   )
-                //                 : Icon(
-                //                     Icons.person,
-                //                     color: Color(0xFF058FFF),
-                //                   ),
-                //             ReusableText(
-                //               text: AppConstants.isLogin ? 'Logout' : 'Sign In',
-                //               fontSize: 16,
-                //               color: Color(0xFF058FFF),
-                //             )
-                //           ],
-                //         )),
-                //   )
-                // ,
-                //     ),
+                  SafeArea(child:Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: dimensions.width16,
+                    vertical: dimensions.height16
+                      ),
+                    child: InkWell(
+                    onTap: AppConstants.isLogin
+                        ? () {
+                            showCustomAboutDialog(context);
+                          }
+                        : () {
+                            context
+                                .read<BottomNavigationBarProvider>()
+                                .setSelectedIndex(0);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, SignIn.route, (route) => false);
+                          },
+                    child: Container(
+                        width: dimensions.screenWidth,
+                        height: dimensions.height48,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xFF058FFF)),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AppConstants.isLogin
+                                ? Icon(
+                                    Icons.logout,
+                                    color: Color(0xFF058FFF),
+                                  )
+                                : Icon(
+                                    Icons.person,
+                                    color: Color(0xFF058FFF),
+                                  ),
+                            ReusableText(
+                              text: AppConstants.isLogin ? 'Logout' : 'Sign In',
+                              fontSize: 16,
+                              color: Color(0xFF058FFF),
+                            )
+                          ],
+                        )),
+                  )
+                ,
+                    ),)
                   ],
               ),
             ),

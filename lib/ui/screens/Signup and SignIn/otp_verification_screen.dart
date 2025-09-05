@@ -37,7 +37,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   @override
   void initState() {
     super.initState();
-    _sendInitialOTP();
+    // Remove the duplicate OTP sending - OTP should already be sent during signup
+    // _sendInitialOTP(); // Comment out this line to prevent duplicate OTP
     _startResendCountdown();
   }
 
@@ -47,6 +48,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     super.dispose();
   }
 
+  // Keep this method for manual resend functionality only
   void _sendInitialOTP() async {
     // Use fast OTP method for instant response
     try {
