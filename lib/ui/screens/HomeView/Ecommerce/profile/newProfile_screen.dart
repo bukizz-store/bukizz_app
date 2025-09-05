@@ -169,121 +169,121 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                   ),
                   // Firebase Crashlytics Test Section
                   SizedBox(height: dimensions.height10),
-                  Container(
-                    width: dimensions.screenWidth,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: dimensions.width16),
-                    child: ReusableText(
-                      text: 'Crashlytics Testing (Debug Only)',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.orange,
-                    ),
-                  ),
-                  SizedBox(height: dimensions.height10),
-                  ProfileButton(
-                    title: 'Send Test Log',
-                    icon: Icons.bug_report,
-                    iconColor: Colors.green,
-                    iconBackgroundColor: Color(0xFFE8F5E8),
-                    onTap: () {
-                      CrashlyticsService.log(
-                          'User triggered test log from profile');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content:
-                              Text('Test log sent to Firebase Crashlytics!'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    },
-                  ),
-                  ProfileButton(
-                    title: 'Send Test Error',
-                    icon: Icons.warning,
-                    iconColor: Colors.orange,
-                    iconBackgroundColor: Color(0xFFFFF3CD),
-                    onTap: () {
-                      try {
-                        throw Exception(
-                            'Test non-fatal error from profile screen');
-                      } catch (error, stackTrace) {
-                        CrashlyticsService.recordError(
-                          error,
-                          stackTrace,
-                          reason: 'User triggered test non-fatal error',
-                          fatal: false,
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content:
-                                Text('Test error recorded in Crashlytics!'),
-                            backgroundColor: Colors.orange,
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                  ProfileButton(
-                    title: 'Test Fatal Crash (Use Carefully!)',
-                    icon: Icons.error,
-                    iconColor: Colors.red,
-                    iconBackgroundColor: Color(0xFFF8D7DA),
-                    onTap: () {
-                      showTestCrashDialog(context);
-                    },
-                  ),
-                  SizedBox(height: dimensions.height10),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: dimensions.width16,
-                    vertical: dimensions.height16
-                      ),
-                    child: InkWell(
-                    onTap: AppConstants.isLogin
-                        ? () {
-                            showCustomAboutDialog(context);
-                          }
-                        : () {
-                            context
-                                .read<BottomNavigationBarProvider>()
-                                .setSelectedIndex(0);
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, SignIn.route, (route) => false);
-                          },
-                    child: Container(
-                        width: dimensions.screenWidth,
-                        height: dimensions.height48,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF058FFF)),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AppConstants.isLogin
-                                ? Icon(
-                                    Icons.logout,
-                                    color: Color(0xFF058FFF),
-                                  )
-                                : Icon(
-                                    Icons.person,
-                                    color: Color(0xFF058FFF),
-                                  ),
-                            ReusableText(
-                              text: AppConstants.isLogin ? 'Logout' : 'Sign In',
-                              fontSize: 16,
-                              color: Color(0xFF058FFF),
-                            )
-                          ],
-                        )),
-                  )
-                ,
-                    ),
+                //   Container(
+                //     width: dimensions.screenWidth,
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: dimensions.width16),
+                //     child: ReusableText(
+                //       text: 'Crashlytics Testing (Debug Only)',
+                //       fontSize: 14,
+                //       fontWeight: FontWeight.w600,
+                //       color: Colors.orange,
+                //     ),
+                //   ),
+                //   SizedBox(height: dimensions.height10),
+                //   ProfileButton(
+                //     title: 'Send Test Log',
+                //     icon: Icons.bug_report,
+                //     iconColor: Colors.green,
+                //     iconBackgroundColor: Color(0xFFE8F5E8),
+                //     onTap: () {
+                //       CrashlyticsService.log(
+                //           'User triggered test log from profile');
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(
+                //           content:
+                //               Text('Test log sent to Firebase Crashlytics!'),
+                //           backgroundColor: Colors.green,
+                //         ),
+                //       );
+                //     },
+                //   ),
+                //   ProfileButton(
+                //     title: 'Send Test Error',
+                //     icon: Icons.warning,
+                //     iconColor: Colors.orange,
+                //     iconBackgroundColor: Color(0xFFFFF3CD),
+                //     onTap: () {
+                //       try {
+                //         throw Exception(
+                //             'Test non-fatal error from profile screen');
+                //       } catch (error, stackTrace) {
+                //         CrashlyticsService.recordError(
+                //           error,
+                //           stackTrace,
+                //           reason: 'User triggered test non-fatal error',
+                //           fatal: false,
+                //         );
+                //         ScaffoldMessenger.of(context).showSnackBar(
+                //           SnackBar(
+                //             content:
+                //                 Text('Test error recorded in Crashlytics!'),
+                //             backgroundColor: Colors.orange,
+                //           ),
+                //         );
+                //       }
+                //     },
+                //   ),
+                //   ProfileButton(
+                //     title: 'Test Fatal Crash (Use Carefully!)',
+                //     icon: Icons.error,
+                //     iconColor: Colors.red,
+                //     iconBackgroundColor: Color(0xFFF8D7DA),
+                //     onTap: () {
+                //       showTestCrashDialog(context);
+                //     },
+                //   ),
+                //   SizedBox(height: dimensions.height10),
+                //   Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: dimensions.width16,
+                //     vertical: dimensions.height16
+                //       ),
+                //     child: InkWell(
+                //     onTap: AppConstants.isLogin
+                //         ? () {
+                //             showCustomAboutDialog(context);
+                //           }
+                //         : () {
+                //             context
+                //                 .read<BottomNavigationBarProvider>()
+                //                 .setSelectedIndex(0);
+                //             Navigator.pushNamedAndRemoveUntil(
+                //                 context, SignIn.route, (route) => false);
+                //           },
+                //     child: Container(
+                //         width: dimensions.screenWidth,
+                //         height: dimensions.height48,
+                //         decoration: ShapeDecoration(
+                //           shape: RoundedRectangleBorder(
+                //             side:
+                //                 BorderSide(width: 1, color: Color(0xFF058FFF)),
+                //             borderRadius: BorderRadius.circular(100),
+                //           ),
+                //         ),
+                //         child: Row(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           children: [
+                //             AppConstants.isLogin
+                //                 ? Icon(
+                //                     Icons.logout,
+                //                     color: Color(0xFF058FFF),
+                //                   )
+                //                 : Icon(
+                //                     Icons.person,
+                //                     color: Color(0xFF058FFF),
+                //                   ),
+                //             ReusableText(
+                //               text: AppConstants.isLogin ? 'Logout' : 'Sign In',
+                //               fontSize: 16,
+                //               color: Color(0xFF058FFF),
+                //             )
+                //           ],
+                //         )),
+                //   )
+                // ,
+                //     ),
                   ],
               ),
             ),
