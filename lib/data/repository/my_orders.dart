@@ -44,12 +44,12 @@ class MyOrders with ChangeNotifier {
 
   // Map<SchoolName , Map<productId , Map<set , Map<stream , quantity>>>>
   Map<String, Map<String, Map<String, Map<String, List<dynamic>>>>>
-  selectedOrder = {};
+      selectedOrder = {};
 
   void setOrder(int index) {
     selectedOrderModel = orders[index];
     Map<String, Map<String, Map<String, Map<String, List<dynamic>>>>>
-    productsIdMap = {};
+        productsIdMap = {};
     selectedOrderModel.cartData.forEach((school, schoolData) {
       productsIdMap[school] = {};
       schoolData.forEach((product, productData) {
@@ -72,8 +72,169 @@ class MyOrders with ChangeNotifier {
 
   String get getImage => image;
 
-  set setImage(String value){
+  set setImage(String value) {
     image = value;
+  }
+
+  // Map to store first product image for each order
+  Map<String, String> orderImages = {};
+  
+  // Map to store first product name for each order
+  Map<String, String> orderProductNames = {};
+
+  // Method to get first product image for an order
+  Future<String> getFirstProductImageForOrder(OrderModel order) async {
+    if (orderImages.containsKey(order.orderId)) {
+      return orderImages[order.orderId]!;
+    }
+
+    try {
+      // Get the first product from cartData
+      String? firstProductId;
+      String? firstSet;
+      String? firstStream;
+
+      order.cartData.forEach((school, schoolData) {
+        if (firstProductId == null) {
+          schoolData.forEach((product, productData) {
+            if (firstProductId == null) {
+              firstProductId = product;
+              productData.forEach((set, streamData) {
+                if (firstSet == null) {
+                  firstSet = set;
+                  streamData.forEach((stream, data) {
+                    if (firstStream == null) {
+                      firstStream = stream;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+
+      if (firstProductId != null && firstSet != null && firstStream != null) {
+        ProductModel product;
+
+        // Check if it's a general product or regular product
+        if (firstStream == 'null') {
+          product = await FirebaseFirestore.instance
+              .collection('generalProduct')
+              .where('productId', isEqualTo: firstProductId)
+              .get()
+              .then((value) =>
+                  ProductModel.fromGeneralMap(value.docs.first.data()));
+        } else {
+          product = await FirebaseFirestore.instance
+              .collection('products')
+              .where('productId', isEqualTo: firstProductId)
+              .get()
+              .then((value) => ProductModel.fromMap(value.docs.first.data()));
+        }
+
+        // Get the image URL from the product variation
+        String imageUrl = product
+                .variation[product.set
+                        .indexOf(product.set
+                            .where((element) => element.name == firstSet)
+                            .first)
+                        .toString()][
+                    product.stream.isNotEmpty
+                        ? product.stream
+                            .indexOf(product.stream
+                                .where((element) => element.name == firstStream)
+                                .first)
+                            .toString()
+                        : '0']
+                ?.image[0] ??
+            '';
+
+        // Cache the image URL
+        orderImages[order.orderId] = imageUrl;
+        return imageUrl;
+      }
+    } catch (e) {
+      print('Error getting product image for order ${order.orderId}: $e');
+    }
+
+    // Return empty string if no image found
+    orderImages[order.orderId] = '';
+    return '';
+  }
+
+  // Method to get first product name for an order
+  Future<String> getFirstProductNameForOrder(OrderModel order) async {
+    if (orderProductNames.containsKey(order.orderId)) {
+      return orderProductNames[order.orderId]!;
+    }
+
+    try {
+      // Get the first product from cartData
+      String? firstProductId;
+      String? firstSet;
+      String? firstStream;
+      String? firstSchool;
+      
+      order.cartData.forEach((school, schoolData) {
+        if (firstProductId == null) {
+          firstSchool = school;
+          schoolData.forEach((product, productData) {
+            if (firstProductId == null) {
+              firstProductId = product;
+              productData.forEach((set, streamData) {
+                if (firstSet == null) {
+                  firstSet = set;
+                  streamData.forEach((stream, data) {
+                    if (firstStream == null) {
+                      firstStream = stream;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+
+      if (firstProductId != null && firstSet != null && firstStream != null && firstSchool != null) {
+        ProductModel product;
+        
+        // Check if it's a general product or regular product
+        if (firstStream == 'null') {
+          product = await FirebaseFirestore.instance
+              .collection('generalProduct')
+              .where('productId', isEqualTo: firstProductId)
+              .get()
+              .then((value) => ProductModel.fromGeneralMap(value.docs.first.data()));
+        } else {
+          product = await FirebaseFirestore.instance
+              .collection('products')
+              .where('productId', isEqualTo: firstProductId)
+              .get()
+              .then((value) => ProductModel.fromMap(value.docs.first.data()));
+        }
+
+        // Create product name similar to order_details
+        String streamName = product.stream.isNotEmpty && firstStream != '0' 
+            ? "- $firstStream" 
+            : '';
+        String setName = product.set.isNotEmpty 
+            ? "($firstSet)" 
+            : '';
+        String productName = "$firstSchool - ${product.name}$streamName $setName";
+
+        // Cache the product name
+        orderProductNames[order.orderId] = productName;
+        return productName;
+      }
+    } catch (e) {
+      print('Error getting product name for order ${order.orderId}: $e');
+    }
+
+    // Return order name as fallback
+    orderProductNames[order.orderId] = order.orderName;
+    return order.orderName;
   }
 
   bool _isOrderDataLoaded = false;
@@ -96,7 +257,7 @@ class MyOrders with ChangeNotifier {
             .where('productId', isEqualTo: productId)
             .get()
             .then((value) =>
-            ProductModel.fromGeneralMap(value.docs.first.data()));
+                ProductModel.fromGeneralMap(value.docs.first.data()));
         addCartData(product);
         break;
       default:
@@ -130,7 +291,6 @@ class MyOrders with ChangeNotifier {
 
   void addCartData(ProductModel productModel) {
     addProduct(productModel);
-    int length = 0;
     notifyListeners();
   }
 
@@ -162,6 +322,4 @@ class MyOrders with ChangeNotifier {
     setIsOrdersLoaded(true);
     notifyListeners();
   }
-
-
 }

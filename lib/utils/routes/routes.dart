@@ -21,6 +21,7 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/terms_of_u
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/queryContact/contact_for_query.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/orders/order_details.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/saved_address_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_screen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_verification_screen.dart';
@@ -28,21 +29,25 @@ import 'package:bukizz/ui/screens/crashlytics_test_screen.dart';
 import 'package:flutter/material.dart';
 import '../../ui/screens/HomeView/Ecommerce/Cart/cart_screen.dart';
 import '../../ui/screens/HomeView/Ecommerce/product/view_all_schools.dart';
-import '../../ui/screens/HomeView/Ecommerce/profile/address_screen.dart';
+import '../../ui/screens/HomeView/Ecommerce/profile/profile.dart';
 import '../../ui/screens/Signup and SignIn/Signin_Screen.dart';
 import '../../ui/screens/Signup and SignIn/Signup_Screen.dart';
 import '../../ui/screens/Signup and SignIn/reset_password.dart';
 
 class RouteGenerator {
   /// Create optimized route with fast transitions
-  static Route<dynamic> _createFastRoute(Widget screen, {bool instant = false}) {
+  static Route<dynamic> _createFastRoute(Widget screen,
+      {bool instant = false}) {
     return PageRouteBuilder<dynamic>(
       pageBuilder: (context, animation, secondaryAnimation) => screen,
-      transitionDuration: instant ? Duration.zero : const Duration(milliseconds: 150), // Much faster than default 300ms
-      reverseTransitionDuration: instant ? Duration.zero : const Duration(milliseconds: 100),
+      transitionDuration: instant
+          ? Duration.zero
+          : const Duration(milliseconds: 150), // Much faster than default 300ms
+      reverseTransitionDuration:
+          instant ? Duration.zero : const Duration(milliseconds: 100),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         if (instant) return child; // No animation for instant routes
-        
+
         // Fast slide transition
         return SlideTransition(
           position: Tween<Offset>(
@@ -84,10 +89,10 @@ class RouteGenerator {
 
       case HomeScreen.route:
         return _createFastRoute(HomeScreen());
-        
+
       case Cart.route:
         return _createFastRoute(Cart());
-        
+
       case TabScreen.route:
         return _createFastRoute(TabScreen());
 
@@ -99,31 +104,32 @@ class RouteGenerator {
 
       case Checkout1.route:
         return _createFastRoute(Checkout1());
-        
+
       case OtpScreen.route:
         return _createFastRoute(OtpScreen());
 
       case MainScreen.route:
         return _createFastRoute(MainScreen(), instant: useInstantTransition);
-        
+
       case OnboardingScreen.route:
-        return _createFastRoute(OnboardingScreen(), instant: useInstantTransition);
-        
+        return _createFastRoute(OnboardingScreen(),
+            instant: useInstantTransition);
+
       case SelectLocation.route:
         return _createFastRoute(SelectLocation());
-        
+
       case LocationScreen.route:
         return _createFastRoute(const LocationScreen());
-        
+
       case OrderScreen.route:
         return _createFastRoute(const OrderScreen());
-        
+
       case OrderDetailsScreen.route:
         return _createFastRoute(const OrderDetailsScreen());
-        
+
       case KnowMoreScreen.route:
         return _createFastRoute(const KnowMoreScreen());
-        
+
       case RatingsScreen.route:
         return _createFastRoute(const RatingsScreen());
 
@@ -132,10 +138,10 @@ class RouteGenerator {
 
       case ReviewScreen.route:
         return _createFastRoute(const ReviewScreen());
-        
+
       case ContactUsScreen.route:
         return _createFastRoute(ContactUsScreen());
-        
+
       case ViewAllStationaryScreen.route:
         return _createFastRoute(ViewAllStationaryScreen());
 
@@ -150,28 +156,31 @@ class RouteGenerator {
 
       case ForgotPasswordScreen.route:
         return _createFastRoute(ForgotPasswordScreen());
-        
+
       case UniformDescriptionScreen.route:
         return _createFastRoute(UniformDescriptionScreen());
-        
-      case AddressScreen1.route:
-        return _createFastRoute(AddressScreen1());
-        
+
+      case ProfileScreen.route:
+        return _createFastRoute(ProfileScreen());
+
+      case SavedAddressScreen.route:
+        return _createFastRoute(const SavedAddressScreen());
+
       case PrivacyPolicy.route:
         return _createFastRoute(PrivacyPolicy());
-        
+
       case AllPoliciesScreen.route:
         return _createFastRoute(AllPoliciesScreen());
-        
+
       case TermsOfUse.route:
         return _createFastRoute(TermsOfUse());
 
       case ReturnPolicyPage.routeName:
         return _createFastRoute(const ReturnPolicyPage());
-        
+
       case CrashlyticsTestScreen.route:
         return _createFastRoute(const CrashlyticsTestScreen());
-        
+
       default:
         return _errorRoute();
     }

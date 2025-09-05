@@ -190,11 +190,15 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   )
                 ],
               )),
-                  !AppConstants.isLogin ?  Positioned(
-                      left: dimensions.width10*4,
-                      right:dimensions.width10*4,
-                      top: animation.value*5+dimensions.height10*51,
-                  child: ReusableElevatedButton(
+                  
+        ],
+      ),
+      bottomNavigationBar: !AppConstants.isLogin ?  
+        Padding(
+          padding: EdgeInsetsGeometry.symmetric(
+            horizontal: dimensions.width10  , 
+            vertical: dimensions.height10*3.5),
+            child: ReusableElevatedButton(
                         width: dimensions.width342,
                         height: dimensions.height16*3.5,
                         onPressed: () {
@@ -204,10 +208,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         fontWeight: FontWeight.w700,
                         fontFamily: FontFamily.nunito.name,
                         fontSize: 17,
-                      )
-                  ): Container()
-        ],
-      )),
+                      ),): Container(),
+      ),
     );
 
     // return Scaffold(

@@ -1,27 +1,20 @@
-import 'dart:math';
-
-import 'package:bukizz/constants/font_family.dart';
 import 'package:bukizz/data/repository/cart_view_repository.dart';
 import 'package:bukizz/data/repository/order_view_repository.dart';
 import 'package:bukizz/utils/dimensions.dart';
-import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
-import 'package:bukizz/widgets/text%20and%20textforms/textformAddress.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bukizz/widgets/containers/checkout_process.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../data/models/ecommerce/products/product_model.dart';
 import '../../../../../data/models/ecommerce/products/variation/set_model.dart';
 import '../../../../../data/providers/cart_provider.dart';
-import '../../../../../widgets/address/update_address.dart';
 import '../../../../../widgets/buttons/cart_button.dart';
 import '../../../../../widgets/circle/custom circleAvatar.dart';
 import '../../../../../widgets/containers/Reusable_ColouredBox.dart';
+import '../../../../../widgets/containers/delivery_date.dart';
 import '../../../../../widgets/text and textforms/Reusable_text.dart';
-import '../Cart/cart_screen.dart';
 import 'checkout3.dart';
 
 class Checkout2 extends StatefulWidget {
@@ -35,8 +28,10 @@ class Checkout2 extends StatefulWidget {
 class _Checkout2State extends State<Checkout2> {
   String? selectedAddress;
   TextEditingController couponController = TextEditingController();
-  String defaultAddress =
-      "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}";
+  ScrollController _scrollController =
+      ScrollController(); // Add scroll controller
+  String defaultAddress = AppConstants.userData.address.toString();
+  // "${AppConstants.userData.address.houseNo}, ${AppConstants.userData.address.street}, ${AppConstants.userData.address.city}, ${AppConstants.userData.address.state}, ${AppConstants.userData.address.pinCode}";
 
   double totalPrice = 0;
   double salePrice = 0;
@@ -60,68 +55,13 @@ class _Checkout2State extends State<Checkout2> {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Order summary'),
+            //shadow below appbar
           ),
           body: SingleChildScrollView(
+            controller: _scrollController, // Add scroll controller
             child: Column(
               children: [
-                SizedBox(
-                  height: dimensions.height8 * 1.5,
-                ),
-                //container with step 1 2 3
-                Container(
-                  width: dimensions.screenWidth,
-                  height: dimensions.height8 * 11.5,
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomCircleAvatar(
-                        radius: dimensions.height8 * 2,
-                        backgroundColor: Color(0xFF058FFF),
-                        borderColor: Colors.black38,
-                        borderWidth: 0.10,
-                        child: ReusableText(
-                          text: '1',
-                          fontSize: 16,
-                          color: Colors.white,
-                          height: null,
-                        ),
-                      ),
-                      Container(
-                        width: 18.w,
-                        height: 1.0,
-                        color: Color(0xFFA5A5A5),
-                      ),
-                      CustomCircleAvatar(
-                        radius: dimensions.height8 * 2,
-                        backgroundColor: Color(0xFF058FFF),
-                        borderColor: Colors.black,
-                        borderWidth: 0.5,
-                        text: 'Summary',
-                        fontWeight: FontWeight.w700,
-                        child: ReusableText(
-                            text: '2', fontSize: 16, color: Colors.white),
-                      ),
-                      Container(
-                        width: 18.w,
-                        height: 1.0,
-                        color: Color(0xFFA5A5A5),
-                      ),
-                      CustomCircleAvatar(
-                        radius: dimensions.height8 * 2,
-                        backgroundColor: Colors.transparent,
-                        borderColor: Colors.black,
-                        borderWidth: 0.5,
-                        text: 'Payment',
-                        child: ReusableText(
-                          text: '3',
-                          fontSize: 16,
-                          color: Color(0xFF058FFF),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                CheckoutProcessWidget(currentStep: 2),
 
                 SizedBox(
                   height: dimensions.height8 * 1.5,
@@ -203,8 +143,8 @@ class _Checkout2State extends State<Checkout2> {
                             Padding(
                               padding: EdgeInsets.only(top: dimensions.height8),
                               child: GestureDetector(
-                                onTap: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateAddress(address: context.watch<OrderViewRespository>().getUserAddress , keyAddress: false,)));
+                                onTap: () {
+                                  Navigator.of(context).pop();
                                 },
                                 child: Container(
                                   width: dimensions.width16 * 4,
@@ -212,7 +152,8 @@ class _Checkout2State extends State<Checkout2> {
                                   decoration: ShapeDecoration(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
-                                          width: 0.50, color: Color(0xFFD6D6D6)),
+                                          width: 0.50,
+                                          color: Color(0xFFD6D6D6)),
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                   ),
@@ -228,6 +169,9 @@ class _Checkout2State extends State<Checkout2> {
                               ),
                             ),
                           ])),
+                ),
+                SizedBox(
+                  height: dimensions.height8 * 1.5,
                 ),
                 //cart products
                 Column(children: _buildWidget(cartData, context, dimensions)),
@@ -267,7 +211,8 @@ class _Checkout2State extends State<Checkout2> {
                             height: dimensions.height40,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.black38),
+                              border: Border.all(
+                                  color: Colors.black38.withOpacity(0.4)),
                             ),
                             child: TextField(
                               controller: couponController,
@@ -280,17 +225,21 @@ class _Checkout2State extends State<Checkout2> {
                                     color: Color(0xFF058FFF),
                                   ),
                                 ),
+                                border: InputBorder.none,
+                                // contentPadding: EdgeInsets.symmetric(
+                                //     horizontal: dimensions.height8 * 2),
                                 contentPadding: EdgeInsets.symmetric(
-                                    horizontal: dimensions.height8 * 2),
+                                    vertical: dimensions.height8 * 0.5),
+
                                 hintText: 'Coupon code',
                                 hintStyle: TextStyle(color: Color(0xFF7A7A7A)),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black38),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFF7A7A7A)),
-                                ),
+                                // border: const OutlineInputBorder(
+                                //   borderSide: BorderSide(color: Colors.black38),
+                                // ),
+                                // focusedBorder: const OutlineInputBorder(
+                                //   borderSide:
+                                //       BorderSide(color: Color(0xFF7A7A7A)),
+                                // ),
                               ),
                             ),
                           ),
@@ -345,24 +294,91 @@ class _Checkout2State extends State<Checkout2> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InkWell(
-                          onTap: () {
-                            setState(() {
-                              drop_down = !drop_down;
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              ReusableText(
-                                text: 'Price Details',
-                                fontSize: 18,
-                                color: Color(0xFF282828),
-                                fontWeight: FontWeight.w700,
+                            onTap: () {
+                              setState(() {
+                                drop_down = !drop_down;
+                              });
+                            },
+                            child: Column(children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ReusableText(
+                                    text: 'Price Details',
+                                    fontSize: 18,
+                                    color: Color(0xFF282828),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  (drop_down)
+                                      ? Icon(Icons.arrow_drop_up)
+                                      : Icon(Icons.arrow_drop_down)
+                                ],
                               ),
-                              (drop_down)
-                                  ? Icon(Icons.arrow_drop_up)
-                                  : Icon(Icons.arrow_drop_down)
-                            ],
-                          ),
+                              (!drop_down)
+                                  ? Column(children: [
+                                      SizedBox(
+                                        height: dimensions.height8 * 1.5,
+                                      ),
+                                      Container(
+                                        width: dimensions.width24 * 14,
+                                        height: 1,
+                                        child: CustomPaint(
+                                          painter: DashedLinePainter(),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: dimensions.height8 * 1.5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          ReusableText(
+                                            text: 'Total Amount',
+                                            fontSize: 16,
+                                            color: Color(0xFF7A7A7A),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          Text(
+                                            '₹${salePrice + delivery}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFF121212),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: dimensions.height8 * 1.5,
+                                      ),
+                                      Container(
+                                        width: dimensions.width24 * 14,
+                                        height: 1,
+                                        child: CustomPaint(
+                                          painter: DashedLinePainter(),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: dimensions.height8 * 1.5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          ReusableText(
+                                            text:
+                                                'You will save ₹${totalPrice - salePrice} on this order',
+                                            fontSize: 16,
+                                            color: Color(0xFF038B10),
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ],
+                                      ),
+                                    ])
+                                  : Container(),
+                            ])),
+                        SizedBox(
+                          height: dimensions.height8 * 1.5,
                         ),
                         (drop_down)
                             ? Column(
@@ -491,12 +507,15 @@ class _Checkout2State extends State<Checkout2> {
                       ],
                     ),
                   ),
-                )
+                ),
+                SizedBox(
+                  height: dimensions.height16 * 1.5,
+                ),
               ],
             ),
           ),
           bottomNavigationBar: Container(
-            height: dimensions.height8 * 9,
+            height: dimensions.height8 * 11.5,
             width: dimensions.screenWidth,
             decoration: const BoxDecoration(
                 color: Colors.white,
@@ -518,9 +537,10 @@ class _Checkout2State extends State<Checkout2> {
                   // Price column
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        (totalPrice + 40).toString(),
+                        (totalPrice + delivery).toString(),
                         style: const TextStyle(
                           color: Color(0xFFB7B7B7),
                           fontWeight: FontWeight.w500,
@@ -529,12 +549,37 @@ class _Checkout2State extends State<Checkout2> {
                         ),
                       ),
                       Text(
-                        '₹${salePrice + 40}',
+                        '₹${salePrice + delivery}',
                         style: const TextStyle(
-                          color: Color(0xFF121212),
+                          color: AppColors.black,
                           fontWeight: FontWeight.w700,
                           decoration: TextDecoration.none,
-                          fontSize: 16,
+                          fontSize: 20,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            drop_down = !drop_down;
+                          });
+                          // Scroll to bottom after dropdown opens
+                          if (drop_down) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              _scrollController.animateTo(
+                                _scrollController.position.maxScrollExtent,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            });
+                          }
+                        },
+                        child: const Text(
+                          'View Price Details',
+                          style: TextStyle(
+                            color: AppColors.link,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                          ),
                         ),
                       )
                     ],
@@ -615,12 +660,10 @@ class _Checkout2State extends State<Checkout2> {
                           borderRadius: BorderRadius.circular(40),
                           boxShadow: const [
                             BoxShadow(
-                              color:Color(0xFF0466b5),
-                              offset:Offset(0,4),
-
+                              color: Color(0xFF0466b5),
+                              offset: Offset(0, 4),
                             )
-                          ]
-                      ),
+                          ]),
                       child: Center(
                         child: ReusableText(
                           text: 'Continue',
@@ -643,8 +686,8 @@ class _Checkout2State extends State<Checkout2> {
 
   String setProductName(
       String school, String set, String stream, ProductModel product) {
-    String streamName = product.stream.isNotEmpty ? "- $stream" ?? '' : '';
-    String setName = product.set.isNotEmpty ? "($set)" ?? '' : '';
+    String streamName = product.stream.isNotEmpty ? "- $stream" : '';
+    String setName = product.set.isNotEmpty ? "($set)" : '';
     return "$school - ${product.name}$streamName $setName";
   }
 
@@ -681,7 +724,8 @@ class _Checkout2State extends State<Checkout2> {
     return totalPrice;
   }
 
-  List<Widget> _buildWidget(CartViewRepository cartData, BuildContext context, dimensions) {
+  List<Widget> _buildWidget(
+      CartViewRepository cartData, BuildContext context, dimensions) {
     delivery = 0;
     List<Widget> list = [];
     totalPrice = 0;
@@ -699,7 +743,8 @@ class _Checkout2State extends State<Checkout2> {
                 .where((element) => element.productId == product)
                 .first;
             delivery += productModel.deliveryCharge.toInt();
-            String productName = setProductName(schoolName, set, stream, productModel);
+            String productName =
+                setProductName(schoolName, set, stream, productModel);
             int totalSalePrice = setTotalSalePrice(productModel, set, stream);
             int price = setTotalPrice(productModel, set, stream);
             totalPrice += price * quantity;
@@ -794,8 +839,11 @@ class _Checkout2State extends State<Checkout2> {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text:
-                                  ((price - totalSalePrice) / price * 100).round() >0 ? "${((price - totalSalePrice) / price * 100).round().toString()}% off " : "",
+                                  text: ((price - totalSalePrice) / price * 100)
+                                              .round() >
+                                          0
+                                      ? "${((price - totalSalePrice) / price * 100).round().toString()}% off "
+                                      : "",
                                   style: TextStyle(
                                     color:
                                         AppColors.productButtonSelectedBorder,
@@ -805,7 +853,9 @@ class _Checkout2State extends State<Checkout2> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text:price != totalSalePrice ? price.toString() : "",
+                                      text: price != totalSalePrice
+                                          ? price.toString()
+                                          : "",
                                       style: const TextStyle(
                                         color: Color(0xFFB7B7B7),
                                         fontWeight: FontWeight.w400,
@@ -832,6 +882,15 @@ class _Checkout2State extends State<Checkout2> {
                       SizedBox(
                         height: dimensions.height36 / 4,
                       ),
+                      DeliveryDateWidget(
+                        deliveryDays: 2,
+                        iconSize: 16,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        textColor: Color(0xFF038B10),
+                        iconColor: Color(0xFF038B10),
+                      ),
+                      SizedBox(height: dimensions.height8),
                       !cartData.isSingleBuyNow
                           ? Container(
                               width: dimensions.width342,
@@ -886,14 +945,26 @@ class _Checkout2State extends State<Checkout2> {
               ),
             );
           });
-        }
-            // catch(e){
-            //   debugPrint(e.toString());
-            // }
-            // }
-            );
+        });
       });
     });
     return list;
   }
+}
+
+class DashedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    double dashWidth = 9, dashSpace = 3, startX = 0;
+    final paint = Paint()
+      ..color = const Color(0xFFD6D6D6)
+      ..strokeWidth = 1;
+    while (startX < size.width) {
+      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/data/repository/address/update_address.dart';
@@ -139,44 +141,44 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       SizedBox(
                         height: dimensions.height16,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showAlternatePhoneField = !showAlternatePhoneField;
-                          });
-                        },
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Icon(
-                                  showAlternatePhoneField
-                                      ? Icons.remove
-                                      : Icons.add,
-                                  color: Color(0xFF00579E)),
-                              ReusableText(
-                                text: showAlternatePhoneField
-                                    ? 'Dont Add Alternate Phone'
-                                    : 'Add Alternate Phone',
-                                fontSize: 14,
-                                color: Color(0xFF00579E),
-                                fontWeight: FontWeight.w500,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (showAlternatePhoneField)
-                        SizedBox(
-                          height: dimensions.height8 * 2,
-                        ),
-                      if (showAlternatePhoneField)
-                        CustomTextForm(
-                          width: dimensions.width342,
-                          height: dimensions.height8 * 5.5,
-                          hintText: 'Alternate Phone',
-                          controller: alternatePhoneController,
-                          isPhoneNo: true,
-                        ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       showAlternatePhoneField = !showAlternatePhoneField;
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     child: Row(
+                      //       children: [
+                      //         Icon(
+                      //             showAlternatePhoneField
+                      //                 ? Icons.remove
+                      //                 : Icons.add,
+                      //             color: Color(0xFF00579E)),
+                      //         ReusableText(
+                      //           text: showAlternatePhoneField
+                      //               ? 'Dont Add Alternate Phone'
+                      //               : 'Add Alternate Phone',
+                      //           fontSize: 14,
+                      //           color: Color(0xFF00579E),
+                      //           fontWeight: FontWeight.w500,
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // if (showAlternatePhoneField)
+                      //   SizedBox(
+                      //     height: dimensions.height8 * 2,
+                      //   ),
+                      // if (showAlternatePhoneField)
+                      //   CustomTextForm(
+                      //     width: dimensions.width342,
+                      //     height: dimensions.height8 * 5.5,
+                      //     hintText: 'Alternate Phone',
+                      //     controller: alternatePhoneController,
+                      //     isPhoneNo: true,
+                      //   ),
                       SizedBox(
                         height: dimensions.height8 * 2,
                       ),
@@ -250,9 +252,10 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       'Please Enter Valid Number',
                       AppColors.error,
                       Icons.error_outline_rounded);
+                  return; // Prevent further execution
                 }
                 if (pinCodeController.text.length != 6) {
-              print('Updating primary address');
+                  print('Updating primary address');
                   AppConstants.showSnackBarTop(
                       context,
                       'Please Enter Valid Pincode',
@@ -267,6 +270,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       'Please Enter a valid Email',
                       AppColors.error,
                       Icons.error_outline_rounded);
+                      
                 }
                 if (buildingnameController.text.isEmpty) {
                   AppConstants.showSnackBarTop(
@@ -316,13 +320,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
                   );
 
                   if (widget.keyAddress) {
-                    
                     await context
                         .read<UpdateUserData>()
                         .updateUserAddress(address);
                     context.read<UpdateAddressRepository>().address = address;
                   } else {
-                    
                     await context
                         .read<UpdateUserData>()
                         .updateUserAlternateAddress(address);
@@ -434,11 +436,30 @@ class _UpdateAddressState extends State<UpdateAddress> {
 
       if (permission == LocationPermission.always ||
           permission == LocationPermission.whileInUse) {
-        Position position = await Geolocator.getCurrentPosition();
+        // Get current position with optimized settings and timeout
+        Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy
+              .medium, // Changed from default to medium for faster response
+          timeLimit: Duration(
+              seconds: 8), // Added timeout to prevent indefinite waiting
+        ).timeout(
+          Duration(seconds: 12), // Additional timeout wrapper
+          onTimeout: () async {
+            // Fallback to lower accuracy if timeout
+            return await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.low,
+              timeLimit: Duration(seconds: 5),
+            );
+          },
+        );
 
+        // Get location details using placemark with timeout
         List<Placemark> placemarks = await placemarkFromCoordinates(
           position.latitude,
           position.longitude,
+        ).timeout(
+          Duration(seconds: 8),
+          onTimeout: () => throw TimeoutException('Geocoding timeout'),
         );
 
         String colony = placemarks.first.subLocality ?? '';
@@ -456,8 +477,22 @@ class _UpdateAddressState extends State<UpdateAddress> {
       }
     } catch (e) {
       print('Error fetching location: $e');
+
+      // Show error message to user
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Unable to get location. Please enter manually.'),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
     } finally {
-      Navigator.pop(context);
+      // Always close the dialog
+      if (mounted && Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
     }
   }
 }

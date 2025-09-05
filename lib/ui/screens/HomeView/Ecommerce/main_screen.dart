@@ -1,18 +1,12 @@
 import 'package:bukizz/constants/colors.dart';
-import 'package:bukizz/data/providers/stationary_provider.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/newProfile_screen.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/profile_screen.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../constants/images.dart';
 import '../../../../data/providers/bottom_nav_bar_provider.dart';
-import '../../../../data/providers/school_repository.dart';
-import '../../../../data/repository/banners/banners.dart';
-import '../../../../data/repository/category/category_repository.dart';
 import 'Cart/cart_screen.dart';
 import 'categories/CategoryScreen.dart';
 import 'notification/notification_screen.dart';

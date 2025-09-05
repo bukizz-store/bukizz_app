@@ -5,7 +5,11 @@ import 'package:bukizz/ui/screens/Signup%20and%20SignIn/reset_password.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/phone_login_otp_screen.dart';
 import 'package:bukizz/data/services/phone_otp_service.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/newLoginTextForm.dart';
+// Add imports for privacy policy and terms pages
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/privacy_policy.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/terms_of_use.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -168,7 +172,7 @@ class _SignInState extends State<SignIn> {
             padding: EdgeInsets.fromLTRB(
               dimensions.width24,
               // 0,
-              dimensions.height48*1.5,
+              dimensions.height16*3.5,
               dimensions.width24,
               0,
             ),
@@ -196,7 +200,15 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 ),
-                SizedBox(height: 40,),
+                SizedBox(height: 10,),
+                                Center(
+                  child: Container(
+                    width: 30.w,
+                    // height: 10.h,
+                    child: SvgPicture.asset('assets/logo.svg'),
+                  ),
+                ),
+                SizedBox(height: 20.sp,),
                 ReusableContainer(
                   width: dimensions.width327,
                   height: dimensions.height32,
@@ -227,7 +239,7 @@ class _SignInState extends State<SignIn> {
                   },
                 ),
 
-                 SizedBox(height: 20.sp,),
+                 SizedBox(height: 10.sp,),
                 //Email or Phone Form
                 CustomLoginForm(
                   width: 90.sp, 
@@ -244,7 +256,7 @@ class _SignInState extends State<SignIn> {
                 ),
 
                 SizedBox(
-                  height: dimensions.height16,
+                  height: dimensions.height10,
                 ),
 
                 // Show password field only for email login
@@ -294,7 +306,60 @@ class _SignInState extends State<SignIn> {
                 ],
 
                 SizedBox(
-                  height: dimensions.height24,
+                  height: dimensions.height10*0.5,
+                ),
+
+                // Add Terms & Conditions and Privacy Policy links
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[600],
+                        height: 1.4,
+                      ),
+                      children: [
+                        TextSpan(text: 'By continuing you agree to bukizz\'s '),
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, TermsOfUse.route);
+                            },
+                            child: Text(
+                              'Terms of Use',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.blue,
+                                // decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                        TextSpan(text: ' and '),
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, PrivacyPolicy.route);
+                            },
+                            child: Text(
+                              'Privacy Policy',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.blue,
+                                // decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  height: dimensions.height10,
                 ),
 
                 //login button
@@ -315,7 +380,7 @@ class _SignInState extends State<SignIn> {
                     SignUp.route),
 
                 SizedBox(
-                  height: dimensions.height36,
+                  height: dimensions.height16,
                 ),
 
                 //seperation lines with text or with
@@ -351,7 +416,7 @@ class _SignInState extends State<SignIn> {
                 ),
 
                 SizedBox(
-                  height: dimensions.height36,
+                  height: dimensions.height16,
                 ),
 
                 //Sign in with google

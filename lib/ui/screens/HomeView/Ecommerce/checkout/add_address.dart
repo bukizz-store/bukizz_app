@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bukizz/data/models/ecommerce/address/address_model.dart';
 import 'package:bukizz/data/providers/auth/updateUserData.dart';
 import 'package:bukizz/utils/dimensions.dart';
@@ -388,18 +390,18 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   void onUseMyLocationTap(BuildContext context) async {
+    // Show loading dialog
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent user from dismissing the dialog
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(), // Show circular progress indicator
-              SizedBox(width: 20), // Add some spacing
-              Text(
-                  'Fetching location...'), // Text to indicate fetching location
+              CircularProgressIndicator(),
+              SizedBox(width: 20),
+              Text('Fetching location...'),
             ],
           ),
         );
@@ -414,42 +416,54 @@ class _AddAddressState extends State<AddAddress> {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         print('Location services are not enabled');
-        Navigator.pop(context); // Dismiss the dialog
+        Navigator.pop(context);
         return;
       }
 
       // Check if location permission is granted
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
-        // If permission is not granted, request it
         permission = await Geolocator.requestPermission();
 
         if (permission == LocationPermission.denied) {
-          // Handle case when permission is not granted by showing a message or UI
           print('Location permission denied');
-          Navigator.pop(context); // Dismiss the dialog
+          Navigator.pop(context);
           return;
         }
       }
 
       if (permission == LocationPermission.always ||
           permission == LocationPermission.whileInUse) {
-        // Get current position
-        Position position = await Geolocator.getCurrentPosition();
+        // Get current position with optimized settings and timeout
+        Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy
+              .medium, // Changed from default to medium for faster response
+          timeLimit: Duration(
+              seconds: 8), // Added timeout to prevent indefinite waiting
+        ).timeout(
+          Duration(seconds: 12), // Additional timeout wrapper
+          onTimeout: () async {
+            // Fallback to lower accuracy if timeout
+            return await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.low,
+              timeLimit: Duration(seconds: 5),
+            );
+          },
+        );
 
-        // Get location details using placemark
+        // Get location details using placemark with timeout
         List<Placemark> placemarks = await placemarkFromCoordinates(
           position.latitude,
           position.longitude,
+        ).timeout(
+          Duration(seconds: 8),
+          onTimeout: () => throw TimeoutException('Geocoding timeout'),
         );
 
         // Extract relevant address components
-        String colony = placemarks.first.subLocality ?? ''; // Colony name
-        String street = placemarks.first.thoroughfare ?? ''; // Street name
-        String sector =
-            placemarks.first.subAdministrativeArea ?? ''; // Sector name
-
-        // Construct the full address excluding house number/house name
+        String colony = placemarks.first.subLocality ?? '';
+        String street = placemarks.first.thoroughfare ?? '';
+        String sector = placemarks.first.subAdministrativeArea ?? '';
         String fullAddress = '$colony, $street, $sector';
 
         // Update UI with fetched address details
@@ -463,9 +477,22 @@ class _AddAddressState extends State<AddAddress> {
       }
     } catch (e) {
       print('Error fetching location: $e');
+
+      // Show error message to user
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Unable to get location. Please enter manually.'),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
     } finally {
-      // Dismiss the dialog after fetching location
-      Navigator.pop(context);
+      // Always close the dialog
+      if (mounted && Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
     }
   }
 }

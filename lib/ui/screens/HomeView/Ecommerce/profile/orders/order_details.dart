@@ -1,5 +1,4 @@
 import 'package:bukizz/constants/colors.dart';
-import 'package:bukizz/data/models/ecommerce/order_model.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/data/repository/query/order_query.dart';
 import 'package:bukizz/data/repository/review/review_repository.dart';
@@ -8,13 +7,10 @@ import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/queryContact/contac
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../data/models/ecommerce/products/product_model.dart';
 import '../../../../../../data/models/ecommerce/products/variation/set_model.dart';
-import '../../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../../utils/dimensions.dart';
-
 
 class OrderDetailsScreen extends StatefulWidget {
   static const route = '/orderdetails';
@@ -28,10 +24,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   double totalPrice = 0;
   double salePrice = 0;
   bool dropDown = false;
+  
   @override
   Widget build(BuildContext context) {
-    BottomNavigationBarProvider provider =
-        context.read<BottomNavigationBarProvider>();
     Dimensions dimensions = Dimensions(context);
     return Consumer<MyOrders>(builder: (context, orderData, child) {
 
@@ -62,6 +57,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                   Column(
                     children: [
+                      // Order Status Timeline
+                      
+                      SizedBox(height: dimensions.height16),
+                      
                       Container(
                         width: dimensions.screenWidth,
                         height: dimensions.height10 * 11.3,
@@ -78,7 +77,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 borderRadius: BorderRadius.circular(
                                   dimensions.width10,
                                 ),
-
                               ),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(
@@ -95,10 +93,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 SizedBox(
                                   height: dimensions.height10,
                                 ),
-
                                 ReusableText(
-                                    text:
-                                    '${orderData.cartLength} items',
+                                    text: '${orderData.cartLength} items',
                                     fontSize: 12),
                                 SizedBox(
                                   height: dimensions.height10,
@@ -121,8 +117,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   height: dimensions.height10,
                                 ),
                                 ReusableText(
-                                  text:
-                                  'Ordered On: ${orderData.selectedOrderModel.orderDate.substring(0, 10)}',
+                                  text: 'Ordered On: ${orderData.selectedOrderModel.orderDate.substring(0, 10)}',
                                   fontSize: 12,
                                   color: Color(0xFFA5A5A5),
                                   fontWeight: FontWeight.w500,
@@ -133,12 +128,29 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         ),
                       ),
                       Container(
+                        width: dimensions.screenWidth,
+                        color: Colors.white,
+                        padding: EdgeInsets.all(dimensions.width16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ReusableText(
+                              text: 'Order Status',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF121212),
+                            ),
+                            SizedBox(height: dimensions.height16),
+                            _buildOrderStatusTimeline(orderData.selectedOrderModel.status, orderData.selectedOrderModel.orderDate, dimensions),
+                          ],
+                        ),
+                      ),
+                      Container(
                           width: dimensions.screenWidth,
                           color: Colors.white,
                           child: Container(
                             child: Column(
-                              children:
-                              _buildWidget(orderData, context, dimensions),
+                              children: _buildWidget(orderData, context, dimensions),
                             ),
                           )),
                     ],
@@ -156,7 +168,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: (){
+                          onTap: (){ 
                             setState(() {
                               dropDown = !dropDown;
                             });
@@ -195,7 +207,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       //total price
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,8 +225,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ),
                           ),
                           ReusableText(
-                            text:
-                                '₹${orderData.selectedOrderModel.totalAmount}',
+                            text: '₹${orderData.selectedOrderModel.totalAmount}',
                             fontSize: 16,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
@@ -225,7 +235,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       SizedBox(
                         height: dimensions.height8,
                       ),
-
                       //discount
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,8 +246,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                           ReusableText(
-                              text:
-                                  '-₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount}',
+                              text: '-₹${orderData.selectedOrderModel.totalAmount - orderData.selectedOrderModel.saleAmount}',
                               fontSize: 16,
                               color: Color(0xFF038B10),
                               fontWeight: FontWeight.w500)
@@ -268,7 +276,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       SizedBox(
                         height: dimensions.height8 * 1.5,
                       ),
-
                       //horizontal line
                       Container(
                         width: dimensions.screenWidth,
@@ -278,7 +285,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       SizedBox(
                         height: dimensions.height8 * 2.5,
                       ),
-
                       //total amount
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,15 +296,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                           ReusableText(
-                            text:
-                                '₹${orderData.selectedOrderModel.saleAmount + orderData.selectedOrderModel.deliveryCharge}',
+                            text: '₹${orderData.selectedOrderModel.saleAmount + orderData.selectedOrderModel.deliveryCharge}',
                             fontSize: 16,
                             color: Color(0xFF121212),
                             fontWeight: FontWeight.w500,
                           )
                         ],
                       ),
-
                       SizedBox(
                         height: dimensions.height8 * 1.5,
                       ),
@@ -315,12 +319,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         fontSize: 16,
                         color: Color(0xFF038B10),
                         fontWeight: FontWeight.w700,
-
                       )
                     ],
                   ),
                 ) : Container(),
-
               SizedBox(
                 height: dimensions.height24 * 2,
               ),
@@ -331,16 +333,144 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     });
   }
 
-  String setProductName(
-      String school, String set, String stream, ProductModel product) {
-    String streamName = product.stream.isNotEmpty
-        ? "- $stream" ?? ''
-        : '';
-    String setName =
-        product.set.isNotEmpty ? "($set)" ?? '' : '';
-    return "$school - ${product.name}$streamName $setName";
+  // Build order status timeline widget
+  Widget _buildOrderStatusTimeline(String currentStatus, String orderDate, Dimensions dimensions) {
+    List<Map<String, dynamic>> statusList = [
+      {
+        'title': 'Order Confirmed',
+        'status': 'initiated',
+        'date': orderDate.substring(0, 10).replaceAll('-', ' '),
+      },
+      {
+        'title': 'Order Shipped',
+        'status': 'packed',
+        'date': '',
+      },
+      {
+        'title': 'Out for Delivery',
+        'status': 'shipped',
+        'date': '',
+      },
+      {
+        'title': 'Delivered',
+        'status': 'completed',
+        'date': '',
+      },
+    ];
+
+    int getCurrentStatusIndex() {
+      switch (currentStatus.toLowerCase()) {
+        case 'initiated':
+          return 0;
+        case 'packed':
+          return 1;
+        case 'shipped':
+          return 2;
+        case 'completed':
+          return 3;
+        default:
+          return 0;
+      }
+    }
+
+    int currentIndex = getCurrentStatusIndex();
+    
+    // Format the order date for display
+    String formatDate(String dateStr) {
+      try {
+        DateTime date = DateTime.parse(dateStr);
+        List<String> months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return "${months[date.month - 1]} ${date.day.toString().padLeft(2, '0')} ${date.year}";
+      } catch (e) {
+        return dateStr;
+      }
+    }
+
+    return Container(
+      child: Column(
+        children: List.generate(statusList.length, (index) {
+          bool isCompleted = index <= currentIndex;
+          bool isLast = index == statusList.length - 1;
+          
+          return Column(
+            // mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Circle indicator
+                  Column(
+                    children:[
+                      Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isCompleted ? Color(0xFF00C853) : Color(0xFFE0E0E0),
+                    ),
+                    child: isCompleted
+                        ? Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 14,
+                          )
+                        : null,
+                  ),
+                                    if (!isLast)
+                Container(
+                  // margin: EdgeInsets.only(left: 10, top: 8, bottom: 8),
+                  width: 2,
+                  height: 30,
+                  color: Color(0xFFE0E0E0),
+                ),
+                    ]
+                  ),
+                  
+                  SizedBox(width: dimensions.width16),
+                  // Status text
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          statusList[index]['title'],
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: isCompleted ? Color(0xFF121212) : Color(0xFF7A7A7A),
+                            fontFamily: 'Nunito',
+                          ),
+                        ),
+                        if (index == 0 && statusList[index]['date'].isNotEmpty)
+                          Text(
+                            formatDate(orderDate),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF7A7A7A),
+                              fontFamily: 'Nunito',
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              // Connecting line
+
+            ],
+          );
+        }),
+      ),
+    );
   }
 
+  String setProductName(String school, String set, String stream, ProductModel product) {
+    String streamName = product.stream.isNotEmpty ? "- $stream" : '';
+    String setName = product.set.isNotEmpty ? "($set)" : '';
+    return "$school - ${product.name}$streamName $setName";
+  }
 
   int setTotalSalePrice(ProductModel product , String set , String stream){
     SetData setData = product.set.where((element) => element.name == set).first;
@@ -353,15 +483,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return totalPrice;
   }
 
-  List<Widget> _buildWidget(
-      MyOrders orderData, BuildContext context, dimensions) {
+  List<Widget> _buildWidget(MyOrders orderData, BuildContext context, dimensions) {
     totalPrice = 0;
     salePrice = 0;
-    // orderData.setIsOrderDataLoaded(false);
     List<Widget> list = [];
 
-    // totalPrice = 0;
-    // salePrice = 0;
     if(orderData.isOrderDataLoaded) {
       orderData.selectedOrder.forEach((schoolName, productData) {
         productData.forEach((product, setData) {
@@ -370,8 +496,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               ProductModel productModel = orderData.orderedProduct
                   .where((element) => element.productId == product)
                   .first;
-              String productName =
-                  setProductName(schoolName, set, stream, productModel);
+              String productName = setProductName(schoolName, set, stream, productModel);
               int totalSalePrice = setTotalSalePrice(productModel, set, stream);
               int price = setTotalPrice(productModel, set, stream);
               orderData.setImage = productModel.variation[productModel.set.indexOf(productModel.set.where((element) => element.name == set).first).toString()][productModel.stream.isNotEmpty? productModel.stream.indexOf(productModel.stream.where((element) => element.name == stream).first).toString() : '0'].image[0];
@@ -409,8 +534,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         height: dimensions.height8 * 2,
                       ),
                       ReusableText(
-                        text:
-                            '${DateTime.now().difference(DateTime.parse(orderData.selectedOrderModel.orderDate)).inDays.abs()} Day ago',
+                        text: '${DateTime.now().difference(DateTime.parse(orderData.selectedOrderModel.orderDate)).inDays.abs()} Day ago',
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF7A7A7A),
@@ -445,7 +569,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               SizedBox(
                                 width: dimensions.width10 * 25.2,
                                 child: Text(
-                                  'Your product $productName is ${orderData.selectedOrderModel.status}',
+                                  'Your product $productName delivery is ${orderData.selectedOrderModel.status}',
                                   style: TextStyle(
                                     color: Color(0xFF444444),
                                     fontSize: 12,
@@ -476,7 +600,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         children: [
                           OutlinedButton(
                             onPressed: () {
-                              //Sending Initial data to orderQuery Repository
                               context.read<OrderQueryRepository>().setInitialData(
                                 orderData.selectedOrderModel.orderId,
                                 productName,
@@ -488,17 +611,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Adjust padding
-                              side: BorderSide(color: Color(0xFF7A7A7A), width: 2), // Border color and width
+                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              side: BorderSide(color: Color(0xFF7A7A7A), width: 2),
                             ),
                             child: const Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
-                                  Icons.contact_support, // Add an appropriate icon
+                                  Icons.contact_support,
                                   color: Color(0xFF7A7A7A),
                                 ),
-                                SizedBox(width: 8), // Add spacing between icon and text
+                                SizedBox(width: 8),
                                 Text(
                                   'Contact Us',
                                   style: TextStyle(
@@ -509,16 +632,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 ),
                               ],
                             ),
-
                           ),
-
                           OutlinedButton(
                             onPressed: () {
                               context.read<ReviewRepository>().productName = productName;
                               context.read<ReviewRepository>().deliveryStatus = data[2];
                               context.read<ReviewRepository>().productId = product;
-                              context.read<ReviewRepository>().orderId =
-                                  orderData.selectedOrderModel.orderId;
+                              context.read<ReviewRepository>().orderId = orderData.selectedOrderModel.orderId;
                               Navigator.pushNamed(context, RatingsScreen.route);
                             },
                             style: OutlinedButton.styleFrom(
@@ -527,18 +647,18 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               ),
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               backgroundColor: Color(0xFF058FFF),
-                              side: BorderSide(color: Color(0xFF058FFF), width: 2), // Border color and width
+                              side: BorderSide(color: Color(0xFF058FFF), width: 2),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12), // Adjust vertical padding
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
-                                    Icons.star, // Add an appropriate icon
+                                    Icons.star,
                                     color: Colors.white,
                                   ),
-                                  SizedBox(width: 8), // Add spacing between icon and text
+                                  SizedBox(width: 8),
                                   Text(
                                     'Add Review',
                                     style: TextStyle(
@@ -551,7 +671,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               ),
                             ),
                           ),
-
                         ],
                       ),
                       SizedBox(
@@ -571,7 +690,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         });
       });
     }
-    // orderData.setIsOrderDataLoaded(true);
     return list;
   }
 }

@@ -1,7 +1,13 @@
+import 'package:bukizz/data/providers/auth/firebase_auth.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_verification_screen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/phone_otp_verification_screen.dart';
+// Add imports for privacy policy and terms pages
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/privacy_policy.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/policies/terms_of_use.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/constants.dart';
@@ -180,9 +186,19 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    
+    var authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, SignIn.route);
+        }
+        ),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -190,13 +206,24 @@ class _SignUpState extends State<SignUp> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(
               dimensions.width24,
-              dimensions.height48*1.5,
+              0,
+              // dimensions.height16*3.5,
+
               dimensions.width24,
               0,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // SizedBox(height: 10,),
+                Center(
+                  child: Container(
+                    width: 30.w,
+                    // height: 10.h,
+                    child: SvgPicture.asset('assets/logo.svg'),
+                  ),
+                ),
+                SizedBox(height: 10.sp,),
                 ReusableContainer(
                   width: dimensions.width327,
                   height: dimensions.height32,
@@ -226,7 +253,7 @@ class _SignUpState extends State<SignUp> {
                   },
                 ),
 
-                SizedBox(height: 20.sp,),
+                SizedBox(height: 10.sp,),
 
                 CustomLoginForm(
                   width: 90.sp, 
@@ -258,7 +285,7 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(height: dimensions.height16),
 
                 if (!_isPhoneSignup) ...[
-                  SizedBox(height: dimensions.height10),
+                  // SizedBox(height: dimensions.height10),
                   CustomLoginForm(
                     width: 90.sp, 
                     height: 30.sp, 
@@ -296,7 +323,58 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ],
 
-                SizedBox(height: dimensions.height24),
+                SizedBox(height: dimensions.height10),
+
+                // Add Terms & Conditions and Privacy Policy links
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[600],
+                        height: 1.4,
+                      ),
+                      children: [
+                        TextSpan(text: 'By continuing you agree to bukizz\'s '),
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, TermsOfUse.route);
+                            },
+                            child: Text(
+                              'Terms of Use',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.blue,
+                                // decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                        TextSpan(text: ' and '),
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, PrivacyPolicy.route);
+                            },
+                            child: Text(
+                              'Privacy Policy',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.blue,
+                                // decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: dimensions.height10),
 
                 ReusableElevatedButton(
                   width: dimensions.width327,
@@ -312,7 +390,7 @@ class _SignUpState extends State<SignUp> {
 
                 signUpOption('Already have an account?', 'Sign In', context, SignIn.route),
 
-                SizedBox(height: dimensions.height36),
+                SizedBox(height: dimensions.height16),
 
                 Center(
                   child: Column(
@@ -345,13 +423,14 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
 
-                SizedBox(height: dimensions.height36),
+                SizedBox(height: dimensions.height16),
 
                 ReusableElevatedButton(
                   shadowColor: Colors.grey.withOpacity(0.6),
                   width: dimensions.width327,
                   height: dimensions.height48,
                   onPressed: () {
+                    authProvider.googleSignInMethod(context);
                   },
                   buttonText: 'Sign up with Google',
                   buttonColor: Colors.white,

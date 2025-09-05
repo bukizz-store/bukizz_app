@@ -173,31 +173,104 @@ class _LocationScreenState extends State<LocationScreen> {
 
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
-      // print("checked");
-      // Get current position
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      try {
+        // Show loading dialog
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(width: 20),
+                  Text('Getting location...'),
+                ],
+              ),
+            );
+          },
+        );
 
-      // Get location details using placemark
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
+        // Get current position with optimized settings and timeout
+        Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy
+              .medium, // Changed from high to medium for faster response
+          timeLimit: Duration(
+              seconds: 10), // Added timeout to prevent indefinite waiting
+        ).timeout(
+          Duration(seconds: 15), // Additional timeout wrapper
+          onTimeout: () async {
+            // Fallback to lower accuracy if timeout
+            return await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.low,
+              timeLimit: Duration(seconds: 5),
+            );
+          },
+        );
 
-      // print(placemarks.first.toString());
+        // Get location details using placemark with timeout
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude,
+          position.longitude,
+        ).timeout(
+          Duration(seconds: 10),
+          onTimeout: () => throw TimeoutException('Geocoding timeout'),
+        );
 
-      Address address = Address(
-          name: AppConstants.userData.name,
-          houseNo: placemarks.first.name!,
-          street: placemarks.first.street!,
-          city: placemarks.first.locality!,
-          state: placemarks.first.administrativeArea!,
-          pinCode: placemarks.first.postalCode!,
-          phone: AppConstants.userData.mobile,
-          email: AppConstants.userData.email);
+        // Close loading dialog
+        if (mounted) Navigator.pop(context);
 
-      AppConstants.location = placemarks.first.locality!;
-      navigateToPage(address);
+        Address address = Address(
+            name: AppConstants.userData.name,
+            houseNo: placemarks.first.name ?? 'Unknown',
+            street: placemarks.first.street ?? 'Unknown Street',
+            city: placemarks.first.locality ?? 'Unknown City',
+            state: placemarks.first.administrativeArea ?? 'Unknown State',
+            pinCode: placemarks.first.postalCode ?? '000000',
+            phone: AppConstants.userData.mobile,
+            email: AppConstants.userData.email);
+
+        AppConstants.location = placemarks.first.locality ?? 'Unknown';
+        navigateToPage(address);
+      } catch (e) {
+        // Close loading dialog if still open
+        if (mounted && Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+
+        print('Error getting location: $e');
+
+        // Show error dialog with manual option
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: Color(0xFFE0EFFF),
+                title: Text('Location Error'),
+                content: Text(
+                    'Unable to get your location. Please select manually or try again.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, SelectLocation.route);
+                    },
+                    child: Text('Select Manually'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Try Again'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
     }
   }
 
