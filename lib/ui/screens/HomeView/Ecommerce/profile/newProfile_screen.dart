@@ -359,6 +359,7 @@ void showCustomAboutDialog(BuildContext context) {
                     ),
                   ),
                 ),
+                SizedBox(width: dimensions.width16),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);

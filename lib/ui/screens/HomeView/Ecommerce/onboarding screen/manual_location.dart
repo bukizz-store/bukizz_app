@@ -155,7 +155,7 @@ class _SelectLocationState extends State<SelectLocation> {
 
       ),
       bottomNavigationBar: selectedCity==''?null:Padding(
-        padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.width9),
+        padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height16*1.5),
         child: ReusableElevatedButton(
             width: dimensions.width342,
             height: dimensions.height10 * 5.4,

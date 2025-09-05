@@ -28,8 +28,18 @@ class _OrderScreenState extends State<OrderScreen> {
     try {
       DateTime date = DateTime.parse(dateString);
       List<String> months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
       ];
       return "${date.day} ${months[date.month - 1]} ${date.year}";
     } catch (e) {
@@ -43,8 +53,18 @@ class _OrderScreenState extends State<OrderScreen> {
       DateTime orderDate = DateTime.parse(orderDateString);
       DateTime expectedDate = orderDate.add(Duration(days: 2));
       List<String> months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
       ];
       return "${expectedDate.day} ${months[expectedDate.month - 1]} ${expectedDate.year}";
     } catch (e) {
@@ -89,7 +109,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                     left: dimensions.width16 / 2,
                                   ),
                                   width: dimensions.screenWidth,
-                                  height: 61.sp * (orderData.orders.length),
+                                  // Calculate height more precisely based on content
+                                  height: (dimensions.height10 * 24) *
+                                      orderData.orders.length,
                                   color: Colors.white,
                                   child: ListView.builder(
                                       itemCount: orderData.orders.length,
@@ -206,28 +228,34 @@ class _OrderScreenState extends State<OrderScreen> {
                                                           ReusableText(
                                                             text: orderData.orders[index].status.toLowerCase() == 'completed' 
                                                               ? 'Delivered on ' 
-                                                              : 'Delivery Expected by ',
+                                                              : orderData.orders[index].status.toLowerCase() == 'cancelled'
+                                                                ? 'Order Cancelled'
+                                                                : 'Delivery Expected by ',
                                                             fontSize: 14,
-                                                            color: Color(0xFFA5A5A5),
+                                                            color: orderData.orders[index].status.toLowerCase() == 'cancelled'
+                                                              ? Colors.red
+                                                              : Color(0xFFA5A5A5),
                                                             fontWeight: FontWeight.w500,
                                                           ),
-                                                          SizedBox(
-                                                            width: 35.w,
-                                                            child: Text(
-                                                              orderData.orders[index].status.toLowerCase() == 'completed'
-                                                                ? _getFormattedDate(orderData.orders[index].orderDate)
-                                                                : _getExpectedDeliveryDate(orderData.orders[index].orderDate),
-                                                              style: const TextStyle(
-                                                                fontWeight: FontWeight.w500,
-                                                                fontFamily: 'nunito',
-                                                                fontSize: 14,
-                                                                overflow: TextOverflow.ellipsis,
-                                                                color: Color(0xFF444444)
+                                                          // Only show date if not cancelled
+                                                          if (orderData.orders[index].status.toLowerCase() != 'cancelled')
+                                                            SizedBox(
+                                                              width: 35.w,
+                                                              child: Text(
+                                                                orderData.orders[index].status.toLowerCase() == 'completed'
+                                                                  ? _getFormattedDate(orderData.orders[index].orderDate)
+                                                                  : _getExpectedDeliveryDate(orderData.orders[index].orderDate),
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontFamily: 'nunito',
+                                                                  fontSize: 14,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  color: Color(0xFF444444)
+                                                                ),
+                                                                maxLines: 1,
+                                                                softWrap: false,
                                                               ),
-                                                              maxLines: 1,
-                                                              softWrap: false,
                                                             ),
-                                                          )
                                                         ],
                                                       ),
                                                       SizedBox(
@@ -237,40 +265,60 @@ class _OrderScreenState extends State<OrderScreen> {
                                                       FutureBuilder<String>(
                                                         future: orderData
                                                             .getFirstProductNameForOrder(
-                                                                orderData.orders[index]),
-                                                        builder: (context, snapshot) {
-                                                          if (snapshot.connectionState == 
-                                                              ConnectionState.waiting) {
+                                                                orderData
+                                                                        .orders[
+                                                                    index]),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
                                                             return Container(
-                                                              width: dimensions.width10 * 25.2,
+                                                              width: dimensions
+                                                                      .width10 *
+                                                                  25.2,
                                                               child: Text(
                                                                 'Loading...',
-                                                                style: TextStyle(
+                                                                style:
+                                                                    TextStyle(
                                                                   fontSize: 14,
-                                                                  color: Color(0xFF7A7A7A),
+                                                                  color: Color(
+                                                                      0xFF7A7A7A),
                                                                 ),
                                                               ),
                                                             );
                                                           }
-                                                          
-                                                          String productName = snapshot.hasData && 
-                                                              snapshot.data!.isNotEmpty 
-                                                                  ? snapshot.data! 
-                                                                  : '${orderData.orders[index].cartLength} items';
-                                                          
+
+                                                          String productName = snapshot
+                                                                      .hasData &&
+                                                                  snapshot.data!
+                                                                      .isNotEmpty
+                                                              ? snapshot.data!
+                                                              : '${orderData.orders[index].cartLength} items';
+
                                                           return Container(
-                                                            width: dimensions.width10 * 25.2,
+                                                            width: dimensions
+                                                                    .width10 *
+                                                                25.2,
                                                             child: Text(
                                                               productName,
-                                                              style: const TextStyle(
-                                                                color: Color(0xFF444444),
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Color(
+                                                                    0xFF444444),
                                                                 fontSize: 14,
-                                                                fontFamily: 'Nunito',
-                                                                fontWeight: FontWeight.w400,
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
                                                                 height: 0,
                                                               ),
                                                               maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                             ),
                                                           );
                                                         },

@@ -78,7 +78,7 @@ class MyOrders with ChangeNotifier {
 
   // Map to store first product image for each order
   Map<String, String> orderImages = {};
-  
+
   // Map to store first product name for each order
   Map<String, String> orderProductNames = {};
 
@@ -175,7 +175,7 @@ class MyOrders with ChangeNotifier {
       String? firstSet;
       String? firstStream;
       String? firstSchool;
-      
+
       order.cartData.forEach((school, schoolData) {
         if (firstProductId == null) {
           firstSchool = school;
@@ -197,16 +197,20 @@ class MyOrders with ChangeNotifier {
         }
       });
 
-      if (firstProductId != null && firstSet != null && firstStream != null && firstSchool != null) {
+      if (firstProductId != null &&
+          firstSet != null &&
+          firstStream != null &&
+          firstSchool != null) {
         ProductModel product;
-        
+
         // Check if it's a general product or regular product
         if (firstStream == 'null') {
           product = await FirebaseFirestore.instance
               .collection('generalProduct')
               .where('productId', isEqualTo: firstProductId)
               .get()
-              .then((value) => ProductModel.fromGeneralMap(value.docs.first.data()));
+              .then((value) =>
+                  ProductModel.fromGeneralMap(value.docs.first.data()));
         } else {
           product = await FirebaseFirestore.instance
               .collection('products')
@@ -216,13 +220,12 @@ class MyOrders with ChangeNotifier {
         }
 
         // Create product name similar to order_details
-        String streamName = product.stream.isNotEmpty && firstStream != '0' 
-            ? "- $firstStream" 
+        String streamName = product.stream.isNotEmpty && firstStream != '0'
+            ? "- $firstStream"
             : '';
-        String setName = product.set.isNotEmpty 
-            ? "($firstSet)" 
-            : '';
-        String productName = "$firstSchool - ${product.name}$streamName $setName";
+        String setName = product.set.isNotEmpty ? "($firstSet)" : '';
+        String productName =
+            "$firstSchool - ${product.name}$streamName $setName";
 
         // Cache the product name
         orderProductNames[order.orderId] = productName;
@@ -321,5 +324,28 @@ class MyOrders with ChangeNotifier {
     setOrders(tempOrders);
     setIsOrdersLoaded(true);
     notifyListeners();
+  }
+
+  // Method to cancel an order
+  Future<bool> cancelOrder(String orderId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('orderDetails')
+          .doc(orderId)
+          .update({'status': 'cancelled'});
+
+      // Update local order status
+      int orderIndex = orders.indexWhere((order) => order.orderId == orderId);
+      if (orderIndex != -1) {
+        orders[orderIndex].status = 'cancelled';
+        selectedOrderModel.status = 'cancelled';
+        notifyListeners();
+      }
+
+      return true;
+    } catch (e) {
+      print('Error cancelling order: $e');
+      return false;
+    }
   }
 }

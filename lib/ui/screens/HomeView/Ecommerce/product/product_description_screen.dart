@@ -984,7 +984,12 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               ],
             ),
           ),
-          bottomNavigationBar: Container(
+          bottomNavigationBar: Padding(
+            padding: EdgeInsetsGeometry.symmetric(
+                // horizontal: dimensions.width24,
+                vertical: dimensions.height16
+            ),
+            child: Container(
             height: dimensions.height8 * 9,
             width: dimensions.screenWidth,
             color: Colors.white,
@@ -1106,7 +1111,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               ),
             ),
           ),
-        );
+            ) );
       },
     );
   }

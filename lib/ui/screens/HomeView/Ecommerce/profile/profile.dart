@@ -207,12 +207,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(
-          left: dimensions.width24,
-          right: dimensions.width24,
-          bottom: MediaQuery.of(context).viewInsets.bottom + dimensions.width9,
-          top: dimensions.width9,
-        ),
+        padding: EdgeInsets.symmetric(
+            horizontal: dimensions.width24, vertical: dimensions.height16 * 2.5),
         child: ReusableElevatedButton(
             width: dimensions.width342,
             height: dimensions.height10 * 5.4,
