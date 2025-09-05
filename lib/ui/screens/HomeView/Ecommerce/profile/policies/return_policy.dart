@@ -99,7 +99,7 @@ bukizzstore@gmail.com''';
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: SafeArea (child : SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -446,6 +446,6 @@ bukizzstore@gmail.com''';
           ),
         ),
       ),
-    );
-  }
+    )
+  );}
 }

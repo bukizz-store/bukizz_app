@@ -206,17 +206,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: dimensions.width24, vertical: dimensions.height16 * 2.5),
-        child: ReusableElevatedButton(
-            width: dimensions.width342,
-            height: dimensions.height10 * 5.4,
-            onPressed: () {
-              context.read<UpdateUserData>().updateUserData(
-                  context, _nameController.text, _phoneController.text);
-            },
-            buttonText: 'Save Changes'),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: dimensions.width24,
+              vertical: dimensions.height16 * 2.5),
+          child: ReusableElevatedButton(
+              width: dimensions.width342,
+              height: dimensions.height10 * 5.4,
+              onPressed: () {
+                context.read<UpdateUserData>().updateUserData(
+                    context, _nameController.text, _phoneController.text);
+              },
+              buttonText: 'Save Changes'),
+        ),
       ),
     );
   }

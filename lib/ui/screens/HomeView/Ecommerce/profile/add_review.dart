@@ -20,11 +20,11 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  TextEditingController messageController=TextEditingController();
+  TextEditingController messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    return Consumer<ReviewRepository>(builder: (context , reviewData , child){
+    return Consumer<ReviewRepository>(builder: (context, reviewData, child) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -33,10 +33,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-
-              Container(height: dimensions.height8,color: Color(0xFFE0F0FF),),
+              Container(
+                height: dimensions.height8,
+                color: Color(0xFFE0F0FF),
+              ),
               Padding(
-                padding:EdgeInsets.symmetric(horizontal: dimensions.width24/1.5,vertical: dimensions.height8*3),
+                padding: EdgeInsets.symmetric(
+                    horizontal: dimensions.width24 / 1.5,
+                    vertical: dimensions.height8 * 3),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -44,8 +48,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: dimensions.width10*7.6,
-                          height: dimensions.height10*7.6,
+                          width: dimensions.width10 * 7.6,
+                          height: dimensions.height10 * 7.6,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(
                               dimensions.width10 * 7.6 / 8,
@@ -63,7 +67,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: dimensions.width10*25.2,
+                              width: dimensions.width10 * 25.2,
                               child: Text(
                                 '${reviewData.productName} is ${reviewData.deliveryStatus}',
                                 style: TextStyle(
@@ -75,14 +79,18 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: dimensions.height8/2,),
+                            SizedBox(
+                              height: dimensions.height8 / 2,
+                            ),
                             Row(
                               children: List.generate(
                                 5,
-                                    (index) => Icon(
+                                (index) => Icon(
                                   Icons.star,
                                   size: 16,
-                                      color: index < reviewData.rating ? Color(0xFF058FFF) : Color(0xFFD6D6D6),
+                                  color: index < reviewData.rating
+                                      ? Color(0xFF058FFF)
+                                      : Color(0xFFD6D6D6),
                                 ),
                               ),
                             ),
@@ -90,7 +98,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         )
                       ],
                     ),
-                    SizedBox(height: dimensions.height8*4.2,),
+                    SizedBox(
+                      height: dimensions.height8 * 4.2,
+                    ),
                     // ReusableText(text: 'Add Photo or Video (optional)', fontSize: 16,fontWeight: FontWeight.w700, color: Color(0xFF121212)),
                     // SizedBox(height: dimensions.height8,),
                     // Row(
@@ -143,17 +153,27 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     //
                     //   ],
                     // ),
-                    SizedBox(height: dimensions.height8*3,),
-                    ReusableText(text: 'Write a Review (optional)', fontSize: 16,fontWeight: FontWeight.w700,color: Color(0xFF121212),),
-                    SizedBox(height: dimensions.height8*3,),
+                    SizedBox(
+                      height: dimensions.height8 * 3,
+                    ),
+                    ReusableText(
+                      text: 'Write a Review (optional)',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF121212),
+                    ),
+                    SizedBox(
+                      height: dimensions.height8 * 3,
+                    ),
                     Container(
                       width: dimensions.width16 * 21.5,
-                      height: dimensions.height10*17.2,
+                      height: dimensions.height10 * 17.2,
                       child: TextField(
                         controller: messageController,
                         maxLines: 5,
                         decoration: const InputDecoration(
-                          hintText: 'How is the product? How was delivery experience?',
+                          hintText:
+                              'How is the product? How was delivery experience?',
                           hintStyle: TextStyle(color: Color(0xFF7A7A7A)),
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.all(12),
@@ -164,23 +184,33 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               )
             ],
           ),
         ),
-        bottomNavigationBar:Padding(
-          padding: EdgeInsets.symmetric(horizontal: dimensions.width24,vertical: dimensions.height24),
-          child: ReusableElevatedButton(
-            width: dimensions.width10*25,
-            height: dimensions.height8*6,
-            onPressed: (){
-              reviewData.setFinalReviewData(messageController.text , '' , '' , context);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const TickScreen(text: "Review Submitted!" , secondaryText: 'Thanks for spending your valuable time!',)));
-            },
-            buttonText: 'Submit Reviews',
+        bottomNavigationBar: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: dimensions.width24, vertical: dimensions.height24),
+            child: ReusableElevatedButton(
+              width: dimensions.width10 * 25,
+              height: dimensions.height8 * 6,
+              onPressed: () {
+                reviewData.setFinalReviewData(
+                    messageController.text, '', '', context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const TickScreen(
+                              text: "Review Submitted!",
+                              secondaryText:
+                                  'Thanks for spending your valuable time!',
+                            )));
+              },
+              buttonText: 'Submit Reviews',
+            ),
           ),
         ),
       );

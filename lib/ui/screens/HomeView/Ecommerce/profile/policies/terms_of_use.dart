@@ -19,7 +19,7 @@ class TermsOfUse extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Terms Of Use"),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(child:SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -58,7 +58,7 @@ class TermsOfUse extends StatelessWidget {
                     ),
                     const TextSpan(
                       text:
-                          ' ("Company," "we," "us," "our"), a company registered in India at MOHAN VILA APARTMENT, Kanpur Nagar, Uttar Pradesh 208025.',
+                          ' ("Company," "we," "us," "our"), a company registered in India at GEETA NAGAR, Kanpur Nagar, Uttar Pradesh 208025.',
                     ),
                   ],
                 ),
@@ -70,16 +70,10 @@ class TermsOfUse extends StatelessWidget {
                 text: TextSpan(
                   style: const TextStyle(fontSize: 14, color: Colors.black87),
                   children: [
-                    const TextSpan(text: "We operate the website "),
-                    TextSpan(
-                      text: "https://bukizz.com",
-                      style: const TextStyle(color: Colors.blue),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => _launchUrl('https://bukizz.com'),
-                    ),
+                    const TextSpan(text: "We operate "),
                     const TextSpan(
                       text:
-                          " (the \"Site\"), the mobile application Bukizz (the \"App\"), as well as any other related products and services that refer or link to these legal terms (the \"Legal Terms\") (collectively, the \"Services\").",
+                          "the mobile application Bukizz (the \"App\"), as well as any other related products and services that refer or link to these legal terms (the \"Legal Terms\") (collectively, the \"Services\").",
                     ),
                   ],
                 ),
@@ -105,13 +99,11 @@ class TermsOfUse extends StatelessWidget {
                     ),
                     TextSpan(text: ", email at "),
                     TextSpan(
-                      text: "workspace@bukizz.in",
+                      text: "bukizzstore@gmail.com",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextSpan(
-                      text:
-                          ", or by mail to MOHAN VILA APARTMENT, Kanpur Nagar, Uttar Pradesh 208025, India.",
-                    ),
+                    TextSpan(text: "\n \nWe will provide you with prior notice of any scheduled changes to the Services you are using. The modified Legal Terms will become effective upon posting or notifying you by email & through app, as stated in the email message. By continuing to use the Services after the effective date of any changes, you agree to be bound by the modified terms."),
+                    TextSpan(text: "\n \nWe recommend that you print a copy of these Legal Terms for your records."),
                   ],
                 ),
               ),
@@ -255,7 +247,7 @@ class TermsOfUse extends StatelessWidget {
                           "If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: ",
                     ),
                     TextSpan(
-                      text: "workspace@bukizz.in",
+                      text: "bukizzstore@gmail.com",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const TextSpan(
@@ -432,27 +424,47 @@ class TermsOfUse extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               const Text(
-                "We accept the following forms of payment:",
+                "All purchases made through Bukizz are payable only via Cash on Delivery (COD) at the time of delivery.",
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 8),
               const Text(
-                "• Cash on Delivery",
+                "Customers must provide accurate and complete delivery details, including name, address, and contact number, to ensure smooth order fulfillment.",
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 12),
               const Text(
-                "You agree to provide current, complete, and accurate purchase and account information for all purchases made via the Services. You further agree to promptly update account and payment information, including email address, payment method, and payment card expiration date, so that we can complete your transactions and contact you as needed. Sales tax will be added to the price of purchases as deemed required by us. We may change prices at any time. All payments shall be in US dollars.",
+                "Prices of products are subject to change at any time without prior notice. Applicable taxes (if any) will be included in the final bill.",
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 12),
               const Text(
-                "You agree to pay all charges at the prices then in effect for your purchases and any applicable shipping fees, and you authorize us to charge your chosen payment provider for any such amounts upon placing your order. We reserve the right to correct any errors or mistakes in pricing, even if we have already requested or received payment.",
+                "We reserve the right to cancel or refuse any order if:",
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 12),
               const Text(
                 "We reserve the right to refuse any order placed through the Services. We may, in our sole discretion, limit or cancel quantities purchased per person, per household, or per order. These restrictions may include orders placed by or under the same customer account, the same payment method, and/or orders that use the same billing or shipping address. We reserve the right to limit or prohibit orders that, in our sole judgment, appear to be placed by dealers, resellers, or distributors.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "• The delivery details are found incorrect or incomplete.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "• The order appears to be bulk or intended for resale.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "• We are unable to deliver to the provided address.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "Customers are expected to pay the full amount in cash at the time of receiving the order. Failure to make payment may lead to order cancellation and restrictions on future purchases.",
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
 
@@ -1028,7 +1040,7 @@ class TermsOfUse extends StatelessWidget {
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "MOHAN VILA APARTMENT",
+                    "GEETA NAGAR",
                     style: TextStyle(fontSize: 14, color: Colors.black87),
                   ),
                   Text(
@@ -1044,7 +1056,7 @@ class TermsOfUse extends StatelessWidget {
                     style: TextStyle(fontSize: 14, color: Colors.black87),
                   ),
                   Text(
-                    "Email: workspace@bukizz.in",
+                    "Email: bukizzstore@gmail.com",
                     style: TextStyle(fontSize: 14, color: Colors.black87),
                   ),
                 ],
@@ -1053,6 +1065,6 @@ class TermsOfUse extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
+    )
+  );}
 }

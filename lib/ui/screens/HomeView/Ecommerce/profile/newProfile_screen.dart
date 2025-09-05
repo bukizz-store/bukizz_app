@@ -446,7 +446,7 @@ void DeletePopUp(BuildContext context) {
                     ),
                   ),
                 ),
-                // SizedBox(width: 20,),
+                SizedBox(width: 20,),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);

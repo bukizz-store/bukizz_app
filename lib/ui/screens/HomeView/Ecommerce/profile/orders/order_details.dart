@@ -445,7 +445,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     orderData.selectedOrderModel.status.toLowerCase() != 'cancelled' &&
                 orderData.selectedOrderModel.status.toLowerCase() != 'completed' &&
                 orderData.selectedOrderModel.status.toLowerCase() != 'shipped'
-            ? Container(
+            ? SafeArea(child : Container(
                 height: dimensions.height8 * 8,
                 width: dimensions.screenWidth,
                 decoration: BoxDecoration(
@@ -497,7 +497,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     ),
                   ),
                 ),
-              )
+              ))
             : Container(),
                   ],
                 ),

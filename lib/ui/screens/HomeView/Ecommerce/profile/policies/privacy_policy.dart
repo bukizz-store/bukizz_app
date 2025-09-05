@@ -92,7 +92,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       appBar: AppBar(
         title: const Text('Privacy Policy'),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(child: SingleChildScrollView(
         controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -142,29 +142,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('• ', style: TextStyle(fontSize: 14)),
-                      Expanded(
-                        child: Wrap(
-                          children: [
-                            InkWell(
-                              onTap: () => _launchUrl('https://bukizz.com'),
-                              child: const Text(
-                                'Visit our website at https://bukizz.com or any website of ours that links to this Privacy Notice',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.blue,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(height: 8),
                   const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -461,7 +438,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                         //The easiest way to exercise your rights is by submitting a data subject access request, or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.
                         TextSpan(
                           text:
-                              'The easiest way to exercise your rights is by contacting us with a data subject access request. We will review and act on your request in accordance with applicable data protection laws. You can also manage your personal information directly within the app: ',
+                              'The easiest way to exercise your rights is by contacting us through mail bukizzstore@gmail.com. We will review and act on your request in accordance with applicable data protection laws. You can also manage your personal information directly within the app: ',
                         ),
                       ],
                     ),
@@ -1186,7 +1163,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                       ),
                     ),
                     const Text(
-                      'We may use cookies and other tracking technologies to collect and store your information.',
+                      'We do not use cookies or extensive tracking technologies in our app.',
                       style: TextStyle(
                         fontSize: 14,
                         fontStyle: FontStyle.italic,
@@ -1195,21 +1172,21 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                     ),
                     const SizedBox(height: 12),
                     const Text(
-                      'We may use cookies and similar tracking technologies (like web beacons and pixels) to gather information when you interact with our Services. Some online tracking technologies help us maintain the security of our Services and your account, prevent crashes, fix bugs, save your preferences, and assist with basic site functions.',
+                      'Our app is designed for a simple and secure experience. We currently do not use cookies or similar tracking technologies (such as web beacons or pixels) to collect personal data. Any limited tracking or storage is only for essential functions like maintaining user login sessions, improving app performance, and ensuring a smooth user experience.',
                       style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFF757575)), // Grey for normal text
                     ),
                     const SizedBox(height: 12),
                     const Text(
-                      'We also permit third parties and service providers to use online tracking technologies on our Services for analytics and advertising, including to help manage and display advertisements, to tailor advertisements to your interests, or to send abandoned shopping cart reminders (depending on your communication preferences). The third parties and service providers use their technology to provide advertising about products and services tailored to your interests which may appear either on our Services or on other websites.',
+                      'We do not use cookies for advertising, profiling, or tracking your activities across other websites or apps.',
                       style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFF757575)), // Grey for normal text
                     ),
                     const SizedBox(height: 12),
                     const Text(
-                      'Specific information about how we use such technologies and how you can refuse certain cookies is set out in our Cookie Notice.',
+                      'If in the future we introduce cookies or similar technologies, we will update this Privacy Policy and provide you with clear options to manage your preferences.',
                       style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFF757575)), // Grey for normal text
@@ -1539,7 +1516,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                     ),
                     const SizedBox(height: 12),
                     const Text(
-                      'Bukizz Store\nMOHAN VILA APARTMENT\nGEETA NAGAR\nKanpur Nagar, Uttar Pradesh 208025\nIndia',
+                      'Bukizz Store\nGEETA NAGAR\nKanpur Nagar, Uttar Pradesh 208025\nIndia',
                       style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFF757575)), // Grey for normal text
@@ -1624,6 +1601,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
           ),
         ),
       ),
-    );
-  }
+    )
+  );}
 }

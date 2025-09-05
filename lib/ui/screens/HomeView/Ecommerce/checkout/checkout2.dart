@@ -514,7 +514,7 @@ class _Checkout2State extends State<Checkout2> {
               ],
             ),
           ),
-          bottomNavigationBar: Container(
+          bottomNavigationBar: SafeArea( child : Container(
             height: dimensions.height8 * 11.5,
             width: dimensions.screenWidth,
             decoration: const BoxDecoration(
@@ -678,7 +678,7 @@ class _Checkout2State extends State<Checkout2> {
                 ],
               ),
             ),
-          ),
+          ),)
         );
       },
     );

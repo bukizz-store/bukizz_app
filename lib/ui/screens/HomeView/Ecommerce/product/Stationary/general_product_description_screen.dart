@@ -746,10 +746,7 @@ class _GeneralProductDescriptionScreenState
             ),
           ),
           //todo  add it after publishing
-          bottomNavigationBar: Padding(padding: EdgeInsetsGeometry.symmetric(
-                // horizontal: dimensions.width24,
-                vertical: dimensions.height16
-            ),child : Container(
+          bottomNavigationBar: SafeArea(child: Container(
             height: dimensions.height8 * 9,
             width: dimensions.screenWidth,
             color: Colors.white,

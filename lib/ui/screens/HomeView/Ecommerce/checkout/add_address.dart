@@ -359,14 +359,14 @@ class _AddAddressState extends State<AddAddress> {
                   }
                 }
               },
-        child: Container(
+        child: SafeArea(child : Container(
           height: dimensions.height8 * 9,
           width: dimensions.screenWidth,
           color: Colors.white,
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: dimensions.width24,
-                vertical: dimensions.height8 * 1.5),
+                vertical: dimensions.height8),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
@@ -384,7 +384,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
             ),
           ),
-        ),
+        ),)
       ),
     );
   }

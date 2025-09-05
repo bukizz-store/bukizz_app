@@ -984,10 +984,10 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               ],
             ),
           ),
-          bottomNavigationBar: Padding(
+          bottomNavigationBar: SafeArea( child : Padding(
             padding: EdgeInsetsGeometry.symmetric(
                 // horizontal: dimensions.width24,
-                vertical: dimensions.height16
+                // vertical: dimensions.height16
             ),
             child: Container(
             height: dimensions.height8 * 9,
@@ -1109,7 +1109,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   )
                 ],
               ),
-            ),
+            ),)
           ),
             ) );
       },

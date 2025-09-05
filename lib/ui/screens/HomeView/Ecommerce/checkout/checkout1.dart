@@ -372,54 +372,57 @@ class _Checkout1State extends State<Checkout1> {
               ],
             ),
           ),
-          bottomNavigationBar: InkWell(
-            onTap: () {
-              if (selectedAddress == null) {
-                // Show a Snackbar if no address is selected
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please select an address first.'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              } else {
-                // Navigate to the next screen or perform other actions
-                checkDeliverable();
-              }
-            },
-            child: Container(
-              height: dimensions.height8 * 9,
-              width: dimensions.screenWidth,
-
-              // color: Colors.white,
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: dimensions.width24,
-                      left: dimensions.width24,
-                      right: dimensions.width24),
+          bottomNavigationBar: SafeArea(
+            child: InkWell(
+                onTap: () {
+                  if (selectedAddress == null) {
+                    // Show a Snackbar if no address is selected
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please select an address first.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    // Navigate to the next screen or perform other actions
+                    checkDeliverable();
+                  }
+                },
+                child: SafeArea(
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: selectedAddress == null
-                            ? Colors.grey
-                            : AppColors.productButtonSelectedBorder,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                            color: selectedAddress == null
-                                ? Colors.black26
-                                : Color(0xFF0466b5),
-                            offset: Offset(0, 4),
-                          )
-                        ]),
-                    child: Center(
-                        child: ReusableText(
-                      text: 'Deliver Here',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    )),
-                  )),
-            ),
+                    height: dimensions.height8 * 9,
+                    width: dimensions.screenWidth,
+
+                    // color: Colors.white,
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            bottom: dimensions.width24,
+                            left: dimensions.width24,
+                            right: dimensions.width24),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: selectedAddress == null
+                                  ? Colors.grey
+                                  : AppColors.productButtonSelectedBorder,
+                              borderRadius: BorderRadius.circular(40),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: selectedAddress == null
+                                      ? Colors.black26
+                                      : Color(0xFF0466b5),
+                                  offset: Offset(0, 4),
+                                )
+                              ]),
+                          child: Center(
+                              child: ReusableText(
+                            text: 'Deliver Here',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          )),
+                        )),
+                  ),
+                )),
           ),
         );
       },
