@@ -5,7 +5,6 @@ import 'package:bukizz/utils/routes/routes.dart';
 import 'package:bukizz/utils/crashlytics_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +12,7 @@ import 'package:flutter/rendering.dart'; // Add for performance debugging
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-// import 'Notifications/notifications.dart';
+import 'Notifications/notifications.dart';
 import 'data/models/user_details.dart';
 import 'constants/strings.dart';
 import 'constants/theme.dart';
@@ -37,16 +36,24 @@ void main() async {
 
   // Initialize Firebase Crashlytics (non-blocking for performance)
   await CrashlyticsService.initialize();
-  
+
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
-  
+
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  // Initialize notifications
+  try {
+    await FirebaseApi.instance.initNotifications();
+    print('Notifications initialized successfully');
+  } catch (e) {
+    print('Failed to initialize notifications: $e');
+  }
 
   // Set preferred orientations (helps with performance)
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -61,18 +68,23 @@ void main() async {
 // Load user data asynchronously to avoid blocking app startup
 void _loadUserDataAsync() async {
   try {
-    MainUserDetails? savedUser = await MainUserDetails.loadFromSharedPreferences();
+    MainUserDetails? savedUser =
+        await MainUserDetails.loadFromSharedPreferences();
     if (savedUser != null) {
       AppConstants.userData = savedUser;
       AppConstants.isLogin = true;
-      
+
       // Set user info for Crashlytics (non-blocking)
       CrashlyticsService.setUserInfo(
-        userId: savedUser.uid.isNotEmpty ? savedUser.uid : savedUser.email.isNotEmpty ? savedUser.email : 'unknown_user',
+        userId: savedUser.uid.isNotEmpty
+            ? savedUser.uid
+            : savedUser.email.isNotEmpty
+                ? savedUser.email
+                : 'unknown_user',
         email: savedUser.email,
         name: savedUser.name,
       );
-      
+
       if (kDebugMode) {
         print("User data loaded: ${savedUser.name}, ${savedUser.email}");
       }
