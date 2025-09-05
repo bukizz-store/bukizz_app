@@ -226,32 +226,68 @@ class _OrderScreenState extends State<OrderScreen> {
                                                       Row(
                                                         children: [
                                                           ReusableText(
-                                                            text: orderData.orders[index].status.toLowerCase() == 'completed' 
-                                                              ? 'Delivered on ' 
-                                                              : orderData.orders[index].status.toLowerCase() == 'cancelled'
-                                                                ? 'Order Cancelled'
-                                                                : 'Delivery Expected by ',
+                                                            text: orderData
+                                                                        .orders[
+                                                                            index]
+                                                                        .status
+                                                                        .toLowerCase() ==
+                                                                    'completed'
+                                                                ? 'Delivered on '
+                                                                : orderData.orders[index]
+                                                                            .status
+                                                                            .toLowerCase() ==
+                                                                        'cancelled'
+                                                                    ? 'Order Cancelled'
+                                                                    : 'Delivery Expected by ',
                                                             fontSize: 14,
-                                                            color: orderData.orders[index].status.toLowerCase() == 'cancelled'
-                                                              ? Colors.red
-                                                              : Color(0xFFA5A5A5),
-                                                            fontWeight: FontWeight.w500,
+                                                            color: orderData
+                                                                        .orders[
+                                                                            index]
+                                                                        .status
+                                                                        .toLowerCase() ==
+                                                                    'cancelled'
+                                                                ? Colors.red
+                                                                : Color(
+                                                                    0xFFA5A5A5),
+                                                            fontWeight:
+                                                                FontWeight.w500,
                                                           ),
                                                           // Only show date if not cancelled
-                                                          if (orderData.orders[index].status.toLowerCase() != 'cancelled')
+                                                          if (orderData
+                                                                  .orders[index]
+                                                                  .status
+                                                                  .toLowerCase() !=
+                                                              'cancelled')
                                                             SizedBox(
                                                               width: 35.w,
                                                               child: Text(
-                                                                orderData.orders[index].status.toLowerCase() == 'completed'
-                                                                  ? _getFormattedDate(orderData.orders[index].orderDate)
-                                                                  : _getExpectedDeliveryDate(orderData.orders[index].orderDate),
+                                                                orderData
+                                                                            .orders[
+                                                                                index]
+                                                                            .status
+                                                                            .toLowerCase() ==
+                                                                        'completed'
+                                                                    ? _getFormattedDate(orderData
+                                                                        .orders[
+                                                                            index]
+                                                                        .orderDate)
+                                                                    : _getExpectedDeliveryDate(orderData
+                                                                        .orders[
+                                                                            index]
+                                                                        .orderDate),
                                                                 style: const TextStyle(
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontFamily: 'nunito',
-                                                                  fontSize: 14,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  color: Color(0xFF444444)
-                                                                ),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontFamily:
+                                                                        'nunito',
+                                                                    fontSize:
+                                                                        14,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    color: Color(
+                                                                        0xFF444444)),
                                                                 maxLines: 1,
                                                                 softWrap: false,
                                                               ),
