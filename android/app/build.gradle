@@ -52,7 +52,7 @@ android {
 
     defaultConfig {
         applicationId "com.bukizz"
-        minSdkVersion 23
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -61,26 +61,16 @@ android {
 
     signingConfigs {
         release {
-            if (keystoreProperties['keyAlias'] && 
-                keystoreProperties['keyPassword'] && 
-                keystoreProperties['storeFile'] && 
-                keystoreProperties['storePassword']) {
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-                storeFile file(keystoreProperties['storeFile'])
-                storePassword keystoreProperties['storePassword']
-            }
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
     }
 
     buildTypes {
         release {
-            if (keystoreProperties['keyAlias'] && 
-                keystoreProperties['keyPassword'] && 
-                keystoreProperties['storeFile'] && 
-                keystoreProperties['storePassword']) {
-                signingConfig signingConfigs.release
-            }
+            signingConfig signingConfigs.release
             debuggable false
             minifyEnabled true
             shrinkResources true
