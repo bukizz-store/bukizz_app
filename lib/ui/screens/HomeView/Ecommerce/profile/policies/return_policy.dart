@@ -209,7 +209,7 @@ bukizzstore@gmail.com''';
                   ),
                   Text(
                     "Kanpur Nagar, Uttar Pradesh 208025",
-                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                    style: TextStyle(fontSize: 14, color: Color.fromARGB(221, 191, 42, 42)),
                   ),
                   Text(
                     "India",
