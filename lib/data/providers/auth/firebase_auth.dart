@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../ui/screens/Signup and SignIn/Signin_Screen.dart';
+import 'package:bukizz/main.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -449,8 +450,8 @@ class AuthProvider extends ChangeNotifier {
     await GoogleSignIn().signOut();
     AppConstants.isLogin = false;
     await _auth.signOut().then((value) => {
-          Navigator.pushNamedAndRemoveUntil(
-              context, SignIn.route, (route) => false)
+          navigatorKey.currentState?.pushNamedAndRemoveUntil(
+              SignIn.route, (route) => false)
         });
     notifyListeners();
   }

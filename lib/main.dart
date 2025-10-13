@@ -20,6 +20,9 @@ import 'constants/theme.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+// Global navigator key for safe navigation from providers/dispose
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -119,6 +122,7 @@ class _MyAppState extends State<MyApp> {
           title: AppString.appName,
           initialRoute: OnboardingScreen.route,
           onGenerateRoute: RouteGenerator.generateRoute,
+          navigatorKey: navigatorKey,
           // Add error handling for navigation crashes
           builder: (context, child) {
             // Error boundary to catch navigation issues
