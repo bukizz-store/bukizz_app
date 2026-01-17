@@ -29,76 +29,104 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     return Scaffold(
-      body:Stack(
-        children: [
-        Positioned(
-            top: dimensions.height10*7.5,
-            left: dimensions.width24,
-            right: dimensions.width24,
-            child: SizedBox(
-              width: dimensions.width342,
-              child: const Text(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+          child: Column(
+            children: [
+              // Top spacing
+              SizedBox(height: dimensions.height10 * 3),
+
+              // Title text
+              Text(
                 'Set your location to start exploring schools near you',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF121212),
-                  fontSize: 20,
+                  fontSize: MediaQuery.of(context).size.width < 360 ? 18 : 20,
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w500,
-                  height: 0,
+                  height: 1.2,
                 ),
               ),
-            ),
-           ),
-        Positioned(
-            top: dimensions.height10*17,
-            left: dimensions.width10*2.8,
-            right: dimensions.width10*2.7,
-            child: Container(
-                width: dimensions.width342,
-                height: dimensions.height10*44.9,
-                child: SvgPicture.asset('assets/location.svg')
-            ),
-         ),
-        Positioned(
-          left: dimensions.width24,
-          right: dimensions.width24,
-          bottom: dimensions.height10*10.9,
-          child: ReusableElevatedButton(
-              width: dimensions.width342,
-              height: dimensions.height10 * 5.4,
-              onPressed: getLocation,
-              buttonText: 'Enable Device Loaction',
-              fontWeight: FontWeight.w700,
-              fontFamily: FontFamily.nunito.name,
-              fontSize: 17,
-          ),
-          ),
-        Positioned(
-          left: dimensions.width24,
-          right: dimensions.width24,
-          bottom: dimensions.height10*4.5,
-          child: ReusableElevatedButton(
-            shadowColor: Color(0xFFE0EFFF).withOpacity(0.9),
-            width: dimensions.width342,
-            height: dimensions.height10 * 5.4,
-            onPressed: () {
 
-              Navigator.pushNamed(context, SelectLocation.route);
-            },
-            buttonText: 'Enter Your Location Manually',
-            buttonColor: Color(0xFFE0EFFF),
-            textColor: Color(0xFF058FFF),
-            borderColor: Color(0xFF058FFF),
-            fontWeight: FontWeight.w700,
-            fontFamily: FontFamily.nunito.name,
-            fontSize: 17,
+              // Flexible space for the image
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxHeight: dimensions.height10 * 35,
+                      maxWidth: MediaQuery.of(context).size.width * 0.8,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1.0,
+                      child: SvgPicture.asset(
+                        'assets/location.svg',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Bottom section with buttons
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // First button
+                    SizedBox(
+                      width: double.infinity,
+                      height: dimensions.height10 * 5.4,
+                      child: ReusableElevatedButton(
+                        width: double.infinity,
+                        height: dimensions.height10 * 5.4,
+                        onPressed: getLocation,
+                        buttonText: 'Enable Device Location',
+                        fontWeight: FontWeight.w700,
+                        fontFamily: FontFamily.nunito.name,
+                        fontSize:
+                            MediaQuery.of(context).size.width < 360 ? 15 : 17,
+                      ),
+                    ),
+
+                    SizedBox(height: dimensions.height10 * 1.5),
+
+                    // Second button
+                    SizedBox(
+                      width: double.infinity,
+                      height: dimensions.height10 * 5.4,
+                      child: ReusableElevatedButton(
+                        shadowColor: Color(0xFFE0EFFF).withOpacity(0.9),
+                        width: double.infinity,
+                        height: dimensions.height10 * 5.4,
+                        onPressed: () {
+                          Navigator.pushNamed(context, SelectLocation.route);
+                        },
+                        buttonText: 'Enter Your Location Manually',
+                        buttonColor: Color(0xFFE0EFFF),
+                        textColor: Color(0xFF058FFF),
+                        borderColor: Color(0xFF058FFF),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: FontFamily.nunito.name,
+                        fontSize:
+                            MediaQuery.of(context).size.width < 360 ? 15 : 17,
+                      ),
+                    ),
+
+                    // Bottom spacing
+                    SizedBox(height: dimensions.height10 * 2),
+                  ],
+                ),
+              ),
+            ],
           ),
-        )
-      ],
-    )
-  );
-}
+        ),
+      ),
+    );
+  }
 
   void getLocation() async {
     bool serviceEnabled;
@@ -143,42 +171,118 @@ class _LocationScreenState extends State<LocationScreen> {
       }
     }
 
-
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
-      // print("checked");
-      // Get current position
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      try {
+        // Show loading dialog
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(width: 20),
+                  Text('Getting location...'),
+                ],
+              ),
+            );
+          },
+        );
 
-      // Get location details using placemark
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
+        // Get current position with optimized settings and timeout
+        Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy
+              .medium, // Changed from high to medium for faster response
+          timeLimit: Duration(
+              seconds: 10), // Added timeout to prevent indefinite waiting
+        ).timeout(
+          Duration(seconds: 15), // Additional timeout wrapper
+          onTimeout: () async {
+            // Fallback to lower accuracy if timeout
+            return await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.low,
+              timeLimit: Duration(seconds: 5),
+            );
+          },
+        );
 
-      // print(placemarks.first.toString());
+        // Get location details using placemark with timeout
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude,
+          position.longitude,
+        ).timeout(
+          Duration(seconds: 10),
+          onTimeout: () => throw TimeoutException('Geocoding timeout'),
+        );
 
-      Address address = Address(
-          name: AppConstants.userData.name,
-          houseNo: placemarks.first.name!,
-          street: placemarks.first.street!,
-          city: placemarks.first.locality!,
-          state: placemarks.first.administrativeArea!,
-          pinCode: placemarks.first.postalCode!,
-          phone: AppConstants.userData.mobile,
-          email: AppConstants.userData.email);
+        // Close loading dialog
+        if (mounted) Navigator.pop(context);
 
-      AppConstants.location = placemarks.first.locality!;
-      navigateToPage(address);
+        Address address = Address(
+            name: AppConstants.userData.name,
+            houseNo: placemarks.first.name ?? 'Unknown',
+            street: placemarks.first.street ?? 'Unknown Street',
+            city: placemarks.first.locality ?? 'Unknown City',
+            state: placemarks.first.administrativeArea ?? 'Unknown State',
+            pinCode: placemarks.first.postalCode ?? '000000',
+            phone: AppConstants.userData.mobile,
+            email: AppConstants.userData.email);
+
+        AppConstants.location = placemarks.first.locality ?? 'Unknown';
+        navigateToPage(address);
+      } catch (e) {
+        // Close loading dialog if still open
+        if (mounted && Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+
+        print('Error getting location: $e');
+
+        // Show error dialog with manual option
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: Color(0xFFE0EFFF),
+                title: Text('Location Error'),
+                content: Text(
+                    'Unable to get your location. Please select manually or try again.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, SelectLocation.route);
+                    },
+                    child: Text('Select Manually'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Try Again'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
     }
   }
 
-  void navigateToPage(Address address){
+  void navigateToPage(Address address) {
     context.read<UpdateUserData>().updateUserAddress(address);
 
-    context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
+    context
+        .read<SchoolDataProvider>()
+        .loadData(context)
+        .then((value) => debugPrint("School Data Loaded Successfully"));
 
-    Navigator.pushNamedAndRemoveUntil(context, MainScreen.route, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(
+        context, MainScreen.route, (route) => false);
   }
 }

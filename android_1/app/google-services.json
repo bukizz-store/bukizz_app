@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "87504596017",
+    "firebase_url": "https://bukizz1-default-rtdb.firebaseio.com",
+    "project_id": "bukizz1",
+    "storage_bucket": "bukizz1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87504596017:android:c4ca5486f9da70f0f1f910",
+        "android_client_info": {
+          "package_name": "com.bukizz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87504596017-2oov149952gg2k3purvepf7nfk84niil.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bukizz",
+            "certificate_hash": "5cdefe197e7589bb825a65e43dbaf89210090e88"
+          }
+        },
+        {
+          "client_id": "87504596017-oui2fmasvn3gtdj4p8rfmc8nrc1bd2i6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bukizz",
+            "certificate_hash": "191adbb89d89c2eaad5319a19f5b717c5b53864f"
+          }
+        },
+        {
+          "client_id": "87504596017-u2uln6pm1f1hgdirnppa3dhcn1i69l26.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bukizz",
+            "certificate_hash": "ebd8161d2ba2f46b72d21f57146a9738875075b7"
+          }
+        },
+        {
+          "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmx20-mEPRqrJqA-CeTB55DHGQgW0Eswo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bukizz1.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87504596017:android:c4a30f30f8b7f9e3f1f910",
+        "android_client_info": {
+          "package_name": "com.bukizz.bukizz_delivery.bukizz_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmx20-mEPRqrJqA-CeTB55DHGQgW0Eswo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bukizz1.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87504596017:android:0d86079376f45d2af1f910",
+        "android_client_info": {
+          "package_name": "com.example.bukizz_retailer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmx20-mEPRqrJqA-CeTB55DHGQgW0Eswo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87504596017-klbh9ut7jv3l694skpcla32rl1tu7l7c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "87504596017-0rkkrsq2pa04t9dg9m0g97m0bcdbtagn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bukizz1.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

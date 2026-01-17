@@ -45,8 +45,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   void initState() {
     super.initState();
-    context.read<BannerRepository>().getBanners();
-    context.read<CategoryRepository>().getCategoryFromFirebase();
+    // context.read<BannerRepository>().getBanners();
+    // context.read<CategoryRepository>().getCategoryFromFirebase();
     animationController =
         AnimationController(vsync: this, duration: const Duration(milliseconds: 2000))
           ..addListener(() {
@@ -105,107 +105,112 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    return Scaffold(
-      backgroundColor:  const Color(0xFFF5FAFF),
-        body: Stack(
-      alignment: Alignment.center,
-      children: [
-        Positioned(
-            // left: dimensions.width10*11.5,
-            top: animation.value + dimensions.height10 * 5.9,
-            child: SvgPicture.asset('assets/logo.svg')
-        ),
-        Positioned(
-            // left: dimensions.width10*2.4,
-            top: animation.value * 2 + dimensions.height10 * 14.9,
-            child: Column(
-              children: [
-                Container(
-                  width: dimensions.width10 * 30.5 + dimensions.width24,
-                  height: dimensions.height10 * 28.4 + dimensions.height24,
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (int index) {
-                      setState(() {
-                        // Update the current page index
-                        _currentPage = index;
-                      });
-                    },
-                    children: [
-                      _buildOnboardingPage('assets/onboarding/deliveryBoy.jpg'),
-                      _buildOnboardingPage('assets/onboarding/2.jpg'),
-                      _buildOnboardingPage('assets/onboarding/3.jpg'),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: dimensions.height10*2.9,
-                ),
-                SizedBox(
-                  width: dimensions.screenWidth,
-                  child: Text(
-                    texts[_currentPage],
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF121212),
-                      fontSize: 24,
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                      height: 0.05,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: dimensions.height10*2,
-                ),
-                SizedBox(
-                  width: dimensions.width10*33.5,
-                  child: Text(
-                    subTexts[_currentPage],
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF444444),
-                      fontSize: 16,
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w500,
-                      height: 0,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: dimensions.height8,
-                ),
-                DotsIndicator(
-                  dotsCount: 3,
-                  position: _currentPage,
-                  decorator: DotsDecorator(
-                    activeShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(95.27),
-                    ),
-                    activeColor: Color(0xFF39A7FF),
-                    activeSize: Size(dimensions.width10 * 3.6, 8),
-                  ),
-                )
-              ],
-            )),
-                !AppConstants.isLogin ?  Positioned(
-                    left: dimensions.width10*4,
-                    right:dimensions.width10*4,
-                    top: animation.value*5+dimensions.height10*51,
-                child: ReusableElevatedButton(
-                      width: dimensions.width342,
-                      height: dimensions.height16*3.5,
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (Route<dynamic> route) => false);
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor:  const Color(0xFFF5FAFF),
+          body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+              // left: dimensions.width10*11.5,
+              top: animation.value + dimensions.height10 * 5.9,
+              child: SvgPicture.asset('assets/logo.svg')
+          ),
+          Positioned(
+              // left: dimensions.width10*2.4,
+              top: animation.value * 2 + dimensions.height10 * 14.9,
+              child: Column(
+                children: [
+                  Container(
+                    width: dimensions.width10 * 30.5 + dimensions.width24,
+                    height: dimensions.height10 * 28.4 + dimensions.height24,
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (int index) {
+                        setState(() {
+                          // Update the current page index
+                          _currentPage = index;
+                        });
                       },
-                      buttonText: 'Get Started',
-                      fontWeight: FontWeight.w700,
-                      fontFamily: FontFamily.nunito.name,
-                      fontSize: 17,
-                    )
-                ): Container()
-      ],
-    ));
+                      children: [
+                        _buildOnboardingPage('assets/onboarding/deliveryBoy.jpg'),
+                        _buildOnboardingPage('assets/onboarding/2.jpg'),
+                        _buildOnboardingPage('assets/onboarding/3.jpg'),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: dimensions.height10*2.9,
+                  ),
+                  SizedBox(
+                    width: dimensions.screenWidth,
+                    child: Text(
+                      texts[_currentPage],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Color(0xFF121212),
+                        fontSize: 24,
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.w700,
+                        height: 0.05,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: dimensions.height10*2,
+                  ),
+                  SizedBox(
+                    width: dimensions.width10*33.5,
+                    child: Text(
+                      subTexts[_currentPage],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Color(0xFF444444),
+                        fontSize: 16,
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: dimensions.height8,
+                  ),
+                  DotsIndicator(
+                    dotsCount: 3,
+                    position: _currentPage,
+                    decorator: DotsDecorator(
+                      activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(95.27),
+                      ),
+                      activeColor: Color(0xFF39A7FF),
+                      activeSize: Size(dimensions.width10 * 3.6, 8),
+                    ),
+                  )
+                ],
+              )),
+                  
+        ],
+      ),
+      bottomNavigationBar: !AppConstants.isLogin ?  
+        SafeArea( child : Padding(
+          padding: EdgeInsetsGeometry.symmetric(
+            horizontal: dimensions.width10  , 
+            vertical: dimensions.height10),
+            child: ReusableElevatedButton(
+                        width: dimensions.width342,
+                        height: dimensions.height16*3.5,
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(context, SignIn.route, (Route<dynamic> route) => false);
+                        },
+                        buttonText: 'Get Started',
+                        fontWeight: FontWeight.w700,
+                        fontFamily: FontFamily.nunito.name,
+                        fontSize: 17,
+                      ),)): Container(),
+      ),
+    );
 
     // return Scaffold(
     //     body: Stack(

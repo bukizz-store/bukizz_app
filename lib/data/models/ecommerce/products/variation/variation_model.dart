@@ -27,6 +27,7 @@ class Variation{
   }
 
   factory Variation.fromMap(Map<String, dynamic> map) {
+    print(map['costPerItem']);
     return Variation(
       price: map['price'] ?? 0,
       salePrice: map['salePrice'] ?? 0,

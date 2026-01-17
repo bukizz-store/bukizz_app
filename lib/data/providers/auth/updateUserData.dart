@@ -10,32 +10,48 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants/colors.dart';
 
-class UpdateUserData extends ChangeNotifier{
-  Future updateUserAddress(Address address)async {
-  //Make a function to update the address of the user in firebase and also in the shared preferences
-    await FirebaseFirestore.instance.collection('userDetails').doc(AppConstants.userData.uid).update({
-      'address': address.toMap(),
-    }).then((value) => print("User Address Updated"))
-        .catchError((error) => print("Failed to update user address: $error"));
+class UpdateUserData extends ChangeNotifier {
+  Future updateUserAddress(Address address) async {
+    //Make a function to update the address of the user in firebase and also in the shared preferences
+    try {
+      await FirebaseFirestore.instance
+          .collection('userDetails')
+          .doc(AppConstants.userData.uid)
+          .update({
+        'address': address.toMap(),
+      });
 
-    AppConstants.userData.address = address;
-    String addresss = address.city;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
-    notifyListeners();
+      AppConstants.userData.address = address;
+      String addresss = address.city;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
+      notifyListeners();
+      print("User Address Updated");
+    } catch (error) {
+      print("Failed to update user address: $error");
+      throw error; // Re-throw to be handled by UI
+    }
   }
 
-  Future updateUserAlternateAddress(Address address)async {
+  Future updateUserAlternateAddress(Address address) async {
     //Make a function to update the address of the user in firebase and also in the shared preferences
-    await FirebaseFirestore.instance.collection('userDetails').doc(AppConstants.userData.uid).update({
-      'alternateAddress': address.toMap(),
-    }).then((value) => print("User Alternate Address Updated"))
-        .catchError((error) => print("Failed to update user address: $error"));
+    try {
+      await FirebaseFirestore.instance
+          .collection('userDetails')
+          .doc(AppConstants.userData.uid)
+          .update({
+        'alternateAddress': address.toMap(),
+      });
 
-    AppConstants.userData.alternateAddress = address;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
-    notifyListeners();
+      AppConstants.userData.alternateAddress = address;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
+      notifyListeners();
+      print("User Alternate Address Updated");
+    } catch (error) {
+      print("Failed to update user alternate address: $error");
+      throw error; // Re-throw to be handled by UI
+    }
   }
 
   Future saveLocationSetToSharedPreferences(String location) async {
@@ -45,7 +61,8 @@ class UpdateUserData extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> updateUserData(BuildContext context , String name , String mobile) async {
+  Future<void> updateUserData(
+      BuildContext context, String name, String mobile) async {
     try {
       await FirebaseFirestore.instance
           .collection('userDetails')
@@ -53,12 +70,14 @@ class UpdateUserData extends ChangeNotifier{
           .update({
         'name': name,
         'mobile': mobile,
-      }).then((value) async{
+      }).then((value) async {
         AppConstants.userData.name = name;
         AppConstants.userData.mobile = mobile;
-        AppConstants.showSnackBarTop(context, 'Profile Updated', AppColors.success, Icons.check_circle_outline);
+        AppConstants.showSnackBarTop(context, 'Profile Updated',
+            AppColors.success, Icons.check_circle_outline);
       }).catchError((e) {
-        AppConstants.showSnackBarTop(context, 'Error in Updating Profile', AppColors.error, Icons.error_outline_rounded);
+        AppConstants.showSnackBarTop(context, 'Error in Updating Profile',
+            AppColors.error, Icons.error_outline_rounded);
       });
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('userData', jsonEncode(AppConstants.userData.toJson()));
@@ -67,5 +86,4 @@ class UpdateUserData extends ChangeNotifier{
       print('Error updating user data: $e');
     }
   }
-
 }

@@ -4,7 +4,7 @@ import 'package:bukizz/data/repository/address/update_address.dart';
 import 'package:bukizz/data/repository/category/category_repository.dart';
 import 'package:bukizz/data/repository/my_orders.dart';
 import 'package:bukizz/data/repository/notifications/notifications.dart';
-import 'package:bukizz/data/repository/payments/upi_payments.dart';
+// import 'package:bukizz/data/repository/payments/upi_payments.dart'; // UPI integration disabled
 import 'package:bukizz/data/repository/product/general_product.dart';
 import 'package:bukizz/data/repository/product/uniform.dart';
 import 'package:bukizz/data/repository/retailer/retailer_repository.dart';
@@ -51,7 +51,7 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => OrderQueryRepository()),
   ChangeNotifierProvider(create: (_) => ReviewRepository()),
   ChangeNotifierProvider(create: (_) => ProductReview()),
-  ChangeNotifierProvider(create: (_) => UPIPayment()),
+  // ChangeNotifierProvider(create: (_) => UPIPayment()), // UPI provider disabled
   ChangeNotifierProvider(create: (_) => Retailer()),
   ChangeNotifierProvider(create: (_) => BannerRepository()),
   ChangeNotifierProvider(create: (_) => UpdateAddressRepository()),

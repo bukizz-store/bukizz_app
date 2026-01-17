@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -20,5 +19,6 @@ class AppColors{
   static const Color green =  Color(0xFF00B159);
   static const Color success =  Color(0xFF00B159);
   static const Color error =  Colors.grey;
+  static const Color link =  Color(0xFF00589E);
 
 }
