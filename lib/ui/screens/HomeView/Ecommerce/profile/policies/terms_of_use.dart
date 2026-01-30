@@ -34,7 +34,7 @@ class TermsOfUse extends StatelessWidget {
 
               // Last Updated
               Text(
-                "Last updated August 25, 2025",
+                "Last updated January 30, 2026",
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 20),
@@ -424,10 +424,30 @@ class TermsOfUse extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               const Text(
-                "All purchases made through Bukizz are payable only via Cash on Delivery (COD) at the time of delivery.",
+                "We accept payments through the following methods:",
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 8),
+              const Text(
+                "• Cash on Delivery (COD): Pay in cash at the time of delivery.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                "• Online Payment: Pay securely via UPI, Debit/Credit Cards, Net Banking, or Wallets through our payment partner Razorpay.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "Payment Security: All online transactions are processed through Razorpay's secure payment infrastructure. We do not store your sensitive payment information (card numbers, CVV, PINs). Your payment data is encrypted and handled according to PCI-DSS compliance standards by Razorpay. By making an online payment, you agree to Razorpay's terms of service.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "Refunds: For orders paid online, refunds will be processed to the original payment method within 5-7 business days after the refund is approved. The actual time for the amount to reflect in your account may vary depending on your bank or payment provider.",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
               const Text(
                 "Customers must provide accurate and complete delivery details, including name, address, and contact number, to ensure smooth order fulfillment.",
                 style: TextStyle(fontSize: 14, color: Colors.black87),

@@ -122,7 +122,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                       text: 'Last updated ',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextSpan(text: 'August 25, 2025'),
+                    TextSpan(text: 'January 30, 2026'),
                   ],
                 ),
               ),
@@ -742,6 +742,22 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 8),
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('• ', style: TextStyle(fontSize: 14)),
+                            Expanded(
+                              child: Text(
+                                'payment data (transaction IDs, order amounts, payment status - we do NOT store card numbers, UPI PINs, or banking credentials)',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(
+                                        0xFF757575)), // Grey for normal text
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 12),
                         const Text(
                           'Sensitive Information. We do not process sensitive information.',
@@ -994,6 +1010,22 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                         Text('• ', style: TextStyle(fontSize: 14)),
                         Expanded(
                           child: Text(
+                            'To process your payments. We process your information to facilitate online payments through our third-party payment processor (Razorpay). Your payment details are securely handled by Razorpay, and we only receive transaction confirmations and status updates.',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color:
+                                    Color(0xFF757575)), // Grey for normal text
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('• ', style: TextStyle(fontSize: 14)),
+                        Expanded(
+                          child: Text(
                             'To request feedback. We may process your information when necessary to request feedback and to contact you about your use of our Services.',
                             style: TextStyle(
                                 fontSize: 14,
@@ -1125,6 +1157,38 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                         Expanded(
                           child: Text(
                             'Business Transfers. We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color:
+                                    Color(0xFF757575)), // Grey for normal text
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('• ', style: TextStyle(fontSize: 14)),
+                        Expanded(
+                          child: Text(
+                            "Payment Processors. When you make a purchase using online payment methods, we share necessary information (such as order amount and your contact details) with Razorpay to complete your transaction. Razorpay's privacy policy governs their use of your data. We do not share your full payment credentials with any third party.",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color:
+                                    Color(0xFF757575)), // Grey for normal text
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('• ', style: TextStyle(fontSize: 14)),
+                        Expanded(
+                          child: Text(
+                            'WebView Content. Our app uses embedded WebViews to display certain features including checkout pages, order history, and saved addresses. When using these features, your authentication tokens are securely passed to maintain your logged-in session. The WebViews display content from our own website (bukizz.com) and do not load content from third-party websites.',
                             style: TextStyle(
                                 fontSize: 14,
                                 color:

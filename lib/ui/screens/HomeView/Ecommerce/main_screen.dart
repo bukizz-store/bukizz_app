@@ -109,7 +109,7 @@ class _MainScreenState extends State<MainScreen> {
       case 2:
         return const NotificationScreen();
       case 3:
-        return const WebViewPage(url: 'https://bukizz.in/checkout?mode=webview');
+        return const WebViewPage(url: 'https://bukizz.in/cart?mode=webview');
       case 4:
         return const NativeProfileScreen();
       default:
