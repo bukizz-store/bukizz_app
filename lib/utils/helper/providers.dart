@@ -20,7 +20,7 @@ import 'package:bukizz/data/repository/cart_view_repository.dart';
 import 'package:bukizz/data/repository/product/product_view_repository.dart';
 import 'package:bukizz/data/repository/user_repository.dart';
 import '../../data/providers/tabController/TabController_provider.dart';
-import '../../data/providers/auth/firebase_auth.dart';
+import '../../data/providers/auth/api_auth_provider.dart';
 import '../../data/providers/bottom_nav_bar_provider.dart';
 import '../../data/repository/order_view_repository.dart';
 import '../../data/repository/query/order_query.dart';
@@ -28,7 +28,7 @@ import '../../data/repository/review/product_Reviews.dart';
 import '../../data/repository/review/review_repository.dart';
 
 List<SingleChildWidget> providers = [
-  ChangeNotifierProvider(create: (_) => AuthProvider()),
+  ChangeNotifierProvider(create: (_) => ApiAuthProvider()),
   ChangeNotifierProvider(
     create: (_) => HeaderSwitchProvider(),
   ),

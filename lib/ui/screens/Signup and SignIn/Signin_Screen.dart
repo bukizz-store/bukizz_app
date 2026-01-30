@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/font_family.dart';
-import '../../../data/providers/auth/firebase_auth.dart';
+import '../../../data/providers/auth/api_auth_provider.dart';
 import '../../../utils/dimensions.dart';
 import '../../../widgets/buttons/Reusable_Button.dart';
 import '../../../widgets/containers/Reusable_container.dart';
@@ -104,7 +104,7 @@ class _SignInState extends State<SignIn> {
       return;
     }
 
-    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    var authProvider = Provider.of<ApiAuthProvider>(context, listen: false);
 
     if (_isPhoneNumber(input)) {
       // Handle phone number login with OTP (no password needed)
@@ -161,7 +161,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     //dimension construction
     Dimensions dimensions = Dimensions(context);
-    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    var authProvider = Provider.of<ApiAuthProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(

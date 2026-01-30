@@ -1,5 +1,6 @@
 import 'package:bukizz/constants/colors.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/newProfile_screen.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/native_profile_screen.dart';
+import 'package:bukizz/ui/screens/webview_page.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +14,9 @@ import 'notification/notification_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static const String route = '/mainscreen';
-  const MainScreen({Key? key}) : super(key: key);
+  final int? initialIndex;
+
+  const MainScreen({Key? key, this.initialIndex}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -23,8 +26,17 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    if (widget.initialIndex != null) {
+       // Schedule the update after the first frame to avoid provider issues during build? 
+       // Or just set it. Provider is created above MainScreen in main.dart? 
+       // Creating it in providers.dart which is passed to MultiProvider in main.dart.
+       // So MainScreen is a child of MultiProvider.
+       // But wait, accessing context.read in initState is fine (listen: false).
+       WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.read<BottomNavigationBarProvider>().setSelectedIndex(widget.initialIndex!);
+       });
+    }
   }
 
   @override
@@ -93,13 +105,13 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomeScreen();
       case 1:
-        return const CategoryScreen();
+        return const WebViewPage(url: 'https://bukizz.in/products', shouldInterceptCheckout: true);
       case 2:
         return const NotificationScreen();
       case 3:
-        return const Cart();
+        return const WebViewPage(url: 'https://bukizz.in/checkout?mode=webview');
       case 4:
-        return const NewProfileScreen();
+        return const NativeProfileScreen();
       default:
         return Container();
     }

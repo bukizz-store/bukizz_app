@@ -40,6 +40,7 @@ class FirebaseApi {
             notificationCenter: AppleNotificationSetting.disabled,
             showPreviews: AppleShowPreviewSetting.never,
             timeSensitive: AppleNotificationSetting.disabled,
+            providesAppNotificationSettings: AppleNotificationSetting.disabled,
           );
         },
       );
