@@ -58,7 +58,10 @@ void main() async {
     }
   }
 
-  // Run the app immediately - don't block on other initializations
+  // Load user auth state BEFORE running app (critical for login persistence)
+  await _loadUserAuthState();
+
+  // Run the app with auth state already loaded
   runApp(const MyApp());
 
   // Initialize other services in the background AFTER app starts
@@ -103,8 +106,59 @@ void _initializeBackgroundServices() async {
   }
 }
 
-// Load user data asynchronously to avoid blocking app startup
+// Load user auth state SYNCHRONOUSLY before app starts
+// This ensures AppConstants.isLogin is set correctly when OnboardingScreen checks it
+Future<void> _loadUserAuthState() async {
+  try {
+    MainUserDetails? savedUser =
+        await MainUserDetails.loadFromSharedPreferences();
+    if (savedUser != null) {
+      AppConstants.userData = savedUser;
+      AppConstants.isLogin = true;
+      if (kDebugMode) {
+        print("Auth state loaded: User=${savedUser.name}, isLogin=true");
+      }
+    } else {
+      AppConstants.isLogin = false;
+      if (kDebugMode) {
+        print("Auth state: No saved user, isLogin=false");
+      }
+    }
+  } catch (e) {
+    AppConstants.isLogin = false;
+    if (kDebugMode) {
+      print("Error loading auth state: $e");
+    }
+  }
+}
+
+// Load additional user data and set Crashlytics info (runs after app start)
 void _loadUserDataAsync() async {
+  // Skip if already loaded in _loadUserAuthState
+  if (AppConstants.isLogin) {
+    // Just set Crashlytics info for already-loaded user
+    try {
+      CrashlyticsService.setUserInfo(
+        userId: AppConstants.userData.uid.isNotEmpty
+            ? AppConstants.userData.uid
+            : AppConstants.userData.email.isNotEmpty
+                ? AppConstants.userData.email
+                : 'unknown_user',
+        email: AppConstants.userData.email,
+        name: AppConstants.userData.name,
+      );
+      if (kDebugMode) {
+        print("Crashlytics user info set for: ${AppConstants.userData.name}");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error setting Crashlytics user info: $e");
+      }
+    }
+    return;
+  }
+  
+  // Fallback: try to load user data if not already loaded
   try {
     MainUserDetails? savedUser =
         await MainUserDetails.loadFromSharedPreferences();
@@ -112,7 +166,6 @@ void _loadUserDataAsync() async {
       AppConstants.userData = savedUser;
       AppConstants.isLogin = true;
 
-      // Set user info for Crashlytics (non-blocking)
       CrashlyticsService.setUserInfo(
         userId: savedUser.uid.isNotEmpty
             ? savedUser.uid
@@ -124,11 +177,7 @@ void _loadUserDataAsync() async {
       );
 
       if (kDebugMode) {
-        print("User data loaded: ${savedUser.name}, ${savedUser.email}");
-      }
-    } else {
-      if (kDebugMode) {
-        print("No saved user data found");
+        print("User data loaded (fallback): ${savedUser.name}, ${savedUser.email}");
       }
     }
   } catch (e) {

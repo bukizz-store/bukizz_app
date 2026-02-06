@@ -2,6 +2,7 @@ import 'package:bukizz/data/services/auth_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bukizz/data/providers/bottom_nav_bar_provider.dart';
+import 'package:bukizz/ui/screens/Common/error_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'dart:convert';
@@ -21,7 +22,9 @@ class WebViewPage extends StatefulWidget {
 class _WebViewPageState extends State<WebViewPage> {
   late final WebViewController _controller;
   bool _isLoading = true;
+  bool _isError = false;
   bool _canPop = false; // State to control PopScope
+  bool _shouldReloadAfterTokenInjection = true; // Reload once after first token injection
   final AuthApiService _authApiService = AuthApiService();
   late Razorpay _razorpay;
 
@@ -47,24 +50,40 @@ class _WebViewPageState extends State<WebViewPage> {
           onProgress: (int progress) {
             // Update loading bar.
           },
-          onPageStarted: (String url) {},
+          onPageStarted: (String url) {
+            setState(() {
+              _isError = false;
+            });
+          },
           onPageFinished: (String url) {
             _injectTokens();
             setState(() {
               _isLoading = false;
             });
-            // Force rebuild to update FloatingActionButton visibility
             setState(() {});
           },
-          onWebResourceError: (WebResourceError error) {},
+          onWebResourceError: (WebResourceError error) {
+            // Check if the error is for the main frame (ignoring sub-resources like images)
+            // Use ?? false to handle nulls safely (assume not main frame if unknown to avoid blocking)
+            if (error.isForMainFrame ?? false) {
+              setState(() {
+                _isError = true;
+                _isLoading = false;
+              });
+            }
+          },
           onNavigationRequest: (NavigationRequest request) {
             if (_handleCheckoutRedirect(request.url)) {
+              return NavigationDecision.prevent;
+            }
+            if (_handleHomeRedirect(request.url)) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
           onUrlChange: (UrlChange change) {
             _handleCheckoutRedirect(change.url ?? '');
+            _handleHomeRedirect(change.url ?? '');
           },
         ),
       );
@@ -72,18 +91,19 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   Future<void> _loadPage() async {
-    // Inject tokens before loading if possible, or right after.
-    // For local storage injection to work, domain might need to be loaded first or at least initialized.
-    // Strategy: Load the page, then inject tokens and reload if needed, 
-    // OR inject via evaluateJavascript immediately if the page supports it.
-    // Better: Run javascript on finish.
-    
-    // Actually, localStorage is domain specific. We must load the domain first.
-    // But if we load the domain without tokens, user is logged out.
-    // Common trick: Load a blank page or the actual page, inject tokens, then reload.
-    // Or inject logic that sets token if present.
-
+    setState(() {
+      _isLoading = true;
+      _isError = false;
+    });
     await _controller.loadRequest(Uri.parse(widget.url));
+  }
+
+  Future<void> _reloadPage() async {
+    setState(() {
+      _isLoading = true;
+      _isError = false;
+    });
+    await _controller.reload();
   }
 
   Future<void> _injectTokens() async {
@@ -91,6 +111,27 @@ class _WebViewPageState extends State<WebViewPage> {
     final refreshToken = await _authApiService.getRefreshToken();
     
     if (accessToken != null && refreshToken != null) {
+      try {
+        // Check if tokens are already synced to avoid unnecessary reload
+        final Object? result = await _controller.runJavaScriptReturningResult("localStorage.getItem('access_token')");
+        String? existingToken = result?.toString();
+        // Remove quotes if present (e.g. '"token"')
+        if (existingToken != null) {
+          if (existingToken.startsWith('"') && existingToken.endsWith('"') && existingToken.length >= 2) {
+            existingToken = existingToken.substring(1, existingToken.length - 1);
+          }
+          if (existingToken == "null") existingToken = null;
+        }
+
+        if (existingToken == accessToken) {
+          print("Tokens already synced for ${widget.url}. Skipping reload.");
+          return;
+        }
+      } catch (e) {
+        print("Error checking existing tokens: $e");
+        // Continue with injection if check fails
+      }
+
       final script = '''
         localStorage.setItem('access_token', '$accessToken');
         localStorage.setItem('custom_token', '$accessToken'); 
@@ -99,13 +140,10 @@ class _WebViewPageState extends State<WebViewPage> {
       await _controller.runJavaScript(script);
       print("Tokens injected into WebView for ${widget.url}");
       
-      // Optionally reload if we were on a page that needs auth immediately but rendered as guest
-      // reload only once? Logic can be tricky.
-      // For now, assume React app will pick up changes or we might need to trigger a re-render.
-      // If we just set localStorage, React might not react until reload.
-      // Let's reload once if it's the first load?
-      // Or just run window.location.reload() in JS?
-      // _controller.reload(); 
+      // Reload to ensure the web app picks up the new auth state
+      await _controller.reload();
+      print("WebView reloaded after token injection");
+      
     } else {
       // User is logged out, clear tokens from localStorage
       final script = '''
@@ -120,8 +158,8 @@ class _WebViewPageState extends State<WebViewPage> {
 
   bool _handleCheckoutRedirect(String url) {
     print(url);
-    if (widget.shouldInterceptCheckout && url.contains('/checkout')) {
-      print('WebViewPage: Intercepting checkout URL: $url');
+    if (widget.shouldInterceptCheckout && (url.contains('/checkout') || url.contains('/cart'))) {
+      print('WebViewPage: Intercepting checkou/cart URL: $url');
       if (mounted) {
         final bottomProvider =
             Provider.of<BottomNavigationBarProvider>(context, listen: false);
@@ -130,6 +168,26 @@ class _WebViewPageState extends State<WebViewPage> {
           return true;
         }
       }
+    }
+    return false;
+  }
+
+  bool _handleHomeRedirect(String url) {
+    if (url.isEmpty) return false;
+    final uri = Uri.parse(url);
+    // Check if path is just '/' (ignoring query params if needed, or keeping strict)
+    // Common web root might be "https://bukizz.in" (path empty) or "https://bukizz.in/" (path /)
+    if (uri.path == '/' || uri.path.isEmpty) {
+       print('WebViewPage: Intercepting home URL: $url');
+       if (mounted) {
+         final bottomProvider =
+             Provider.of<BottomNavigationBarProvider>(context, listen: false);
+         // If we are NOT on the home tab (index 0), switch to it.
+         if (bottomProvider.selectedIndex != 0) {
+           bottomProvider.setSelectedIndex(0); 
+           return true;
+         }
+       }
     }
     return false;
   }
@@ -202,31 +260,38 @@ class _WebViewPageState extends State<WebViewPage> {
         appBar: widget.title.isNotEmpty 
             ? AppBar(title: Text(widget.title), automaticallyImplyLeading: false) 
             : null,
-        body: Stack(
-          children: [
-            WebViewWidget(controller: _controller),
-            if (_isLoading)
-              const Center(child: CircularProgressIndicator()),
-          ],
-        ),
-        floatingActionButton: FutureBuilder<bool>(
-          future: _controller.canGoBack(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data == true) {
-              return FloatingActionButton(
-                mini: true,
-                backgroundColor: Colors.white,
-                child: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () async {
-                  if (await _controller.canGoBack()) {
-                    await _controller.goBack();
-                  }
-                },
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
+        body: _isError 
+          ? ErrorScreen(
+              onRetry: _reloadPage,
+              message: "We couldn't load the page. Please check your internet connection.",
+            )
+          : Stack(
+              children: [
+                WebViewWidget(controller: _controller),
+                // if (_isLoading)
+                //   const Center(child: CircularProgressIndicator()),
+              ],
+            ),
+        floatingActionButton: !_isError // Hide back button on error screen, or keep it? Maybe keep standard back nav. 
+          ? FutureBuilder<bool>(
+              future: _controller.canGoBack(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data == true) {
+                  return FloatingActionButton(
+                    mini: true,
+                    backgroundColor: Colors.white,
+                    child: const Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () async {
+                      if (await _controller.canGoBack()) {
+                        await _controller.goBack();
+                      }
+                    },
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            )
+          : null,
       ),
     );
   }

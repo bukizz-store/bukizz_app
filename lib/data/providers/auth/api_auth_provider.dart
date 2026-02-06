@@ -136,7 +136,10 @@ class ApiAuthProvider extends ChangeNotifier {
       }
     } catch (e) {
       print("Failed to load user from token: $e");
-      // Optionally logout if token invalid
+      // Token is invalid, clear login state
+      AppConstants.isLogin = false;
+      await _authService.logout();
+      notifyListeners();
     }
   }
 

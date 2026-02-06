@@ -105,11 +105,11 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomeScreen();
       case 1:
-        return const WebViewPage(url: 'https://bukizz.in/products', shouldInterceptCheckout: true);
+        return const WebViewPage(key: ValueKey('category'), url: 'https://bukizz.in/category', shouldInterceptCheckout: true);
       case 2:
         return const NotificationScreen();
       case 3:
-        return const WebViewPage(url: 'https://bukizz.in/cart?mode=webview');
+        return const WebViewPage(key: ValueKey('cart'), url: 'https://bukizz.in/cart?mode=webview');
       case 4:
         return const NativeProfileScreen();
       default:
