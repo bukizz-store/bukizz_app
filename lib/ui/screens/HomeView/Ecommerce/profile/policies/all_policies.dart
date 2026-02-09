@@ -12,38 +12,40 @@ class AllPoliciesScreen extends StatelessWidget {
         title: const Text('Policies'),
         centerTitle: false,
       ),
-      body: Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 600),
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              _buildPolicyCard(
-                context,
-                'Privacy Policy',
-                'Learn how we handle your data',
-                Icons.privacy_tip_outlined,
-                () => _navigateToPolicy(context, 'privacy'),
-              ),
-              const SizedBox(height: 16),
-              _buildPolicyCard(
-                context,
-                'Terms of Use',
-                'Rules for using our services',
-                Icons.description_outlined,
-                () => _navigateToPolicy(context, 'terms'),
-              ),
-              const SizedBox(height: 16),
-              _buildPolicyCard(
-                context,
-                'Return Policy',
-                'Our product return guidelines',
-                Icons.assignment_return_outlined,
-                () => _navigateToPolicy(context, 'return'),
-              ),
-            ],
+      body: SafeArea(
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 600),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                _buildPolicyCard(
+                  context,
+                  'Privacy Policy',
+                  'Learn how we handle your data',
+                  Icons.privacy_tip_outlined,
+                  () => _navigateToPolicy(context, 'privacy'),
+                ),
+                const SizedBox(height: 16),
+                _buildPolicyCard(
+                  context,
+                  'Terms of Use',
+                  'Rules for using our services',
+                  Icons.description_outlined,
+                  () => _navigateToPolicy(context, 'terms'),
+                ),
+                const SizedBox(height: 16),
+                _buildPolicyCard(
+                  context,
+                  'Return Policy',
+                  'Our product return guidelines',
+                  Icons.assignment_return_outlined,
+                  () => _navigateToPolicy(context, 'return'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

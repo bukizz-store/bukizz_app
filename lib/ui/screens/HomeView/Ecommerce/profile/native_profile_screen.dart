@@ -65,8 +65,9 @@ class _NativeProfileScreenState extends State<NativeProfileScreen> {
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               )),
-          body: SingleChildScrollView(
+          body: SafeArea(
             child: SingleChildScrollView(
+              child: SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(
@@ -129,7 +130,6 @@ class _NativeProfileScreenState extends State<NativeProfileScreen> {
                               MaterialPageRoute(
                                 builder: (_) => const WebViewPage(
                                   url: 'https://bukizz.in/profile?tab=orders&mode=webview',
-                                  title: 'Order History',
                                 ),
                               ),
                             );
@@ -146,7 +146,6 @@ class _NativeProfileScreenState extends State<NativeProfileScreen> {
                               MaterialPageRoute(
                                 builder: (_) => const WebViewPage(
                                   url: 'https://bukizz.in/profile?tab=addresses&mode=webview',
-                                  title: 'Saved Addresses',
                                 ),
                               ),
                             );
@@ -229,6 +228,7 @@ class _NativeProfileScreenState extends State<NativeProfileScreen> {
                   ],
               ),
             ),
+          ),
           ),
         ));
   }

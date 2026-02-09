@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,8 +25,64 @@ class AuthApiService {
       } else {
         throw Exception(jsonDecode(response.body)['message'] ?? 'Login failed');
       }
+    } on SocketException {
+      throw Exception('No Internet Connection');
     } catch (e) {
       print("Login API Connection Error: $e");
+      throw Exception('Failed to connect to server: $e');
+    }
+  }
+
+  // Register
+  Future<Map<String, dynamic>> register(String fullName, String email, String password, String phone) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'fullName': fullName,
+          'email': email,
+          'password': password,
+          'phone': phone,
+          'provider': 'email'
+        }),
+      );
+      print("Register Response Status: ${response.statusCode}");
+      print("Register Response Body: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception(jsonDecode(response.body)['message'] ?? 'Registration failed');
+      }
+    } on SocketException {
+      throw Exception('No Internet Connection');
+    } catch (e) {
+      print("Register API Connection Error: $e");
+      throw Exception('Failed to connect to server: $e');
+    }
+  }
+
+  // Google Login
+  Future<Map<String, dynamic>> googleLogin(String token) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/google-login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'token': token}),
+      );
+      print("Google Login Response Status: ${response.statusCode}");
+      print("Google Login Response Body: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception(jsonDecode(response.body)['message'] ?? 'Google Login failed');
+      }
+    } on SocketException {
+      throw Exception('No Internet Connection');
+    } catch (e) {
+      print("Google Login API Connection Error: $e");
       throw Exception('Failed to connect to server: $e');
     }
   }
@@ -86,38 +143,45 @@ class AuthApiService {
 
   // Fetch Profile
   Future<Map<String, dynamic>> fetchProfile() async {
-    final token = await getAccessToken();
-    if (token == null) throw Exception('No access token');
+    try {
+      final token = await getAccessToken();
+      if (token == null) throw Exception('No access token');
 
-    final response = await http.get(
-      Uri.parse('$baseUrl/users/profile'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
+      final response = await http.get(
+        Uri.parse('$baseUrl/users/profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else if (response.statusCode == 401) {
-      // Token expired, try refresh
-      final newToken = await refreshToken();
-      if (newToken != null) {
-        // Retry with new token
-        final retryResponse = await http.get(
-          Uri.parse('$baseUrl/users/profile'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $newToken',
-          },
-        );
-        if (retryResponse.statusCode == 200) {
-          return jsonDecode(retryResponse.body);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else if (response.statusCode == 401) {
+        // Token expired, try refresh
+        final newToken = await refreshToken();
+        if (newToken != null) {
+          // Retry with new token
+          final retryResponse = await http.get(
+            Uri.parse('$baseUrl/users/profile'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $newToken',
+            },
+          );
+          if (retryResponse.statusCode == 200) {
+            return jsonDecode(retryResponse.body);
+          }
         }
+        throw Exception('Unauthorized');
+      } else {
+        throw Exception('Failed to fetch profile');
       }
-      throw Exception('Unauthorized');
-    } else {
-      throw Exception('Failed to fetch profile');
+    } on SocketException {
+      throw Exception('No Internet Connection');
+    } catch (e) {
+      print("Fetch Profile Error: $e");
+      throw e;
     }
   }
 }

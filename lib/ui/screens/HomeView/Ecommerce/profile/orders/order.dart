@@ -94,498 +94,500 @@ class _OrderScreenState extends State<OrderScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              body: orderData.orders.length != 0
-                  ? SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            height: dimensions.height16,
-                            color: Color(0xFFF5FAFF),
-                          ),
-                          Column(
+              body: SafeArea(
+                  child: orderData.orders.length != 0
+                      ? SingleChildScrollView(
+                          child: Column(
                             children: [
                               Container(
-                                  padding: EdgeInsets.only(
-                                    left: dimensions.width16 / 2,
-                                  ),
-                                  width: dimensions.screenWidth,
-                                  // Calculate height more precisely based on content
-                                  height: (dimensions.height10 * 24) *
-                                      orderData.orders.length,
-                                  color: Colors.white,
-                                  child: ListView.builder(
-                                      itemCount: orderData.orders.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      scrollDirection: Axis.vertical,
-                                      itemBuilder: (context, index) {
-                                        return Container(
-                                          width: dimensions.width10 * 39.3,
-                                          // height: dimensions.height10 * 20,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: dimensions.height24,
-                                              ),
-                                              Row(
+                                height: dimensions.height16,
+                                color: Color(0xFFF5FAFF),
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.only(
+                                        left: dimensions.width16 / 2,
+                                      ),
+                                      width: dimensions.screenWidth,
+                                      // Calculate height more precisely based on content
+                                      height: (dimensions.height10 * 24) *
+                                          orderData.orders.length,
+                                      color: Colors.white,
+                                      child: ListView.builder(
+                                          itemCount: orderData.orders.length,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              width: dimensions.width10 * 39.3,
+                                              // height: dimensions.height10 * 20,
+                                              child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    width: dimensions.width10 *
-                                                        7.6,
-                                                    height:
-                                                        dimensions.height10 *
-                                                            7.6,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        dimensions.width10,
-                                                      ),
-                                                    ),
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        dimensions.width10,
-                                                      ),
-                                                      child:
-                                                          FutureBuilder<String>(
-                                                        future: orderData
-                                                            .getFirstProductImageForOrder(
-                                                                orderData
-                                                                        .orders[
-                                                                    index]),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .waiting) {
-                                                            return Container(
-                                                              color: Colors
-                                                                  .grey[200],
-                                                              child: Center(
-                                                                child:
-                                                                    CircularProgressIndicator(
-                                                                  strokeWidth:
-                                                                      2,
-                                                                  valueColor:
-                                                                      AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                    AppColors
-                                                                        .primaryColor,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          }
-
-                                                          if (snapshot
-                                                                  .hasData &&
-                                                              snapshot.data!
-                                                                  .isNotEmpty) {
-                                                            return Image
-                                                                .network(
-                                                              snapshot.data!,
-                                                              fit: BoxFit.cover,
-                                                              errorBuilder:
-                                                                  (context,
-                                                                      error,
-                                                                      stackTrace) {
-                                                                return Image
-                                                                    .asset(
-                                                                  'assets/orders.png',
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                );
-                                                              },
-                                                            );
-                                                          }
-
-                                                          // Fallback to static image
-                                                          return Image.asset(
-                                                              'assets/orders.png');
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
                                                   SizedBox(
-                                                      width:
-                                                          dimensions.width16),
-                                                  Column(
+                                                    height: dimensions.height24,
+                                                  ),
+                                                  Row(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                        CrossAxisAlignment.start,
                                                     children: [
-                                                      SizedBox(
+                                                      Container(
+                                                        width: dimensions.width10 *
+                                                            7.6,
                                                         height:
-                                                            dimensions.height8,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          ReusableText(
-                                                            text: orderData
-                                                                        .orders[
-                                                                            index]
-                                                                        .status
-                                                                        .toLowerCase() ==
-                                                                    'completed'
-                                                                ? 'Delivered on '
-                                                                : orderData.orders[index]
-                                                                            .status
-                                                                            .toLowerCase() ==
-                                                                        'cancelled'
-                                                                    ? 'Order Cancelled'
-                                                                    : 'Delivery Expected by ',
-                                                            fontSize: 14,
-                                                            color: orderData
-                                                                        .orders[
-                                                                            index]
-                                                                        .status
-                                                                        .toLowerCase() ==
-                                                                    'cancelled'
-                                                                ? Colors.red
-                                                                : Color(
-                                                                    0xFFA5A5A5),
-                                                            fontWeight:
-                                                                FontWeight.w500,
+                                                            dimensions.height10 *
+                                                                7.6,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                            dimensions.width10,
                                                           ),
-                                                          // Only show date if not cancelled
-                                                          if (orderData
-                                                                  .orders[index]
-                                                                  .status
-                                                                  .toLowerCase() !=
-                                                              'cancelled')
-                                                            SizedBox(
-                                                              width: 35.w,
-                                                              child: Text(
-                                                                orderData
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                            dimensions.width10,
+                                                          ),
+                                                          child:
+                                                              FutureBuilder<String>(
+                                                            future: orderData
+                                                                .getFirstProductImageForOrder(
+                                                                    orderData
+                                                                            .orders[
+                                                                        index]),
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              if (snapshot
+                                                                      .connectionState ==
+                                                                  ConnectionState
+                                                                      .waiting) {
+                                                                return Container(
+                                                                  color: Colors
+                                                                      .grey[200],
+                                                                  child: Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      strokeWidth:
+                                                                          2,
+                                                                      valueColor:
+                                                                          AlwaysStoppedAnimation<
+                                                                              Color>(
+                                                                        AppColors
+                                                                            .primaryColor,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+    
+                                                              if (snapshot
+                                                                      .hasData &&
+                                                                  snapshot.data!
+                                                                      .isNotEmpty) {
+                                                                return Image
+                                                                    .network(
+                                                                  snapshot.data!,
+                                                                  fit: BoxFit.cover,
+                                                                  errorBuilder:
+                                                                      (context,
+                                                                          error,
+                                                                          stackTrace) {
+                                                                    return Image
+                                                                        .asset(
+                                                                      'assets/orders.png',
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    );
+                                                                  },
+                                                                );
+                                                              }
+    
+                                                              // Fallback to static image
+                                                              return Image.asset(
+                                                                  'assets/orders.png');
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          width:
+                                                              dimensions.width16),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height:
+                                                                dimensions.height8,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              ReusableText(
+                                                                text: orderData
                                                                             .orders[
                                                                                 index]
                                                                             .status
                                                                             .toLowerCase() ==
                                                                         'completed'
-                                                                    ? _getFormattedDate(orderData
-                                                                        .orders[
-                                                                            index]
-                                                                        .orderDate)
-                                                                    : _getExpectedDeliveryDate(orderData
-                                                                        .orders[
-                                                                            index]
-                                                                        .orderDate),
-                                                                style: const TextStyle(
+                                                                    ? 'Delivered on '
+                                                                    : orderData.orders[index]
+                                                                                .status
+                                                                                .toLowerCase() ==
+                                                                            'cancelled'
+                                                                        ? 'Order Cancelled'
+                                                                        : 'Delivery Expected by ',
+                                                                fontSize: 14,
+                                                                color: orderData
+                                                                            .orders[
+                                                                                index]
+                                                                            .status
+                                                                            .toLowerCase() ==
+                                                                        'cancelled'
+                                                                    ? Colors.red
+                                                                    : Color(
+                                                                        0xFFA5A5A5),
+                                                                fontWeight:
+                                                                    FontWeight.w500,
+                                                              ),
+                                                              // Only show date if not cancelled
+                                                              if (orderData
+                                                                      .orders[index]
+                                                                      .status
+                                                                      .toLowerCase() !=
+                                                                  'cancelled')
+                                                                SizedBox(
+                                                                  width: 35.w,
+                                                                  child: Text(
+                                                                    orderData
+                                                                                .orders[
+                                                                                    index]
+                                                                                .status
+                                                                                .toLowerCase() ==
+                                                                            'completed'
+                                                                        ? _getFormattedDate(orderData
+                                                                            .orders[
+                                                                                index]
+                                                                            .orderDate)
+                                                                        : _getExpectedDeliveryDate(orderData
+                                                                            .orders[
+                                                                                index]
+                                                                            .orderDate),
+                                                                    style: const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontFamily:
+                                                                            'nunito',
+                                                                        fontSize:
+                                                                            14,
+                                                                        overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                        color: Color(
+                                                                            0xFF444444)),
+                                                                    maxLines: 1,
+                                                                    softWrap: false,
+                                                                  ),
+                                                                ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                dimensions.height16,
+                                                          ),
+                                                          FutureBuilder<String>(
+                                                            future: orderData
+                                                                .getFirstProductNameForOrder(
+                                                                    orderData
+                                                                            .orders[
+                                                                        index]),
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              if (snapshot
+                                                                      .connectionState ==
+                                                                  ConnectionState
+                                                                      .waiting) {
+                                                                return Container(
+                                                                  width: dimensions
+                                                                          .width10 *
+                                                                      25.2,
+                                                                  child: Text(
+                                                                    'Loading...',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize: 14,
+                                                                      color: Color(
+                                                                          0xFF7A7A7A),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+    
+                                                              String productName = snapshot
+                                                                          .hasData &&
+                                                                      snapshot.data!
+                                                                          .isNotEmpty
+                                                                  ? snapshot.data!
+                                                                  : '${orderData.orders[index].cartLength} items';
+    
+                                                              return Container(
+                                                                width: dimensions
+                                                                        .width10 *
+                                                                    25.2,
+                                                                child: Text(
+                                                                  productName,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color(
+                                                                        0xFF444444),
+                                                                    fontSize: 14,
+                                                                    fontFamily:
+                                                                        'Nunito',
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .w500,
-                                                                    fontFamily:
-                                                                        'nunito',
-                                                                    fontSize:
-                                                                        14,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color(
-                                                                        0xFF444444)),
-                                                                maxLines: 1,
-                                                                softWrap: false,
-                                                              ),
-                                                            ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            dimensions.height16,
-                                                      ),
-                                                      FutureBuilder<String>(
-                                                        future: orderData
-                                                            .getFirstProductNameForOrder(
-                                                                orderData
-                                                                        .orders[
-                                                                    index]),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .waiting) {
-                                                            return Container(
-                                                              width: dimensions
-                                                                      .width10 *
-                                                                  25.2,
-                                                              child: Text(
-                                                                'Loading...',
-                                                                style:
-                                                                    TextStyle(
+                                                                            .w400,
+                                                                    height: 0,
+                                                                  ),
+                                                                  maxLines: 2,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                dimensions.height10,
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                                dimensions.width10 *
+                                                                    25.2,
+                                                            child: Row(
+                                                              children: [
+                                                                ReusableText(
+                                                                  text:
+                                                                      'Order ID: ',
                                                                   fontSize: 14,
                                                                   color: Color(
-                                                                      0xFF7A7A7A),
+                                                                      0xFFA5A5A5),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
                                                                 ),
-                                                              ),
-                                                            );
-                                                          }
-
-                                                          String productName = snapshot
-                                                                      .hasData &&
-                                                                  snapshot.data!
-                                                                      .isNotEmpty
-                                                              ? snapshot.data!
-                                                              : '${orderData.orders[index].cartLength} items';
-
-                                                          return Container(
-                                                            width: dimensions
-                                                                    .width10 *
-                                                                25.2,
-                                                            child: Text(
-                                                              productName,
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: Color(
-                                                                    0xFF444444),
-                                                                fontSize: 14,
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                height: 0,
-                                                              ),
-                                                              maxLines: 2,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                                Text(
+                                                                  orderData
+                                                                      .orders[index]
+                                                                      .orderId
+                                                                      .split(
+                                                                          '-')[0],
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Color(
+                                                                        0xFF444444),
+                                                                    fontSize: 14,
+                                                                    fontFamily:
+                                                                        'Nunito',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    height: 0,
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          );
-                                                        },
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            dimensions.height10,
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            dimensions.width10 *
-                                                                25.2,
-                                                        child: Row(
-                                                          children: [
-                                                            ReusableText(
-                                                              text:
-                                                                  'Order ID: ',
-                                                              fontSize: 14,
-                                                              color: Color(
-                                                                  0xFFA5A5A5),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                            Text(
-                                                              orderData
-                                                                  .orders[index]
-                                                                  .orderId
-                                                                  .split(
-                                                                      '-')[0],
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: Color(
-                                                                    0xFF444444),
-                                                                fontSize: 14,
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                height: 0,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            dimensions.height10,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          ReusableText(
-                                                            text:
-                                                                'Ordered On: ',
-                                                            fontSize: 12,
-                                                            color: Color(
-                                                                0xFFA5A5A5),
-                                                            fontWeight:
-                                                                FontWeight.w500,
                                                           ),
-                                                          ReusableText(
-                                                            text: orderData
-                                                                .orders[index]
-                                                                .orderDate
-                                                                .substring(
-                                                                    0, 10),
-                                                            fontSize: 12,
-                                                            color: Color(
-                                                                0xFF444444),
-                                                            fontWeight:
-                                                                FontWeight.w400,
+                                                          SizedBox(
+                                                            height:
+                                                                dimensions.height10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              ReusableText(
+                                                                text:
+                                                                    'Ordered On: ',
+                                                                fontSize: 12,
+                                                                color: Color(
+                                                                    0xFFA5A5A5),
+                                                                fontWeight:
+                                                                    FontWeight.w500,
+                                                              ),
+                                                              ReusableText(
+                                                                text: orderData
+                                                                    .orders[index]
+                                                                    .orderDate
+                                                                    .substring(
+                                                                        0, 10),
+                                                                fontSize: 12,
+                                                                color: Color(
+                                                                    0xFF444444),
+                                                                fontWeight:
+                                                                    FontWeight.w400,
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
                                                     ],
                                                   ),
+                                                  SizedBox(
+                                                      height:
+                                                          dimensions.height8 * 3),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      orderData.setOrder(index);
+                                                      Navigator.pushNamed(context,
+                                                          OrderDetailsScreen.route);
+                                                    },
+                                                    child: Container(
+                                                      margin: EdgeInsets.symmetric(
+                                                          horizontal:
+                                                              dimensions.height16,
+                                                          vertical: 4),
+                                                      width: dimensions.screenWidth,
+                                                      height:
+                                                          dimensions.height10 * 3.5,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                6),
+                                                        border: Border.all(
+                                                            width: 0.5,
+                                                            color: Colors.blueGrey),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.3),
+                                                            spreadRadius: 0.6,
+                                                            blurRadius: 18,
+                                                            offset: Offset(0, 3),
+                                                          ),
+                                                        ],
+                                                        color: Colors.white,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            Icons.visibility,
+                                                            color:
+                                                                Color(0xFF7A7A7A),
+                                                            size: 20,
+                                                            ),
+                                                          SizedBox(width: 8),
+                                                          Text(
+                                                            'View Order',
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xFF7A7A7A),
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight.w600,
+                                                                fontFamily:
+                                                                    'nunito'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+    
+                                                  SizedBox(
+                                                      height:
+                                                          dimensions.height10 * 2),
+                                                  Container(
+                                                    width: dimensions.screenWidth,
+                                                    height: 0.5,
+                                                    color: Color(0xFFD6D6D6),
+                                                  ),
+                                                  // SizedBox(height: dimensions.height40,)
                                                 ],
                                               ),
-                                              SizedBox(
-                                                  height:
-                                                      dimensions.height8 * 3),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  orderData.setOrder(index);
-                                                  Navigator.pushNamed(context,
-                                                      OrderDetailsScreen.route);
-                                                },
-                                                child: Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          dimensions.height16,
-                                                      vertical: 4),
-                                                  width: dimensions.screenWidth,
-                                                  height:
-                                                      dimensions.height10 * 3.5,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                    border: Border.all(
-                                                        width: 0.5,
-                                                        color: Colors.blueGrey),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.3),
-                                                        spreadRadius: 0.6,
-                                                        blurRadius: 18,
-                                                        offset: Offset(0, 3),
-                                                      ),
-                                                    ],
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Icon(
-                                                        Icons.visibility,
-                                                        color:
-                                                            Color(0xFF7A7A7A),
-                                                        size: 20,
-                                                      ),
-                                                      SizedBox(width: 8),
-                                                      Text(
-                                                        'View Order',
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xFF7A7A7A),
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontFamily:
-                                                                'nunito'),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-
-                                              SizedBox(
-                                                  height:
-                                                      dimensions.height10 * 2),
-                                              Container(
-                                                width: dimensions.screenWidth,
-                                                height: 0.5,
-                                                color: Color(0xFFD6D6D6),
-                                              ),
-                                              // SizedBox(height: dimensions.height40,)
-                                            ],
-                                          ),
-                                        );
-                                      })),
-                              SizedBox(
-                                height: dimensions.height40 * 2,
-                              )
+                                            );
+                                          })),
+                                  SizedBox(
+                                    height: dimensions.height40 * 2,
+                                  )
+                                ],
+                              ),
                             ],
                           ),
-                        ],
-                      ),
-                    )
-                  : SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 45.sp,
-                          ),
-                          Container(
-                            width: dimensions.screenWidth,
-                            height: dimensions.height40 * 5.5,
-                            child: Image.asset('assets/noOrder.png'),
-                          ),
-                          SizedBox(
-                            width: 55.sp,
-                            child: const Text(
-                              'No Orders Yet',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF00579E),
-                                fontSize: 20,
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.w700,
-                                height: 0,
+                        )
+                      : SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 45.sp,
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: dimensions.height32,
-                          ),
-                          SizedBox(
-                            width: 70.sp,
-                            child: const Text(
-                              'Don\'t worry, your next order is just a few clicks away!',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF7A7A7A),
-                                fontSize: 14,
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.w500,
-                                height: 0,
+                              Container(
+                                width: dimensions.screenWidth,
+                                height: dimensions.height40 * 5.5,
+                                child: Image.asset('assets/noOrder.png'),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20.sp,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                context
-                                    .read<BottomNavigationBarProvider>()
-                                    .setSelectedIndex(0);
-                                Navigator.pushNamed(context, MainScreen.route);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(horizontal: 50),
-                                backgroundColor: Colors.transparent,
-                                side: BorderSide(color: Color(0xFF00579E)),
+                              SizedBox(
+                                width: 55.sp,
+                                child: const Text(
+                                  'No Orders Yet',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF00579E),
+                                    fontSize: 20,
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.w700,
+                                    height: 0,
+                                  ),
+                                ),
                               ),
-                              child: ReusableText(
-                                text: 'Keep Exploring',
-                                fontSize: 16,
-                                color: Color(0xFF00579E),
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ],
-                      ),
-                    ),
+                              SizedBox(
+                                height: dimensions.height32,
+                              ),
+                              SizedBox(
+                                width: 70.sp,
+                                child: const Text(
+                                  'Don\'t worry, your next order is just a few clicks away!',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF7A7A7A),
+                                    fontSize: 14,
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.sp,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    context
+                                        .read<BottomNavigationBarProvider>()
+                                        .setSelectedIndex(0);
+                                    Navigator.pushNamed(context, MainScreen.route);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(horizontal: 50),
+                                    backgroundColor: Colors.transparent,
+                                    side: BorderSide(color: Color(0xFF00579E)),
+                                  ),
+                                  child: ReusableText(
+                                    text: 'Keep Exploring',
+                                    fontSize: 16,
+                                    color: Color(0xFF00579E),
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                            ],
+                          ),
+                        ),
+              )
             )
           : Scaffold(
               appBar: AppBar(

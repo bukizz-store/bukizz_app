@@ -39,6 +39,7 @@ class _WebViewPageState extends State<WebViewPage> {
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
+      ..enableZoom(false)
       ..addJavaScriptChannel(
         'RazorpayChannel',
         onMessageReceived: (JavaScriptMessage message) {
@@ -79,11 +80,15 @@ class _WebViewPageState extends State<WebViewPage> {
             if (_handleHomeRedirect(request.url)) {
               return NavigationDecision.prevent;
             }
+            if (_handleProfileTabRedirect(request.url)) {
+              return NavigationDecision.prevent;
+            }
             return NavigationDecision.navigate;
           },
           onUrlChange: (UrlChange change) {
             _handleCheckoutRedirect(change.url ?? '');
             _handleHomeRedirect(change.url ?? '');
+            _handleProfileTabRedirect(change.url ?? '');
           },
         ),
       );
@@ -192,6 +197,19 @@ class _WebViewPageState extends State<WebViewPage> {
     return false;
   }
 
+  bool _handleProfileTabRedirect(String url) {
+    if (url.isEmpty) return false;
+    final uri = Uri.parse(url);
+    if (uri.path.contains('/profile-tab')) {
+      print('WebViewPage: Intercepting profile-tab URL: $url');
+      if (mounted) {
+        Navigator.of(context).pop();
+        return true;
+      }
+    }
+    return false;
+  }
+
   void _handleRazorpayMessage(JavaScriptMessage message) {
     try {
       final Map<String, dynamic> options = jsonDecode(message.message);
@@ -240,38 +258,40 @@ class _WebViewPageState extends State<WebViewPage> {
     return PopScope(
       canPop: _canPop,
       onPopInvoked: (didPop) async {
+        // If didPop is true, the system already popped the route.
         if (didPop) return;
-        
-        final canGoBack = await _controller.canGoBack();
-        if (canGoBack) {
+
+        final navigator = Navigator.of(context);
+        if (await _controller.canGoBack()) {
           await _controller.goBack();
         } else {
-          // If cannot go back in WebView, allow popping the screen
+          // Allow popping and trigger pop after the frame builds
           setState(() {
             _canPop = true;
           });
-          // Wait for the state update to propagate
-          Future.microtask(() {
-             if (context.mounted) Navigator.of(context).pop();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) navigator.pop();
           });
         }
       },
       child: Scaffold(
         appBar: widget.title.isNotEmpty 
-            ? AppBar(title: Text(widget.title), automaticallyImplyLeading: false) 
+            ? AppBar(title: Text(widget.title), automaticallyImplyLeading: true) 
             : null,
-        body: _isError 
-          ? ErrorScreen(
-              onRetry: _reloadPage,
-              message: "We couldn't load the page. Please check your internet connection.",
-            )
-          : Stack(
-              children: [
-                WebViewWidget(controller: _controller),
-                // if (_isLoading)
-                //   const Center(child: CircularProgressIndicator()),
-              ],
-            ),
+        body: SafeArea(
+          child: _isError 
+            ? ErrorScreen(
+                onRetry: _reloadPage,
+                message: "We couldn't load the page. Please check your internet connection.",
+              )
+            : Stack(
+                children: [
+                  WebViewWidget(controller: _controller),
+                  // if (_isLoading)
+                  //   const Center(child: CircularProgressIndicator()),
+                ],
+              ),
+        ),
         floatingActionButton: !_isError // Hide back button on error screen, or keep it? Maybe keep standard back nav. 
           ? FutureBuilder<bool>(
               future: _controller.canGoBack(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../data/providers/auth/firebase_auth.dart';
+import '../data/providers/auth/api_auth_provider.dart';
 import '../ui/screens/HomeView/homeScreen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -13,30 +13,13 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
-  Future<void> signIn() async {
-    //  sign-in logic here
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
-
-  }
-
-  Future<void> signInWithGoogle() async {
-    //  sign-in with google logic here
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
-
-  }
+ 
 
 
 
   @override
   Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    var authProvider = Provider.of<ApiAuthProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -110,7 +93,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 ElevatedButton(
                   onPressed: (){
-                    signInWithGoogle();
+                    authProvider.googleSignInMethod(context);
                   },
                   child: Text("Sign In With Google"),
                   style: ElevatedButton.styleFrom(

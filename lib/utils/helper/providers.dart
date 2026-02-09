@@ -27,8 +27,11 @@ import '../../data/repository/query/order_query.dart';
 import '../../data/repository/review/product_Reviews.dart';
 import '../../data/repository/review/review_repository.dart';
 
+import 'package:bukizz/data/providers/auth/firebase_auth.dart';
+
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => ApiAuthProvider()),
+  ChangeNotifierProvider(create: (_) => AuthProvider()),
   ChangeNotifierProvider(
     create: (_) => HeaderSwitchProvider(),
   ),

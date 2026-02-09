@@ -65,7 +65,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           fontWeight: FontWeight.w500,
         ),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(
+        child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
         child: Column(
           children: [
@@ -205,6 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: dimensions.height10 * 10),
           ],
         ),
+      ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(

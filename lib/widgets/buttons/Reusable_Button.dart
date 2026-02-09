@@ -50,7 +50,6 @@ class ReusableElevatedButton extends StatelessWidget {
          BoxShadow(
            color: shadowColor,
            offset:Offset(0,4),
-
          )
        ]
       ),

@@ -14,7 +14,7 @@ import '../../../ui/screens/Signup and SignIn/Signin_Screen.dart';
 import 'package:bukizz/main.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth get _auth => FirebaseAuth.instance;
 
   User? get user => _auth.currentUser;
 
