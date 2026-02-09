@@ -103,7 +103,7 @@ class RouteGenerator {
         return _createFastRoute(ViewAll());
 
       case Checkout1.route:
-        return _createFastRoute(Checkout1());
+        return _createFastRoute(MainScreen(initialIndex: 3));
 
       case OtpScreen.route:
         return _createFastRoute(OtpScreen());

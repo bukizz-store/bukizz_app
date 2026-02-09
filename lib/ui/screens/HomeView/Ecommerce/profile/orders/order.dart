@@ -587,13 +587,30 @@ class _OrderScreenState extends State<OrderScreen> {
                       ),
                     ),
             )
-          : const Scaffold(
-              body: Center(
-              child: SpinKitChasingDots(
-                color: AppColors.primaryColor,
-                size: 24,
+          : Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                title: ReusableText(
+                  text: 'My Orders',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ));
+              body: const Center(
+                child: SpinKitChasingDots(
+                  color: AppColors.primaryColor,
+                  size: 24,
+                ),
+              ),
+            );
     });
   }
 }

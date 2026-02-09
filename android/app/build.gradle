@@ -16,12 +16,12 @@ if (localPropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '3'  // Incrementing version code
+    flutterVersionCode = '4'  // Incrementing version code
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0.2'  // Incrementing version name
+    flutterVersionName = '1.0.3'  // Incrementing version name
 }
 
 // Load keystore properties for release signing

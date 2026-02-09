@@ -1,10 +1,9 @@
-import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
+import 'package:bukizz/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bukizz/constants/constants.dart';
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart'; // Import the LocationScreen
-
-class CustomTabBar extends StatefulWidget {
+import '../text and textforms/Reusable_text.dart';class CustomTabBar extends StatefulWidget {
   final ValueChanged<int>? onIndexChanged;
 
   const CustomTabBar({Key? key, this.onIndexChanged}) : super(key: key);
@@ -20,120 +19,116 @@ class _CustomTabBarState extends State<CustomTabBar> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(
-        3,
-            (index) => GestureDetector(
+      children: [
+        // Shop Tab
+        GestureDetector(
           onTap: () {
-            // For location tab (index 2), navigate to location screen
-            if (index == 2) {
-              // Navigate to the location screen
-              Navigator.pushNamed(context, SelectLocation.route);
-            } else {
-              // For other tabs, update the current index as before
-              setState(() {
-                currentIndex = index;
-                widget.onIndexChanged?.call(currentIndex);
-              });
-            }
+            setState(() {
+              currentIndex = 0;
+              widget.onIndexChanged?.call(0);
+            });
           },
-            child: Container(
-              width: 110, // Increased width to better accommodate "My Location" text
-              height: 48,
-              // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5), // Proper padding on both axes
-              decoration: BoxDecoration(
-              color: currentIndex == index
-                ?  Color(0xFF058FFF) // Change the color for the selected tab
-                :  Color(0xFF3D3B40).withOpacity(0.05), // Change the color for other tabs
-              borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(
-                color: currentIndex == index
-                  ? Color(0xFF058FFF) // Border color for selected tab
-                  : Color(0xFF000000), // Border color for other tabs
-                width: 1.0,
-              ),
-              boxShadow: currentIndex == index ? [
-                BoxShadow(
-                color: Colors.black.withOpacity(0.4),
-                blurRadius: 3,
-                offset: Offset(0, 4),
-                ),
-              ] : null,
-              ),
-              child: Row(
-              mainAxisAlignment: index != 1 ? MainAxisAlignment.center :  MainAxisAlignment.start, // Center alignment for consistent look
+          child: Container(
+            width: 120,
+            height: 48,
+            decoration: BoxDecoration(
+              color: Colors.transparent, // Removed background
+              borderRadius: BorderRadius.circular(12.0),
+              // Removed border and box shadow as per "remove the background" instruction implies simpler look
+              // but keeping structure if needed. User said "remove the background that we are using modify this"
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                width: index == 0 ? 30 : index== 2 ? 30: 45,
-                height: index == 0 ? 30 : index== 2 ? 30 : 45,
-                child: SvgPicture.asset(
-                  index == 0 
-                  ? 'assets/logo_main.svg'
-                    : index == 1
-                    ? 'assets/tab icons/myschool.svg'
-                    : 'assets/tab icons/location.svg',// Red color for location icon only
+                  width: 43,
+                  height: 43,
+                  child: SvgPicture.asset('assets/logo_main.svg'),
                 ),
-                ), // Reduced spacing to give text more room
-                SizedBox(width: index == 0 ? 8 :0), // Reduced spacing to give text more room
+                SizedBox(width: 8),
+                ReusableText(
+                  text: 'bukizz',
+                  fontSize: 24,
+                  color: currentIndex == 0 ? Color(0xFF000000) : Color(0xFF00000), // Adjusted active color for text since background is gone
+                  fontWeight: FontWeight.w700,
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // Spacer to maintain distance similar to previous layout if needed,
+        // or just rely on spaceEvenly with 2 items.
+        // The user said "keep the distance as it is".
+        // Previous: [Item] [Item] [Item] with spaceEvenly.
+        // Now: [Item] [Item] with spaceEvenly will put them further apart.
+        // To keep similar distance, we can put a SizedBox in the middle
+        SizedBox(width: 110,), 
+
+        // Location Tab
+        GestureDetector(
+          onTap: () {
+             Navigator.pushNamed(context, SelectLocation.route);
+          },
+          child: Container(
+            width: 130,
+            height: 48,
+            decoration: BoxDecoration(
+              color: currentIndex == 2
+                  ? Color(0xFF058FFF)
+                  : Color(0xFF3D3B40).withOpacity(0.05),
+              borderRadius: BorderRadius.circular(12.0),
+              border: Border.all(
+                color: currentIndex == 2 ? Color(0xFF058FFF) : Color(0xFF000000),
+                width: 1.0,
+              ),
+              boxShadow: currentIndex == 2
+                  ? [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        blurRadius: 3,
+                        offset: Offset(0, 4),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 45,
+                  height: 30,
+                  child: SvgPicture.asset('assets/tab icons/location.svg'),
+                ),
                 Flexible(
-                child: index == 2 
-                  // Special styling for location tab to match the image
-                  ? Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text(
-                      'City',
-                      style: TextStyle(
-                      fontSize: 12,
-                      color: currentIndex == index ? Color(0xFFF9F9F9) : Color(0xFF444444),
-                      fontWeight: FontWeight.w700,
+                      Text(
+                        'City',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: currentIndex == 2 ? Color(0xFFF9F9F9) : Color(0xFF444444),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    Text(
-                      AppConstants.location, // Fixed to use the correct variable name
-                      style: TextStyle(
-                      fontSize: 12,
-                      color: currentIndex == index ? Color(0xFFF9F9F9) : Colors.black,
-                      fontWeight: FontWeight.w900,
+                      Text(
+                        AppConstants.location,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: currentIndex == 2 ? Color(0xFFF9F9F9) : Colors.black,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
-                    ),
                     ],
-                  )
-                  : index == 1 ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                    Text(
-                      'My',
-                      style: TextStyle(
-                      fontSize: 12,
-                      color: currentIndex == index ? Color(0xFFF9F9F9) : Color(0xFF444444),
-                      fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      "School", // Fixed to use the correct variable name
-                      style: TextStyle(
-                      fontSize: 12,
-                      color: currentIndex == index ? Color(0xFFF9F9F9) : Colors.black,
-                      fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    ],
-                  ) :Text(
-                    'Shop',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: currentIndex == index ? Color(0xFFF9F9F9) : Color(0xFF444444),
-                      fontWeight: FontWeight.w700,
-                    )
                   ),
                 )
               ],
-              )
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

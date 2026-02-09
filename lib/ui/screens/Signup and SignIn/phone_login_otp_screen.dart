@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/constants/font_family.dart';
-import 'package:bukizz/data/providers/auth/firebase_auth.dart';
+import 'package:bukizz/data/providers/auth/api_auth_provider.dart';
 import 'package:bukizz/data/services/phone_otp_service.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -111,7 +111,7 @@ class _PhoneLoginOTPScreenState extends State<PhoneLoginOTPScreen> {
       // Show loading dialog
       AppConstants.buildShowDialog(context);
 
-      var authProvider = Provider.of<AuthProvider>(context, listen: false);
+      var authProvider = Provider.of<ApiAuthProvider>(context, listen: false);
 
       // Sign in with phone number using the entered OTP
       await authProvider.signInWithPhoneNumber(

@@ -30,8 +30,24 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     Dimensions dimensions = Dimensions(context);
     return Consumer<MyOrders>(builder: (context, orderData, child) {
       if (!orderData.isOrderDataLoaded) {
-        return const Scaffold(
-          body: Center(
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 20,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            title: ReusableText(
+              text: 'My Orders',
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          body: const Center(
             child: SpinKitChasingDots(
               size: 24,
               color: AppColors.primaryColor,

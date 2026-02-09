@@ -65,17 +65,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   }
 
   navigateToNext() {
-    Future.delayed(const Duration(seconds: 4), () async {
+    // Check login state immediately after frame renders
+    // Auth state is already loaded in main.dart before app starts
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await checkCurrentUser();
     });
 
     _pageController = PageController(initialPage: 0);
-    // _pageController.addListener(() {
-    //   setState(() {
-    //     _currentPage = _pageController.page?.toInt() ?? 0;
-    //   });
-    // });
-    //todo why this??
   }
   Future<void> checkCurrentUser() async {
     if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {

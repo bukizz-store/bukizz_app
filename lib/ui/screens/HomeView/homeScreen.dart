@@ -1,4 +1,4 @@
-import 'package:bukizz/ui/screens/HomeView/Ecommerce/ecommerce_home.dart';
+import 'package:bukizz/ui/screens/webview_page.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/MySchool/comingSoon.dart';
 import 'package:bukizz/ui/screens/HomeView/MySchool/main_screen.dart';
@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         controller: _tabController,
         physics: NeverScrollableScrollPhysics(), // Disable swiping
         children: const [
-          EcommerceMain(),
+          WebViewPage(url: 'https://bukizz.in/?mode=webview', shouldInterceptCheckout: true,),
           ComingSoon()
         ],
       ),

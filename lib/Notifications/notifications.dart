@@ -17,13 +17,32 @@ class FirebaseApi {
 
   Future<void> initNotifications() async {
     try {
-      // Request notification permissions (crucial for Android 13+)
+      // Request notification permissions with timeout (crucial for Android 13+)
       NotificationSettings settings =
           await _firebaseMessaging.requestPermission(
         alert: true,
         badge: true,
         provisional: false,
         sound: true,
+      ).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          print('Notification permission request timed out');
+          return NotificationSettings(
+            authorizationStatus: AuthorizationStatus.denied,
+            alert: AppleNotificationSetting.disabled,
+            badge: AppleNotificationSetting.disabled,
+            sound: AppleNotificationSetting.disabled,
+            announcement: AppleNotificationSetting.disabled,
+            carPlay: AppleNotificationSetting.disabled,
+            criticalAlert: AppleNotificationSetting.disabled,
+            lockScreen: AppleNotificationSetting.disabled,
+            notificationCenter: AppleNotificationSetting.disabled,
+            showPreviews: AppleShowPreviewSetting.never,
+            timeSensitive: AppleNotificationSetting.disabled,
+            providesAppNotificationSettings: AppleNotificationSetting.disabled,
+          );
+        },
       );
 
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
@@ -37,13 +56,28 @@ class FirebaseApi {
       }
 
       // Initialize local notifications
-      await _initializeLocalNotifications();
+      await _initializeLocalNotifications().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          print('Local notifications initialization timed out');
+        },
+      );
 
-      // Get FCM token
-      final fcmToken = await _firebaseMessaging.getToken();
-      if (fcmToken != null) {
-        print('FCM Token: $fcmToken');
-        AppConstants.fcmToken = fcmToken;
+      // Get FCM token with timeout
+      try {
+        final fcmToken = await _firebaseMessaging.getToken().timeout(
+          const Duration(seconds: 10),
+          onTimeout: () {
+            print('FCM token fetch timed out');
+            return null;
+          },
+        );
+        if (fcmToken != null) {
+          print('FCM Token: $fcmToken');
+          AppConstants.fcmToken = fcmToken;
+        }
+      } catch (e) {
+        print('Error getting FCM token: $e');
       }
 
       // Set up background message handler
