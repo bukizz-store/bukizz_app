@@ -164,7 +164,8 @@ class _SignInState extends State<SignIn> {
     var authProvider = Provider.of<ApiAuthProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
+      body: SafeArea(
+        child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
@@ -180,26 +181,26 @@ class _SignInState extends State<SignIn> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //welcome text //done
-                GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pushNamedAndRemoveUntil(SelectLocation.route, (route) => false);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.productButtonSelectedBorder),
-                      borderRadius: BorderRadius.circular(100)
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    width: 33.w,
-                    height: 4.h,
-                    child: Row(
-                      children: [
-                        ReusableText(text: "Skip Login", fontSize: 16),
-                        Icon(Icons.arrow_circle_right_outlined)
-                      ],
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: (){
+                //     Navigator.of(context).pushNamedAndRemoveUntil(SelectLocation.route, (route) => false);
+                //   },
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       border: Border.all(color: AppColors.productButtonSelectedBorder),
+                //       borderRadius: BorderRadius.circular(100)
+                //     ),
+                //     padding: EdgeInsets.symmetric(horizontal: 10),
+                //     width: 33.w,
+                //     height: 4.h,
+                //     child: Row(
+                //       children: [
+                //         ReusableText(text: "Skip Login", fontSize: 16),
+                //         Icon(Icons.arrow_circle_right_outlined)
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 10,),
                                 Center(
                   child: Container(
@@ -454,7 +455,7 @@ class _SignInState extends State<SignIn> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Enter your email for password login or phone number for OTP login',
+                          'Enter your email & password for login',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.blue.shade700,
@@ -469,6 +470,7 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
+    ),
     );
   }
 }

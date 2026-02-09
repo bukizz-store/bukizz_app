@@ -40,6 +40,17 @@ class _SelectLocationState extends State<SelectLocation> {
   String selectedCity = '';
 
   @override
+  void initState() {
+    super.initState();
+    if(AppConstants.location.isNotEmpty && cities.contains(AppConstants.location)){
+      selectedCity = AppConstants.location;
+    }
+    else if(cities.isNotEmpty){
+      selectedCity = cities[0];
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     BottomNavigationBarProvider provider =

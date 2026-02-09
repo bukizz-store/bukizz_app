@@ -1,3 +1,4 @@
+import 'package:bukizz/data/providers/auth/api_auth_provider.dart';
 import 'package:bukizz/data/providers/auth/firebase_auth.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/Signin_Screen.dart';
 import 'package:bukizz/ui/screens/Signup%20and%20SignIn/otp_verification_screen.dart';
@@ -31,41 +32,11 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final TextEditingController _passwordTextController = TextEditingController();
-  final TextEditingController _emailOrPhoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _nameTextController = TextEditingController();
   
-  bool _isPhoneSignup = false;
   bool isLoading = false;
-
-  bool _isPhoneInput(String input) {
-    String digitsOnly = input.replaceAll(RegExp(r'[^\d]'), '');
-    if (digitsOnly.isNotEmpty && input.trim() == digitsOnly) {
-      return true;
-    }
-    if (digitsOnly.isNotEmpty && RegExp(r'^[6-9]').hasMatch(digitsOnly)) {
-      return true;
-    }
-    return false;
-  }
-
-  bool _isPhoneNumber(String input) {
-    String digitsOnly = input.replaceAll(RegExp(r'[^\d]'), '');
-    return RegExp(r'^[6-9][0-9]{9}$').hasMatch(digitsOnly);
-  }
-
-  bool _isValidEmail(String email) {
-    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(email);
-  }
-
-  void _updateSignupType() {
-    setState(() {
-      _isPhoneSignup = _isPhoneInput(_emailOrPhoneController.text);
-      if (_isPhoneSignup) {
-        _passwordTextController.clear();
-      }
-    });
-  }
 
   void _handleSignup() async {
     if (_nameTextController.text.trim().isEmpty) {
@@ -74,10 +45,20 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
-    String input = _emailOrPhoneController.text.trim();
+    if (_emailController.text.trim().isEmpty || !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_emailController.text.trim())) {
+      AppConstants.showSnackBar(context, "Please enter a valid email",
+          AppColors.error, Icons.error_outline_rounded);
+      return;
+    }
 
-    if (input.isEmpty) {
-      AppConstants.showSnackBar(context, "Please enter your email or phone number",
+    if (_phoneController.text.trim().isEmpty || !RegExp(r'^[0-9]{10}$').hasMatch(_phoneController.text.trim())) {
+      AppConstants.showSnackBar(context, "Please enter a valid 10-digit phone number",
+          AppColors.error, Icons.error_outline_rounded);
+      return;
+    }
+
+    if (_passwordTextController.text.trim().length < 6) {
+      AppConstants.showSnackBar(context, "Password must be at least 6 characters",
           AppColors.error, Icons.error_outline_rounded);
       return;
     }
@@ -87,100 +68,24 @@ class _SignUpState extends State<SignUp> {
     });
 
     try {
-      if (_isPhoneNumber(input)) {
-        await _handlePhoneSignup(input);
-      } else if (_isValidEmail(input)) {
-        await _handleEmailSignup(input);
-      } else {
-        AppConstants.showSnackBar(context, "Please enter a valid email or phone number",
-            AppColors.error, Icons.error_outline_rounded);
-      }
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<void> _handleEmailSignup(String email) async {
-    String password = _passwordTextController.text.trim();
-    if (password.length < 6) {
-      AppConstants.showSnackBar(
-          context,
-          "Password must be at least 6 characters",
-          AppColors.error,
-          Icons.error_outline_rounded);
-      return;
-    }
-
-    String name = _nameTextController.text.trim();
-
-    try {
-      await OTPService.sendOTPFast(email);
-
-      Navigator.push(
+      var authProvider = Provider.of<ApiAuthProvider>(context, listen: false);
+      await authProvider.signUp(
+        _nameTextController.text.trim(),
+        _emailController.text.trim(),
+        _passwordTextController.text.trim(),
+        _phoneController.text.trim(),
         context,
-        MaterialPageRoute(
-          builder: (context) => OTPVerificationScreen(
-            email: email,
-            name: name,
-            password: password,
-          ),
-        ),
-      );
-
-      AppConstants.showSnackBar(
-        context,
-        "OTP sent to $email",
-        AppColors.green,
-        Icons.check_circle_outline_rounded,
       );
     } catch (e) {
-      AppConstants.showSnackBar(
-        context,
-        "Failed to send OTP. Please try again.",
-        AppColors.error,
-        Icons.error_outline_rounded,
-      );
+       // Error handling is done in provider, but just in case
+       print("Signup Screen Error: $e");
+    } finally {
+      if(mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
-  }
-
-  Future<void> _handlePhoneSignup(String phoneNumber) async {
-    String cleanPhoneNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
-    
-    String name = _nameTextController.text.trim();
-    String dummyPassword = "phone_auth_no_password";
-
-    String tempVerificationId = 'temp_${DateTime.now().millisecondsSinceEpoch}';
-    
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PhoneOTPVerificationScreen(
-          phoneNumber: cleanPhoneNumber,
-          name: name,
-          password: dummyPassword,
-          verificationId: tempVerificationId,
-        ),
-      ),
-    );
-
-    PhoneOTPService.sendPhoneOTPFast(
-      phoneNumber: cleanPhoneNumber,
-      context: context,
-      onCodeSent: (verificationId) {
-        AppConstants.showSnackBar(
-          context,
-          "OTP sent to $cleanPhoneNumber",
-          AppColors.green,
-          Icons.check_circle_outline_rounded,
-        );
-      },
-      onError: (error) {
-        AppConstants.showSnackBar(
-            context, error, AppColors.error, Icons.error_outline_rounded);
-      },
-    );
   }
 
   @override
@@ -199,7 +104,8 @@ class _SignUpState extends State<SignUp> {
         }
         ),
       ),
-      body: Container(
+      body: SafeArea(
+        child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
@@ -207,19 +113,15 @@ class _SignUpState extends State<SignUp> {
             padding: EdgeInsets.fromLTRB(
               dimensions.width24,
               0,
-              // dimensions.height16*3.5,
-
               dimensions.width24,
               0,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // SizedBox(height: 10,),
                 Center(
                   child: Container(
                     width: 30.w,
-                    // height: 10.h,
                     child: SvgPicture.asset('assets/logo.svg'),
                   ),
                 ),
@@ -271,57 +173,39 @@ class _SignUpState extends State<SignUp> {
                 CustomLoginForm(
                   width: 90.sp, 
                   height: 30.sp, 
-                  controller: _emailOrPhoneController, 
-                  hintText: 'Your Email or Phone Number', 
-                  labelText: 'Email / Phone', 
+                  controller: _emailController, 
+                  hintText: 'Your Email', 
+                  labelText: 'Email', 
                   isPasswordType: false, 
-                  type: InputType.all,
-                  icon: _isPhoneNumber(_emailOrPhoneController.text) 
-                      ? Icons.phone_outlined 
-                      : Icons.email_outlined,
-                  onChanged: (value) => _updateSignupType(),
+                  type: InputType.email,
+                  icon: Icons.email_outlined,
                 ),
 
                 SizedBox(height: dimensions.height16),
 
-                if (!_isPhoneSignup) ...[
-                  // SizedBox(height: dimensions.height10),
-                  CustomLoginForm(
-                    width: 90.sp, 
-                    height: 30.sp, 
-                    controller: _passwordTextController, 
-                    hintText: 'Your Password', 
-                    labelText: 'Password', 
-                    isPasswordType: true, 
-                    type: InputType.all,
-                    icon: Icons.password,
-                  ),
-                ] else ...[
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    margin: EdgeInsets.only(top: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.green.shade200),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.sms_outlined, color: Colors.green.shade600, size: 16),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            'We\'ll send an OTP to verify your phone number',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.green.shade700,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                CustomLoginForm(
+                  width: 90.sp, 
+                  height: 30.sp, 
+                  controller: _phoneController, 
+                  hintText: 'Your Phone Number', 
+                  labelText: 'Phone', 
+                  isPasswordType: false, 
+                  type: InputType.phone,
+                  icon: Icons.phone_outlined,
+                ),
+
+                SizedBox(height: dimensions.height16),
+
+                CustomLoginForm(
+                  width: 90.sp, 
+                  height: 30.sp, 
+                  controller: _passwordTextController, 
+                  hintText: 'Your Password', 
+                  labelText: 'Password', 
+                  isPasswordType: true, 
+                  type: InputType.all,
+                  icon: Icons.password,
+                ),
 
                 SizedBox(height: dimensions.height10),
 
@@ -348,7 +232,6 @@ class _SignUpState extends State<SignUp> {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.blue,
-                                // decoration: TextDecoration.underline,
                               ),
                             ),
                           ),
@@ -364,7 +247,6 @@ class _SignUpState extends State<SignUp> {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.blue,
-                                // decoration: TextDecoration.underline,
                               ),
                             ),
                           ),
@@ -379,11 +261,11 @@ class _SignUpState extends State<SignUp> {
                 ReusableElevatedButton(
                   width: dimensions.width327,
                   height: dimensions.height48,
-                  onPressed: isLoading ? () {} : _handleSignup, // Pass empty function instead of null
+                  onPressed: isLoading ? () {} : _handleSignup, 
                   buttonText: isLoading ? 'Creating Account...' : 'Create Account',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  buttonColor: isLoading ? Colors.grey[300] : null, // Change color when loading
+                  buttonColor: isLoading ? Colors.grey[300] : Color(0xFF058FFF), 
                 ),
 
                 SizedBox(height: dimensions.height24),
@@ -391,7 +273,7 @@ class _SignUpState extends State<SignUp> {
                 signUpOption('Already have an account?', 'Sign In', context, SignIn.route),
 
                 SizedBox(height: dimensions.height16),
-
+/*
                 Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -441,37 +323,14 @@ class _SignUpState extends State<SignUp> {
                   imagePath: 'assets/google.png',
                   borderColor: Colors.black38,
                 ),
-
-                SizedBox(height: dimensions.height8 * 2),
-                
-                Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.blue.shade200),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.info_outline, color: Colors.blue.shade600, size: 16),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Enter your email for password signup or phone number for OTP signup',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.blue.shade700,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+*/
+                SizedBox(height: dimensions.height24 * 3),
               ],
             ),
           ),
         ),
       ),
+    ),
     );
   }
 }

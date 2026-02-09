@@ -12,10 +12,12 @@ import 'package:flutter/rendering.dart'; // Add for performance debugging
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'Notifications/notifications.dart';
 import 'data/models/user_details.dart';
 import 'constants/strings.dart';
 import 'constants/theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -25,6 +27,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables
+  await dotenv.load(fileName: ".env");
 
   // Performance optimizations
   if (kDebugMode) {
@@ -37,6 +42,21 @@ void main() async {
 
   // Enable hardware acceleration and disable unnecessary rendering layers
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  // Initialize Supabase
+  try {
+    await Supabase.initialize(
+      url: 'https://qgufxqbsgewczleennbu.supabase.co',
+      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFndWZ4cWJzZ2V3Y3psZWVubmJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1NzgwOTcsImV4cCI6MjA3MzE1NDA5N30.En_vogdXxSu-xYGxc0EiLGNxwaADDFt6YaHEa63kvAM',
+    );
+     if (kDebugMode) {
+      print('Supabase initialized successfully');
+    }
+  } catch (e) {
+     if (kDebugMode) {
+      print('Supabase initialization error: $e');
+    }
+  }
 
   // Initialize Firebase with timeout to prevent hanging
   try {
