@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(dimensions.height36),
+          preferredSize: Size.fromHeight(dimensions.height16),
           child: Padding(
             padding: EdgeInsets.only(bottom: dimensions.height16,),
             child: CustomTabBar(
