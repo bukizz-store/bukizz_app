@@ -1,4 +1,5 @@
 import 'package:bukizz/constants/colors.dart';
+import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/native_profile_screen.dart';
 import 'package:bukizz/ui/screens/webview_page.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
@@ -28,15 +29,17 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     if (widget.initialIndex != null) {
-       // Schedule the update after the first frame to avoid provider issues during build? 
-       // Or just set it. Provider is created above MainScreen in main.dart? 
-       // Creating it in providers.dart which is passed to MultiProvider in main.dart.
-       // So MainScreen is a child of MultiProvider.
-       // But wait, accessing context.read in initState is fine (listen: false).
        WidgetsBinding.instance.addPostFrameCallback((_) {
           context.read<BottomNavigationBarProvider>().setSelectedIndex(widget.initialIndex!);
        });
     }
+  }
+
+  /// Appends `&city=<city>` (or `?city=<city>`) to any URL if a city is selected.
+  String _appendCity(String url) {
+    if (AppConstants.location.isEmpty) return url;
+    final separator = url.contains('?') ? '&' : '?';
+    return '$url${separator}city=${AppConstants.location.toLowerCase()}';
   }
 
   @override
@@ -105,11 +108,11 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomeScreen();
       case 1:
-        return const WebViewPage(key: ValueKey('category'), url: 'https://bukizz.in/category', shouldInterceptCheckout: true);
+        return WebViewPage(key: const ValueKey('category'), url: _appendCity('https://bukizz.in/category'), shouldInterceptCheckout: true);
       case 2:
         return const NotificationScreen();
       case 3:
-        return const WebViewPage(key: ValueKey('cart'), url: 'https://bukizz.in/cart?mode=webview');
+        return WebViewPage(key: const ValueKey('cart'), url: _appendCity('https://bukizz.in/cart?mode=webview'));
       case 4:
         return const NativeProfileScreen();
       default:

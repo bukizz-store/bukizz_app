@@ -1,3 +1,4 @@
+import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/ui/screens/webview_page.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 import 'package:bukizz/ui/screens/HomeView/MySchool/comingSoon.dart';
@@ -21,6 +22,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
   }
 
+  String _buildHomeUrl() {
+    String baseUrl = 'https://bukizz.in/?mode=webview';
+    if (AppConstants.location.isNotEmpty) {
+      baseUrl += '&city=${AppConstants.location.toLowerCase()}';
+    }
+    return baseUrl;
+  }
+
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions=Dimensions(context);
@@ -42,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         physics: NeverScrollableScrollPhysics(), // Disable swiping
-        children: const [
-          WebViewPage(url: 'https://bukizz.in/?mode=webview', shouldInterceptCheckout: true,),
-          ComingSoon()
+        children: [
+          WebViewPage(url: _buildHomeUrl(), shouldInterceptCheckout: true,),
+          const ComingSoon()
         ],
       ),
     );
