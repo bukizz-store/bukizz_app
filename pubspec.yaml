@@ -25,6 +25,7 @@ dependencies:
   # NETWORK AND WEBVIEW
   http: ^1.2.0
   webview_flutter: ^4.7.0
+  webview_flutter_android: ^3.13.0
 
   # AUTH
   google_sign_in: ^6.2.1
