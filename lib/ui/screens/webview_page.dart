@@ -94,15 +94,11 @@ class _WebViewPageState extends State<WebViewPage> {
           },
         ),
       );
-        ),
-      );
 
     if (_controller.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);
       (_controller.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(false);
-      (_controller.platform as AndroidWebViewController)
-          .setGeolocationEnabled(true);
       (_controller.platform as AndroidWebViewController)
           .setOnPlatformPermissionRequest((PlatformWebViewPermissionRequest request) {
         request.grant();
