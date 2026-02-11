@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:bukizz/data/providers/bottom_nav_bar_provider.dart';
 import 'package:bukizz/ui/screens/Common/error_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'dart:convert';
 
@@ -92,6 +94,21 @@ class _WebViewPageState extends State<WebViewPage> {
           },
         ),
       );
+        ),
+      );
+
+    if (_controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (_controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+      (_controller.platform as AndroidWebViewController)
+          .setGeolocationEnabled(true);
+      (_controller.platform as AndroidWebViewController)
+          .setOnPlatformPermissionRequest((PlatformWebViewPermissionRequest request) {
+        request.grant();
+      });
+    }
+
     _loadPage();
   }
 
