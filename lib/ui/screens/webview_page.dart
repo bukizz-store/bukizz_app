@@ -1,4 +1,5 @@
 import 'package:bukizz/data/services/auth_api_service.dart';
+import 'package:bukizz/widgets/bukizz_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bukizz/data/providers/bottom_nav_bar_provider.dart';
@@ -354,8 +355,7 @@ class _WebViewPageState extends State<WebViewPage> {
             : Stack(
                 children: [
                   WebViewWidget(controller: _controller),
-                  // if (_isLoading)
-                  //   const Center(child: CircularProgressIndicator()),
+                  BukizzLoader(isLoading: _isLoading),
                 ],
               ),
         ),
