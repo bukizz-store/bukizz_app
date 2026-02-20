@@ -118,7 +118,7 @@ class _MainScreenState extends State<MainScreen> {
       case 2:
         return const NotificationScreen();
       case 3:
-        return WebViewPage(key: const ValueKey('cart'), url: _appendCity('https://bukizz.in/cart?mode=webview'));
+        return WebViewPage(key: const ValueKey('cart'), url: _appendCity('https://bukizz.in/cart'));
       case 4:
         return const NativeProfileScreen();
       default:

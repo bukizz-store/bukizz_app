@@ -95,7 +95,7 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
       ),
       child: ReusableText(
         text: title,
-        color: Colors.black87,
+        color: Colors.white,
         fontWeight: FontWeight.w500,
         fontSize: 16,
       ),

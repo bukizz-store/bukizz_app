@@ -43,8 +43,8 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
         floatingLabelBehavior: FloatingLabelBehavior.never,
         fillColor: Color(0xFFF9F9F9),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(width: 1, style: BorderStyle.none),
         ),
         suffixIcon: widget.isPasswordType
             ? IconButton(

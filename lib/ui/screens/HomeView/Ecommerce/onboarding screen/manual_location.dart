@@ -56,6 +56,7 @@ class _SelectLocationState extends State<SelectLocation> {
     BottomNavigationBarProvider provider =
         context.read<BottomNavigationBarProvider>();
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: dimensions.width16),
