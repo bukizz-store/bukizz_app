@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import '../../../../../data/providers/school_repository.dart';
 import '../../../../../data/repository/banners/banners.dart';
 import '../main_screen.dart';
+import 'package:bukizz/widgets/double_back_to_exit_wrapper.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String route = '/onboardingscreen';
@@ -101,8 +102,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
-    return PopScope(
-      canPop: false,
+    return DoubleBackToExitWrapper(
       child: Scaffold(
         backgroundColor:  const Color(0xFFF5FAFF),
           body: Stack(

@@ -1,4 +1,4 @@
-<manifest package="com.bukizz" xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest package="com.bukizz.main" xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Required permissions -->

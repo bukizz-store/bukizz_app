@@ -22,6 +22,8 @@ import '../../../widgets/containers/Reusable_container.dart';
 import '../../../widgets/signup_text_widget.dart';
 import '../../../widgets/text and textforms/Reusable_text.dart';
 
+import 'package:bukizz/widgets/double_back_to_exit_wrapper.dart';
+
 class SignUp extends StatefulWidget {
   static const route = '/signUpRoute';
   const SignUp({Key? key}) : super(key: key);
@@ -92,245 +94,245 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     Dimensions dimensions = Dimensions(context);
     var authProvider = Provider.of<AuthProvider>(context, listen: false);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, SignIn.route);
-        }
+    return DoubleBackToExitWrapper(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, SignIn.route);
+          }
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              dimensions.width24,
-              0,
-              dimensions.width24,
-              0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    width: 30.w,
-                    child: SvgPicture.asset('assets/logo.svg'),
-                  ),
-                ),
-                SizedBox(height: 10.sp,),
-                ReusableContainer(
-                  width: dimensions.width327,
-                  height: dimensions.height32,
-                  child: () {
-                    return ReusableText(
-                      text: 'Create Account 🎉',
-                      fontSize: 24,
-                      height: 0.06,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: FontFamily.openSans,
-                      color: Color(0xFF121212),
-                    );
-                  },
-                ),
-
-                ReusableContainer(
-                  width: dimensions.width327,
-                  height: dimensions.height24,
-                  child: () {
-                    return ReusableText(
-                      text: 'Sign up to get started',
-                      fontSize: 16,
-                      height: 0.09,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    );
-                  },
-                ),
-
-                SizedBox(height: 10.sp,),
-
-                CustomLoginForm(
-                  width: 90.sp, 
-                  height: 30.sp, 
-                  controller: _nameTextController, 
-                  hintText: 'Your Name', 
-                  labelText: 'Name', 
-                  isPasswordType: false, 
-                  type: InputType.all,
-                  icon: Icons.person_outline,
-                ),
-
-                SizedBox(height: dimensions.height16),
-
-                CustomLoginForm(
-                  width: 90.sp, 
-                  height: 30.sp, 
-                  controller: _emailController, 
-                  hintText: 'Your Email', 
-                  labelText: 'Email', 
-                  isPasswordType: false, 
-                  type: InputType.email,
-                  icon: Icons.email_outlined,
-                ),
-
-                SizedBox(height: dimensions.height16),
-
-                CustomLoginForm(
-                  width: 90.sp, 
-                  height: 30.sp, 
-                  controller: _phoneController, 
-                  hintText: 'Your Phone Number', 
-                  labelText: 'Phone', 
-                  isPasswordType: false, 
-                  type: InputType.phone,
-                  icon: Icons.phone_outlined,
-                ),
-
-                SizedBox(height: dimensions.height16),
-
-                CustomLoginForm(
-                  width: 90.sp, 
-                  height: 30.sp, 
-                  controller: _passwordTextController, 
-                  hintText: 'Your Password', 
-                  labelText: 'Password', 
-                  isPasswordType: true, 
-                  type: InputType.all,
-                  icon: Icons.password,
-                ),
-
-                SizedBox(height: dimensions.height10),
-
-                // Add Terms & Conditions and Privacy Policy links
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                        height: 1.4,
-                      ),
-                      children: [
-                        TextSpan(text: 'By continuing you agree to bukizz\'s '),
-                        WidgetSpan(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, TermsOfUse.route);
-                            },
-                            child: Text(
-                              'Terms of Use',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                        ),
-                        TextSpan(text: ' and '),
-                        WidgetSpan(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, PrivacyPolicy.route);
-                            },
-                            child: Text(
-                              'Privacy Policy',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+        body: SafeArea(
+          child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                dimensions.width24,
+                0,
+                dimensions.width24,
+                0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 30.w,
+                      child: SvgPicture.asset('assets/logo.svg'),
                     ),
                   ),
-                ),
-
-                SizedBox(height: dimensions.height10),
-
-                ReusableElevatedButton(
-                  width: dimensions.width327,
-                  height: dimensions.height48,
-                  onPressed: isLoading ? () {} : _handleSignup, 
-                  buttonText: isLoading ? 'Creating Account...' : 'Create Account',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  buttonColor: isLoading ? Colors.grey[300] : Color(0xFF058FFF), 
-                ),
-
-                SizedBox(height: dimensions.height24),
-
-                signUpOption('Already have an account?', 'Sign In', context, SignIn.route),
-
-                SizedBox(height: dimensions.height16),
-/*
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
+                  SizedBox(height: 10.sp,),
+                  ReusableContainer(
+                    width: dimensions.width327,
+                    height: dimensions.height32,
+                    child: () {
+                      return ReusableText(
+                        text: 'Create Account 🎉',
+                        fontSize: 24,
+                        height: 0.06,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: FontFamily.openSans,
+                        color: Color(0xFF121212),
+                      );
+                    },
+                  ),
+  
+                  ReusableContainer(
+                    width: dimensions.width327,
+                    height: dimensions.height24,
+                    child: () {
+                      return ReusableText(
+                        text: 'Sign up to get started',
+                        fontSize: 16,
+                        height: 0.09,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      );
+                    },
+                  ),
+  
+                  SizedBox(height: 10.sp,),
+  
+                  CustomLoginForm(
+                    width: 90.sp, 
+                    height: 30.sp, 
+                    controller: _nameTextController, 
+                    hintText: 'Your Name', 
+                    labelText: 'Name', 
+                    isPasswordType: false, 
+                    type: InputType.all,
+                    icon: Icons.person_outline,
+                  ),
+  
+                  SizedBox(height: dimensions.height16),
+  
+                  CustomLoginForm(
+                    width: 90.sp, 
+                    height: 30.sp, 
+                    controller: _emailController, 
+                    hintText: 'Your Email', 
+                    labelText: 'Email', 
+                    isPasswordType: false, 
+                    type: InputType.email,
+                    icon: Icons.email_outlined,
+                  ),
+  
+                  SizedBox(height: dimensions.height16),
+  
+                  CustomLoginForm(
+                    width: 90.sp, 
+                    height: 30.sp, 
+                    controller: _phoneController, 
+                    hintText: 'Your Phone Number', 
+                    labelText: 'Phone', 
+                    isPasswordType: false, 
+                    type: InputType.phone,
+                    icon: Icons.phone_outlined,
+                  ),
+  
+                  SizedBox(height: dimensions.height16),
+  
+                  CustomLoginForm(
+                    width: 90.sp, 
+                    height: 30.sp, 
+                    controller: _passwordTextController, 
+                    hintText: 'Your Password', 
+                    labelText: 'Password', 
+                    isPasswordType: true, 
+                    type: InputType.all,
+                    icon: Icons.password,
+                  ),
+  
+                  SizedBox(height: dimensions.height10),
+  
+                  // Add Terms & Conditions and Privacy Policy links
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: dimensions.width24),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                          height: 1.4,
+                        ),
                         children: [
-                          const Expanded(
-                            child: Divider(
-                              color: Color(0xFFE8E8E8),
+                          TextSpan(text: 'By continuing you agree to bukizz\'s '),
+                          WidgetSpan(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, TermsOfUse.route);
+                              },
+                              child: Text(
+                                'Terms of Use',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.blue,
+                                ),
+                              ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: ReusableText(
-                              text: 'Or with',
-                              fontSize: 14,
-                              height: 0.10,
-                              color: const Color(0xFFA5A5A5),
-                            ),
-                          ),
-                          const Expanded(
-                            child: Divider(
-                              color: Color(0xFFE8E8E8),
+                          TextSpan(text: ' and '),
+                          WidgetSpan(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, PrivacyPolicy.route);
+                              },
+                              child: Text(
+                                'Privacy Policy',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.blue,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-
-                SizedBox(height: dimensions.height16),
-
-                ReusableElevatedButton(
-                  shadowColor: Colors.grey.withOpacity(0.6),
-                  width: dimensions.width327,
-                  height: dimensions.height48,
-                  onPressed: () {
-                    authProvider.googleSignInMethod(context);
-                  },
-                  buttonText: 'Sign up with Google',
-                  buttonColor: Colors.white,
-                  textColor: Color(0xFF121212),
-                  fontSize: 14,
-                  fontFamily: FontFamily.nunito.name,
-                  fontWeight: FontWeight.w400,
-                  imagePath: 'assets/google.png',
-                  borderColor: Colors.black38,
-                ),
-*/
-                SizedBox(height: dimensions.height24 * 3),
-              ],
+  
+                  SizedBox(height: dimensions.height10),
+  
+                  ReusableElevatedButton(
+                    width: dimensions.width327,
+                    height: dimensions.height48,
+                    onPressed: isLoading ? () {} : _handleSignup, 
+                    buttonText: isLoading ? 'Creating Account...' : 'Create Account',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    buttonColor: isLoading ? Colors.grey[300] : Color(0xFF058FFF), 
+                  ),
+  
+                  SizedBox(height: dimensions.height24),
+  
+                  signUpOption('Already have an account?', 'Sign In', context, SignIn.route),
+  
+                  SizedBox(height: dimensions.height16),
+  /*
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            const Expanded(
+                              child: Divider(
+                                color: Color(0xFFE8E8E8),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: ReusableText(
+                                text: 'Or with',
+                                fontSize: 14,
+                                height: 0.10,
+                                color: const Color(0xFFA5A5A5),
+                              ),
+                            ),
+                            const Expanded(
+                              child: Divider(
+                                color: Color(0xFFE8E8E8),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+  
+                  SizedBox(height: dimensions.height16),
+  
+                  ReusableElevatedButton(
+                    shadowColor: Colors.grey.withOpacity(0.6),
+                    width: dimensions.width327,
+                    height: dimensions.height48,
+                    onPressed: () {
+                      authProvider.googleSignInMethod(context);
+                    },
+                    buttonText: 'Sign up with Google',
+                    buttonColor: Colors.white,
+                    textColor: Color(0xFF121212),
+                    fontSize: 14,
+                    fontFamily: FontFamily.nunito.name,
+                    fontWeight: FontWeight.w400,
+                    imagePath: 'assets/google.png',
+                    borderColor: Colors.black38,
+                  ),
+  */
+                  SizedBox(height: dimensions.height24 * 3),
+                ],
+              ),
             ),
           ),
-        ),
       ),
-    ),
-    );
+    )));
   }
 }

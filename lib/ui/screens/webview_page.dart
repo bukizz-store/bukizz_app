@@ -6,7 +6,10 @@ import 'package:bukizz/ui/screens/Common/error_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 // Import for Android features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
 import 'dart:convert';
 
 class WebViewPage extends StatefulWidget {
@@ -29,6 +32,7 @@ class _WebViewPageState extends State<WebViewPage> {
   bool _shouldReloadAfterTokenInjection = true; // Reload once after first token injection
   final AuthApiService _authApiService = AuthApiService();
   late Razorpay _razorpay;
+  DateTime? currentBackPressTime;
 
   @override
   void initState() {
@@ -56,6 +60,7 @@ class _WebViewPageState extends State<WebViewPage> {
           onPageStarted: (String url) {
             setState(() {
               _isError = false;
+              _canPop = false; // Reset to intercept back press again for history
             });
           },
           onPageFinished: (String url) {
@@ -99,6 +104,17 @@ class _WebViewPageState extends State<WebViewPage> {
       AndroidWebViewController.enableDebugging(true);
       (_controller.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(false);
+      (_controller.platform as AndroidWebViewController)
+          .setGeolocationPermissionsPromptCallbacks(
+        onShowPrompt: (GeolocationPermissionsRequestParams request) async {
+          final LocationPermission permission = await Geolocator.requestPermission();
+          return GeolocationPermissionsResponse(
+            allow: permission == LocationPermission.whileInUse ||
+                permission == LocationPermission.always,
+            retain: false,
+          );
+        },
+      );
       (_controller.platform as AndroidWebViewController)
           .setOnPlatformPermissionRequest((PlatformWebViewPermissionRequest request) {
         request.grant();
@@ -271,20 +287,58 @@ class _WebViewPageState extends State<WebViewPage> {
     return PopScope(
       canPop: _canPop,
       onPopInvoked: (didPop) async {
-        // If didPop is true, the system already popped the route.
         if (didPop) return;
 
         final navigator = Navigator.of(context);
-        if (await _controller.canGoBack()) {
+        bool canGoBack = await _controller.canGoBack();
+        
+        print("WebViewPage: onPopInvoked. canGoBack: $canGoBack, navigator.canPop: ${navigator.canPop()}");
+
+        if (canGoBack) {
+          print("WebViewPage: Going back in WebView history");
           await _controller.goBack();
-        } else {
-          // Allow popping and trigger pop after the frame builds
-          setState(() {
+          return;
+        }
+
+        // If cannot go back in WebView:
+        
+        // 1. Check if we are pushed on a Navigator stack (e.g. from Search/ViewAll)
+        if (navigator.canPop()) {
+           setState(() {
             _canPop = true;
           });
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (context.mounted) navigator.pop();
           });
+          return;
+        }
+
+        // 2. We are at the root of a Tab (MainScreen body)
+        final bottomProvider = Provider.of<BottomNavigationBarProvider>(context, listen: false);
+        
+        // If not on Home tab, switch to Home
+        if (bottomProvider.selectedIndex != 0) {
+          bottomProvider.setSelectedIndex(0);
+          return;
+        }
+
+        // If on Home tab, handle Double Back to Exit
+        if (bottomProvider.selectedIndex == 0) {
+           DateTime now = DateTime.now();
+           if (currentBackPressTime == null || 
+               now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+             currentBackPressTime = now;
+             Fluttertoast.showToast(
+               msg: "Press back again to exit",
+               toastLength: Toast.LENGTH_SHORT,
+               gravity: ToastGravity.BOTTOM,
+               backgroundColor: Colors.black54,
+               textColor: Colors.white,
+               fontSize: 16.0
+             );
+             return; 
+           }
+           SystemNavigator.pop();
         }
       },
       child: Scaffold(

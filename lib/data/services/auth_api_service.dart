@@ -13,7 +13,7 @@ class AuthApiService {
         Uri.parse('$baseUrl/auth/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'email': email,
+          'email': email.toLowerCase(),
           'password': password,
         }),
       );
@@ -41,7 +41,7 @@ class AuthApiService {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'fullName': fullName,
-          'email': email,
+          'email': email.toLowerCase(),
           'password': password,
           'phone': phone,
           'provider': 'email'
@@ -62,6 +62,30 @@ class AuthApiService {
       throw Exception('Failed to connect to server: $e');
     }
   }
+
+  // Forgot Password
+  Future<Map<String, dynamic>> forgotPassword(String email) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/forgot-password'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email.toLowerCase()}),
+      );
+      print("Forgot Password Response Status: ${response.statusCode}");
+      print("Forgot Password Response Body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception(jsonDecode(response.body)['message'] ?? 'Failed to send reset email');
+      }
+    } on SocketException {
+      throw Exception('No Internet Connection');
+    } catch (e) {
+      print("Forgot Password API Connection Error: $e");
+      throw Exception('Failed to connect to server: $e');
+    }
+    }
 
   // Google Login
   Future<Map<String, dynamic>> googleLogin(String token) async {

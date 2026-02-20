@@ -1,5 +1,7 @@
 import 'package:bukizz/constants/colors.dart';
 import 'package:bukizz/constants/constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/profile/native_profile_screen.dart';
 import 'package:bukizz/ui/screens/webview_page.dart';
 import 'package:bukizz/ui/screens/HomeView/homeScreen.dart';
@@ -11,6 +13,7 @@ import '../../../../constants/images.dart';
 import '../../../../data/providers/bottom_nav_bar_provider.dart';
 import 'Cart/cart_screen.dart';
 import 'categories/CategoryScreen.dart';
+
 import 'notification/notification_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -23,7 +26,10 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
+
+
 class _MainScreenState extends State<MainScreen> {
+  DateTime? currentBackPressTime;
 
   @override
   void initState() {

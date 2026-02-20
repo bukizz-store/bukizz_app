@@ -176,6 +176,30 @@ class ApiAuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> forgotPassword(String email, BuildContext context) async {
+    _setLoading(true);
+    try {
+      final response = await _authService.forgotPassword(email);
+      // The API returns success even if email doesn't exist (security practice)
+      if (context.mounted) {
+        AppConstants.showSnackBar(
+            context,
+            response['message'] ?? 'If the email exists, a reset link has been sent',
+            AppColors.green,
+            Icons.check_circle_outline);
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      print("ApiAuthProvider ForgotPassword Error: $e");
+      if (context.mounted) {
+        AppConstants.showSnackBar(
+            context, e.toString().replaceAll('Exception: ', ''), AppColors.error, Icons.error_outline_rounded);
+      }
+    } finally {
+      _setLoading(false);
+    }
+  }
+
   Future<void> loadUserFromToken() async {
     try {
       final token = await _authService.getAccessToken();

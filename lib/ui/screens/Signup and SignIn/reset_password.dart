@@ -1,7 +1,8 @@
+import 'package:bukizz/data/providers/auth/api_auth_provider.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_TextForm.dart';
 import 'package:bukizz/widgets/text%20and%20textforms/Reusable_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const String route = '/resetpassword';
@@ -13,6 +14,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   TextEditingController _emailTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +22,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title:  ReusableText(
+        title: ReusableText(
           text: "Reset Password",
           fontSize: 24,
           fontWeight: FontWeight.w500,
@@ -29,36 +31,41 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-
-          child:  SingleChildScrollView(
+          child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ReusableTextField('Enter Your Email', Icons.person, false, _emailTextController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    firebaseUIButton(context, "Reset Password", () async{
-                      FirebaseAuth.instance
-                          .sendPasswordResetEmail(email: _emailTextController.text.trim())
-                          .then((value) => Navigator.of(context).pop());
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              'Reset Link Sent to Your Registered Email Address'),
-                          duration: Duration(seconds: 5),
-                        ),
-                      );
-                    }
-
-                  )
-                  ],
+            padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 20,
                 ),
-              ))),
+                ReusableTextField(
+                    'Enter Your Email', Icons.person, false, _emailTextController),
+                SizedBox(
+                  height: 20,
+                ),
+                Consumer<ApiAuthProvider>(
+                  builder: (context, authProvider, child) {
+                    return authProvider.isLoading
+                        ? const CircularProgressIndicator()
+                        : firebaseUIButton(context, "Reset Password", () async {
+                            String email = _emailTextController.text.trim();
+                            if (email.isEmpty || !email.contains('@')) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Please enter a valid email address'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
+                            await authProvider.forgotPassword(email, context);
+                          });
+                  },
+                )
+              ],
+            ),
+          ))),
     );
   }
 }
