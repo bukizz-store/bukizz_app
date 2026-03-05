@@ -10,18 +10,10 @@
 	<string>bukizz</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to your photo library to allow you user to search by image so that they can get a smooth user experience .</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>We need access to your location to provide location-based services such as filtering out schools from large number of schoolsand auto filling of address of userfeature which will definitely enhance user experience.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need access to your location while you are using the app to provide location-based services and improve user experience.</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-    <false/>
 	<key>CFBundleName</key>
 	<string>bukizz_1</string>
 	<key>CFBundlePackageType</key>
@@ -30,10 +22,56 @@
 	<string>1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.87504596017-otrr533qh21krrqeqv9g0v9i8e06hksq</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires camera access to allow you to upload images and interact with web features.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need access to your location to provide location-based services such as filtering out schools from large number of schoolsand auto filling of address of userfeature which will definitely enhance user experience.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need access to your location while you are using the app to provide location-based services and improve user experience.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires microphone access for interactive web features.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to allow you user to search by image so that they can get a smooth user experience .</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This app uses tracking data to analyze crashes and improve the user experience.</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneClassName</key>
+					<string>UIWindowScene</string>
+					<key>UISceneConfigurationName</key>
+					<string>flutter</string>
+					<key>UISceneDelegateClassName</key>
+					<string>FlutterSceneDelegate</string>
+					<key>UISceneStoryboardFile</key>
+					<string>Main</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -52,17 +90,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.87504596017-otrr533qh21krrqeqv9g0v9i8e06hksq</string>
-			</array>
-		</dict>
 	</array>
 </dict>
 </plist>
