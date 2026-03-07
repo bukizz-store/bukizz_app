@@ -325,67 +325,67 @@ class AuthProvider extends ChangeNotifier {
 
   // sign in with apple
   Future<void> signInWithApple(BuildContext context) async {
-    final appleProvider = AppleAuthProvider();
-    final authResult =
-        await FirebaseAuth.instance.signInWithProvider(appleProvider);
-
-    if (authResult.user!.uid.isNotEmpty) {
-      Address address = Address(
-        houseNo: '',
-        city: '',
-        state: '',
-        pinCode: '',
-        street: '',
-        phone: authResult.user!.phoneNumber ?? "",
-        email: 'apple@email.com',
-        name: 'apple_user',
-      );
-
-      Address alternateAddress = Address(
-        houseNo: '',
-        city: '',
-        state: '',
-        pinCode: '',
-        street: '',
-        phone: '',
-        email: '',
-        name: '',
-      );
-
-      print(authResult.user!.uid);
-
-      MainUserDetails userDetails = MainUserDetails(
-        name: 'apple_user',
-        email: 'apple@email.com',
-        password: '',
-        address: address,
-        uid: authResult.user!.uid,
-        dob: DateTime.now().toIso8601String(),
-        mobile: authResult.user!.phoneNumber ?? "",
-        alternateAddress: alternateAddress,
-        studentsUID: [],
-        orderID: [],
-      );
-
-      try {
-        // Push user data to Firebase
-        await userDetails.pushToFirebase();
-        // Save user details to shared preferences
-        await userDetails.saveToSharedPreferences();
-      } catch (e) {
-        print("Error due to $e");
-      }
-
-      AppConstants.isLogin = true;
-
-      // Navigate to the home screen
-      if (context.mounted) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, SelectLocation.route, (route) => false);
-      }
-
-      notifyListeners();
-    }
+    // final appleProvider = AppleAuthProvider();
+    // final authResult =
+    //     await FirebaseAuth.instance.signInWithProvider(appleProvider);
+    //
+    // if (authResult.user!.uid.isNotEmpty) {
+    //   Address address = Address(
+    //     houseNo: '',
+    //     city: '',
+    //     state: '',
+    //     pinCode: '',
+    //     street: '',
+    //     phone: authResult.user!.phoneNumber ?? "",
+    //     email: 'apple@email.com',
+    //     name: 'apple_user',
+    //   );
+    //
+    //   Address alternateAddress = Address(
+    //     houseNo: '',
+    //     city: '',
+    //     state: '',
+    //     pinCode: '',
+    //     street: '',
+    //     phone: '',
+    //     email: '',
+    //     name: '',
+    //   );
+    //
+    //   print(authResult.user!.uid);
+    //
+    //   MainUserDetails userDetails = MainUserDetails(
+    //     name: 'apple_user',
+    //     email: 'apple@email.com',
+    //     password: '',
+    //     address: address,
+    //     uid: authResult.user!.uid,
+    //     dob: DateTime.now().toIso8601String(),
+    //     mobile: authResult.user!.phoneNumber ?? "",
+    //     alternateAddress: alternateAddress,
+    //     studentsUID: [],
+    //     orderID: [],
+    //   );
+    //
+    //   try {
+    //     // Push user data to Firebase
+    //     await userDetails.pushToFirebase();
+    //     // Save user details to shared preferences
+    //     await userDetails.saveToSharedPreferences();
+    //   } catch (e) {
+    //     print("Error due to $e");
+    //   }
+    //
+    //   AppConstants.isLogin = true;
+    //
+    //   // Navigate to the home screen
+    //   if (context.mounted) {
+    //     Navigator.pushNamedAndRemoveUntil(
+    //         context, SelectLocation.route, (route) => false);
+    //   }
+    //
+    //   notifyListeners();
+    // }
   }
 
   Future<void> deleteAccount(BuildContext context) async {
