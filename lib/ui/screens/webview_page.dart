@@ -194,9 +194,9 @@ class _WebViewPageState extends State<WebViewPage> {
   bool _handleCheckoutRedirect(String url) {
     print(url);
     if (widget.shouldInterceptCheckout && (url.contains('/checkout') || url.contains('/cart'))) {
-      if (url.contains('mode=buy_now')) {
-        return false;
-      }
+      // if (url.contains('mode=buy_now')) {
+      //   return false;
+      // }
       print('WebViewPage: Intercepting checkou/cart URL: $url');
       if (mounted) {
         final bottomProvider =

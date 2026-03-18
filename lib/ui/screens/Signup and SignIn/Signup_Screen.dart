@@ -53,7 +53,7 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
-    if (_phoneController.text.trim().isEmpty || !RegExp(r'^[0-9]{10}$').hasMatch(_phoneController.text.trim())) {
+    if (_phoneController.text.trim().isNotEmpty && !RegExp(r'^[0-9]{10}$').hasMatch(_phoneController.text.trim())) {
       AppConstants.showSnackBar(context, "Please enter a valid 10-digit phone number",
           AppColors.error, Icons.error_outline_rounded);
       return;
@@ -190,8 +190,8 @@ class _SignUpState extends State<SignUp> {
                     width: 90.sp, 
                     height: 30.sp, 
                     controller: _phoneController, 
-                    hintText: 'Your Phone Number', 
-                    labelText: 'Phone', 
+                    hintText: 'Your Phone Number (Optional)', 
+                    labelText: 'Phone (Optional)', 
                     isPasswordType: false, 
                     type: InputType.phone,
                     icon: Icons.phone_outlined,

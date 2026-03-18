@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:bukizz/constants/constants.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/location.dart';
 import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
@@ -175,7 +176,7 @@ class _SignInState extends State<SignIn> {
               padding: EdgeInsets.fromLTRB(
                 dimensions.width24,
                 // 0,
-                dimensions.height16*3.5,
+                dimensions.height16,
                 dimensions.width24,
                 0,
               ),
@@ -183,26 +184,26 @@ class _SignInState extends State<SignIn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //welcome text //done
-                  // GestureDetector(
-                  //   onTap: (){
-                  //     Navigator.of(context).pushNamedAndRemoveUntil(SelectLocation.route, (route) => false);
-                  //   },
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       border: Border.all(color: AppColors.productButtonSelectedBorder),
-                  //       borderRadius: BorderRadius.circular(100)
-                  //     ),
-                  //     padding: EdgeInsets.symmetric(horizontal: 10),
-                  //     width: 33.w,
-                  //     height: 4.h,
-                  //     child: Row(
-                  //       children: [
-                  //         ReusableText(text: "Skip Login", fontSize: 16),
-                  //         Icon(Icons.arrow_circle_right_outlined)
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushNamedAndRemoveUntil(SelectLocation.route, (route) => false);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.productButtonSelectedBorder),
+                        borderRadius: BorderRadius.circular(100)
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: 33.w,
+                      height: 4.h,
+                      child: Row(
+                        children: [
+                          ReusableText(text: "Skip Login", fontSize: 16),
+                          Icon(Icons.arrow_circle_right_outlined)
+                        ],
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 10,),
                                   Center(
                     child: Container(
@@ -423,50 +424,87 @@ class _SignInState extends State<SignIn> {
                   ),
   
                   //Sign in with google
-                  ReusableElevatedButton(
-                    shadowColor: Colors.grey.withOpacity(0.6),
-                    width: dimensions.width327,
-                    height: dimensions.height48,
-                    onPressed: () {
-                      authProvider.googleSignInMethod(context);
+                  Consumer<ApiAuthProvider>(
+                    builder: (context, auth, child) {
+                      return ReusableElevatedButton(
+                              shadowColor: Colors.grey.withOpacity(0.6),
+                              width: dimensions.width327,
+                              height: dimensions.height48,
+                              isLoading: auth.isGoogleLoading,
+                              onPressed: () {
+                                if (!auth.isGoogleLoading && !auth.isAppleLoading) {
+                                  auth.googleSignInMethod(context);
+                                }
+                              },
+                              buttonText: 'Sign in with Google',
+                              buttonColor: Colors.white,
+                              textColor: Color(0xFF121212),
+                              fontSize: 14,
+                              fontFamily: FontFamily.nunito.name,
+                              fontWeight: FontWeight.w400,
+                              imagePath: 'assets/google.png',
+                              borderColor: Colors.black38,
+                            );
                     },
-                    buttonText: 'Sign in with Google',
-                    buttonColor: Colors.white,
-                    textColor: Color(0xFF121212),
-                    fontSize: 14,
-                    fontFamily: FontFamily.nunito.name,
-                    fontWeight: FontWeight.w400,
-                    imagePath: 'assets/google.png',
-                    borderColor: Colors.black38,
                   ),
                   SizedBox(
                     height: dimensions.height8 * 2,
                   ),
+
+                  // Sign in with Apple (iOS only)
+                  if (Platform.isIOS) ...[
+                    Consumer<ApiAuthProvider>(
+                      builder: (context, auth, child) {
+                        return ReusableElevatedButton(
+                                shadowColor: Colors.grey.withOpacity(0.6),
+                                width: dimensions.width327,
+                                height: dimensions.height48,
+                                isLoading: auth.isAppleLoading,
+                                onPressed: () {
+                                  if (!auth.isAppleLoading && !auth.isGoogleLoading) {
+                                    auth.appleSignInMethod(context);
+                                  }
+                                },
+                                buttonText: 'Sign in with Apple',
+                                buttonColor: Colors.black,
+                                textColor: Colors.white,
+                                fontSize: 14,
+                                fontFamily: FontFamily.nunito.name,
+                                fontWeight: FontWeight.w400,
+                                iconData: Icons.apple,
+                                borderColor: Colors.black,
+                              );
+                      },
+                    ),
+                    SizedBox(
+                      height: dimensions.height8 * 2,
+                    ),
+                  ],
                   
                   // Info text about login methods
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.blue.shade200),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.info_outline, color: Colors.blue.shade600, size: 16),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            'Enter your email & password for login',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.blue.shade700,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   padding: EdgeInsets.all(12),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.blue.shade50,
+                  //     borderRadius: BorderRadius.circular(8),
+                  //     border: Border.all(color: Colors.blue.shade200),
+                  //   ),
+                  //   child: Row(
+                  //     children: [
+                  //       Icon(Icons.info_outline, color: Colors.blue.shade600, size: 16),
+                  //       SizedBox(width: 8),
+                  //       Expanded(
+                  //         child: Text(
+                  //           'Enter your email & password for login',
+                  //           style: TextStyle(
+                  //             fontSize: 12,
+                  //             color: Colors.blue.shade700,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../data/providers/auth/firebase_auth.dart';
+import '../../../../../data/providers/auth/api_auth_provider.dart';
 import '../../../../../data/providers/bottom_nav_bar_provider.dart';
 import '../../../../../data/repository/my_orders.dart';
 import '../../../Signup and SignIn/Signin_Screen.dart';
@@ -425,7 +426,7 @@ void DeletePopUp(BuildContext context) {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    context.read<AuthProvider>().deleteAccount(context);
+                    context.read<ApiAuthProvider>().deleteAccount(context);
                   },
                   child: Container(
                     width: dimensions.width10 * 11.5,

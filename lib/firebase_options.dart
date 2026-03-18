@@ -60,7 +60,7 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://bukizz1-default-rtdb.firebaseio.com',
     storageBucket: 'bukizz1.appspot.com',
     androidClientId: '87504596017-2oov149952gg2k3purvepf7nfk84niil.apps.googleusercontent.com',
-    iosClientId: '87504596017-umqe417qrk0anjucf9da15borunbsp6d.apps.googleusercontent.com',
+    iosClientId: '881032682711-5eabonvhomn8g0b9ltar2bd776s3jg2h.apps.googleusercontent.com',
     iosBundleId: 'com.bukizz',
   );
 }

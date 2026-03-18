@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.87504596017-otrr533qh21krrqeqv9g0v9i8e06hksq</string>
+				<string>com.googleusercontent.apps.881032682711-5eabonvhomn8g0b9ltar2bd776s3jg2h</string>
 			</array>
 		</dict>
 	</array>
@@ -62,8 +62,6 @@
 	<string>This app requires microphone access for interactive web features.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to allow you user to search by image so that they can get a smooth user experience .</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>This app uses tracking data to analyze crashes and improve the user experience.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -103,6 +101,12 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Allow Flutter to connect to the Dart VM for debugging on your local network.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
 	</array>
 </dict>
 </plist>

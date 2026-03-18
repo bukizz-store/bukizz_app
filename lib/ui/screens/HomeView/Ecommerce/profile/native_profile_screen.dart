@@ -166,6 +166,15 @@ class _NativeProfileScreenState extends State<NativeProfileScreen> {
                       Navigator.pushNamed(context, ContactUsScreen.route);
                     },
                   ),
+                  AppConstants.isLogin
+                      ? ProfileButton(
+                          title: 'Delete Your Account',
+                          icon: Icons.delete,
+                          onTap: () {
+                            DeletePopUp(context);
+                          },
+                        )
+                      : Container(),
                 
                   ProfileButton(
                     title: 'Terms, Policies & Licenses',
@@ -232,6 +241,93 @@ class _NativeProfileScreenState extends State<NativeProfileScreen> {
           ),
         ));
   }
+}
+
+void DeletePopUp(BuildContext context) {
+  Dimensions dimensions = Dimensions(context);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+          title: Center(
+            child: Column(
+              children: [
+                ReusableText(
+                  text: 'Are You Sure?',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF121212),
+                ),
+                SizedBox(
+                  height: dimensions.height10,
+                ),
+                ReusableText(
+                  text: 'to delete your account permanently',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF444444),
+                ),
+              ],
+            ),
+          ),
+          content: Container(
+            // width: dimensions.width10*35.6,
+            height: dimensions.height10 * 8.5,
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    context.read<ApiAuthProvider>().deleteAccount(context);
+                  },
+                  child: Container(
+                    width: dimensions.width10 * 11.5,
+                    height: dimensions.height10 * 3.5,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 0.50, color: Color(0xFF00579E)),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    child: Center(
+                      child: ReusableText(
+                        text: 'Delete',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF00579E),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20,),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: dimensions.width10 * 11.5,
+                    height: dimensions.height10 * 3.5,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF058FFF),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
+                    ),
+                    child: Center(
+                      child: ReusableText(
+                        text: 'Cancel',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ));
+    },
+  );
 }
 
 void showCustomAboutDialog(BuildContext context) {

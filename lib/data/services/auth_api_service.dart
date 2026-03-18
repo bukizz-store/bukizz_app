@@ -28,24 +28,31 @@ class AuthApiService {
     } on SocketException {
       throw Exception('No Internet Connection');
     } catch (e) {
+      // If it's an API error we just threw, rethrow it without wrapping
+      if (e.toString().contains('Login failed') || e.toString().contains('inactive') || e.toString().contains('support')) {
+        rethrow;
+      }
       print("Login API Connection Error: $e");
       throw Exception('Failed to connect to server: $e');
     }
   }
 
   // Register
-  Future<Map<String, dynamic>> register(String fullName, String email, String password, String phone) async {
+  Future<Map<String, dynamic>> register(String fullName, String email, String password, [String phone = '']) async {
     try {
+      final Map<String, dynamic> body = {
+        'fullName': fullName,
+        'email': email.toLowerCase(),
+        'password': password,
+        'provider': 'email'
+      };
+      if (phone.isNotEmpty) {
+        body['phone'] = phone;
+      }
       final response = await http.post(
         Uri.parse('$baseUrl/auth/register'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'fullName': fullName,
-          'email': email.toLowerCase(),
-          'password': password,
-          'phone': phone,
-          'provider': 'email'
-        }),
+        body: jsonEncode(body),
       );
       print("Register Response Status: ${response.statusCode}");
       print("Register Response Body: ${response.body}");
@@ -58,6 +65,9 @@ class AuthApiService {
     } on SocketException {
       throw Exception('No Internet Connection');
     } catch (e) {
+      if (e.toString().contains('Registration failed') || e.toString().contains('exist')) {
+        rethrow;
+      }
       print("Register API Connection Error: $e");
       throw Exception('Failed to connect to server: $e');
     }
@@ -82,6 +92,9 @@ class AuthApiService {
     } on SocketException {
       throw Exception('No Internet Connection');
     } catch (e) {
+      if (e.toString().contains('Failed to send reset email')) {
+         rethrow;
+      }
       print("Forgot Password API Connection Error: $e");
       throw Exception('Failed to connect to server: $e');
     }
@@ -106,7 +119,37 @@ class AuthApiService {
     } on SocketException {
       throw Exception('No Internet Connection');
     } catch (e) {
+      if (e.toString().contains('Google Login failed') || e.toString().contains('inactive')) {
+         rethrow;
+      }
       print("Google Login API Connection Error: $e");
+      throw Exception('Failed to connect to server: $e');
+    }
+  }
+
+  // Apple Login
+  Future<Map<String, dynamic>> appleLogin(String token) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/apple-login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'token': token}),
+      );
+      print("Apple Login Response Status: ${response.statusCode}");
+      print("Apple Login Response Body: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception(jsonDecode(response.body)['message'] ?? 'Apple Login failed');
+      }
+    } on SocketException {
+      throw Exception('No Internet Connection');
+    } catch (e) {
+      if (e.toString().contains('Apple Login failed') || e.toString().contains('inactive')) {
+         rethrow;
+      }
+      print("Apple Login API Connection Error: $e");
       throw Exception('Failed to connect to server: $e');
     }
   }
@@ -163,6 +206,50 @@ class AuthApiService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('accessToken');
     await prefs.remove('refreshToken');
+  }
+
+  // Delete Account
+  Future<Map<String, dynamic>> deleteAccount() async {
+    try {
+      final token = await getAccessToken();
+      if (token == null) throw Exception('No access token');
+
+      final response = await http.delete(
+        Uri.parse('$baseUrl/auth/delete-account'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        await logout();
+        return jsonDecode(response.body);
+      } else if (response.statusCode == 401) {
+        final newToken = await refreshToken();
+        if (newToken != null) {
+          final retryResponse = await http.delete(
+            Uri.parse('$baseUrl/auth/delete-account'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $newToken',
+            },
+          );
+          if (retryResponse.statusCode == 200) {
+            await logout();
+            return jsonDecode(retryResponse.body);
+          }
+        }
+        throw Exception('Unauthorized');
+      } else {
+        throw Exception(jsonDecode(response.body)['message'] ?? 'Failed to delete account');
+      }
+    } on SocketException {
+      throw Exception('No Internet Connection');
+    } catch (e) {
+      print("Delete Account API Error: $e");
+      throw Exception('Failed to delete account: $e');
+    }
   }
 
   // Fetch Profile

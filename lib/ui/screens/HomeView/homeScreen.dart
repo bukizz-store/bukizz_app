@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(dimensions.height16),
           child: Padding(
-            padding: EdgeInsets.only(bottom: dimensions.height16,),
+            padding: EdgeInsets.only(bottom: dimensions.height16, left: dimensions.width16, right: dimensions.width9),
             child: CustomTabBar(
               onIndexChanged: (index) {
                 _tabController.animateTo(index);

@@ -16,6 +16,7 @@ class ReusableElevatedButton extends StatelessWidget {
   final IconData? iconData;
   final String? imagePath;
   final Color borderColor;
+  final bool isLoading;
   // Optional asset image path
 
   const ReusableElevatedButton({
@@ -34,6 +35,7 @@ class ReusableElevatedButton extends StatelessWidget {
     this.iconData,
     this.imagePath,
     this.borderColor=Colors.white,
+    this.isLoading = false,
     // Include the optional asset image path in the constructor
   }) : super(key: key);
 
@@ -66,39 +68,48 @@ class ReusableElevatedButton extends StatelessWidget {
           // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
 
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (imagePath != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Image.asset(
-                  imagePath!,
-                  height: dimensions.height24, // Adjust the height as needed
-                  width: dimensions.width24, // Adjust the width as needed
-                  // color: textColor,
-                ),
-              ),
-            if (iconData != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Icon(
-                  iconData,
+        child: isLoading
+            ? SizedBox(
+                height: dimensions.height24,
+                width: dimensions.height24,
+                child: CircularProgressIndicator(
                   color: textColor,
+                  strokeWidth: 2.5,
                 ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (imagePath != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Image.asset(
+                        imagePath!,
+                        height: dimensions.height24, // Adjust the height as needed
+                        width: dimensions.width24, // Adjust the width as needed
+                        // color: textColor,
+                      ),
+                    ),
+                  if (iconData != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        iconData,
+                        color: textColor,
+                      ),
+                    ),
+                  Text(
+                    buttonText,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: fontSize,
+                      fontFamily: fontFamily,
+                      fontWeight: fontWeight,
+                      letterSpacing: letterSpacing,
+                    ),
+                  ),
+                ],
               ),
-            Text(
-              buttonText,
-              style: TextStyle(
-                color: textColor,
-                fontSize: fontSize,
-                fontFamily: fontFamily,
-                fontWeight: fontWeight,
-                letterSpacing: letterSpacing,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

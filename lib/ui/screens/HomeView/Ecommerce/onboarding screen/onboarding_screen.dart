@@ -16,6 +16,7 @@ import '../../../../../data/providers/school_repository.dart';
 import '../../../../../data/repository/banners/banners.dart';
 import '../main_screen.dart';
 import 'package:bukizz/widgets/double_back_to_exit_wrapper.dart';
+import 'package:bukizz/ui/screens/HomeView/Ecommerce/onboarding%20screen/manual_location.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String route = '/onboardingscreen';
@@ -77,8 +78,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Future<void> checkCurrentUser() async {
     if (AppConstants.isLogin && AppConstants.userData.toString().isNotEmpty) {
       context.read<SchoolDataProvider>().loadData(context).then((value) => debugPrint("School Data Loaded Successfully"));
-      Navigator.pushNamedAndRemoveUntil(
-          context, MainScreen.route, (Route<dynamic> route) => false);
+      if (AppConstants.location.isNotEmpty) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, MainScreen.route, (Route<dynamic> route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, SelectLocation.route, (Route<dynamic> route) => false);
+      }
     }
   }
 
